@@ -1,3 +1,5 @@
+![Homes That Behave Well](brand/Homes-that-behave-well.png)
+
 # Homes That Behave Well
 
 Homes That Behave Well is the authoritative platform specification for building calm, deterministic, explainable, and trustworthy Home Assistant-based homes.
