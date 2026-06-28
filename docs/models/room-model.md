@@ -575,6 +575,547 @@ The system must never:
 
 ---
 
+# 8. CONCIERGE PROJECTION
+
+---
+
+## Purpose
+
+The Concierge Projection defines how a room is exposed to the Concierge interaction layer.
+
+This layer does not influence environment modeling, asset evaluation, or system state.
+
+It defines how the room is experienced by the user through voice and UI.
+
+---
+
+## Core Principle
+
+The room defines context.
+
+Concierge defines how that context is revealed.
+
+---
+
+## Projection Model
+
+The Concierge Projection includes:
+
+- available devices and entities
+- preferred communication outputs (speakers)
+- exposed sensors and capabilities
+- global context overlays
+- signal availability within the room
+
+This projection is derived and must not alter room configuration.
+
+---
+
+## Projection Structure
+
+The room may expose a Concierge Projection structure:
+
+concierge_projection:
+  available: boolean
+  preferred_speaker:
+  speaker_candidates[]:
+  voice_devices[]:
+  exposed_entities[]:
+  exposed_sensors:
+  enabled_signals:
+  global_overlays:
+
+---
+
+## Field Definitions
+
+### available
+
+Indicates whether Concierge interaction is enabled for the room.
+
+---
+
+### preferred_speaker
+
+The primary audio output device for Concierge in this room.
+
+Rules:
+
+- must reference a valid media player entity when available
+- must not be inferred without confirmation
+- may be selected via UI or voice workflow
+
+Fallback behavior:
+
+- if no preferred speaker is defined
+- and no speaker_candidates are available
+
+Concierge must fall back to:
+
+- the speaker associated with the invoking voice device
+
+This ensures:
+
+- deterministic response behavior
+- no loss of voice interaction capability
+- consistent user experience across all rooms
+
+Concierge must always prefer:
+
+1. explicitly configured preferred_speaker
+2. discovered speaker_candidates
+3. voice device speaker (fallback)
+
+This ordering must be strictly enforced and must not vary across executions.
+
+---
+
+### speaker_candidates
+
+List of eligible speaker entities within the room.
+
+Derived from:
+
+- media_player domain
+- room association via area_id
+- label-based filtering (optional)
+
+If speaker_candidates is empty:
+
+- the room is considered to have no dedicated audio output
+- fallback behavior must be used via the invoking voice device
+---
+
+### voice_devices
+
+Voice assistant devices associated with the room.
+
+Used to:
+
+- resolve room context from user interaction
+- enable voice-driven configuration
+
+---
+
+### exposed_entities
+
+Entities that Concierge may reference for interaction.
+
+Examples:
+
+- lights
+- covers
+- switches
+- media devices
+
+Rules:
+
+- derived from room inventory
+- filtered by domain or label
+- must not include unsupported or unavailable entities
+
+---
+
+### exposed_sensors
+
+Defines which environmental or system sensors are available to Concierge.
+
+Structure:
+
+exposed_sensors:
+  temperature: boolean
+  humidity: boolean
+  noise: boolean
+  light: boolean
+  air_quality: boolean
+
+Rules:
+
+- sensors must exist in environment configuration
+- exposure must be explicitly enabled
+- missing sensors must result in graceful absence
+
+---
+
+### enabled_signals
+
+Defines which Signals are available in this room.
+
+Examples:
+
+- calendar
+- shopping_list
+- laundry
+- dishwasher
+
+Rules:
+
+- signals are global but may be enabled or disabled per room
+- signals must be accessed via the Signal Contract
+- Concierge must respect room-level enablement
+
+---
+
+### global_overlays
+
+Defines which Global Context sources are available in the room.
+
+Examples:
+
+- weather
+- news
+- time
+
+Rules:
+
+- context is global and must not be duplicated
+- overlay only controls visibility and usage within the room
+
+---
+
+## Derivation Rules
+
+The Concierge Projection must be derived from:
+
+- Home Assistant area and entity model
+- integration-provided data
+- room configuration
+- Concierge-specific configuration (stored externally)
+
+The Room Model must not persist Concierge configuration directly.
+
+---
+
+## Interaction Responsibilities
+
+Concierge uses the room projection to:
+
+- determine what can be controlled
+- determine what can be asked
+- select appropriate output devices
+- route requests to the correct services
+
+---
+
+## Separation of Concerns
+
+The Room Model must not:
+
+- store speaker selections
+- store signal state
+- store global context
+- perform interaction logic
+
+The Concierge Projection must not:
+
+- modify environment configuration
+- influence evaluation or advisory
+- alter asset relationships
+
+---
+
+## Relationship to Other Models
+
+### Room Model
+
+Provides:
+
+- physical context
+- environment configuration
+- spatial structure
+
+### Signal Model
+
+Provides:
+
+- household state
+
+### Global Context
+
+Provides:
+
+- ambient information
+
+### Concierge
+
+Combines all of the above into interaction behavior.
+
+---
+
+## Failure Handling
+
+If projection data is incomplete:
+
+- room remains valid
+- Concierge capabilities are reduced
+- interaction must degrade gracefully
+
+Examples:
+
+- no speaker → no voice output
+- no sensors → no environment questions
+- no signals → no household state queries
+
+---
+
+## Final Principle
+
+The room defines what exists.
+
+The Concierge Projection defines what is accessible.
+
+Concierge ensures the user only experiences what is valid, available, and meaningful.
+
+---
+---
+
+# 9. COMPOSITE ROOM CONTEXT
+
+---
+
+## Purpose
+
+Composite Room Context defines how multiple rooms (areas) may be combined into a single logical interaction space.
+
+This allows Concierge to:
+
+- treat multiple areas as one experience
+- unify device control across rooms
+- provide consistent audio and interaction behavior
+
+---
+
+## Core Principle
+
+A composite room is a virtual construct.
+
+It does not replace physical rooms.
+
+It overlays them for interaction purposes.
+
+---
+
+## Composite Structure
+
+A composite room is defined as:
+
+composite_room:
+  id:
+  areas[]:
+  name:
+  primary_area:
+  shared_audio:
+  shared_controls:
+
+---
+
+## Field Definitions
+
+### id
+
+Unique identifier for the composite room.
+
+Must be stable and user-defined.
+
+---
+
+### areas
+
+List of Home Assistant area_ids included in the composite.
+
+Rules:
+
+- all entries must map to valid areas
+- order does not imply priority
+- duplication is not allowed
+
+---
+
+### name
+
+Human-readable name.
+
+Example:
+
+Great Room
+
+---
+
+### primary_area
+
+The default area used for:
+
+- context resolution
+- fallback decisions
+
+Rules:
+
+- must exist within areas[]
+- must be explicitly defined
+
+---
+
+### shared_audio
+
+Defines how speakers behave across the composite.
+
+Options may include:
+
+- grouped playback (e.g., Sonos group)
+- preferred speaker set across areas
+
+Rules:
+
+- must follow audio routing hierarchy
+- must support fallback behavior
+
+---
+
+### shared_controls
+
+Defines whether actions apply across all areas.
+
+Examples:
+
+- shades
+- lights
+- media
+
+Rules:
+
+- must be explicit
+- must not assume all entities apply universally
+- must respect entity availability per area
+
+---
+
+## Behavior Rules
+
+When a composite room is active:
+
+- all included areas are considered in scope
+- inventory must include entities from all areas
+- actions must apply across all applicable entities
+
+Example:
+
+Command:
+Close the shades
+
+Behavior:
+Applies to all shade entities across kitchen, living room, and dining room
+
+---
+
+## Inventory Aggregation
+
+Composite room inventory is derived as:
+
+- union of entities from all areas
+- filtered for availability
+- categorized using labels and domains
+
+Rules:
+
+- no duplication of entities
+- must maintain deterministic ordering
+- must reflect real-time state
+
+---
+
+## Audio Behavior
+
+Audio routing must follow:
+
+1. composite preferred speaker/group
+2. area-level speaker candidates
+3. voice device fallback
+
+Rules:
+
+- must remain deterministic
+- must preserve existing audio hierarchy
+- must support grouped playback where available
+
+---
+
+## Context Resolution
+
+When resolving room context:
+
+- system must detect if the area belongs to a composite
+- if so, promote context to the composite level
+
+Example:
+
+User speaks in kitchen
+
+System resolves:
+
+Kitchen → part of Great Room → use composite context
+
+---
+
+## Interaction Behavior
+
+Composite rooms must:
+
+- expose a single interaction surface
+- aggregate signals and context
+- provide unified UI view
+
+Rules:
+
+- interactions must not duplicate across areas
+- signals remain global and unaffected
+- context remains global and unaffected
+
+---
+
+## Configuration Rules
+
+Composite rooms must be:
+
+- explicitly configured by the user
+- stored outside of the Room Model (Concierge-controlled)
+
+Room Model must not persist composite definitions.
+
+---
+
+## Separation of Concerns
+
+Composite rooms:
+
+- belong to Concierge interaction layer
+- do not modify environment modeling
+- do not alter asset relationships
+
+---
+
+## Failure Handling
+
+If one area is unavailable:
+
+- composite room remains functional
+- available areas must still respond
+
+If all areas are unavailable:
+
+- composite must degrade gracefully
+
+---
+
+## Final Principle
+
+Physical rooms define structure.
+
+Composite rooms define experience.
+
+The system must support both without conflict.
+
+---
+
 # FINAL PRINCIPLE
 
 The room defines context.

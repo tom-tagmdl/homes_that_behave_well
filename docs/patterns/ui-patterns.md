@@ -4,18 +4,55 @@
 
 UI Patterns define how the system presents information and interacts with the user.
 
-This ensures all interfaces are:
+They ensure all interfaces are:
 
 - consistent
 - predictable
 - explainable
 - aligned with Home Assistant standards
+- derived from system configuration and runtime models
 
 ---
 
 ## Core Principle
 
 The user interface must feel native to Home Assistant while delivering a more disciplined and predictable experience.
+
+---
+
+## Foundational Rule
+
+The UI is a projection of configuration and runtime state.
+
+The UI must not:
+
+- execute system logic directly
+- act as a source of truth
+- store independent state
+
+---
+
+## System Boundary (Critical)
+
+The system is divided into:
+
+### Global Configuration (Gear ⚙️)
+
+- AI providers
+- external integrations (M365, etc.)
+- authentication and system settings
+
+Not exposed in main UI.
+
+---
+
+### Operational UI (Concierge Interface)
+
+- rooms
+- interactions
+- signals
+- global context usage
+- scene exposure and configuration
 
 ---
 
@@ -57,13 +94,6 @@ Back navigation must restore:
 - filters
 - scroll position (best effort)
 
-Example:
-
-User navigates:
-Room → Asset → History tab  
-Back returns to:
-Room → same position and filters
-
 ---
 
 ## Cross-Domain Navigation
@@ -75,17 +105,18 @@ Examples:
 - Alerts
 - Documents
 - History
+- Interactions
 
 Rules:
 
-- do not force users through a hierarchy
-- preserve original context when returning
+- do not force hierarchy
+- preserve original context
 
 ---
 
 # 2. Information Hierarchy
 
-Every screen must follow the same structure:
+Every screen must follow:
 
 1. Status
 2. Context
@@ -98,17 +129,18 @@ Every screen must follow the same structure:
 ## Example: Room Dashboard
 
 Status:
-- room health (Green/Amber/Red)
+- room state
 - confidence
 
 Context:
 - environment summary
+- global context availability
 
 Explanation:
-- primary issue
+- primary issue or insight
 
 Actions:
-- recommendations
+- available interactions
 
 History:
 - optional drill-down
@@ -121,45 +153,19 @@ The UI must reveal information progressively.
 
 Rules:
 
-- show summary by default
-- expose detail through tabs or drill-down
-- avoid overwhelming the user
-
----
-
-## Example
-
-Room Dashboard:
-- high-level health and issues
-
-Room Detail:
-- tabs for:
-  - overview
-  - metrics
-  - recommendations
-  - history
+- show high-level state first
+- allow drill-down for detail
+- never overwhelm the user
 
 ---
 
 # 4. State Visibility and Explainability
-
-Every state must be explainable.
 
 The UI must always show:
 
 - what is happening
 - why it is happening
 - confidence in the result
-
----
-
-## Example
-
-Asset Card:
-
-- Risk: RED
-- Confidence: PARTIAL
-- Reason: "Humidity above recommended range"
 
 ---
 
@@ -170,357 +176,286 @@ The UI must never show unexplained gaps.
 When data is missing:
 
 - explain why
-- guide the user to resolve it
-
----
-
-## Example
-
-"Humidity data unavailable  
-No sensor configured for this room"
+- guide resolution
 
 ---
 
 # 6. Action Patterns
 
+## Core Rule
+
+UI actions do NOT execute system behavior directly.
+
+UI must:
+
+- call services
+- reflect results
+
+---
+
 ## Buttons
 
-Buttons must follow Home Assistant conventions:
+Buttons must:
 
-- primary actions: default style
-- destructive actions: clearly marked
-- destructive actions require confirmation
-
----
-
-## Confirmation Pattern
-
-Use confirmation dialogs for:
-
-- deletes
-- irreversible changes
-- significant configuration updates
+- follow HA standards
+- provide immediate feedback
+- reflect loading/disabled state
 
 ---
 
-## Example
+## Confirmation
 
-"Remove Asset?"  
-Cancel | Confirm
+Required for:
+
+- destructive actions
+- major configuration changes
 
 ---
 
 # 7. Dialog (Popup) Patterns
 
-All dialogs must:
+Dialogs must:
 
-- use Home Assistant native dialog components
-- follow consistent layout
-- be clearly labeled
-
-Dialogs must not:
-
-- implement custom frameworks
-- override standard behavior
+- use HA native components
+- be consistent in layout
 
 ---
 
 # 8. Iconography
 
-The system uses a two-layer icon model:
+### Layer 1: Native
 
-### Layer 1: Native Icons
+- entities
+- sensors
 
-Use Home Assistant icons for:
+### Layer 2: System
 
-- individual sensors
-- individual entities
-
----
-
-### Layer 2: System Icons
-
-Use system-level icons for:
-
-- environment categories
-- asset risk states
-- advisory groupings
-
----
-
-## Example
-
-- Temperature → thermometer icon  
-- Room Environment → system category icon  
+- signals
+- context
+- interactions
 
 ---
 
 # 9. Color Semantics
 
-Colors must convey meaning consistently.
-
----
-
-## Standard Mapping
-
-- Blue → environment / informational context  
-- Green → safe / normal  
+- Blue → context  
+- Green → normal  
 - Amber → warning  
-- Red → risk / critical  
-- Gray → unknown / unavailable  
-
----
-
-## Rules
-
-- use theme-defined colors
-- avoid custom color systems
-- do not use color alone to convey meaning
+- Red → critical  
+- Gray → unknown  
 
 ---
 
 # 10. Layout Patterns
 
-The UI must follow consistent structure.
+Structure:
 
----
-
-## Rules
-
-- top: summary / status
-- middle: context and explanation
-- bottom: detailed data and history
-
----
-
-## Grouping
-
-Group related data:
-
-- by domain (climate, light, air)
-- by function (status, config, history)
+- top → summary
+- middle → context and explanation
+- bottom → detail and history
 
 ---
 
 # 11. Consistency Rules
 
-The same concept must appear the same way everywhere.
-
-Examples:
-
-- humidity always shown the same way
-- risk colors always consistent
-- icons always consistent
+The same concept must appear identically everywhere.
 
 ---
 
 # 12. State Synchronization
 
-UI must reflect real system state.
+UI must:
 
-Rules:
-
-- UI reads from coordinator projections
-- no UI-driven computation
-- no stale or inconsistent values
+- read from runtime models (coordinator/store)
+- not compute state
+- not simulate final state
 
 ---
 
 # 13. Voice and UI Alignment
 
-Concierge and UI must match.
+Voice and UI must match:
 
-Rules:
-
-- same terminology
-- same explanations
-- same risk descriptions
-
----
-
-## Example
-
-UI:
-"Humidity above recommended range"
-
-Voice:
-"Humidity is above the recommended range for this asset"
+- terminology
+- explanation
+- behavior
 
 ---
 
 # 14. Performance and Responsiveness
 
-UI must feel immediate and stable.
+UI must:
 
-Rules:
-
-- no heavy logic in UI
-- use cached coordinator data
-- show loading states only when necessary
+- feel immediate
+- not perform heavy logic
+- rely on precomputed data
 
 ---
 
 # 15. Interaction Feedback and Perceived Performance
 
+## Rule
+
+Every user action must produce immediate visible feedback.
+
+### Immediate Feedback
+
+- highlight selection
+- update state instantly
+
+### In-Progress Feedback
+
+- spinner
+- disabled state
+
+### Completion Feedback
+
+- state update
+- confirmation
+
+---
+
+# 16. Interaction Panel Pattern (NEW)
+
 ## Purpose
 
-The system must clearly communicate when a user action has been received, is in progress, and has completed.
+Provides a unified surface for:
 
-The user must never be left wondering whether an action worked.
-
----
-
-## Core Principle
-
-Every user action must produce immediate, visible feedback.
+- signals
+- context
+- actions
+- workflows
 
 ---
 
-## Immediate Feedback (Required)
+## Structure
 
-When a user selects an option:
+Room Interaction Panel:
 
-- the UI must respond instantly
-- the action must visibly change state
+- Context (weather, news, email)
+- Signals (laundry, calendar)
+- Actions (available controls)
+- Workflows (setup, guided flows)
+
+---
+
+## Rules
+
+- must display only active interactions
+- must not store independent state
+- must reflect interaction model
+
+---
+
+# 17. Scene and Alias Visibility (NEW)
+
+Scenes must be visible and configurable.
+
+UI must show:
+
+- scene name
+- aliases (from Home Assistant)
+- enable/disable for room
+- composite inclusion
+
+---
+
+## Rules
+
+- aliases are source-of-truth (HA)
+- UI may allow editing aliases
+- UI must not duplicate phrase systems
+
+---
+
+# 18. Global Context UI Pattern (NEW)
+
+Global context must be configurable in UI.
 
 Examples:
 
-- button changes state (pressed / active)
-- selection highlights immediately
-- confirmation indicator appears
+- weather
+- news
+- calendar
+- email
 
 ---
 
-## In-Progress Feedback (Long-Running Actions)
+## Rules
 
-For actions that take time:
-
-- the system must indicate that processing is occurring
-
-Examples:
-
-- spinner or loading indicator
-- disabled button with visual state
-- progress indicator when appropriate
+- enable/disable per context
+- configure summarization behavior
+- support per-room projection
 
 ---
 
-## Completion Feedback
+# 19. Configuration Projection Rule (CRITICAL)
 
-When an action completes:
+UI must always reflect:
 
-- the result must be visible
-- the system must confirm success or failure
+- configuration (store)
+- runtime state (models)
 
-Examples:
+UI must never:
 
-- updated state reflected in UI
-- confirmation message (non-intrusive)
-- state transition (e.g., Green → Amber)
-
----
-
-## Failure Feedback
-
-When an action fails:
-
-- the user must be clearly informed
-- the reason must be explainable
-
-Examples:
-
-- "Unable to update asset — invalid configuration"
-- "Sensor data unavailable — try again later"
-
-The system must never silently fail.
+- be the source of configuration truth
+- modify behavior outside services
 
 ---
 
-## Button Behavior Rules
+## Flow
 
-Buttons must:
-
-- provide immediate visual feedback on click
-- reflect disabled or loading states
-- prevent duplicate actions while processing
-
-Buttons must not:
-
-- appear unresponsive
-- allow repeated triggering during execution
-- leave the user uncertain of state
+UI → service call → validation → store update → runtime update → UI refresh
 
 ---
 
-## Optimistic vs Confirmed Updates
+# 20. Optimistic vs Confirmed Updates
 
-Where safe, the UI may use optimistic updates:
+Optimistic:
 
-- immediately reflect expected state
-- reconcile with actual result when complete
+- safe UI-only updates
 
-Where unsafe:
+Confirmed:
 
-- wait for confirmed result before updating UI
-
----
-
-## Timing Expectations
-
-Feedback must:
-
-- occur immediately on interaction (< 100ms perceived)
-- show progress if action exceeds brief duration
-- resolve clearly once complete
+- required for state changes and execution
 
 ---
 
-## Relationship to Coordinator
+# 21. Relationship to Runtime
 
-UI must reflect coordinator state changes.
+UI must:
 
-Rules:
+- call Concierge services
+- render interaction model
+- reflect execution results
 
-- UI does not simulate final state
-- UI reflects actual system state when confirmed
-- coordinator remains the source of truth
+UI must not:
 
----
-
-## Example Pattern
-
-User clicks "Apply Environment Recommendation"
-
-1. Button highlights immediately
-2. Button enters loading state
-3. System processes request
-4. Asset state updates
-5. Button returns to normal
-6. New values appear in UI
+- directly manipulate entities
+- bypass execution patterns
+- perform orchestration
 
 ---
 
-## Final Principle
-
-A system feels fast when users know what is happening.
-
-Lack of feedback creates confusion, not delay.
-
----
-
-# 16. User Experience Principles
+# 22. User Experience Principles
 
 The UI must always:
 
-- prioritize clarity over cleverness
-- minimize user effort
-- avoid repetition
-- provide confidence in system behavior
+- prioritize clarity
+- minimize effort
+- build trust
+- avoid noise
 
 ---
 
 # Final Principle
 
-The UI should not feel like a tool.
+The UI is not a control surface.
 
-It should feel like a calm, predictable system that explains itself.
+It is a window into a system that already knows what to do.
+
+The user should feel:
+
+- confident
+- informed
+- in control—without needing to manage complexity

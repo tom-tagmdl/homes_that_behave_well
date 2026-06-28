@@ -166,9 +166,41 @@ Examples:
 
 Concierge must:
 
-- discover available capabilities
+- discover available capabilities at startup or configuration time
 - adapt behavior based on what is available
 - avoid hard dependencies where possible
+
+Discovery is allowed at startup or configuration time. Runtime must use precomputed results only.
+
+---
+
+## Global Context and Signal Integration
+
+Concierge may orchestrate capabilities that represent whole-home context and household signals.
+
+These include:
+
+- Informational context (weather, time, news)
+- Stateful signals (calendar, shopping list, appliance states, reminders)
+
+These capabilities:
+
+- Are owned and exposed by other integrations
+- Must be accessed only via defined service interfaces
+- Must not be stored or evaluated by Concierge
+
+Concierge is responsible for:
+
+- Determining when these signals are relevant to the user
+- Routing requests to the appropriate integration
+- Combining signal data into meaningful responses
+- Delivering responses in a context-aware manner (room, time, mode)
+
+Concierge must not:
+
+- Directly interpret raw sensor or entity data
+- Maintain independent copies of signal state
+- Create conflicting representations of household state
 
 ---
 
