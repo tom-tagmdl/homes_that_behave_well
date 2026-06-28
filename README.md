@@ -1,4 +1,4 @@
-![Homes That Behave Well](brand/Homes-that-behave-well.png)
+![Homes That Behave Well](brand/Homes-that-behave-well-dark.png)
 
 # Homes That Behave Well
 
