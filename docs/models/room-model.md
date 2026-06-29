@@ -1023,7 +1023,13 @@ Examples:
 Rules:
 
 - posture influences interaction behavior
+- posture governs effective quiet-hour and night behavior for the room
 - posture must not alter execution determinism
+
+Notes:
+
+- night mode is modeled as room posture, not as a whole-home blanket state
+- a global default may initialize posture behavior, but room posture is authoritative for in-room response behavior
 
 ---
 ## Final Principle

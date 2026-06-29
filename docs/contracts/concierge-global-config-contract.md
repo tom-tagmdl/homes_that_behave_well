@@ -8,7 +8,7 @@ This configuration governs:
 
 - AI provider configuration
 - voice and speech behavior
-- system-wide execution rules
+- default execution and communication rules
 - external integration connections
 
 Global Configuration is foundational and must be separated from room-level and interaction-level configuration.
@@ -21,17 +21,21 @@ Global Configuration defines how the system operates.
 
 Room and UI configuration define how the system behaves.
 
+Global Configuration may define defaults.
+
+Room posture and room-level configuration determine the effective in-room behavior.
+
 ---
 
 ## Scope
 
 Global Configuration applies to:
 
-- all rooms
-- all interactions
-- all execution paths
+- provider selection and provider connectivity
+- default behavior rules used when no room or identity override is present
+- integration connections shared across the home
 
-It is not scoped to any individual room or user interaction.
+It is not the source of truth for room-scoped posture or room-scoped communication behavior.
 
 ---
 

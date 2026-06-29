@@ -112,7 +112,9 @@ Concierge controls all communication using defined levels:
 - Interruptive if required
 
 ### Night Mode
-- Suppress all except urgent
+- Night behavior is determined by effective room posture
+- In night posture, suppress all except urgent
+- Global configuration may define the default night behavior, but rooms control the effective mode
 
 ---
 
@@ -122,7 +124,7 @@ Concierge must be aware of:
 
 - Room context (area)
 - Available integrations and capabilities
-- Active modes (guest mode, night mode, etc.)
+- Active modes and posture (guest mode, room night posture, sleep posture, etc.)
 - User intent (explicit or inferred)
 
 Context must be:

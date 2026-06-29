@@ -85,6 +85,8 @@ Examples:
 
 Special rule applied during quiet hours.
 
+This rule is evaluated from effective room posture, not as a blanket whole-home switch.
+
 Characteristics:
 
 - Suppresses Info and Attention messages
@@ -118,7 +120,7 @@ Messaging must consider:
 - Room context (area)
 - Time of day
 - User presence
-- Active modes (guest mode, night mode)
+- Active modes and effective room posture (guest mode, night posture, sleep posture)
 
 Messaging must adapt based on context.
 
