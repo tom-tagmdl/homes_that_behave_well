@@ -197,6 +197,8 @@ Rules:
 
 Cloud use is an exception.
 
+In Concierge setup, selecting OpenAI is an explicit opt-in to a local/cloud hybrid path, not a local-only mode.
+
 A cloud exception may only occur when:
 
 - the user explicitly opts in

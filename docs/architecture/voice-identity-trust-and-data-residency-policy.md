@@ -42,6 +42,8 @@ Voice samples and voice profiles should not leave the home network by default.
 
 Cloud services may only be used when:
 
+In Concierge setup, choosing OpenAI must be presented as a local/cloud hybrid consent step.
+
 - the user has explicitly opted in
 - the purpose is clearly explained
 - the system cannot satisfy the function locally
