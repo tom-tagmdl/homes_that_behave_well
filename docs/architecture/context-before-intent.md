@@ -83,6 +83,13 @@ Foundation owns facts and state about the physical home.
 - Device Membership (which devices belong to which rooms)
 - Space Membership (which rooms compose which spaces)
 
+**Foundation room-source rule:**
+
+- Home Assistant Areas are the source of truth for rooms.
+- Concierge room cards are derived from Home Assistant Area records.
+- If an Area is added or removed in Home Assistant, Concierge must reflect that change automatically.
+- Concierge data for rooms is extension data attached to `area_id` (context and policy), not a separate room registry.
+
 **Examples:**
 
 ```
@@ -518,30 +525,66 @@ active_conversations:
 ```
 device_scopes:
   great_room:
-    lights:
-      - light.kitchen_lights (label: Kitchen Lights)
-      - light.dining_lights (label: Dining Lights)
-      - light.living_room_lamps (label: Living Room Lamps)
-    media:
-      - media_player.great_room_speakers (label: Great Room Speakers)
-      - media_player.living_room_tv (label: Living Room TV)
-    climate:
-      - climate.great_room_thermostat (label: Great Room Thermostat)
-    other:
-      - cover.kitchen_shades
-      - switch.island_fan
+    device_groups:
+      - group_key: lights
+        display_name: Lights
+        vocabulary: [lights, kitchen lights]
+        entity_ids:
+          - light.kitchen_lights
+          - light.dining_lights
+      - group_key: lamps
+        display_name: Lamps
+        vocabulary: [lamps, living room lamps]
+        entity_ids:
+          - light.living_room_lamps
+      - group_key: media
+        display_name: Media
+        vocabulary: [media, speakers, tv]
+        entity_ids:
+          - media_player.great_room_speakers
+          - media_player.living_room_tv
+      - group_key: climate
+        display_name: Climate
+        vocabulary: [climate, thermostat]
+        entity_ids:
+          - climate.great_room_thermostat
+      - group_key: other
+        display_name: Other
+        vocabulary: [other]
+        entity_ids:
+          - cover.kitchen_shades
+          - switch.island_fan
 
   primary_bedroom:
-    lights:
-      - light.bedroom_ceiling (label: Bedroom Ceiling)
-      - light.bedroom_lamps (label: Bedroom Lamps)
-    media:
-      - media_player.bedroom_tv
-      - media_player.bedroom_speakers
-    other:
-      - cover.bedroom_shades
-      - climate.bedroom_thermostat
+    device_groups:
+      - group_key: lights
+        display_name: Lights
+        vocabulary: [lights, bedroom lights]
+        entity_ids:
+          - light.bedroom_ceiling
+      - group_key: lamps
+        display_name: Lamps
+        vocabulary: [lamps, bedroom lamps]
+        entity_ids:
+          - light.bedroom_lamps
+      - group_key: media
+        display_name: Media
+        vocabulary: [media, bedroom tv, bedroom speakers]
+        entity_ids:
+          - media_player.bedroom_tv
+          - media_player.bedroom_speakers
+      - group_key: other
+        display_name: Other
+        vocabulary: [other]
+        entity_ids:
+          - cover.bedroom_shades
+          - climate.bedroom_thermostat
 ```
+
+Rule:
+
+- group definitions and vocabulary are setup-authored and persisted
+- runtime context resolution must use these precomputed mappings and must not infer new categories
 
 ---
 

@@ -92,6 +92,11 @@ Examples:
 - News → feed integration
 - Email → external provider (e.g., Microsoft 365)
 
+Provider adapter rule:
+
+- Global Context must support entity-sourced and event-sourced providers
+- Event-sourced providers (for example Feedreader) must be normalized into the same context structure before Concierge consumption
+
 Concierge must never:
 
 - generate its own context data
@@ -112,6 +117,15 @@ context:
   summary:
   detail:
   speakable:
+
+News context must additionally support:
+
+news_context:
+  source_profile:
+  feeds:
+  curated_headlines:
+  digest_generated_at:
+  freshness_window_minutes:
 
 ---
 
@@ -219,6 +233,7 @@ Rooms may:
 - enable or disable specific context types
 - control whether context is speakable
 - control inclusion in summaries
+- define ordered source priority for context projection (for example weather and news)
 
 Example:
 
@@ -227,12 +242,26 @@ room:
     weather: true
     news: false
     email: true
+  context_projection_priority:
+    weather:
+      - weather.national
+      - weather.local_station
+    news:
+      - news.general
+      - news.business
 
 Rules:
 
 - context must not be duplicated per room
 - enablement affects visibility only
 - data remains global
+- if a room exposes dashboard targets, Global Context projection may include a dashboard payload for that room
+- dashboard payload and speakable payload must be derived from the same underlying context selection
+- if a room exposes phone targets, Global Context projection may include a mobile payload for that room
+- mobile payload, dashboard payload, and speakable payload must remain selection-consistent
+- room source priority may reorder only globally available sources
+- room source priority must never expand global availability
+- when room priority is absent, projection uses global default source order
 
 ---
 
@@ -319,6 +348,13 @@ Summarization rules:
 - may use AI if enabled
 - must remain accurate and explainable
 
+News summarization rules:
+
+- must run deterministic deduplication before summarization
+- must apply configured source and topic weighting before final selection
+- must expose score rationale for selected headlines
+- must respect configured freshness window and max headlines
+
 ---
 
 ## AI Usage
@@ -344,6 +380,12 @@ Global Context follows Concierge communication levels:
 - Attention → optional voice
 - Urgent → rarely applicable
 
+Channel behavior:
+
+- visual channel includes dashboard or UI payload delivery
+- voice channel uses speakable output when policy permits
+- quiet or low-disturbance posture should prefer visual channel over voice
+
 Global Context is typically:
 
 - user-requested
@@ -353,6 +395,13 @@ It must not be:
 
 - proactively announced without intent
 - disruptive or noisy
+
+Morning briefing inclusion:
+
+- news may be included in morning briefing when enabled
+- news section must use curated digest output, not raw feed order
+- briefings must cap headline count according to configured profile
+- when room dashboard is available, morning briefing should project a visual digest card/panel payload
 
 ---
 

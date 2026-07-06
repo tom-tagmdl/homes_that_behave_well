@@ -349,6 +349,7 @@ Event history must be bounded.
 
 - oldest events are discarded first (FIFO)
 - critical events are retained at 2x default limits
+- long-term offline retention should use immutable archive exports, not unbounded in-system storage
 
 Critical event criteria:
 
@@ -364,6 +365,7 @@ Critical event criteria:
 - retention policy must be predictable and documented
 - per-asset limit must be applied before global pruning
 - global pruning must use FIFO based on deterministic event ordering
+- exported offline archives must remain readable without requiring live upstream integrations
 
 ---
 

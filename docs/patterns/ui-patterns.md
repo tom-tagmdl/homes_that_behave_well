@@ -41,8 +41,16 @@ The system is divided into:
 - AI providers
 - external integrations (M365, etc.)
 - authentication and system settings
+- archive storage destination wiring (for example NAS URI)
 
 Not exposed in main UI.
+
+Operational exception for archive visibility:
+
+- Concierge main UI may show archive health/status and offer export actions
+- Concierge main UI must not edit archive destination connection settings
+- archive destination edits must remain in integration options (gear/cog)
+- archive policy toggles and export controls in main UI must be disabled or hidden until a valid archive destination is configured
 
 ---
 
@@ -389,6 +397,9 @@ Examples:
 - enable/disable per context
 - configure summarization behavior
 - support per-room projection
+- when a room dashboard target exists, support projection of global context digest cards (including news)
+- when a room or person phone target exists, support projection of global context digest payloads to mobile app
+- keep visual payload aligned with voice digest selection for consistency across channels
 
 ---
 
@@ -562,10 +573,29 @@ People setup configures:
 - BLE proximity device links such as iPhone and watch sources
 - Aqara room presence device links used as supporting context
 - optional voice enrollment status
+- mobile app interaction targets (for example phone and iPad)
+- household classification (minor/adult)
 
 People setup must not duplicate person identity records outside Home Assistant references.
 
 People setup must treat device links as editable parts of the person definition.
+People setup must allow enabling or disabling each mobile target per person.
+People setup must allow explicitly marking a person as a minor.
+
+Minor setup guidance:
+
+- when person is marked as minor, default to child-safe data handling and reduced audit detail
+- display plain-language guardian notice for consent-sensitive features (for example voice enrollment)
+- minor/adult classification must be explicitly selected and never inferred from behavior
+- provide a standard minor AI setting with explicit choices:
+	- block general Q&A
+	- allow restricted intent classes only
+	- allow general Q&A (only when policy permits)
+
+Interaction option filtering rule:
+
+- when a person is identified or explicitly selected, UI delivery options must only show that person's enabled mobile app targets
+- device class labels should be visible (for example phone, tablet)
 
 
 ---

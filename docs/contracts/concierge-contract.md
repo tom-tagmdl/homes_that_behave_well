@@ -174,6 +174,8 @@ Context must be:
 - derived from system state
 - not inferred unpredictably
 
+For mobile endpoints, context resolution should fuse person-linked mobile device identity with room presence signals (for example BLE and supporting room presence devices).
+
 ---
 
 ## Person-Aware Interaction Boundaries
@@ -195,6 +197,37 @@ Person-aware behavior must follow these rules:
 Person-aware behavior must remain explainable and reversible.
 
 Enrollment and consent rules are defined in person-identity-contract.md.
+
+---
+
+## Mobile Interaction Plane
+
+Mobile voice and mobile typed requests are one interaction plane with different input modality.
+
+Rules:
+
+- both modalities must use the same intent and service path
+- person resolution may use mobile endpoint identity when configured
+- room resolution may use BLE and supporting room presence context with explicit confidence
+- low-confidence room resolution must trigger concise clarification instead of hidden guessing
+
+Informational room-context intents (for example "what art is in this room") are allowed with medium confidence and must return explainable room attribution.
+
+---
+
+## Protected Action Authorization Boundary
+
+Concierge may orchestrate protected actions, such as alarm control, only when authorization policy is satisfied.
+
+Rules:
+
+- global policy defines alarm connection and allowed control modes
+- person profile grants define who may control alarm actions
+- voice attribution may contribute to authorization context but must not be the sole disarm authority
+- disarm actions should require step-up confirmation when enabled by policy
+- preferred step-up for disarm is a Home Assistant mobile push confirmation to the authorized person
+- PIN (or equivalent secure unlock) should be required for mobile disarm confirmation when policy requires it
+- all protected-action allow and deny decisions must be auditable
 
 ---
 
@@ -298,6 +331,41 @@ In these cases, Concierge should:
 - provide a clear response
 - avoid partial or misleading outputs
 - never fabricate data
+
+---
+
+## Auditability And Trace Stitching
+
+Concierge must provide an auditable orchestration trail without duplicating full logs already owned by other systems.
+
+Rules:
+
+- Concierge audit records are orchestration metadata, not full copies of provider logs
+- each activity must include correlation identifiers that link to source logs (voice, service calls, automations, notifications)
+- each activity must include outcome (success, partial, denied, failed, canceled)
+- each activity must include explainable decision summary and policy gates used
+- protected-action decisions must include allow or deny reason codes
+
+Guest audit minimization policy:
+
+- unknown interactions must be labeled as guest-unlinked
+- guest audit records should store intent_class and outcome with timestamp as the primary retained fields
+- guest records should avoid stable identity linkage unless required by safety or legal policy
+- guest mobile push/device targeting is unsupported unless the device is explicitly linked to a known person profile
+
+Minor audit minimization policy:
+
+- when a matched profile is marked as minor, audit records should retain intent_class, outcome, and timestamp as primary fields
+- request_summary and stitched reference excerpts should be minimized by default for minor records
+- minor records should follow stricter retention policy than default household retention when configured
+
+Offline archive rule:
+
+- when exporting to offline storage (for example NAS), Concierge must generate a self-contained readable activity archive
+- the archive may include normalized excerpts and references needed for human-readable reconstruction
+- the archive must avoid storing full duplicated raw logs when references and concise excerpts are sufficient
+- archive exports must be immutable, timestamped, and retention-policy governed
+- archive destination connection settings must be configured in global integration options, not room/person operational UI
 
 ---
 

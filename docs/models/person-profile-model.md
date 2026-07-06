@@ -6,6 +6,8 @@ The Person Profile Model defines how Concierge stores and resolves person-aware 
 
 This model is for interaction behavior, not authentication.
 
+It may include action authorization grants defined by policy (for example, alarm control permissions), but it does not define the authentication mechanism itself.
+
 ---
 
 ## Core Principle
@@ -58,6 +60,37 @@ person_profile:
   channel_preferences:
     quiet_posture_voice: suppress
     default_channel: mixed
+  security_authorizations:
+    alarm_control:
+      allowed: true
+      allowed_actions:
+        - arm_away
+        - arm_home
+      disarm_allowed: false
+      requires_voice_attribution: true
+      requires_step_up_for_disarm: true
+      preferred_step_up_channel: mobile_app
+      mobile_target_devices:
+        - mobile_app_david_phone
+  interaction_targets:
+    mobile_app_targets:
+      - target_id: mobile_app_david_phone
+        device_class: phone
+        enabled: true
+      - target_id: mobile_app_david_ipad
+        device_class: tablet
+        enabled: true
+    preferred_read_later_target: mobile_app_david_ipad
+  household_classification:
+    is_minor: false
+    guardian_controls_required: false
+  minor_interaction_policy:
+    ai_access_mode: restricted
+    allow_general_qna: false
+    allowed_intent_classes:
+      - room_context_info
+      - household_help
+    enforce_content_filter_level: strict
   learning:
     adaptive_updates_enabled: true
     last_style_update: 2026-07-01T09:00:00Z
@@ -75,6 +108,8 @@ person_profile:
 - interaction_style
 - metadata.created_at
 - metadata.updated_at
+
+When a person has protected-action grants, `security_authorizations` must be present and valid.
 
 ---
 
@@ -175,6 +210,23 @@ device_binding_adjustment:
 - disabled profiles must not be applied
 - stale snapshots must not persist beyond freshness policy
 - all profile updates must be auditable
+- protected-action grants must be explicit, auditable, and revocable
+- disarm permissions must require explicit grant and step-up policy compliance
+- interaction target IDs must map to valid Home Assistant mobile notify targets
+- disabled interaction targets must not be exposed as selectable delivery options
+- person-scoped delivery options must be filtered to enabled targets in that person's profile
+- minor classification must be explicitly configured and must never be inferred automatically
+- when is_minor is true, guardian_controls_required should default to true unless explicitly overridden by policy
+- when is_minor is true, minor_interaction_policy must be present and valid
+- when allow_general_qna is false, general open-ended Q&A intents must be blocked for that profile
+
+Capability boundary rules:
+
+- person profile storage is durable across temporary capability disablement
+- when AI capability is disabled, AI-dependent person policy behavior must degrade to safe defaults at execution time
+- when TTS capability is disabled, mobile voice endpoint behavior must be suppressed at execution time
+- voice enrollment data may remain stored while enrollment actions are disabled by capability gates
+- capability disablement must gate behavior, not infer or fabricate replacement profile data
 
 ---
 

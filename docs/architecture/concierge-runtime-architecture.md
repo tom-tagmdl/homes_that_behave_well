@@ -451,6 +451,14 @@ Foundation owns:
 - identity sources
 - environmental state
 
+Foundation area governance rule:
+
+- Home Assistant Area registry is the authoritative source for room definitions.
+- Concierge must not create an independent room system.
+- Concierge room tiles are projections of Home Assistant Areas.
+- Adding or removing an Area in Home Assistant must automatically add or remove the corresponding Concierge room tile.
+- Concierge stores extension data keyed by `area_id` (context, preferences, overlays, selectors), not replacement room records.
+
 Foundation answers: "What is true?"
 
 Foundation does not make runtime decisions.
@@ -708,6 +716,14 @@ Interaction Space is a Concierge Coordinator responsibility.
 
 The Coordinator maintains awareness of currently relevant devices by context.
 
+Scope vocabulary is configuration-authored:
+
+- each group has a stable group_key for persistence
+- each group has a display_name ("what do you call this") used for user-facing vocabulary
+- optional aliases expand matching without hardcoding coordinator categories
+- runtime resolution must use this precomputed setup mapping only
+- coordinator must not invent, split, or merge categories at runtime
+
 Example: Primary Bedroom scope
 
 - lamps
@@ -715,6 +731,7 @@ Example: Primary Bedroom scope
 - shades
 - speakers
 - TV
+- colored lights (custom)
 
 Example: Great Room scope
 
@@ -812,9 +829,27 @@ context_snapshot:
       persons: [person.tom]
   room_context:
     local_device_scope:
-      lights: [light.primary_bedroom_lamps, light.primary_bedroom_ceiling]
-      covers: [cover.primary_bedroom_shades]
-      media: [media_player.primary_bedroom_tv]
+      device_groups:
+        - group_key: lamps
+          display_name: Lamps
+          vocabulary: [lamps]
+          entity_ids: [light.primary_bedroom_lamps]
+        - group_key: lights
+          display_name: Lights
+          vocabulary: [lights, main lights]
+          entity_ids: [light.primary_bedroom_ceiling]
+        - group_key: colored_lights
+          display_name: Colored Lights
+          vocabulary: [colored lights, accent lights]
+          entity_ids: [light.primary_bedroom_accent]
+        - group_key: shades
+          display_name: Shades
+          vocabulary: [shades]
+          entity_ids: [cover.primary_bedroom_shades]
+        - group_key: tv
+          display_name: TV
+          vocabulary: [tv, television]
+          entity_ids: [media_player.primary_bedroom_tv]
   identity_context:
     speaker: person.tom
     persona: default_resident
@@ -853,9 +888,12 @@ conversation_runtime:
 state_awareness:
   room_id: primary_bedroom
   last_known_state:
-    lights:
-      brightness_pct: 42
-      color_temp_kelvin: 3200
+    by_group_key:
+      lights:
+        brightness_pct: 42
+        color_temp_kelvin: 3200
+      colored_lights:
+        brightness_pct: 18
     media:
       volume_level: 0.18
       source: "Spotify"
@@ -1088,11 +1126,23 @@ Retrieved via:
 - context providers
 - Global Context Contract
 
+Provider adapters must support both:
+
+- entity-sourced context providers
+- event-sourced context providers (for example Feedreader)
+
 Used for:
 
 - weather
 - news
 - email summaries
+
+For news, runtime behavior must include:
+
+- normalization of provider output into canonical headline records
+- deterministic duplicate collapse
+- configurable importance scoring
+- concise digest composition for on-demand and morning briefing delivery
 
 ---
 

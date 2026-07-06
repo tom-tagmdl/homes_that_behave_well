@@ -47,11 +47,19 @@ Defines:
 - AI providers
 - external connections
 - system behavior rules
+- audit archive destination and storage connection
 
 Rules:
 
 - must not be modified through the main UI
 - must not be used for interaction configuration
+
+Audit archive configuration pattern:
+
+- archive location (for example NAS destination URI) belongs in integration options (gear/cog)
+- operational Concierge UI may show archive status and trigger exports but must not edit storage connection wiring
+- exported archive content remains service-produced and reference-stitched
+- archive policy toggles in operational UI should only be visible or enabled when archive destination is configured
 
 ---
 
@@ -75,6 +83,30 @@ Rules:
 - must be user-visible
 - must control availability, not data source logic
 
+News-specific configuration pattern:
+
+- feed inclusion and exclusion is configured in Global Context UI
+- users select which feeds are eligible for Concierge curation
+- curation policy values (max headlines, freshness window, dedupe window, source priorities) are system configuration, not room configuration
+- room-level settings may enable or disable news projection only; they must not override global feed membership
+
+Weather and news projection priority pattern:
+
+- Global Context owns source availability (which weather/news sources are selectable at all)
+- Room Configuration owns projection priority (ordered preference of already-enabled global sources)
+- room priority may reorder sources for that room, but may not introduce unknown sources
+- when room priority is not configured, Concierge must use global default source order
+- if a room priority list references unavailable sources, those items are ignored and remaining valid sources are used in-order
+
+Example:
+
+- Global weather sources: [national_weather, local_station]
+- Bedroom weather priority: [national_weather, local_station]
+- Office weather priority: [local_station, national_weather]
+- Global news sources: [general_news, business_news]
+- Bedroom news priority: [general_news, business_news]
+- Office news priority: [business_news, general_news]
+
 ---
 
 ### Room Configuration
@@ -93,10 +125,13 @@ Defines:
 
 learned_values:
 
-  lights:
-    brightness:
-  lamps:
-    brightness:
+  by_group_key:
+    lights:
+      brightness:
+    lamps:
+      brightness:
+    colored_lights:
+      brightness:
   media:
     volume:
     last_media:
@@ -127,8 +162,11 @@ They represent stable, previously observed operating values that may be reused d
 
 learned_values:
 
-  lights:
-    brightness:
+  by_group_key:
+    lights:
+      brightness:
+    custom_group_key:
+      brightness:
 
   media:
     volume:

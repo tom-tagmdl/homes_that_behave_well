@@ -62,6 +62,8 @@ Identity layer output must include:
 - attribution_factors
 - linked_identity_devices
 - linked_presence_devices
+- room_candidate
+- room_confidence
 - effective_interaction_style
 - expiration metadata
 - explainability summary
@@ -77,6 +79,7 @@ Identity layer may:
 - recommend device binding during enrollment
 - recommend responder election weighting
 - recommend clarification when confidence is low
+- contribute room candidate resolution from person-linked mobile endpoints and BLE proximity context
 
 ---
 
@@ -89,6 +92,7 @@ Identity layer must not:
 - bypass action safety policy
 - produce hidden personalization behavior
 - silently link or unlink devices without explicit consent
+- infer age class (minor/adult) from behavior, voice, or usage patterns
 
 ---
 
@@ -101,6 +105,12 @@ Behavior by confidence:
 - high confidence: apply person style
 - medium confidence: apply person style with conservative fallback
 - low confidence: apply neutral style and optionally ask concise clarification
+
+Room behavior by confidence:
+
+- high confidence: allow room-context informational responses
+- medium confidence: allow room-context informational responses with conservative phrasing
+- low confidence: ask room clarification before room-context responses
 
 Low confidence must never block low-risk deterministic actions.
 
@@ -170,6 +180,12 @@ If identity data is incomplete or stale:
 - fall back to neutral household style
 - continue deterministic command processing
 - request clarification only when required
+
+If no known-device/person linkage is available:
+
+- classify interaction as guest-unlinked
+- do not create inferred persistent person identity
+- allow low-risk informational handling with neutral style
 
 The system must not fail command execution only because identity is uncertain.
 

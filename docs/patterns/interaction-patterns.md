@@ -338,17 +338,27 @@ Interactions must be removed when:
 
 Each room may expose an Interaction Panel.
 
+Personal devices may expose a Mobile Interaction Plane.
+
 This panel displays:
 
 - context interactions
 - signal interactions
 - actionable interactions
 
+The mobile plane may display:
+
+- pushed context digests
+- actionable follow-up items
+- read-later interaction content
+
 Rules:
 
 - panel must reflect current interactions only
 - must not store independent state
 - must remain synchronized with Concierge
+- mobile plane must be derived from the same interaction and context outputs as room UI/voice
+- when a person is selected or confidently resolved, mobile delivery targets must be filtered to that person's enabled targets
 
 ---
 
@@ -358,12 +368,36 @@ Interactions must be accessible via:
 
 - voice
 - UI
+- mobile app
 
 Rules:
 
 - both entry points must invoke same services
 - UI must reflect voice-triggered interactions
 - voice must reflect UI-triggered actions
+- person-scoped target options (phone/tablet) must match people-card configuration and not expose unavailable targets
+- mobile typed and mobile voice requests must follow the same intent path
+
+---
+
+## Mobile Room-Context Query Pattern
+
+Example:
+
+- user asks from phone: "what art is in this room"
+
+Flow:
+
+- resolve person from configured mobile target
+- resolve room from BLE and supporting presence context
+- if confidence is sufficient, return room-aware art summary
+- if confidence is low, ask concise clarification
+
+Rules:
+
+- responses must include explainable room attribution when room context is used
+- person identity may tune style and detail, not factual inventory
+- room-context informational queries must never silently fall back to an arbitrary room
 
 ---
 

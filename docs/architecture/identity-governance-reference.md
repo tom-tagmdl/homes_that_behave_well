@@ -223,6 +223,8 @@ Rules:
 - people setup is for person profiles, device binding, and voice enrollment
 - the user must explicitly choose the setup path
 - device links for people must be editable from the people path
+- room setup defines device/asset group vocabulary ("what do you call this") with persisted membership
+- runtime resolution must reuse persisted setup mappings and must not infer new room categories
 
 ---
 

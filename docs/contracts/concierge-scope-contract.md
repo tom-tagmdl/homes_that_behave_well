@@ -56,8 +56,15 @@ Examples:
 
 - room posture (day, night, sleep, away, nap)
 - room speaker and voice assistant binding
-- lights, shades, TV, sensors, and room-specific entities
+- room device_groups and asset_groups with user-defined display names ("what do you call this")
 - room persona and voice overrides
+
+Grouping rules:
+
+- room grouping vocabulary is configuration-authored and extensible
+- Concierge must resolve follow-up phrases against configured group display names and vocabulary aliases
+- Concierge must not depend on a hardcoded closed set of group names
+- effective group membership must come from persisted setup selections; no runtime regrouping/inference
 
 ---
 
@@ -70,6 +77,16 @@ For settings that exist at multiple scopes:
 3. concierge-wide default
 
 If no valid value exists, Concierge must fail safely and explain what is missing.
+
+Context projection precedence:
+
+- source availability remains concierge-wide
+- projection ordering for weather and news may be room-wide
+- effective source order for a room is resolved as:
+1. room projection priority (if valid)
+2. concierge-wide source order
+
+Room projection priority must only reference concierge-wide available sources.
 
 ---
 

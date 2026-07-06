@@ -620,6 +620,7 @@ concierge_projection:
   preferred_speaker:
   speaker_candidates[]:
   voice_devices[]:
+  phone_targets[]:
   exposed_entities[]:
   exposed_sensors:
   enabled_signals:
@@ -697,6 +698,24 @@ Used to:
 
 ---
 
+### phone_targets
+
+Registered Home Assistant mobile app targets that may receive room-context interaction payloads.
+
+Used to:
+
+- project read-later context (for example news digests) to personal devices
+- deliver low-disturbance interaction output when voice is suppressed
+- support explicit user requests like "send this to my phone"
+
+Rules:
+
+- phone targets must map to valid Home Assistant mobile notify endpoints
+- phone delivery must be user-requested or policy-allowed
+- phone projection must be derived from the same curated context used for voice/dashboard
+
+---
+
 ### exposed_entities
 
 Entities that Concierge may reference for interaction.
@@ -708,11 +727,41 @@ Examples:
 - switches
 - media devices
 
+Grouping model:
+
+exposed_entities:
+  device_groups:
+    - group_key: lights
+      display_name: Lights
+      vocabulary:
+        - lights
+        - main lights
+      entity_ids:
+        - light.primary_bedroom_ceiling
+    - group_key: colored_lights
+      display_name: Colored Lights
+      vocabulary:
+        - colored lights
+        - accent lights
+      entity_ids:
+        - light.primary_bedroom_accent
+  asset_groups:
+    - group_key: room_health
+      display_name: Room Health
+      vocabulary:
+        - room health
+      entity_ids:
+        - sensor.primary_bedroom_air_quality
+
 Rules:
 
 - derived from room inventory
 - filtered by domain or label
 - must not include unsupported or unavailable entities
+- display_name ("what do you call this") is coordinator vocabulary and must be preserved
+- group_key must be stable for persistence and deterministic follow-up resolution
+- device_groups and asset_groups must be extensible; Concierge must not hardcode a closed list
+- resolution mapping must be fully defined during setup and reused at runtime without category inference
 
 ---
 
@@ -933,10 +982,13 @@ Defines room-scoped values captured from prior stable behavior for later determi
 Structure:
 
 retained_operational_values:
-  lights:
-    brightness:
-  lamps:
-    brightness:
+  by_group_key:
+    lights:
+      brightness:
+    lamps:
+      brightness:
+    colored_lights:
+      brightness:
   media:
     volume:
     last_media:
@@ -948,6 +1000,7 @@ Examples:
 
 - last stable lamp brightness in this room
 - last stable light brightness in this room
+- last stable colored-lights brightness for an added custom group
 - last played media reference for continue playing
 
 ---

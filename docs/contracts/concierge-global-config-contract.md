@@ -32,12 +32,37 @@ Global configuration applies to:
 - whole-home context provider selection (weather, news, calendar, alarm)
 - quiet-hours defaults
 - urgent bypass policy
+- protected-action policy for alarm control
+- audit archive connection and destination policy
+- minor AI safety policy
 
 Global configuration does not own:
 
 - room posture
 - room entity bindings
 - floor thermostat/HVAC routing details
+- room-level weather/news projection priority ordering
+- person-level alarm control grants
+- per-activity audit content assembled at runtime
+
+Global weather/news source ownership rule:
+
+- Global configuration defines which weather and news sources are available to Concierge
+- Room configuration may choose the ordering of those available sources for room projection
+- Room configuration must not reference sources that are not globally enabled
+
+Global alarm ownership rule:
+
+- Global configuration defines the alarm provider connection and baseline alarm-control policy
+- Person profiles define who is allowed to perform alarm control actions
+- Alarm control availability in runtime must require both policy permission and resolved person authorization
+
+Global audit archive ownership rule:
+
+- archive storage connection and destination path are global integration settings
+- archive runtime content is produced by Concierge activity services
+- room and person configuration may influence activity context, but not archive destination wiring
+- archive policy toggles are inactive until a valid destination_uri is configured
 
 ---
 
@@ -48,13 +73,39 @@ concierge_global_config:
     context:
       weather:
       news:
+        provider_type:
+        provider_id:
+        enabled:
+        selected_feed_ids:
+        include_topics:
+        exclude_topics:
+        max_headlines_per_digest:
+        freshness_window_minutes:
+        dedupe_window_hours:
+        source_priority_map:
+        ai_summary_enabled:
       calendar:
       alarm_status:
+        provider_type:
+        provider_id:
+        entity_id:
+        enabled:
+        allow_arm:
+        allow_disarm:
+        disarm_step_up_required:
+        disarm_step_up_mode:
+        disarm_step_up_timeout_seconds:
+        disarm_mobile_confirm_requires_pin:
+        audit_required:
     ai:
       enabled:
       local_first:
       provider:
       model:
+      minor_safety_mode:
+      minor_general_qna_enabled:
+      minor_allowed_intent_classes:
+      minor_content_filter_level:
     tts:
       enabled:
       provider:
@@ -76,6 +127,21 @@ concierge_global_config:
   defaults:
     posture_default:
     summary_style:
+  audit:
+    archive:
+      enabled:
+      storage_provider:
+      destination_uri:
+      export_schedule:
+      retention_days:
+      include_reference_excerpts:
+
+Alarm policy notes:
+
+- disarm_step_up_mode examples: spoken_confirmation, app_confirmation, presence_plus_confirmation
+- voice attribution alone must not directly authorize protected alarm actions
+- app_confirmation should use Home Assistant mobile push confirmation when available
+- when disarm_mobile_confirm_requires_pin is true, mobile approval must include a PIN or equivalent secure local unlock flow
 
 ---
 
@@ -144,6 +210,13 @@ Global config updates must:
 - reject unsupported provider values
 - reject invalid quiet-hours windows
 - reject conflicting urgent_bypass combinations
+- reject news configuration when selected_feed_ids contains unknown feed IDs
+- reject negative or zero headline limits and freshness windows
+- reject invalid source_priority_map values
+- reject alarm control policy combinations that reduce protected-action safeguards
+- reject invalid or unreachable archive destination configuration
+- reject archive policy enablement when destination_uri is missing
+- reject minor AI policy where minor_general_qna_enabled is true and minor_allowed_intent_classes is empty
 
 Invalid updates must not partially apply.
 

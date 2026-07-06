@@ -106,6 +106,7 @@ rules:
 - must not perform runtime discovery
 - must use preconfigured execution targets
 - must execute in a single service call whenever possible
+- when resolved actor_class is minor, intent handling must enforce configured minor_interaction_policy and allowed intent classes
 
 ---
 
@@ -260,6 +261,9 @@ rules:
 - must write to store only after validation
 - may override floor defaults for that room
 - must support room posture override for local calm behavior (including naps and early sleep)
+- must persist setup-authored device_groups and asset_groups with stable group_key and display_name vocabulary
+- must reject invalid entity references and remove stale group members deterministically
+- runtime must consume persisted group mappings; service updates must not depend on runtime category discovery
 
 ---
 
@@ -362,6 +366,64 @@ rules:
 
 ---
 
+## concierge.update_alarm_authority
+
+Updates person-level alarm control grants.
+
+input:
+  person_id:
+  alarm_control:
+    allowed:
+    allowed_actions:
+    disarm_allowed:
+    requires_voice_attribution:
+    requires_step_up_for_disarm:
+
+rules:
+
+- must validate person_id exists
+- must validate grants against global alarm policy
+- must write audit metadata for grant changes
+- must reject disarm grant when global policy forbids disarm control
+
+---
+
+## concierge.control_alarm
+
+Executes a protected alarm action through policy and authorization checks.
+
+input:
+  action:
+  target_entity_id:
+  auth_context:
+    person_id:
+    voice_attribution_confidence:
+    step_up_verified:
+    mobile_confirmation_id:
+    mobile_confirmation_verified:
+    source:
+
+output:
+  applied:
+  denied_reason:
+  pending_confirmation:
+  confirmation_id:
+  confirmation_expires_at:
+  audit_id:
+
+rules:
+
+- must require global alarm provider enablement
+- must require resolved person authorization for requested action
+- voice attribution alone must not authorize disarm
+- when disarm_step_up_required is true, must require step_up_verified
+- when disarm_step_up_mode is app_confirmation, must require verified mobile confirmation before disarm
+- app confirmation should target the authorized person's registered Home Assistant mobile device(s)
+- if confirmation expires or fails, action must be denied and audited
+- must produce auditable allow or deny outcomes
+
+---
+
 ## concierge.update_global_policy
 
 Updates concierge-wide policy.
@@ -376,6 +438,48 @@ rules:
 - quiet-hours policy is concierge-wide default
 - room posture may increase suppression at room scope
 - updates must validate policy consistency before persisting
+
+---
+
+## concierge.update_person_profile
+
+Updates person profile configuration.
+
+input:
+  person_id:
+  linked_area_id:
+  ble_device_ids:
+  aqara_presence_entity_ids:
+  voice_profile_id:
+  interaction_targets:
+  household_classification:
+  minor_interaction_policy:
+
+rules:
+
+- must validate person_id exists
+- must validate linked interaction targets map to known mobile notify targets
+- must enforce minor policy constraints deterministically
+- when AI capability is unavailable, AI-dependent person policy fields must normalize to safe defaults
+- when TTS capability is unavailable, mobile voice endpoint usage must be disabled
+- capability normalization must not silently invent person data
+
+---
+
+## concierge.start_voice_enrollment
+
+Starts explicit person voice enrollment.
+
+input:
+  person_id:
+  consent_acknowledged:
+
+rules:
+
+- must require explicit consent acknowledgment
+- must require voice enrollment capability to be enabled by global options
+- must reject start requests when archive destination or archive enablement policy is not valid
+- enrollment state persistence may remain intact when capability is disabled; runtime actions are gated by capability
 
 ---
 
@@ -440,6 +544,67 @@ rules:
 
 ---
 
+## concierge.update_news_sources
+
+Updates global news feed inclusion and curation policy.
+
+input:
+  provider_type:
+  provider_id:
+  selected_feed_ids:
+  include_topics:
+  exclude_topics:
+  max_headlines_per_digest:
+  freshness_window_minutes:
+  dedupe_window_hours:
+  source_priority_map:
+  ai_summary_enabled:
+
+output:
+  applied:
+  rejected_feed_ids:
+
+rules:
+
+- must validate selected feeds against discovered provider feeds
+- must reject unsupported or unavailable providers
+- must apply atomically
+- must not mutate provider-side configuration
+
+---
+
+## concierge.get_news_digest
+
+Returns curated news digest output for a request profile.
+
+input:
+  profile:
+  area_id:
+  person_id:
+  delivery_channel:
+  delivery_target_id:
+  max_items:
+
+output:
+  headlines:
+  speakable:
+  dashboard_payload:
+  mobile_payload:
+  generated_at:
+
+rules:
+
+- must use deterministic dedupe and scoring
+- must only include configured and enabled feeds
+- must remain within freshness window
+- must return empty digest explicitly when no eligible items exist
+- when area_id resolves to a room with dashboard targets, must return a dashboard_payload variant suitable for UI projection
+- when area_id resolves to a room or person with phone targets, must return a mobile_payload variant suitable for Home Assistant mobile push delivery
+- when person_id is provided, delivery_target_id must be one of that person's enabled mobile_app_targets
+- if delivery_target_id is omitted and person_id is provided, Concierge may use that person's preferred_read_later_target when valid
+
+---
+
 ## concierge.get_summary
 
 Returns a combined summary.
@@ -456,6 +621,168 @@ rules:
 
 - may use AI for summarization (if allowed)
 - must remain grounded in real data
+
+---
+
+## concierge.resolve_mobile_context
+
+Resolves person and room context for mobile voice or typed requests.
+
+input:
+  mobile_target_id:
+  person_id:
+  request_text:
+
+output:
+  resolved_person_id:
+  person_confidence:
+  resolved_area_id:
+  room_confidence:
+  attribution_factors:
+  clarification_required:
+
+rules:
+
+- must fuse person-linked mobile device identity with available presence context
+- must expose room confidence explicitly
+- when room_confidence is low, must set clarification_required true
+
+---
+
+## concierge.get_room_art_summary
+
+Returns room-aware art inventory and descriptions for an identified person.
+
+input:
+  area_id:
+  person_id:
+  detail_level:
+  include_descriptions:
+
+output:
+  area_id:
+  room_name:
+  artworks:
+  speakable:
+
+rules:
+
+- must return art inventory grounded in configured room and asset data
+- must not fabricate unknown artwork attributes
+- person context may tune verbosity and detail level only
+- when area_id is unresolved and room confidence is low, must require clarification instead of guessing
+
+---
+
+# 6. AUDIT SERVICES
+
+---
+
+## Purpose
+
+Provide stitched orchestration auditability without duplicating full upstream logs.
+
+---
+
+## concierge.record_activity_event
+
+Appends a Concierge orchestration activity event.
+
+input:
+  activity_id:
+  correlation_id:
+  started_at:
+  channel:
+  actor_class:
+  intent_class:
+  request_summary:
+  resolved_person_id:
+  resolved_area_id:
+  confidence:
+  external_refs:
+
+output:
+  recorded:
+
+rules:
+
+- must be append-only
+- must store orchestration metadata and references, not full duplicated source logs
+- external_refs must support voice, service context, automation trace, and notification IDs when available
+- for actor_class=guest, intent_class and outcome fields must be retained even when request_summary is minimized
+- for actor_class=minor, intent_class and outcome fields must be retained and request_summary should be minimized by default
+
+---
+
+## concierge.close_activity_outcome
+
+Closes a previously recorded activity with final outcome.
+
+input:
+  activity_id:
+  ended_at:
+  outcome:
+  outcome_reason:
+  actions_taken:
+  policy_gates:
+
+output:
+  closed:
+
+rules:
+
+- outcome is required for every closed activity
+- must capture success, partial, denied, failed, or canceled
+- must include denial/failure reason codes when applicable
+
+---
+
+## concierge.get_activity_timeline
+
+Returns activities for a requested time window.
+
+input:
+  start:
+  end:
+  actor_class:
+  person_id:
+  area_id:
+  channel:
+
+output:
+  activities:
+
+rules:
+
+- results must be chronologically ordered
+- each item must include outcome and stitched external references
+- queries such as "what activities did you facilitate yesterday" must be supported through this timeline model
+- guest timeline entries must be readable without requiring person identity resolution
+- minor timeline entries should omit unnecessary free-text detail unless explicitly permitted by policy
+
+---
+
+## concierge.export_activity_archive
+
+Exports a self-contained readable archive package for offline retention.
+
+input:
+  start:
+  end:
+  destination:
+  include_reference_excerpts:
+
+output:
+  archive_uri:
+  item_count:
+  generated_at:
+
+rules:
+
+- exported archive must be readable without live access to source integrations
+- package should include concise normalized excerpts and stitched references required for reconstruction
+- package must not duplicate full raw logs unless explicitly required by policy
+- archive must be immutable and retention-policy governed
 
 ---
 

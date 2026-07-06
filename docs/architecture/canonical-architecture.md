@@ -44,6 +44,10 @@ Key terms:
 - Interaction Space: the active room or merged area where interaction is happening
 - Local-first: keep identity and voice data inside the home network by default
 
+Authoritative sub-architecture references:
+
+- [docs/architecture/news-context-and-briefing-architecture.md](news-context-and-briefing-architecture.md)
+
 ---
 
 ## Platform Development Standards
@@ -70,6 +74,13 @@ Before introducing any new logic or pattern:
 
 - the implementation must be checked against Home Assistant best practices
 - custom patterns must not replace native patterns without justification
+
+Area and room source-of-truth rule:
+
+- Home Assistant Area registry is authoritative for room definitions.
+- Concierge and related integrations must project from Areas and extend them by `area_id`.
+- Implementations must not introduce a parallel room-definition datastore that can drift from Home Assistant Areas.
+- Area add/remove operations in Home Assistant must be reflected automatically in Concierge room views.
 
 ---
 
@@ -362,6 +373,13 @@ External or network-connected storage is required for:
 - media files
 - large exports
 - historical archives beyond bounded limits
+
+Federated audit archive pattern:
+
+- keep native integration logs in their original systems as source-of-truth
+- maintain a stitched activity index that references those native records
+- when exporting offline archives, produce self-contained readable packages that include normalized summaries, outcomes, and key references
+- avoid full raw-log duplication unless explicitly required by policy or legal/compliance need
 
 Supported storage may include:
 
