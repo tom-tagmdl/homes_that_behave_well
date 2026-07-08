@@ -57,6 +57,58 @@ Authoritative sub-architecture references:
 
 ---
 
+## Voice Enrollment Architecture Reference
+
+This section defines the implementation governance map for Concierge voice enrollment.
+
+### Document Index And Reading Guide
+
+| Document | Purpose | Authority Level | When To Read | Decisions Governed |
+|---|---|---|---|---|
+| [docs/architecture/adr-voice-profile-enrollment-architecture.md](adr-voice-profile-enrollment-architecture.md) | Records accepted architecture and rejected alternatives | Highest for enrollment scope | First, before planning or coding | Non-negotiable boundaries and defaults |
+| [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md) | Canonical end-to-end enrollment architecture | Primary architecture authority | Immediately after ADR | Provider model, scope, authority boundaries |
+| [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md) | Domain ownership and responsibilities | Primary model authority | Before module design | Session, cleanup, storage, provider ownership |
+| [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md) | Privacy and data handling policy | Policy authority | Before storage/diagnostics/repairs work | Data classification, consent, retention, telemetry bounds |
+| [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md) | Lifecycle states and transition rules | Lifecycle authority | Before orchestration work | Transition validity, cleanup-gated terminal behavior |
+| [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md) | Storage and cleanup architecture | Storage and cleanup authority | Before storage or cleanup design | External storage rules, manifest lifecycle, idempotent cleanup |
+| [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md) | Profile output lifecycle boundaries | Profile lifecycle authority | Before profile operations work | Create, replace, revoke, delete boundaries |
+| [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) | Reusable temporary-artifact pattern | Pattern authority | Before cleanup and reconciliation implementation | Create-track-process-commit-cleanup-verify pattern compliance |
+| [docs/architecture/implementation-verification-checklist.md](implementation-verification-checklist.md) | Pre-coding verification gate | Readiness authority | Before first code change and before phase exits | Repo fact checks and risk controls |
+| [docs/architecture/voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md) | Phased implementation sequencing | Planning authority | After architecture alignment is complete | Execution phases and phase exit criteria |
+
+### Authoritative Reading Order
+
+1. [docs/architecture/adr-voice-profile-enrollment-architecture.md](adr-voice-profile-enrollment-architecture.md)
+2. [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
+3. [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md)
+4. [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
+5. [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
+6. [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
+7. [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md)
+8. [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md)
+9. [docs/architecture/implementation-verification-checklist.md](implementation-verification-checklist.md)
+10. [docs/architecture/voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md)
+
+### Source Of Truth Hierarchy
+
+ADR
+  -> Architecture
+  -> Contracts
+  -> Models
+  -> Patterns
+  -> Implementation
+
+Conflict resolution rules:
+
+- ADR wins over all lower layers.
+- Architecture wins over contracts, models, and patterns when ADR is silent.
+- Contracts cannot violate architecture or policy.
+- Models cannot violate architecture or policy.
+- Patterns guide implementation shape but cannot weaken governance rules.
+- Existing implementation behavior does not override authoritative documentation.
+
+---
+
 ## Platform Development Standards
 
 All integrations and components in this system must follow strict development standards.
