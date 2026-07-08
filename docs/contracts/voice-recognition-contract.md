@@ -35,6 +35,12 @@ This contract applies to:
 
 This contract does not define authentication or access control.
 
+This contract should be read with the canonical enrollment architecture set:
+
+- [../architecture/voice-profile-enrollment-architecture.md](../architecture/voice-profile-enrollment-architecture.md)
+- [../architecture/voice-enrollment-lifecycle-and-state-machine.md](../architecture/voice-enrollment-lifecycle-and-state-machine.md)
+- [../architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](../architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md)
+
 ---
 
 ## Required Inputs
@@ -110,6 +116,8 @@ Enrollment must be:
 - auditable
 
 Enrollment must support delete and reset operations.
+
+Enrollment recordings are temporary processing artifacts only and must follow external-storage-only and mandatory-cleanup policy.
 
 ---
 

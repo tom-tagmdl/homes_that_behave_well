@@ -80,6 +80,11 @@ Rules:
 - raw audio must be minimized or discarded after processing when possible
 - retention must be bounded and explainable
 
+For enrollment recordings specifically, default retention is zero and external storage is mandatory:
+
+- [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
+- [voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
+
 ---
 
 ## Consent And Transparency Policy

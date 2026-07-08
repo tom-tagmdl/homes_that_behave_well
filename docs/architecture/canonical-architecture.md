@@ -47,6 +47,13 @@ Key terms:
 Authoritative sub-architecture references:
 
 - [docs/architecture/news-context-and-briefing-architecture.md](news-context-and-briefing-architecture.md)
+- [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
+- [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
+- [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
+- [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
+- [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md)
+- [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md)
+- [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md)
 
 ---
 

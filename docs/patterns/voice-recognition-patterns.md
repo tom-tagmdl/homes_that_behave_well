@@ -137,3 +137,7 @@ If the system is unsure who is speaking:
 ## Final Principle
 
 Voice recognition should make Concierge feel attentive and personal while preserving calm, predictability, and trust.
+
+Enrollment temporary artifact handling should follow:
+
+- [temporary-artifact-lifecycle-pattern.md](temporary-artifact-lifecycle-pattern.md)

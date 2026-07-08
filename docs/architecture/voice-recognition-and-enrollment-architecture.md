@@ -16,6 +16,12 @@ This is a Concierge sub-project and must remain aligned with Homes That Behave W
 
 Local-first handling is the default and is governed by the voice identity trust and data residency policy.
 
+For the finalized implementation-ready enrollment architecture, use:
+
+- [voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
+- [voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
+- [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
+
 ---
 
 ## Core Principle
@@ -136,6 +142,10 @@ Learning mode must be understandable and reversible.
 5. confidence is stored
 6. corrections update the profile over time
 
+Enrollment lifecycle details, terminal cleanup gating, and startup reconciliation requirements are defined in:
+
+- [voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
+
 ---
 
 ## Runtime Rules
@@ -164,6 +174,10 @@ Requirements:
 Voice samples and voice profiles should remain inside the home network by default.
 
 Raw audio handling must be documented and minimized.
+
+Raw enrollment recordings are temporary processing artifacts and should follow the default zero-retention architecture in:
+
+- [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
 
 ---
 

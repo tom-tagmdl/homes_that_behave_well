@@ -196,3 +196,9 @@ Rules:
 ## Final Principle
 
 Person-aware behavior should reduce friction and increase comfort while keeping Concierge deterministic, transparent, and trustworthy.
+
+For voice enrollment lifecycle, cleanup, and retention rules, see:
+
+- [../architecture/voice-profile-enrollment-architecture.md](../architecture/voice-profile-enrollment-architecture.md)
+- [../architecture/voice-enrollment-lifecycle-and-state-machine.md](../architecture/voice-enrollment-lifecycle-and-state-machine.md)
+- [../architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](../architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md)

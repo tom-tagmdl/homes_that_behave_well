@@ -16,6 +16,8 @@ It does not authenticate access.
 
 It contributes to likely speaker attribution.
 
+Raw enrollment recordings are temporary artifacts and are not part of the durable voice profile model.
+
 ---
 
 ## Voice Profile Structure
@@ -122,3 +124,8 @@ voice_adjustment:
 ## Final Principle
 
 The voice profile model should help Concierge recognize the speaker while remaining bounded, revocable, and explainable.
+
+See also:
+
+- [../architecture/voice-profile-lifecycle-management.md](../architecture/voice-profile-lifecycle-management.md)
+- [voice-enrollment-domain-model.md](voice-enrollment-domain-model.md)

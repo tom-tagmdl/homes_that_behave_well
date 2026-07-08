@@ -16,6 +16,24 @@ Identity may improve interaction quality, but it must never become hidden survei
 
 ---
 
+## Voice Enrollment Reference Map
+
+Use this map to keep voice enrollment architecture decisions coherent across documents.
+
+| Aspect | Authoritative Document |
+|---|---|
+| End-to-end enrollment architecture | [voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md) |
+| Enrollment lifecycle states and transitions | [voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md) |
+| Storage, cleanup, retention rules | [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md) |
+| Privacy and data handling policy | [voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md) |
+| Domain responsibilities and ownership | [../models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md) |
+| Voice profile output lifecycle | [voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md) |
+| Reusable temporary-artifact pattern | [../patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) |
+| Implementation sequencing | [voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md) |
+| Pre-coding verification gate | [implementation-verification-checklist.md](implementation-verification-checklist.md) |
+
+---
+
 ## Data Residency Matrix
 
 The default is local-only.

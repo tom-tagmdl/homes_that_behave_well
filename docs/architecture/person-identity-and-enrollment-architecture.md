@@ -58,6 +58,13 @@ Workstreams:
 
 Sub-project outputs must be auditable and aligned with Homes That Behave Well principles.
 
+Voice profile enrollment within this sub-project must follow the canonical architecture set:
+
+- [voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
+- [voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
+- [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
+- [voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
+
 ---
 
 ## Relationship To Existing Work
@@ -242,6 +249,10 @@ Requirements:
 - bounded data usage for Concierge only
 
 Any voice sample handling must be transparent and revocable.
+
+Voice enrollment recordings must be temporary artifacts only, with mandatory cleanup and zero default retention, as defined in:
+
+- [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
 
 ---
 
