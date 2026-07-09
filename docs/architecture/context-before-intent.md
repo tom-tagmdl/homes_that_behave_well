@@ -78,10 +78,11 @@ Foundation owns facts and state about the physical home.
 - Merged Spaces (logical groupings of rooms)
 - Presence (who is home)
 - Occupancy (who is where)
-- Identity (who is speaking)
 - Adjacency (which rooms connect)
 - Device Membership (which devices belong to which rooms)
 - Space Membership (which rooms compose which spaces)
+
+Voice Identity contributes identity attribution context as an optional peer service.
 
 **Foundation room-source rule:**
 
@@ -128,6 +129,8 @@ Concierge Coordinator is the decision-making engine at runtime.
 
 It consumes Foundation state and derives interaction context in real time.
 
+It may consume Voice Identity attribution outputs when available.
+
 **Coordinator answers:** "What should happen?"
 
 **Coordinator responsibilities include:**
@@ -138,10 +141,15 @@ It consumes Foundation state and derives interaction context in real time.
 - **Response Routing** — Routes responses to appropriate speakers or interfaces
 - **Notification Routing** — Determines which room receives alerts and notifications
 - **Persona Application** — Applies room-specific behavior and preferences
+- **Identity Context Fusion** — Fuses person, presence, and optional Voice Identity confidence
 - **Media Ducking** — Manages audio priority across rooms
 - **Learning and Adaptation** — Stores correction signals and improves future context resolution
 
 **Core principle:** Coordinator is stateful and decision-focused, not data-focused.
+
+Boundary rule:
+
+- Coordinator consumes identity outputs and must not own fingerprint generation or attribution model internals.
 
 ---
 
@@ -183,7 +191,7 @@ Interaction Space is derived using:
 - Wake word detections (microphone locations)
 - Occupancy patterns (presence distribution)
 - Presence signals (person identity and location)
-- Identity (who is speaking)
+- Voice Identity attribution confidence when available
 - Historical behavior (user patterns in specific rooms)
 
 #### Behavior

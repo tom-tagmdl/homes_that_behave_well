@@ -10,6 +10,7 @@ It governs the shared rules and contracts used across:
 
 - Asset Intelligence
 - Concierge
+- Voice Identity
 - Future platform integrations such as security, energy, presence, and additional intelligence layers
 
 ---
@@ -54,9 +55,32 @@ The platform is built from independent integrations with strict responsibilities
 
 | Component | Responsibility |
 |------|----------------|
-| Asset Intelligence | System of record, environmental evaluation, validation, persistence, advisories |
-| Concierge | Orchestration, interaction, communication, room-aware context delivery, capability routing |
+| Foundation | Source-of-truth platform facts for rooms, spaces, devices, presence, occupancy, and environmental state |
+| Asset Intelligence | Asset domain intelligence, constraints, risk, and care guidance |
+| Voice Identity | Speaker fingerprint lifecycle, identity attribution contracts, confidence outputs |
+| Concierge | Context engine, orchestration, coordinator policy, and user-facing interaction routing |
 | Homes That Behave Well | Platform philosophy, architecture, contracts, models, patterns, governance |
+
+Platform responsibility model:
+
+- Foundation -> What is true?
+- Asset Intelligence -> What matters?
+- Voice Identity -> Who is interacting?
+- Concierge -> What should happen?
+
+Conceptual platform view:
+
+```mermaid
+flowchart TD
+	F[Foundation\nWhat is true?]
+	A[Asset Intelligence\nWhat matters?]
+	V[Voice Identity\nWho is interacting?]
+	C[Concierge\nWhat should happen?]
+
+	F --> C
+	A --> C
+	V --> C
+```
 
 ---
 
@@ -70,6 +94,7 @@ Homes in this platform must be:
 - Deterministic: execution paths are defined in advance
 - Local-first: Home Assistant-native capability is preferred whenever possible
 - Progressively intelligent: new integrations extend understanding without increasing chaos
+- Identity before authorization: permissions require identity context before policy application
 
 ---
 
@@ -133,6 +158,7 @@ Suggested entry points:
 - [docs/architecture/concierge-runtime-architecture.md](docs/architecture/concierge-runtime-architecture.md)
 - [docs/architecture/person-identity-and-enrollment-architecture.md](docs/architecture/person-identity-and-enrollment-architecture.md)
 - [docs/architecture/voice-recognition-and-enrollment-architecture.md](docs/architecture/voice-recognition-and-enrollment-architecture.md)
+- [docs/architecture/adr-voice-identity-platform-service.md](docs/architecture/adr-voice-identity-platform-service.md)
 - [docs/architecture/voice-identity-trust-and-data-residency-policy.md](docs/architecture/voice-identity-trust-and-data-residency-policy.md)
 - [docs/architecture/identity-governance-reference.md](docs/architecture/identity-governance-reference.md)
 - [docs/contracts/concierge-contract.md](docs/contracts/concierge-contract.md)

@@ -416,16 +416,20 @@ flowchart TB
 
   ## Person Identity Sub-Project Integration
 
-  Person identity and enrollment are defined as a dedicated Concierge sub-project.
+  Person identity and enrollment are coordinated by Concierge and backed by Voice Identity as a peer platform service.
 
   The sub-project is documented in person-identity-and-enrollment-architecture.md and linked contract, model, and pattern documents.
 
   Runtime integration goals:
 
-  - determine likely speaker with explainable confidence
+  - consume likely speaker attribution with explainable confidence
   - apply person-aware interaction style when confidence is sufficient
   - preserve deterministic action resolution using room and space scope
   - support explicit opt-in enrollment and revocation paths
+
+  Boundary rule:
+
+  - Concierge consumes identity outputs and does not own fingerprint model internals or attribution algorithms
 
   Setup integration goals:
 
@@ -433,6 +437,10 @@ flowchart TB
   - represent people in people tiles similar to room tiles
   - allow preference setup before optional voice learning mode is enabled
   - support later updates through conversational learning and UI controls
+
+  Optional capability requirement:
+
+  - Concierge remains fully functional when Voice Identity is unavailable
 
   ---
 

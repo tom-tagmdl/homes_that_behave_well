@@ -22,6 +22,7 @@ Use this map to keep voice enrollment architecture decisions coherent across doc
 
 | Aspect | Authoritative Document |
 |---|---|
+| Platform boundary for identity service ownership | [adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md) |
 | End-to-end enrollment architecture | [voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md) |
 | Enrollment lifecycle states and transitions | [voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md) |
 | Storage, cleanup, retention rules | [voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md) |
@@ -248,9 +249,9 @@ Rules:
 
 ## Terminology Glossary
 
-- Identity Context: the current person-aware context used by Concierge
+- Identity Context: the current person-aware context fused by Concierge from person/presence signals and optional Voice Identity attribution outputs
 - Person Profile: the Home Assistant-person-based preference record for style and behavior
-- Voice Profile: the enrolled speaker record used for speaker attribution
+- Voice Profile: the enrolled speaker record and fingerprint reference managed through Voice Identity outputs
 - Speaker Attribution Snapshot: the runtime match result for a speech event
 - Interaction Style Context: the current delivery style chosen for the active person
 - Listening Area: the arbitration area used to decide which assistant should respond

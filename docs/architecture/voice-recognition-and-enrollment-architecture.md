@@ -12,7 +12,9 @@ It establishes the architecture for:
 - opt-in learning mode
 - interaction style adaptation based on likely speaker
 
-This is a Concierge sub-project and must remain aligned with Homes That Behave Well principles.
+Voice Identity is a peer HTBW platform service consumed by Concierge.
+
+Concierge remains the context and coordinator engine and must remain aligned with Homes That Behave Well principles.
 
 Local-first handling is the default and is governed by the voice identity trust and data residency policy.
 
@@ -36,11 +38,13 @@ It must not become a hidden authentication system or a source of truth that over
 
 ## Why This Sub-Project Exists
 
+This architecture exists to define boundaries and integration for voice identity capability.
+
 Home Assistant today is strong at wake words, transcription, and intent routing.
 
 It does not provide mature, mainstream, plug-and-play per-person speaker enrollment and matching as a first-class native feature.
 
-Concierge needs a controlled voice identity layer to improve:
+Concierge needs a controlled voice identity capability to improve:
 
 - greeting personalization
 - responder election
@@ -77,7 +81,7 @@ Enrollment may begin from the people setup flow and continue later through a ded
 
 Enrollment outputs:
 
-- voice profile
+- fingerprint artifact reference
 - enrollment confidence
 - sample metadata
 - consent state
@@ -99,6 +103,8 @@ Matching output should include:
 
 Matching must remain explainable and bounded by policy.
 
+This engine belongs to Voice Identity.
+
 ---
 
 ### Voice Recognition Fusion
@@ -114,6 +120,8 @@ Inputs may include:
 - room posture and activity
 
 Fusion should produce one effective identity context.
+
+Fusion and policy decisions belong to Concierge Coordinator.
 
 ---
 
@@ -157,6 +165,10 @@ Voice recognition must:
 - preserve room-first resolution
 - preserve multi-assistant arbitration rules
 - never bypass safety confirmation policy
+
+Voice Identity capability is optional.
+
+When unavailable, Concierge must gracefully degrade to neutral identity behavior while preserving deterministic execution.
 
 ---
 

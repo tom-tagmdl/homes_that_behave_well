@@ -4,6 +4,8 @@
 
 This document defines the canonical Homes That Behave Well architecture for Concierge voice profile enrollment before implementation.
 
+Voice Identity is the peer service that owns fingerprint generation and attribution internals consumed by Concierge enrollment workflows.
+
 It establishes the source-of-truth decisions for:
 
 - enrollment capture providers
@@ -93,7 +95,7 @@ The architecture separates concerns into interchangeable providers:
 
 - capture provider: obtains enrollment samples
 - storage provider: persists temporary session artifacts externally
-- enrollment engine: validates quality, builds embeddings and profiles, persists profile outputs
+- enrollment engine (Voice Identity): validates quality, builds embeddings and profiles, persists profile outputs
 
 Rationale:
 
@@ -111,6 +113,8 @@ The enrollment engine is the only authority for:
 - profile update and replacement policy
 
 Capture and storage providers must not own profile decision logic.
+
+Concierge orchestrates enrollment lifecycle and consumes enrollment outputs, but does not own fingerprint model internals.
 
 ---
 
@@ -221,7 +225,7 @@ This architecture supports future additions without changing enrollment engine a
 
 This architecture does not change:
 
-- runtime speaker recognition behavior
+- runtime speaker recognition behavior ownership (Voice Identity remains the attribution engine authority)
 - room context logic
 - conversation routing logic
 - preference resolution logic

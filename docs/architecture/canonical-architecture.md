@@ -25,6 +25,50 @@ No layer may take on the responsibility of another.
 
 ---
 
+## Platform Responsibility Model
+
+Homes That Behave Well operates as a multi-repository platform with peer services.
+
+| Platform Service | Owns | Answers |
+|---|---|---|
+| Foundation | rooms, spaces, devices, presence, occupancy, environmental state, source-of-truth platform facts | What is true? |
+| Asset Intelligence | assets, metadata, constraints, protection rules, care intelligence, asset risk/care summaries | What matters? |
+| Voice Identity | fingerprint generation, fingerprint artifacts and references, quality, model/version metadata, runtime attribution outputs | Who is interacting? |
+| Concierge | people configuration, permissions, room and conversation context, coordinator, intent and response routing, UX | What should happen? |
+
+Conceptual platform diagram:
+
+```mermaid
+flowchart TD
+  F[Foundation\nWhat is true?]
+  A[Asset Intelligence\nWhat matters?]
+  V[Voice Identity\nWho is interacting?]
+  C[Concierge\nWhat should happen?]
+
+  F --> C
+  A --> C
+  V --> C
+```
+
+Interaction and enrollment flows:
+
+```mermaid
+flowchart TD
+  I[Voice Assistant / Browser / Satellite] --> VI[Voice Identity]
+  VI --> RP[Resolved Person + Confidence]
+  RP --> CC[Concierge Coordinator]
+  CC --> PCI[Permissions + Context + Intent]
+  PCI --> ACT[Action]
+
+  CAP[Browser or Satellite Capture] --> CEW[Concierge Enrollment Workflow]
+  CEW --> VIFG[Voice Identity Fingerprint Generation]
+  VIFG --> FAR[Fingerprint Artifact Reference]
+  FAR --> VPM[Concierge VoiceProfile Metadata]
+  VPM --> CLN[Temporary Recording Cleanup]
+```
+
+---
+
 ## Shared Identity Vocabulary
 
 Identity and voice terms must be used consistently across the platform.
@@ -32,6 +76,7 @@ Identity and voice terms must be used consistently across the platform.
 Authoritative reference:
 
 - [docs/architecture/identity-governance-reference.md](identity-governance-reference.md)
+- [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md)
 
 Key terms:
 
@@ -47,6 +92,7 @@ Key terms:
 Authoritative sub-architecture references:
 
 - [docs/architecture/news-context-and-briefing-architecture.md](news-context-and-briefing-architecture.md)
+- [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md)
 - [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
 - [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
 - [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
@@ -59,12 +105,13 @@ Authoritative sub-architecture references:
 
 ## Voice Enrollment Architecture Reference
 
-This section defines the implementation governance map for Concierge voice enrollment.
+This section defines the implementation governance map for Concierge enrollment orchestration and Voice Identity fingerprint lifecycle integration.
 
 ### Document Index And Reading Guide
 
 | Document | Purpose | Authority Level | When To Read | Decisions Governed |
 |---|---|---|---|---|
+| [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md) | Records platform boundary for Voice Identity as a peer service | Highest for cross-service identity scope | First for identity/enrollment architecture work | Identity ownership boundaries and integration responsibilities |
 | [docs/architecture/adr-voice-profile-enrollment-architecture.md](adr-voice-profile-enrollment-architecture.md) | Records accepted architecture and rejected alternatives | Highest for enrollment scope | First, before planning or coding | Non-negotiable boundaries and defaults |
 | [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md) | Canonical end-to-end enrollment architecture | Primary architecture authority | Immediately after ADR | Provider model, scope, authority boundaries |
 | [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md) | Domain ownership and responsibilities | Primary model authority | Before module design | Session, cleanup, storage, provider ownership |
@@ -79,15 +126,16 @@ This section defines the implementation governance map for Concierge voice enrol
 ### Authoritative Reading Order
 
 1. [docs/architecture/adr-voice-profile-enrollment-architecture.md](adr-voice-profile-enrollment-architecture.md)
-2. [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
-3. [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md)
-4. [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
-5. [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
-6. [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
-7. [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md)
-8. [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md)
-9. [docs/architecture/implementation-verification-checklist.md](implementation-verification-checklist.md)
-10. [docs/architecture/voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md)
+2. [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md)
+3. [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
+4. [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md)
+5. [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
+6. [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
+7. [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
+8. [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md)
+9. [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md)
+10. [docs/architecture/implementation-verification-checklist.md](implementation-verification-checklist.md)
+11. [docs/architecture/voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md)
 
 ### Source Of Truth Hierarchy
 

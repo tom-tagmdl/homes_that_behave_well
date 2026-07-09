@@ -11,7 +11,9 @@ It establishes how the system:
 - supports explicit opt-in enrollment
 - improves attribution and style over time
 
-This architecture is a sub-project of Concierge and must remain aligned with Homes That Behave Well principles.
+Voice Identity is a peer HTBW platform service that provides fingerprint and attribution capability consumed by Concierge.
+
+This architecture defines Concierge orchestration and policy integration boundaries and must remain aligned with Homes That Behave Well principles.
 
 Voice identity and person identity are local-first by default and governed by the voice identity trust and data residency policy.
 
@@ -57,6 +59,11 @@ Workstreams:
 - multi-assistant responder election improvements
 
 Sub-project outputs must be auditable and aligned with Homes That Behave Well principles.
+
+Boundary rule:
+
+- Concierge owns context fusion and coordinator policy.
+- Voice Identity owns fingerprint generation and attribution engine internals.
 
 Voice profile enrollment within this sub-project must follow the canonical architecture set:
 
@@ -127,11 +134,15 @@ Speaker attribution produces:
 - confidence
 - attribution factors
 
+Attribution capability is provided by Voice Identity when available.
+
 Speaker attribution is a context signal.
 
 It is not an authentication boundary.
 
 Low-confidence attribution must degrade to neutral interaction style.
+
+Concierge must remain functional when attribution capability is unavailable.
 
 ---
 
