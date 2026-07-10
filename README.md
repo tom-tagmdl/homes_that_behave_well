@@ -161,6 +161,8 @@ Suggested entry points:
 - [docs/architecture/adr-voice-identity-platform-service.md](docs/architecture/adr-voice-identity-platform-service.md)
 - [docs/architecture/voice-identity-trust-and-data-residency-policy.md](docs/architecture/voice-identity-trust-and-data-residency-policy.md)
 - [docs/architecture/identity-governance-reference.md](docs/architecture/identity-governance-reference.md)
+- [docs/architecture/platinum-target-checklist.md](docs/architecture/platinum-target-checklist.md)
+- [docs/architecture/voice-identity-gold-gap-checklist.md](docs/architecture/voice-identity-gold-gap-checklist.md)
 - [docs/contracts/concierge-contract.md](docs/contracts/concierge-contract.md)
 - [docs/contracts/person-identity-contract.md](docs/contracts/person-identity-contract.md)
 - [docs/contracts/voice-recognition-contract.md](docs/contracts/voice-recognition-contract.md)

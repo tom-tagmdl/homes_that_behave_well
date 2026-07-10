@@ -293,6 +293,8 @@ If a UI implementation deviates from Home Assistant standards, it must be reject
 
 All integrations must be designed toward Home Assistant Platinum-level quality.
 
+The shared platform checklist lives in [platinum-target-checklist.md](platinum-target-checklist.md).
+
 This includes:
 
 - full config flow support
