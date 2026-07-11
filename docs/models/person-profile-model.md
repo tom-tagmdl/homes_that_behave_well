@@ -4,6 +4,8 @@
 
 The Person Profile Model defines how Concierge stores and resolves person-aware interaction preferences.
 
+This model consumes identity, continuity, affinity, occupancy, and household memory context under governed policy.
+
 This model is for interaction behavior, not authentication.
 
 It may include action authorization grants defined by policy (for example, alarm control permissions), but it does not define the authentication mechanism itself.
@@ -17,6 +19,8 @@ A person profile describes how someone prefers to interact with the home.
 It does not change what is true.
 
 It changes how Concierge communicates and confirms.
+
+It does not redefine identity, continuity, occupancy, provenance, or memory authority.
 
 ---
 
@@ -32,6 +36,48 @@ Rules:
 
 - person_id must map to a valid Home Assistant person entity
 - profile must remain valid if attribution confidence is low by falling back to neutral
+
+## Contract Alignment
+
+This model aligns with:
+
+- Person Identity Contract
+- Person Continuity and Affinity Contract
+- Occupancy and Presence Contract
+- Household Memory Contract
+- Experience Projection Contract
+
+## Boundary Relationships
+
+### Identity Relationship
+
+Voice Identity remains authoritative for attribution and confidence.
+
+This model consumes identity context and does not own identity truth.
+
+### Continuity Relationship
+
+Continuity is external and consumption-only here.
+
+This model may reference continuity inputs for interaction style and restoration support, but it does not define continuity authority.
+
+### Affinity Relationship
+
+Affinity is external and consumption-only here.
+
+This model may reference affinity inputs for behavior adaptation, but it does not define affinity authority.
+
+### Occupancy Relationship
+
+Occupancy and presence remain external.
+
+This model may use occupancy context for conservative defaults, but it does not own occupancy truth.
+
+### Household Memory Relationship
+
+Household memory remains external.
+
+This model may consume memory context for interaction continuity, but it does not own memory authority.
 
 ---
 
@@ -233,3 +279,5 @@ Capability boundary rules:
 ## Final Principle
 
 The person profile model should make interaction feel personalized, respectful, and predictable while staying bounded by room context and system policy.
+
+It must remain consumption-only for identity-linked, continuity-linked, affinity-linked, occupancy-linked, and memory-linked context.

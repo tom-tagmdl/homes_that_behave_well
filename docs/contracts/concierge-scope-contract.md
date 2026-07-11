@@ -160,6 +160,49 @@ Room pages must show inherited defaults and room overrides so effective behavior
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-005 Room Vocabulary Governance Boundaries
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract defines scope boundaries only.
+
+This contract does not transfer governance authority to Coordinator V2.
+
+---
+
+## Ownership Boundary Validation
+
+Scope policy boundaries in this contract preserve:
+
+- Foundation ownership of room, area, and occupancy truth
+- Voice Identity ownership of attribution and confidence
+- Coordinator V2 orchestration-only role under governed scope rules
+
+---
+
+## Terminology Alignment
+
+Canonical scope terminology in this contract:
+
+- Room
+- Area
+- Floor
+- Composite Room
+- Context
+- Scope
+
+Legacy V1 terminology that implied hidden runtime inference is out of scope.
+
+---
+
 ## Final Principle
 
 Concierge must behave as configured, not inferred.

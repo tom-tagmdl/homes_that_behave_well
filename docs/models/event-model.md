@@ -4,6 +4,10 @@
 
 Defines the structure and behavior of system events.
 
+This model is a consumption model for authoritative event history, provenance, occupancy context, and household memory inputs.
+
+Event history remains authoritative.
+
 ---
 ## Event Identity and Traceability
 
@@ -12,6 +16,13 @@ Each event must include:
 - event_id
 - correlation_id
 - source
+
+Optional governance references may include:
+
+- provenance_reference
+- occupancy_reference
+- memory_reference
+- restoration_reference
 
 ---
 
@@ -89,6 +100,13 @@ Each event must include:
 - sequence_in_cycle
 - supporting_data
 
+Optional relationship fields:
+
+- provenance_reference
+- occupancy_reference
+- memory_reference
+- restoration_reference
+
 Ownership fields:
 
 - asset_id (required for asset-scoped events)
@@ -117,6 +135,15 @@ Field format rules:
 ## Event Versioning
 
 All events must include a version identifier.
+
+## Contract Alignment
+
+This model aligns with:
+
+- Household Memory Contract
+- Provenance Contract
+- Occupancy and Presence Contract
+- Experience Restoration Contract
 
 ---
 
@@ -230,6 +257,10 @@ Events support:
 - explanation ("why did this happen")
 - reporting (insurance, audit)
 - system behavior tracking
+
+Events are consumed by household memory and provenance-aware workflows.
+
+Events do not consume memory.
 
 ---
 ## Supporting Data Structure
@@ -381,3 +412,5 @@ This ensures:
 ## Final Principle
 
 Events are the authoritative record of system behavior.
+
+Household memory and provenance consume events; they do not replace them.

@@ -6,6 +6,8 @@ The Signal Model defines the structure used to represent household state in a co
 
 Signals provide normalized, human-consumable representations of real-world conditions that can be used across Concierge, UI, and voice interactions.
 
+This model is a consumption model for signal truth, provenance references, and explainable presentation.
+
 ---
 
 ## Core Structure
@@ -21,6 +23,9 @@ signal:
   summary:
   detail:
   speakable:
+  provenance_reference:
+  occupancy_reference:
+  explainability:
   actions:
 
 ---
@@ -69,6 +74,8 @@ Examples:
 - custom appliance integration
 
 The provider owns all logic and state behind the signal.
+
+The signal model consumes provider truth and does not redefine it.
 
 ---
 
@@ -194,6 +201,15 @@ actions:
 
 Concierge may invoke actions but must not define their behavior.
 
+## Contract Alignment
+
+This model aligns with:
+
+- Capability Projection Contract
+- Occupancy and Presence Contract
+- Provenance Contract
+- Knowledge, Briefing, and Household Status Synthesis Contract
+
 ---
 
 ## Example Signals
@@ -258,6 +274,10 @@ Signals must:
 - Be consistent across UI and voice
 - Be deterministic and repeatable
 
+Signals must remain explainable and provenance-referenceable when contract-authorized.
+
+Signals must not duplicate provenance, occupancy, or occupancy-presence authority.
+
 Signals must not:
 
 - Expose raw entity values directly
@@ -306,3 +326,5 @@ The Signal Model defines how the home expresses what is happening.
 Integrations define the truth.
 
 Concierge delivers that truth to the user in a clear and meaningful way.
+
+The model remains consumption-only for capability, provenance, occupancy, and status synthesis workflows.

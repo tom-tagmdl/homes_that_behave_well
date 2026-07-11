@@ -974,6 +974,65 @@ Capabilities must not:
 
 ---
 
+# V2 GOVERNANCE CONSUMPTION
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-005 Room Vocabulary Governance Boundaries
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-008 Personalization Governance Boundaries
+- ADR-009 Household Memory Governance Boundaries
+- ADR-010 Household Productivity Experience Governance Boundaries
+- ADR-011 Provenance Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+Service contracts define interfaces and validation behavior.
+
+Service contracts do not redefine architecture ownership or governance authority.
+
+---
+
+# OWNERSHIP BOUNDARY VALIDATION
+
+Service boundaries preserve:
+
+- Foundation ownership of room, area, device, and occupancy truth
+- Voice Identity ownership of attribution and confidence
+- Asset Intelligence ownership of significance and environmental interpretation
+- Coordinator V2 orchestration-only role under governed contracts
+
+Service execution must not create ownership drift.
+
+---
+
+# TERMINOLOGY ALIGNMENT
+
+Canonical terminology used in this contract:
+
+- Room
+- Area
+- Floor
+- Composite Room
+- Capability
+- Experience
+- Personalization
+- Household Memory
+- Provenance
+- Occupancy
+- Presence
+- Attribution
+- Confidence
+- Context
+- Scope
+
+Legacy V1 assumptions that allow hidden inference or direct runtime ownership transfer are prohibited.
+
+---
+
 # FINAL PRINCIPLE
 
 Services define how the system is used.

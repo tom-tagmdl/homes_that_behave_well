@@ -4,6 +4,8 @@
 
 The Room Model defines how physical spaces are represented and configured within the system.
 
+This model consumes room governance and preserves Foundation room truth.
+
 A room is the central context that connects:
 
 - environment sensing
@@ -20,6 +22,8 @@ The room defines context.
 
 Everything that happens in the system happens within a room.
 
+Room truth remains externally authoritative.
+
 ---
 
 ## Room Identity
@@ -31,8 +35,19 @@ A room is defined by:
 Rules:
 
 - area_id must match Home Assistant area
-- area_id is the single source of truth for room identity
+- area_id is the authoritative room identity anchor in this model
 - no alternate identifiers may be used
+
+Occupancy, presence, and guest state are referenced separately and are not owned here.
+
+### Contract Alignment
+
+This model aligns with:
+
+- Room Interaction Contract
+- Room Vocabulary Registry Contract
+- Occupancy and Presence Contract
+- Experience Restoration Contract
 
 ---
 
@@ -872,6 +887,29 @@ Provides:
 - physical context
 - environment configuration
 - spatial structure
+
+## Contract Alignment
+
+This model aligns with:
+
+- Room Interaction Contract
+- Room Vocabulary Registry Contract
+- Occupancy and Presence Contract
+- Experience Restoration Contract
+
+### Consumption Boundaries
+
+### Occupancy Relationship
+
+Occupancy and presence are external references.
+
+The room model may consume occupancy-aware context for explanation and routing support, but it does not own occupancy or presence truth.
+
+### Provenance And Explainability Relationship
+
+Room explainability may reference provenance where contract-authorized.
+
+The room model does not own provenance semantics.
 
 ### Signal Model
 

@@ -1,10 +1,10 @@
-# Identity Governance Reference
+﻿# Identity Governance Reference
 
 ## Purpose
 
-This document collects the governance rules that must stay visible as Concierge voice identity and person identity evolve.
+This document records HTBW identity governance constraints used by Concierge and Voice Identity integrations.
 
-It exists to prevent important trust, safety, and lifecycle rules from being lost across architecture, contracts, models, and UI patterns.
+Governance authority remains in HTBW architecture, ADRs, contracts, and models.
 
 ---
 
@@ -12,13 +12,11 @@ It exists to prevent important trust, safety, and lifecycle rules from being los
 
 Identity must remain local-first, explainable, consent-based, and reversible.
 
-Identity may improve interaction quality, but it must never become hidden surveillance or silent cloud dependency.
+Identity context improves orchestration quality but does not replace foundational truth or safety policy.
 
 ---
 
 ## Voice Enrollment Reference Map
-
-Use this map to keep voice enrollment architecture decisions coherent across documents.
 
 | Aspect | Authoritative Document |
 |---|---|
@@ -35,244 +33,182 @@ Use this map to keep voice enrollment architecture decisions coherent across doc
 
 ---
 
+## Service Ownership
+
+- Voice Identity owns attribution confidence outputs and voice profile lifecycle.
+- Concierge consumes identity outputs for orchestration and communication decisions.
+- Foundation remains source of truth for room, area, device, occupancy, and presence facts.
+
+Concierge must not own attribution algorithms or fingerprint lifecycle internals.
+
+---
+
 ## Data Residency Matrix
 
-The default is local-only.
+Default posture is local-first.
 
 | Data / Capability | Default Residency | Cloud Allowed | Notes |
 |---|---|---|---|
 | Voice samples | Local | Exception only | Capture and processing should remain in-home whenever possible. |
-| Speaker embeddings | Local | Exception only | Embeddings are part of identity trust and should not leave the network by default. |
-| Voice profiles | Local | Exception only | Profiles should stay in local storage unless a user explicitly opts into an exception. |
-| Person profiles | Local | No default cloud path | These are home context records and should remain local. |
-| BLE proximity signals | Local | No default cloud path | Used as supporting identity context. |
-| Aqara presence signals | Local | No default cloud path | Used as supporting room/context input. |
-| Confidence history | Local | Exception only | May be exported only if explicitly consented to for diagnostics. |
+| Speaker embeddings | Local | Exception only | Identity trust data should not leave network by default. |
+| Voice profiles | Local | Exception only | Profiles remain local unless explicit opt-in exception. |
+| Person profiles | Local | No default cloud path | Home context records remain local. |
+| Confidence history | Local | Exception only | Export only with explicit consent. |
 | Corrections and learning records | Local | Exception only | Must remain auditable and reversible. |
-| Diagnostics payloads | Local | Optional export | Only if the user explicitly enables diagnostics sharing. |
+| Diagnostics payloads | Local | Optional export | Only when diagnostics sharing is enabled. |
 
 ---
 
-## Consent And Revocation Lifecycle
+## Consent and Revocation Lifecycle
 
-The lifecycle must be explicit and user-visible.
+Required lifecycle:
 
-1. Enrollment requested
-2. Purpose explained in plain language
-3. User grants consent
-4. Samples or device links are captured
-5. Profile is created or updated
-6. Confidence and freshness are stored
-7. User may pause, disable, or revoke at any time
-8. Revocation immediately stops active use
-9. Delete removes the active profile and enrolled data per retention policy
-10. Re-enrollment is allowed later
+1. enrollment requested
+2. purpose explained
+3. consent granted
+4. capture and processing
+5. profile created or updated
+6. confidence and metadata recorded
+7. pause or revoke available at any time
+8. revocation immediately stops active use
+9. explicit delete removes governed artifacts per policy
+10. re-enrollment remains available
 
 Rules:
 
-- revocation must be immediate
-- delete must be explicit
-- pause must be reversible
-- consent must be scoped to purpose
-- no silent enrollment is allowed
+- no silent enrollment
+- revocation is immediate
+- deletion is explicit
+- consent remains scoped and auditable
 
 ---
 
-## Confidence Threshold Policy
+## Confidence Policy
 
-Confidence thresholds determine how Concierge may respond.
+Confidence bands govern personalization and clarification behavior, not ownership or truth mutation.
 
-Suggested operating bands:
+- high confidence: allow direct personalization
+- medium confidence: conservative personalization
+- low confidence: neutral style and deterministic routing
+- very low confidence: concise clarification when necessary
 
-- High confidence: may greet by name and apply person style directly
-- Medium confidence: may apply cautious personalization and conservative responder election
-- Low confidence: use neutral style and preserve deterministic execution
-- Very low confidence: request a concise clarification only when necessary
-
-Thresholds must be visible in policy and tunable over time.
-
-Rules:
-
-- thresholds are for delivery and routing, not truth mutation
-- thresholds must not override room context or safety policy
-- low confidence must never block low-risk deterministic actions
+Low confidence must not block safe, deterministic low-risk actions.
 
 ---
 
 ## Responder Election Policy
 
-When multiple assistants hear the same request, Concierge must select one primary responder.
+Concierge must elect one primary responder when multiple assistants hear the same request.
 
-Election inputs:
+Election inputs may include:
 
-- active interaction space
+- interaction space
 - room proximity
-- likely speaker confidence
-- presence context
+- attribution confidence
+- presence and occupancy
 - conversation ownership
-- room posture and activity
-- recent successful responder history
-
-Tie-breakers:
-
-1. active conversation owner
-2. strongest interaction space confidence
-3. strongest likely speaker confidence
-4. closest room proximity
-5. most recent stable responder in the same conversation
+- posture and activity
 
 Rules:
 
-- select one primary responder only
-- suppress duplicate responses
+- one primary responder
+- suppress duplicates
 - preserve conversation continuity
-- log the reason code for the chosen responder
+- log explainable reason codes
 
 ---
 
-## Learning And Rollback Policy
+## Learning and Rollback Policy
 
-Learning is allowed only when it is bounded and reversible.
+Learning is allowed only when bounded and reversible.
 
-Learning may adjust:
+Allowed adjustments:
 
-- person style preferences
+- personalization style weighting
 - responder weighting
-- speaker attribution confidence
-- room and person signal weights
+- confidence calibration
 
-Learning must not directly rewrite foundational truth.
-
-Rollback requirements:
-
-- every learned update must be reversible
-- every learned update must include a timestamp and trigger
-- users must be able to undo or reset learned changes
-- stale learned behavior must decay over time
+Learning must not rewrite foundational truth or source-of-record ownership.
 
 ---
 
 ## Diagnostics And Explainability Policy
 
-Explainability must be available in both machine and human forms.
+Explainability should be available in:
 
-Machine form:
-
-- confidence values
-- reason codes
-- candidate lists
-- signal factors
-- timestamps
-- source lineage
-
-Human form:
-
-- plain-language explanation
-- concise reason summary
-- no technical jargon unless the user asks for it
+- machine form: confidence values, reason codes, source lineage, timestamps
+- human form: plain-language explanation and concise rationale
 
 Diagnostics should explain:
 
-- why a person was attributed
-- why a room or space was selected
+- why attribution was selected
+- why room or interaction-space context was selected
 - why a responder was elected
-- why a cloud exception was used, if any
+- why a cloud exception path was used when applicable
 
 ---
 
 ## Voice Training Safety Boundary
 
-Voice training may improve attribution and style, but it must not become hidden authentication.
+Voice training may improve attribution quality, but it must not become hidden authentication.
 
 Rules:
 
-- training is opt-in
-- training is revocable
-- training is bounded to Concierge-approved use
-- training must not bypass safety confirmation rules
-- training must not authorize protected actions
-
----
-
-## Modality And Posture Policy
-
-Response modality must account for room posture and quiet-hours policy.
-
-Examples:
-
-- nighttime posture may suppress spoken replies
-- quiet posture may prefer dashboard or visual confirmation
-- active daytime posture may allow short spoken responses
-
-Rules:
-
-- posture overrides style verbosity when needed
-- response modality must preserve calm behavior
-- voice greetings must be suppressed when that reduces disturbance appropriately
+- opt-in only
+- revocable
+- bounded to approved Concierge uses
+- cannot bypass safety confirmations
+- cannot authorize protected actions on its own
 
 ---
 
 ## Cloud Exception Governance
 
-Cloud use is an exception.
+Cloud usage is an explicit exception.
 
-In Concierge setup, selecting OpenAI is an explicit opt-in to a local/cloud hybrid path, not a local-only mode.
+A cloud path may be used only when:
 
-A cloud exception may only occur when:
+- user opt-in is explicit
+- purpose is explained
+- local path cannot satisfy capability
+- scope is bounded and revocable
 
-- the user explicitly opts in
-- the purpose is explained
-- the local system cannot satisfy the function
-- the exception is bounded to the task
-- the user can revoke it later
-
-Cloud exceptions must be visible in UI and diagnostics.
-
-Cloud use must never become the hidden default for identity.
+Cloud use must be visible in setup and diagnostics.
 
 ---
 
 ## Room And Person Setup Separation Rule
 
-The setup experience must keep rooms and people separate at the entry point.
-
-Rules:
-
-- rooms and areas setup is for room/space definitions and device scope
-- people setup is for person profiles, device binding, and voice enrollment
-- the user must explicitly choose the setup path
-- device links for people must be editable from the people path
-- room setup defines device/asset group vocabulary ("what do you call this") with persisted membership
-- runtime resolution must reuse persisted setup mappings and must not infer new room categories
+- rooms-and-areas setup governs room/space definitions and device scope
+- people setup governs person profile, device binding, and voice enrollment
+- runtime must reuse setup-authored mappings and avoid hidden category inference
 
 ---
 
-## Terminology Glossary
+## Compatibility and Versioning Rule
 
-- Identity Context: the current person-aware context fused by Concierge from person/presence signals and optional Voice Identity attribution outputs
-- Person Profile: the Home Assistant-person-based preference record for style and behavior
-- Voice Profile: the enrolled speaker record and fingerprint reference managed through Voice Identity outputs
-- Speaker Attribution Snapshot: the runtime match result for a speech event
-- Interaction Style Context: the current delivery style chosen for the active person
-- Listening Area: the arbitration area used to decide which assistant should respond
-- Interaction Space: the active room or merged area where interaction is happening
-- Local-first: keep identity and voice data inside the home network by default
+Household-facing outcome preservation is required.
+
+Implementation compatibility, API compatibility, and legacy data-model compatibility are not required by default.
+
+When schemas evolve:
+
+- publish explicit versioning
+- preserve deterministic household outcomes
+- avoid hidden migration behavior that violates architecture boundaries
 
 ---
 
-## Migration And Versioning Note
+## Terminology
 
-Identity and voice schemas must be versioned.
-
-Rules:
-
-- schema changes must be backward compatible where practical
-- breaking changes must be documented
-- profile migrations must be reversible when possible
-- legacy voice and person profiles must continue to resolve deterministically until migrated
+- Identity Context: person-aware context consumed by Concierge from governed signals
+- Voice Profile: enrolled speaker profile governed by Voice Identity lifecycle
+- Attribution Snapshot: runtime attribution confidence output
+- Interaction Space: active room or merged-space context for orchestration
+- Local-first: identity data remains local unless explicit cloud exception policy applies
 
 ---
 
 ## Final Principle
 
-The most important rules for identity must remain easy to find: local-first, consent-based, explainable, reversible, and calm.
+Identity governance is architecture-owned by HTBW and runtime-consumed by Concierge. Governance does not move into runtime orchestration.

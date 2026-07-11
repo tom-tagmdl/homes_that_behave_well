@@ -1,350 +1,207 @@
-# System Flow
+﻿# System Flow
 
 ## Purpose
 
-This document describes how data and decisions move through the system during runtime.
+This document defines canonical runtime flow across the HTBW platform.
 
-It defines the flow from:
-
-- sensor input
-- environmental understanding
-- asset evaluation
-- decision making
-- user-facing outcomes
+It preserves model-level rationale while aligning with the four-service architecture and Coordinator V2 constraints.
 
 ---
 
 ## Core Principle
 
-All system behavior follows a consistent, deterministic flow.
+System behavior must be deterministic, explainable, and bounded.
 
-Each step transforms data in a controlled way.
-
-No step may be skipped or merged.
+Concierge orchestrates decisions and execution but does not replace system-of-record ownership.
 
 ---
 
-## High-Level Flow
+## Platform Runtime Flow
 
-The system executes the following flow for each cycle:
-
-Sensor Data → Environment Model → Exposure Model → Evaluation Engine → Coordinator → Store → Entities → Concierge
+```text
+Input -> Foundation Truth -> Asset Significance Context -> Voice Attribution Context -> Coordinator V2 Decisioning -> Governed Service Execution -> Projection and Communication
+```
 
 ---
 
-## Step 1: Sensor Data (Input)
+## Step 1: Input Reception
 
-Source:
+Inputs may originate from:
 
-- Home Assistant entities
-- room configuration (sensor mappings)
-
-Actions:
-
-- read current state of configured sensors
-- detect unavailable or stale values
-
-Output:
-
-- raw sensor values
+- voice
+- UI
+- automation triggers
+- provider events
 
 Rules:
 
-- no interpretation
-- no transformation
-- no persistence
+- all inputs enter one governed execution path
+- no bypass around contracts
 
 ---
 
-## Step 2: Environment Model (Normalization)
+## Step 2: Foundation Truth Retrieval
 
-Input:
-
-- raw sensor data
-- room configuration
-- windows configuration
-
-Actions:
-
-- normalize all sensor values
-- aggregate multiple sensors per signal
-- construct full environment snapshot
-- compute confidence level
-- include windows domain
-
-Output:
-
-- environment snapshot
+Foundation is the source of truth for room, area, device, occupancy, presence, and environmental state.
 
 Rules:
 
-- must always produce valid structure
-- must not evaluate risk
-- must not mutate state
+- foundation truth is consumed, not rewritten by Concierge
+- room and area resolution must not use parallel Concierge-owned registries
 
 ---
 
-## Step 3: Exposure Model (Spatial Interpretation)
+## Step 3: Asset Significance Retrieval
 
-Input:
+Asset Intelligence provides significance, care, and risk outcomes.
 
-- environment snapshot
-- windows (room)
-- asset placement
-- external context (sun position)
+Useful model detail retained:
 
-Actions:
-
-- determine directional alignment
-- compute exposure pathways
-- derive exposure-related values
-
-Output:
-
-- exposure projection
+- environment snapshots and exposure projections can inform significance outcomes
+- advisory outputs may be generated from these evaluations without mutating state
 
 Rules:
 
-- must be deterministic
-- must not be stored
-- must not evaluate final risk
+- Concierge consumes outcomes
+- Concierge does not reimplement domain evaluation logic
 
 ---
 
-## Step 4: Evaluation Engine (Decision)
+## Step 4: Voice Attribution Retrieval
 
-Input:
-
-- environment snapshot
-- exposure projection
-- asset requirements
-
-Actions:
-
-- compare current conditions to requirements
-- determine risk state
-- generate reasons for the result
-
-Output:
-
-- evaluation result:
-  - risk state
-  - candidate state
-  - reasons
+Voice Identity provides attribution and confidence outputs when available.
 
 Rules:
 
-- must be pure logic
-- must not persist data
-- must not access Home Assistant directly
+- Concierge consumes confidence and reason outputs
+- Concierge does not own fingerprint generation, attribution algorithms, or model internals
 
 ---
 
-## Step 5: Coordinator (Runtime Orchestration)
+## Step 5: Coordinator V2 Decisioning
 
-Input:
+Coordinator V2 is a consumer and orchestrator.
 
-- evaluation results (all assets)
-- prior system state
+Coordinator V2 may:
 
-Actions:
+- resolve interaction space and conversation ownership
+- apply policy and confidence-aware behavior
+- route response modality and execution target selection
+- emit explainable decision metadata
 
-- apply debounce rules
-- determine state transitions
-- generate events
-- build runtime projections
-- maintain in-memory state
+Coordinator V2 must not:
 
-Output:
-
-- updated projections
-- events
-
-Rules:
-
-- only coordinator may create events
-- only coordinator may apply state transitions
-- must not redefine evaluation logic
+- redefine governance
+- redefine contracts or models
+- redefine source-of-record ownership
 
 ---
 
-## Step 6: Store (Persistence)
+## Step 6: Governed Service Execution
 
-Input:
-
-- validated state transitions
-- configuration updates
-- service calls
-
-Actions:
-
-- persist asset state
-- persist configuration
-- record audit history
-
-Output:
-
-- stored data
+All state mutations must occur through governed services.
 
 Rules:
 
-- must not evaluate logic
-- must enforce schema
-- must not accept partial writes
+- no direct store mutation
+- no hidden side-channel writes
+- validation and policy gates before execution
 
 ---
 
-## Step 7: Entities (Projection)
+## Step 7: Projection
 
-Input:
-
-- coordinator projections
-
-Actions:
-
-- expose current system state to Home Assistant
-- provide lightweight views of data
-
-Output:
-
-- entity states and attributes
+Entities and interaction views project state for Home Assistant surfaces.
 
 Rules:
 
-- must be read-only
-- must not compute logic
-- must not store data
+- projections are read-focused
+- projections are not systems of record
 
 ---
 
-## Step 8: Concierge (Interaction)
+## Step 8: Communication And Audit
 
-Input:
-
-- entity state
-- system events
-- user input
-
-Actions:
-
-- determine appropriate communication
-- orchestrate service calls
-- present information to user
-
-Output:
-
-- voice output
-- UI responses
-- guided actions
+Concierge provides user-facing communication and orchestration traces.
 
 Rules:
 
-- must not own data
-- must not perform evaluation
-- must not bypass service boundaries
+- communication must remain explainable and deterministic
+- audit is orchestration metadata and references, not full provider log duplication
 
 ---
 
 ## Service Flow
 
-All state changes follow this flow:
+All mutations follow:
 
-User or system action → Service Call → Validation → Store Write → Coordinator Refresh
+Service Call -> Validation -> Store Write -> Coordinator Refresh
 
 Rules:
 
-- no direct store mutation
 - validation required for all writes
-- coordinator must re-evaluate after change
+- no partial writes
 
 ---
 
 ## Event Flow
 
-Events are generated during coordinator processing.
-
-Flow:
-
-State change → Coordinator → Event creation → Store → Entities → Concierge
+Coordinator processing may emit bounded events.
 
 Rules:
 
-- events must be immutable
-- events must be timestamped
-- events must be bounded
+- events are immutable and timestamped
+- events include source lineage and reason codes where applicable
 
 ---
 
-## Advisory Flow
+## Advisory And AI-Assisted Flow
 
-Advisory is generated alongside evaluation.
-
-Flow:
-
-Environment + Exposure → Evaluation → Advisory → Concierge
+Advisory and AI-assisted recommendations are bounded flows.
 
 Rules:
 
-- advisory must not mutate state
-- advisory must be explainable
-- advisory must be optional
+- advisory does not mutate state directly
+- AI output must be validated before service execution
+- AI cannot bypass governance, contracts, or policy
 
 ---
 
-## AI-Assisted Flow
+## Failure Handling And Determinism
 
-AI operates within controlled boundaries.
+Failure behavior:
 
-Flow:
+- missing or stale inputs degrade confidence
+- system returns bounded outputs instead of crashing
+- no partial state application
 
-System context → AI recommendation → Validation → Service Call → Store → Coordinator
+Determinism requirement:
 
-Rules:
-
-- AI must not write directly to system
-- all AI output must be validated
-- all changes must go through services
+- identical governed inputs produce identical decision outcomes
 
 ---
 
-## Failure Handling
+## Source-Of-Record Preservation
 
-If any step encounters missing or invalid data:
+Authoritative systems remain:
 
-- environment model reduces confidence
-- exposure model ignores missing context
-- evaluation continues with available inputs
-- coordinator maintains stable state
+- Foundation for room, area, device, occupancy, presence, and environmental truth
+- Asset Intelligence for significance and care evaluation
+- Voice Identity for attribution and confidence outputs
+- provider systems for calendar, email, and task or shopping domains
 
-The system must never:
-
-- crash due to missing data
-- produce undefined outputs
-- partially apply changes
+Concierge consumes and orchestrates these domains.
 
 ---
 
-## Determinism Guarantee
+## No Fifth Service Guardrail
 
-For identical inputs:
+This flow does not introduce a fifth platform service.
 
-- environment must be identical
-- exposure must be identical
-- evaluation must be identical
-- outputs must be identical
+Adapters and projections are implementation mechanisms, not additional platform services.
 
 ---
 
 ## Final Principle
 
-The system flows in one direction:
-
-Input → Understanding → Interpretation → Decision → Action → Communication
-
-No step may reverse, bypass, or duplicate another.
-
-The flow must remain:
-
-- deterministic
-- explainable
-- stable
+Runtime behavior is correct when household-facing outcomes are preserved while canonical ownership boundaries remain intact.

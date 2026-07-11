@@ -252,6 +252,50 @@ The system must never:
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-005 Room Vocabulary Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-011 Provenance Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract defines room-awareness boundaries and does not redefine architecture authority.
+
+---
+
+## Ownership Boundary Validation
+
+Ownership boundaries in this contract:
+
+- Foundation remains authoritative for room, area, floor, device, and occupancy truth
+- room environment interpretation may consume configured signals but does not move room-truth ownership
+- Concierge consumes room-awareness outputs and does not own room truth
+
+---
+
+## Terminology Alignment
+
+Canonical terminology in this contract:
+
+- Room
+- Area
+- Floor
+- Composite Room
+- Occupancy
+- Presence
+- Context
+- Confidence
+- Scope
+
+Legacy V1 assumptions that blur room truth ownership into orchestration are prohibited.
+
+---
+
 ## Final Principle
 
 The room is the shared context of truth.

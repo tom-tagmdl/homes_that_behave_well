@@ -345,6 +345,44 @@ Preferred outcomes:
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract defines performance boundaries and does not redefine source-of-record ownership.
+
+---
+
+## Ownership Boundary Validation
+
+Performance constraints preserve ownership boundaries:
+
+- Foundation, Voice Identity, Asset Intelligence, and provider systems remain source authorities
+- Coordinator V2 remains orchestration-only while consuming governed sources efficiently
+- performance optimizations must not create hidden inference ownership or contract bypasses
+
+---
+
+## Terminology Alignment
+
+Canonical terminology in this contract:
+
+- Capability
+- Context
+- Scope
+- Determinism
+- Explainability
+
+Legacy V1 assumptions that allow runtime discovery-driven behavior are prohibited.
+
+---
+
 ## Final Principle
 
 Performance is a design decision, not an outcome.

@@ -4,6 +4,8 @@
 
 The Interaction Model defines how Concierge represents user-facing experiences at runtime.
 
+This model is a consumption model for experience visibility, context presentation, provenance hooks, and explainability.
+
 Interactions are the mechanism through which the system presents:
 
 - awareness (signals and context)
@@ -22,6 +24,8 @@ Context defines what is known.
 
 Interactions define what is available to the user right now.
 
+Interactions do not define source-of-record truth.
+
 ---
 
 ## Model Structure
@@ -32,10 +36,16 @@ interaction:
   id:
   type:
   source:
+  person_reference:
   area_id:
   composite_id:
+  occupancy_reference:
+  experience_reference:
+  provenance_reference:
   summary:
   detail:
+  explainability:
+  guest_safe:
   actions:
   priority:
   state:
@@ -86,6 +96,42 @@ Rules:
 
 - must reference a valid system component
 - must remain traceable
+
+### person_reference
+
+Optional person-linked reference used when the interaction is person-aware.
+
+Rules:
+
+- must reference external person identity or profile context when present
+- must not duplicate identity authority
+
+### occupancy_reference
+
+Optional occupancy-linked reference used when interaction behavior depends on occupancy or presence context.
+
+Rules:
+
+- must reference external occupancy context when present
+- must not own occupancy or presence truth
+
+### experience_reference
+
+Optional experience-linked reference used when the interaction is derived from a governed experience projection.
+
+Rules:
+
+- must reference external experience context when present
+- must not own experience authority
+
+### provenance_reference
+
+Optional provenance-linked reference used when the interaction needs attribution or lineage visibility.
+
+Rules:
+
+- must reference external provenance context when present
+- must not duplicate provenance semantics
 
 ---
 
@@ -235,6 +281,24 @@ Rules:
 - must be respected by UI and runtime
 - expired interactions must not be shown
 
+### explainability
+
+Optional structured explainability payload.
+
+Rules:
+
+- must expose reason codes or rationale when present
+- must not replace contract-authorized provenance or source references
+
+### guest_safe
+
+Optional guest-safety marker used for conservative presentation.
+
+Rules:
+
+- must remain explicit when guest-safe restrictions apply
+- must not infer private context
+
 ---
 
 ## Interaction Types
@@ -368,6 +432,20 @@ Signals provide:
 
 Interactions expose this state to the user.
 
+## Contract Alignment
+
+This model aligns with:
+
+- Capability Projection Contract
+- Experience Projection Contract
+- Provenance Contract
+- Occupancy and Presence Contract
+- Household Memory Contract
+- Calendar and Email Experience Contract
+- Task and Shopping Experience Contract
+- Knowledge, Briefing, and Household Status Synthesis Contract
+- Multi-Item Capture Interpretation Contract
+
 ---
 
 ## Global Context
@@ -427,6 +505,8 @@ Interactions must:
 - be derived from valid system state
 - be deterministic
 - be explainable
+
+Interactions must remain guest-safe when guest or unknown context is present.
 
 Interactions must not:
 
@@ -511,3 +591,5 @@ They must always reflect:
 - meaningful context
 
 The system must never present an interaction that cannot be fulfilled.
+
+The system must never duplicate governance that belongs to contracts, provenance, occupancy, or experience projection.

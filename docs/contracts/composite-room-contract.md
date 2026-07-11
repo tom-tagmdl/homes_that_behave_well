@@ -396,6 +396,49 @@ Composite rooms must not:
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-005 Room Vocabulary Governance Boundaries
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract defines Composite Room behavior and does not transfer governance ownership.
+
+---
+
+## Ownership Boundary Validation
+
+Composite Room boundaries preserved by this contract:
+
+- Foundation remains authoritative for area and room truth
+- Composite Room context is an orchestration projection, not a room-truth source-of-record
+- Coordinator V2 consumes Composite Room context and remains orchestration-only
+
+---
+
+## Terminology Alignment
+
+Canonical terminology in this contract:
+
+- Composite Room
+- Room
+- Area
+- Floor
+- Interaction Space
+- Capability
+- Context
+- Scope
+
+Legacy V1 assumptions that allow implicit merged-room inference are prohibited.
+
+---
+
 ## Final Principle
 
 Composite rooms unify interaction without changing structure.

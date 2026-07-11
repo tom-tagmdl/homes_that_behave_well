@@ -387,6 +387,63 @@ Concierge must never:
 
 ---
 
+## V2 Governance Consumption
+
+This contract is consumed under E0 governance authority and must align with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-005 Room Vocabulary Governance Boundaries
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-008 Personalization Governance Boundaries
+- ADR-009 Household Memory Governance Boundaries
+- ADR-010 Household Productivity Experience Governance Boundaries
+- ADR-011 Provenance Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract consumes governance.
+
+This contract does not redefine governance.
+
+---
+
+## Ownership Boundary Validation
+
+Ownership constraints for this contract:
+
+- Foundation remains authoritative for room, area, device, occupancy, and environmental truth
+- Voice Identity remains authoritative for attribution and confidence outputs
+- Asset Intelligence remains authoritative for significance and environmental interpretation outcomes
+- Concierge Coordinator V2 remains orchestration-only and does not become a system of record
+
+---
+
+## Terminology Alignment
+
+Canonical terms used by this contract:
+
+- Room
+- Area
+- Floor
+- Composite Room
+- Capability
+- Experience
+- Personalization
+- Household Memory
+- Provenance
+- Occupancy
+- Presence
+- Attribution
+- Confidence
+- Context
+- Scope
+
+Obsolete V1-only ownership assumptions are out of scope for this contract.
+
+---
+
 ## Final Principle
 
 Concierge orchestrates understanding.

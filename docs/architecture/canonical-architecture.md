@@ -1,71 +1,129 @@
-# Canonical Architecture
+﻿# Canonical Architecture
 
 ## Purpose
 
-This document defines the authoritative system architecture for Homes That Behave Well.
+This document is the architecture of record for Homes That Behave Well (HTBW).
 
-It describes:
+It defines:
 
-- system layers
-- responsibilities
-- data flow
-- rules of interaction
+- platform service boundaries
+- source-of-record ownership
+- coordinator execution boundaries
+- cross-document architecture guardrails
 
-This is the source of truth for how the system is built.
+This document governs architecture baseline alignment for E1 contract refactoring and E2 model refactoring.
 
 ---
 
-## Core Principle
+## Authority Order
 
-The system is layered and deterministic.
+Authority is resolved in this order:
 
-Each layer has a single responsibility.
+1. ADRs
+2. Contracts
+3. Models
+4. Existing implementation
+5. GitHub issue execution plans
 
-No layer may take on the responsibility of another.
+Execution plans must not override ADRs, contracts, or models.
 
 ---
 
 ## Platform Responsibility Model
 
-Homes That Behave Well operates as a multi-repository platform with peer services.
+HTBW is a four-service platform.
 
-| Platform Service | Owns | Answers |
+| Platform Service | Canonical Responsibility | Canonical Question |
 |---|---|---|
-| Foundation | rooms, spaces, devices, presence, occupancy, environmental state, source-of-truth platform facts | What is true? |
-| Asset Intelligence | assets, metadata, constraints, protection rules, care intelligence, asset risk/care summaries | What matters? |
-| Voice Identity | fingerprint generation, fingerprint artifacts and references, quality, model/version metadata, runtime attribution outputs | Who is interacting? |
-| Concierge | people configuration, permissions, room and conversation context, coordinator, intent and response routing, UX | What should happen? |
+| Foundation | room, device, area, presence, occupancy, and environmental truth | What is true? |
+| Asset Intelligence | asset significance, care, risk, and environmental relevance evaluation | What matters? |
+| Voice Identity | voice attribution, confidence, and voice profile lifecycle | Who is interacting? |
+| Concierge | orchestration, routing, planning, and household interaction decisioning | What should happen? |
 
-Conceptual platform diagram:
+No fifth platform service is introduced by this architecture.
 
-```mermaid
-flowchart TD
-  F[Foundation\nWhat is true?]
-  A[Asset Intelligence\nWhat matters?]
-  V[Voice Identity\nWho is interacting?]
-  C[Concierge\nWhat should happen?]
+---
 
-  F --> C
-  A --> C
-  V --> C
-```
+## Ownership Boundaries
 
-Interaction and enrollment flows:
+HTBW owns:
 
-```mermaid
-flowchart TD
-  I[Voice Assistant / Browser / Satellite] --> VI[Voice Identity]
-  VI --> RP[Resolved Person + Confidence]
-  RP --> CC[Concierge Coordinator]
-  CC --> PCI[Permissions + Context + Intent]
-  PCI --> ACT[Action]
+- architecture
+- ADRs
+- contracts
+- models
+- governance
+- canonical definitions
+- execution standards
 
-  CAP[Browser or Satellite Capture] --> CEW[Concierge Enrollment Workflow]
-  CEW --> VIFG[Voice Identity Fingerprint Generation]
-  VIFG --> FAR[Fingerprint Artifact Reference]
-  FAR --> VPM[Concierge VoiceProfile Metadata]
-  VPM --> CLN[Temporary Recording Cleanup]
-```
+Concierge owns:
+
+- runtime orchestration and routing
+- resolution and planning behavior
+- execution behavior under governed contracts
+
+Concierge does not own:
+
+- governance authority
+- source-of-record ownership
+- canonical contract or model definition
+
+---
+
+## Coordinator V2 Constraint
+
+Coordinator V2 is a consumer and orchestrator.
+
+Authoritative governance ADR:
+
+- [docs/architecture/adr-coordinator-v2-governance.md](adr-coordinator-v2-governance.md)
+- [docs/architecture/adr-room-vocabulary-governance.md](adr-room-vocabulary-governance.md)
+- [docs/architecture/adr-capability-projection-governance.md](adr-capability-projection-governance.md)
+- [docs/architecture/adr-experience-model-governance.md](adr-experience-model-governance.md)
+- [docs/architecture/adr-personalization-governance.md](adr-personalization-governance.md)
+- [docs/architecture/adr-household-memory-governance.md](adr-household-memory-governance.md)
+- [docs/architecture/adr-household-productivity-experience-governance.md](adr-household-productivity-experience-governance.md)
+- [docs/architecture/adr-provenance-governance.md](adr-provenance-governance.md)
+- [docs/architecture/adr-occupancy-and-presence-governance.md](adr-occupancy-and-presence-governance.md)
+- [docs/architecture/adr-concierge-v1-capability-preservation-governance.md](adr-concierge-v1-capability-preservation-governance.md)
+
+Coordinator V2 may consume governed context from:
+
+- vocabulary
+- capabilities
+- experiences
+- continuity
+- affinity
+- restoration
+- occupancy
+- presence
+- provenance
+- household memory
+- productivity context
+- message context
+
+Coordinator V2 must not redefine:
+
+- governance
+- contracts
+- models
+- canonical definitions
+- source-of-record ownership
+
+---
+
+## Source-Of-Record Boundaries
+
+| Domain | Source Of Record | Concierge Role |
+|---|---|---|
+| Room, area, device, occupancy truth | Foundation | Consume and orchestrate |
+| Asset significance and care evaluation | Asset Intelligence | Consume and route outcomes |
+| Voice attribution and confidence | Voice Identity | Consume confidence and route behavior |
+| Calendar state | Calendar provider(s) | Consume via governed interfaces |
+| Email state | Email provider(s) | Consume via governed interfaces |
+| Task and shopping state | Configured task and shopping providers | Consume via governed interfaces |
+
+Concierge is not a replacement system of record for any external provider domain.
 
 ---
 
@@ -73,55 +131,43 @@ flowchart TD
 
 Identity and voice terms must be used consistently across the platform.
 
-Authoritative reference:
+Authoritative references:
 
 - [docs/architecture/identity-governance-reference.md](identity-governance-reference.md)
 - [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md)
 
 Key terms:
 
-- Identity Context: the current person-aware context used by Concierge
-- Person Profile: the Home Assistant-person-based preference record for style and behavior
-- Voice Profile: the enrolled speaker record used for speaker attribution
-- Speaker Attribution Snapshot: the runtime match result for a speech event
-- Interaction Style Context: the current delivery style chosen for the active person
-- Listening Area: the arbitration area used to decide which assistant should respond
-- Interaction Space: the active room or merged area where interaction is happening
-- Local-first: keep identity and voice data inside the home network by default
-
-Authoritative sub-architecture references:
-
-- [docs/architecture/news-context-and-briefing-architecture.md](news-context-and-briefing-architecture.md)
-- [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md)
-- [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md)
-- [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md)
-- [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md)
-- [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md)
-- [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md)
-- [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md)
-- [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md)
+- Identity Context
+- Person Profile
+- Voice Profile
+- Speaker Attribution Snapshot
+- Interaction Style Context
+- Listening Area
+- Interaction Space
+- Local-first
 
 ---
 
 ## Voice Enrollment Architecture Reference
 
-This section defines the implementation governance map for Concierge enrollment orchestration and Voice Identity fingerprint lifecycle integration.
+This section preserves the architecture governance map for Concierge enrollment orchestration and Voice Identity lifecycle integration.
 
 ### Document Index And Reading Guide
 
-| Document | Purpose | Authority Level | When To Read | Decisions Governed |
-|---|---|---|---|---|
-| [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md) | Records platform boundary for Voice Identity as a peer service | Highest for cross-service identity scope | First for identity/enrollment architecture work | Identity ownership boundaries and integration responsibilities |
-| [docs/architecture/adr-voice-profile-enrollment-architecture.md](adr-voice-profile-enrollment-architecture.md) | Records accepted architecture and rejected alternatives | Highest for enrollment scope | First, before planning or coding | Non-negotiable boundaries and defaults |
-| [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md) | Canonical end-to-end enrollment architecture | Primary architecture authority | Immediately after ADR | Provider model, scope, authority boundaries |
-| [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md) | Domain ownership and responsibilities | Primary model authority | Before module design | Session, cleanup, storage, provider ownership |
-| [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md) | Privacy and data handling policy | Policy authority | Before storage/diagnostics/repairs work | Data classification, consent, retention, telemetry bounds |
-| [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md) | Lifecycle states and transition rules | Lifecycle authority | Before orchestration work | Transition validity, cleanup-gated terminal behavior |
-| [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md) | Storage and cleanup architecture | Storage and cleanup authority | Before storage or cleanup design | External storage rules, manifest lifecycle, idempotent cleanup |
-| [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md) | Profile output lifecycle boundaries | Profile lifecycle authority | Before profile operations work | Create, replace, revoke, delete boundaries |
-| [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) | Reusable temporary-artifact pattern | Pattern authority | Before cleanup and reconciliation implementation | Create-track-process-commit-cleanup-verify pattern compliance |
-| [docs/architecture/implementation-verification-checklist.md](implementation-verification-checklist.md) | Pre-coding verification gate | Readiness authority | Before first code change and before phase exits | Repo fact checks and risk controls |
-| [docs/architecture/voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md) | Phased implementation sequencing | Planning authority | After architecture alignment is complete | Execution phases and phase exit criteria |
+| Document | Purpose | Authority Level |
+|---|---|---|
+| [docs/architecture/adr-voice-identity-platform-service.md](adr-voice-identity-platform-service.md) | Platform boundary for Voice Identity as peer service | Highest for cross-service identity scope |
+| [docs/architecture/adr-voice-profile-enrollment-architecture.md](adr-voice-profile-enrollment-architecture.md) | Accepted enrollment architecture and rejected alternatives | Highest for enrollment scope |
+| [docs/architecture/voice-profile-enrollment-architecture.md](voice-profile-enrollment-architecture.md) | Canonical end-to-end enrollment architecture | Primary architecture authority |
+| [docs/models/voice-enrollment-domain-model.md](../models/voice-enrollment-domain-model.md) | Domain ownership and responsibilities | Primary model authority |
+| [docs/architecture/voice-enrollment-privacy-and-data-handling-policy.md](voice-enrollment-privacy-and-data-handling-policy.md) | Privacy and data handling policy | Policy authority |
+| [docs/architecture/voice-enrollment-lifecycle-and-state-machine.md](voice-enrollment-lifecycle-and-state-machine.md) | Lifecycle states and transitions | Lifecycle authority |
+| [docs/architecture/voice-enrollment-storage-cleanup-and-retention-architecture.md](voice-enrollment-storage-cleanup-and-retention-architecture.md) | Storage and cleanup architecture | Storage and cleanup authority |
+| [docs/architecture/voice-profile-lifecycle-management.md](voice-profile-lifecycle-management.md) | Profile output lifecycle boundaries | Profile lifecycle authority |
+| [docs/patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) | Temporary-artifact lifecycle pattern | Pattern authority |
+| [docs/architecture/implementation-verification-checklist.md](implementation-verification-checklist.md) | Pre-coding verification gate | Readiness authority |
+| [docs/architecture/voice-enrollment-modernization-roadmap.md](voice-enrollment-modernization-roadmap.md) | Phased implementation sequencing | Planning authority |
 
 ### Authoritative Reading Order
 
@@ -146,7 +192,7 @@ ADR
   -> Patterns
   -> Implementation
 
-Conflict resolution rules:
+Conflict-resolution rules:
 
 - ADR wins over all lower layers.
 - Architecture wins over contracts, models, and patterns when ADR is silent.
@@ -159,714 +205,439 @@ Conflict resolution rules:
 
 ## Platform Development Standards
 
-All integrations and components in this system must follow strict development standards.
-
-These standards are non-optional and apply to all code, architecture, and releases.
-
----
-
 ### Home Assistant Compliance
 
 All implementations must follow Home Assistant standards and best practices.
 
-This includes:
+### Home Assistant UI And UX Standards
 
-- integration architecture patterns
-- entity design guidelines
-- config flow and options flow usage
-- device and entity registry usage
-- service registration patterns
-
-Before introducing any new logic or pattern:
-
-- the implementation must be checked against Home Assistant best practices
-- custom patterns must not replace native patterns without justification
-
-Area and room source-of-truth rule:
-
-- Home Assistant Area registry is authoritative for room definitions.
-- Concierge and related integrations must project from Areas and extend them by `area_id`.
-- Implementations must not introduce a parallel room-definition datastore that can drift from Home Assistant Areas.
-- Area add/remove operations in Home Assistant must be reflected automatically in Concierge room views.
-
----
-
-### Home Assistant UI and UX Standards
-
-All user interface elements must follow Home Assistant UI patterns and design guidelines.
-
-This includes:
-
-- dialogs (popups)
-- buttons and actions
-- forms and configuration flows
-- selectors (area, entity, device, etc.)
-- layout and visual presentation
-
----
-
-### UI Behavior Rules
-
-The system must:
-
-- use native Home Assistant dialogs and flows
-- use built-in selectors instead of custom inputs when available
-- follow Home Assistant interaction patterns for confirmation and actions
-
-The system must not:
-
-- create custom dialog frameworks
-- introduce non-standard interaction patterns
-- bypass Home Assistant UI components without strong justification
-
----
-
-### Button and Action Standards
-
-Buttons must follow Home Assistant conventions:
-
-- primary actions use default button styling
-- destructive actions must be clearly indicated (e.g., delete)
-- confirmation must be required for irreversible actions
-
-Actions must:
-
-- be predictable
-- be clearly labeled
-- match Home Assistant terminology
-
----
-
-### Color and Visual Standards
-
-The system must:
-
-- use Home Assistant theme-defined colors
-- avoid hardcoded colors
-- rely on UI components for styling
-
-The system must not:
-
-- define custom color schemes
-- use color to convey meaning without following HA patterns
-- override platform styling
-
----
-
-### Layout and Structure
-
-Interfaces must:
-
-- align with Home Assistant panel and card layouts
-- use consistent grouping of sections
-- follow standard spacing and hierarchy
-
-The system must not:
-
-- introduce custom layout systems
-- break visual consistency with Home Assistant
-
----
-
-### User Experience Principle
-
-The system must feel like a native Home Assistant integration.
-
-Users should not be able to distinguish:
-
-- where Home Assistant ends
-- and where this integration begins
-
----
-
-### Copilot Guidance Rule
-
-When generating UI or interaction code, Copilot must:
-
-- prefer Home Assistant native components
-- reuse existing patterns from standard integrations
-- avoid inventing new interaction models
-
-If a UI implementation deviates from Home Assistant standards, it must be rejected.
+All user-facing UI must use Home Assistant native interaction patterns unless there is explicit architectural justification.
 
 ### Platinum-Level Integration Goal
 
-All integrations must be designed toward Home Assistant Platinum-level quality.
+All integrations should be designed toward Home Assistant Platinum-level quality.
 
-The shared platform checklist lives in [platinum-target-checklist.md](platinum-target-checklist.md).
+The shared platform checklist is [docs/architecture/platinum-target-checklist.md](platinum-target-checklist.md).
 
-This includes:
-
-- full config flow support
-- options flow support
-- device and entity registry integration
-- diagnostics support
-- structured logging
-- error handling and graceful degradation
-- test coverage for core functionality
-
-The system must favor:
-
-- completeness over speed
-- correctness over shortcuts
-- long-term maintainability over rapid delivery
-
----
-
-### Testing and Quality Requirements
-
-All integrations must include testing.
-
-At minimum:
-
-- unit tests for core logic
-- validation of service inputs
-- regression protection for key flows
-
-Testing must ensure:
-
-- deterministic behavior
-- no breaking changes across releases
-- consistent evaluation outcomes
-
----
+The shared cross-repo governance gate framework is [docs/architecture/hacs-and-platinum-governance-standard.md](hacs-and-platinum-governance-standard.md).
 
 ### HACS Distribution Compliance
 
-All integrations are distributed through HACS.
+All integrations distributed through HACS must satisfy:
 
-This requires:
-
-- valid hacs.json configuration
-- proper repository structure
-- versioned releases
-- successful GitHub Actions runs
-
-Each release must include:
-
-- passing HACS validation action
-- passing Home Assistant validation (hassfest)
+- valid `hacs.json`
+- passing HACS validation
+- passing Home Assistant validation (`hassfest`)
 - properly tagged GitHub release
-
----
 
 ### Release Workflow
 
-Every release must follow:
-
-Code change → Commit → Validation (tests + actions) → GitHub Release → HACS availability
-
-Rules:
-
-- no manual file drops into Home Assistant
-- no unvalidated releases
-- no bypassing CI checks
+Code change -> Commit -> Validation (tests and actions) -> GitHub Release -> HACS availability
 
 ---
 
-### Copilot Guidance Rules
+## Contract And Documentation Governance
 
-When generating or modifying code, Copilot must:
+### Contract Enforcement (Future Phase)
 
-- prefer Home Assistant-native patterns
-- avoid introducing custom frameworks unnecessarily
-- validate design choices against HA best practices
-- ensure compatibility with HACS requirements
+Contracts are currently human-readable architecture artifacts and should later be enforced through versioned schemas and CI validation.
 
-If a suggestion conflicts with:
+### Documentation Responsibility Model
 
-- Home Assistant standards
-- Platinum-level expectations
-- HACS requirements
+- Philosophy defines why.
+- Models define what.
+- Contracts define boundaries.
+- Patterns define implementation shape.
+- Architecture defines system structure and flow.
 
-The suggestion must be rejected.
-
----
-
-### Final Principle
-
-If a change:
-
-- does not align with Home Assistant standards
-- does not move toward Platinum-level quality
-- cannot be released through HACS
-
-It must not be implemented.
+Contracts take precedence over patterns when conflicts arise.
 
 ---
 
-## System Layers
+## Architecture Guardrails
 
-The system consists of five primary layers:
+- Do not invent architecture outside ADR and contract authority.
+- Do not redefine contracts or models in runtime docs.
+- Do not move governance ownership from HTBW into Concierge.
+- Do not create hidden inference that bypasses governed inputs.
+- Preserve household-facing outcome continuity, not internal implementation parity.
 
-1. Store (System of Record)
-2. Environment Model (Sensing)
-3. Evaluation Engine (Decision)
-4. Coordinator (Runtime Orchestration)
-5. Entities and Interaction (Projection and UX)
+Intentionally retired from canonical authority:
 
----
-
-## 1. Store (System of Record)
-
-The store is the authoritative source of all persistent data.
-
-### Responsibilities
-
-- store assets
-- store room configuration
-- store environment requirements
-- store audit and event history
-- enforce schema structure
-
-### Rules
-
-- store does not evaluate
-- store does not read sensors
-- store does not make decisions
-- store only persists and retrieves data
-
-## External Storage Policy
-
-Not all data belongs inside Home Assistant.
-
-The system must distinguish between:
-
-- runtime state (Home Assistant)
-- structured metadata (store)
-- external artifacts (network storage)
+- legacy five-layer system framing used as platform authority
 
 ---
 
-### Home Assistant Scope
+## Canonical Flow
 
-Home Assistant is used for:
+```mermaid
+flowchart LR
+  F[Foundation\nWhat is true?]
+  A[Asset Intelligence\nWhat matters?]
+  V[Voice Identity\nWho is interacting?]
+  C[Concierge Coordinator V2\nWhat should happen?]
+  X[Execution Through Governed Services]
 
-- entity state
-- integration runtime
-- lightweight structured data
-- system orchestration
-
-Home Assistant must not be used for:
-
-- large file storage
-- binary artifacts
-- high-volume document storage
-- unbounded historical data
-
----
-
-### Store Scope
-
-The Asset Intelligence store is used for:
-
-- structured asset records
-- environment configuration
-- requirements and policy
-- audit metadata
-- document references
-
-The store must not:
-
-- store large binary data
-- embed file contents
-- depend on local filesystem structure
+  F --> C
+  A --> C
+  V --> C
+  C --> X
+```
 
 ---
 
-### External Storage Scope
+## Concept Traceability Matrix
 
-External or network-connected storage is required for:
-
-- documents (PDFs, images, scans)
-- media files
-- large exports
-- historical archives beyond bounded limits
-
-Federated audit archive pattern:
-
-- keep native integration logs in their original systems as source-of-truth
-- maintain a stitched activity index that references those native records
-- when exporting offline archives, produce self-contained readable packages that include normalized summaries, outcomes, and key references
-- avoid full raw-log duplication unless explicitly required by policy or legal/compliance need
-
-Supported storage may include:
-
-- local network storage (NAS)
-- external file systems
-- cloud storage providers
-
----
-
-### Design Rules
-
-If a data element:
-
-- is large
-- is binary
-- is unbounded in growth
-- is not part of Home Assistant entity state
-
-It must be stored externally.
-
----
-
-### Reference Model
-
-The system must store only references to external data.
-
-Example:
-
-asset:
-  documents:
-    - document_id
-      provider
-      reference_path
-
-The system must:
-
-- resolve documents through a storage abstraction layer
-- avoid direct file system coupling
-- ensure portability across environments
-
----
-
-### Availability Handling
-
-External storage must be treated as optional but explicit capability.
-
-If storage is:
-
-AVAILABLE
-- full document functionality is enabled
-
-UNAVAILABLE
-- document operations must be disabled
-- no partial writes may occur
-
-DEGRADED
-- system must fail gracefully
-- no data corruption allowed
+| Concept | Canonical Owner | Source Document(s) | Cross-Document References |
+|---|---|---|---|
+| Four-service platform model | HTBW governance | docs/architecture/canonical-architecture.md | docs/architecture/system-flow.md, docs/architecture/concierge-runtime-architecture.md |
+| Foundation truth ownership | Foundation | docs/architecture/canonical-architecture.md, docs/contracts/service-contracts.md | docs/architecture/system-flow.md, docs/architecture/context-before-intent.md |
+| Asset significance evaluation ownership | Asset Intelligence | docs/architecture/canonical-architecture.md, docs/contracts/service-contracts.md | docs/architecture/system-flow.md |
+| Voice attribution and confidence ownership | Voice Identity | docs/architecture/adr-voice-identity-platform-service.md, docs/architecture/identity-governance-reference.md | docs/architecture/concierge-runtime-architecture.md, docs/architecture/context-before-intent.md |
+| Concierge orchestration ownership | Concierge | docs/contracts/concierge-contract.md, docs/architecture/concierge-runtime-architecture.md | docs/architecture/system-flow.md, docs/architecture/context-before-intent.md |
+| Coordinator V2 as consumer and orchestrator | Concierge (runtime role under HTBW governance) | docs/architecture/adr-coordinator-v2-governance.md, docs/architecture/concierge-runtime-architecture.md | docs/architecture/system-flow.md, docs/architecture/context-before-intent.md |
+| Room vocabulary governance | HTBW governance referencing Foundation room truth | docs/architecture/adr-room-vocabulary-governance.md, docs/contracts/room-awareness-contract.md, docs/contracts/composite-room-contract.md, docs/models/room-model.md | docs/architecture/context-before-intent.md |
+| Capability projection governance | HTBW governance with contract and model authority retained | docs/architecture/adr-capability-projection-governance.md, docs/contracts/service-contracts.md, docs/contracts/concierge-contract.md | docs/architecture/concierge-runtime-architecture.md, docs/contracts/performance-contract.md |
+| Experience model governance | HTBW governance with contract and model authority retained | docs/architecture/adr-experience-model-governance.md, docs/models/interaction-model.md, docs/contracts/concierge-global-context-contract.md | docs/architecture/concierge-runtime-architecture.md, docs/architecture/context-before-intent.md |
+| Personalization governance | HTBW governance with identity and profile boundary authority retained | docs/architecture/adr-personalization-governance.md, docs/contracts/person-identity-contract.md, docs/models/person-profile-model.md | docs/architecture/identity-governance-reference.md, docs/architecture/concierge-runtime-architecture.md, docs/architecture/context-before-intent.md |
+| Household memory governance | HTBW governance with event, signal, identity, and provenance boundaries retained | docs/architecture/adr-household-memory-governance.md, docs/models/event-model.md, docs/models/signal-model.md, docs/architecture/identity-governance-reference.md | docs/architecture/adr-personalization-governance.md, docs/architecture/adr-experience-model-governance.md |
+| Household productivity experience governance | HTBW governance with provider source-of-record boundaries retained | docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/concierge-global-context-contract.md, docs/contracts/concierge-contract.md, docs/models/interaction-model.md | docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-personalization-governance.md, docs/architecture/adr-household-memory-governance.md |
+| Provenance governance | HTBW governance with lineage and attribution boundaries retained | docs/architecture/adr-provenance-governance.md, docs/models/event-model.md, docs/contracts/service-contracts.md, docs/architecture/identity-governance-reference.md | docs/architecture/adr-household-memory-governance.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/architecture/adr-coordinator-v2-governance.md |
+| Occupancy and presence governance | HTBW governance with Foundation truth and Voice Identity confidence boundaries retained | docs/architecture/adr-occupancy-and-presence-governance.md, docs/contracts/person-identity-contract.md, docs/contracts/concierge-scope-contract.md, docs/architecture/context-before-intent.md | docs/architecture/adr-personalization-governance.md, docs/architecture/adr-household-memory-governance.md, docs/architecture/adr-provenance-governance.md |
+| Concierge V1 household-facing outcome preservation governance | HTBW governance baseline for V2 non-regression parity and E3a readiness gating | docs/architecture/adr-concierge-v1-capability-preservation-governance.md, docs/contracts/composite-room-contract.md, docs/contracts/concierge-scope-contract.md, docs/contracts/performance-contract.md, docs/contracts/concierge-global-context-contract.md | docs/architecture/adr-coordinator-v2-governance.md, docs/architecture/adr-room-vocabulary-governance.md, docs/architecture/adr-occupancy-and-presence-governance.md |
+| HACS and Platinum governance gates | HTBW governance standard for continuous quality and readiness gates across roadmap phases | docs/architecture/hacs-and-platinum-governance-standard.md, docs/architecture/platinum-target-checklist.md, docs/architecture/implementation-verification-checklist.md, docs/contracts/service-contracts.md | docs/architecture/canonical-architecture.md, docs/philosophy/homes-that-behave-well.md |
+| E1 Concierge contract baseline alignment | HTBW contract baseline artifact for V2 contract boundary clarity and E2 model-readiness consumption | docs/contracts/v2-c1-contract-refactor-baseline.md, docs/contracts/concierge-contract.md, docs/contracts/service-contracts.md | docs/architecture/canonical-architecture.md, docs/models/interaction-model.md |
+| E2 model-alignment baseline | HTBW baseline traceability for authoritative room, person profile, interaction, event, environment, and signal model alignment to completed E1 contracts | docs/contracts/v2-c1-contract-refactor-baseline.md, docs/contracts/room-interaction-contract.md, docs/contracts/room-vocabulary-registry-contract.md, docs/contracts/capability-projection-contract.md, docs/contracts/experience-projection-contract.md, docs/contracts/person-continuity-affinity-contract.md, docs/contracts/experience-restoration-contract.md, docs/contracts/household-memory-contract.md, docs/contracts/calendar-email-experience-contract.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md, docs/contracts/multi-item-capture-interpretation-contract.md, docs/contracts/provenance-contract.md, docs/contracts/occupancy-and-presence-contract.md, docs/architecture/hacs-platinum-contract-compliance-checklist.md | docs/models/room-model.md, docs/models/person-profile-model.md, docs/models/interaction-model.md, docs/models/event-model.md, docs/models/environment-model.md, docs/models/signal-model.md |
+| Room interaction governance boundary | HTBW contract authority for room, merged, composite, and floor interaction behavior under preserved ownership boundaries | docs/contracts/room-interaction-contract.md, docs/contracts/room-awareness-contract.md, docs/contracts/composite-room-contract.md, docs/contracts/concierge-scope-contract.md | docs/architecture/context-before-intent.md, docs/models/room-model.md, docs/models/interaction-model.md |
+| Room vocabulary registry governance boundary | HTBW contract authority for room terminology, alias, scope, merged, and composite vocabulary governance consumed by interaction and projections | docs/contracts/room-vocabulary-registry-contract.md, docs/architecture/adr-room-vocabulary-governance.md, docs/contracts/room-interaction-contract.md, docs/contracts/concierge-scope-contract.md | docs/models/room-model.md, docs/models/interaction-model.md, docs/architecture/context-before-intent.md |
+| Room Vocabulary Registry model governance boundary | HTBW model authority for vocabulary entries, aliases, capability mappings, conflict indicators, room relationships, and explainability references consumed by Room Context Resolution, Composite Room Handling, Capability Projection, and Experience Planning | docs/models/room-vocabulary-registry-model.md, docs/contracts/room-vocabulary-registry-contract.md, docs/models/room-model.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/contracts/room-interaction-contract.md, docs/models/capability-projection-model.md, docs/models/experience-model.md, docs/contracts/concierge-scope-contract.md |
+| Capability projection governance boundary | HTBW contract authority for capability visibility, availability, discoverability, and projection explainability across room and scope contexts | docs/contracts/capability-projection-contract.md, docs/architecture/adr-capability-projection-governance.md, docs/contracts/room-interaction-contract.md, docs/contracts/room-vocabulary-registry-contract.md | docs/models/interaction-model.md, docs/contracts/concierge-contract.md, docs/architecture/context-before-intent.md |
+| Capability Projection model governance boundary | HTBW model authority for capability projection result shape, available, filtered, unsupported, explainability, and lineage references consumed by Coordinator V2 and Experience Projection | docs/models/capability-projection-model.md, docs/contracts/capability-projection-contract.md, docs/contracts/experience-projection-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/contracts/room-interaction-contract.md, docs/models/room-model.md, docs/models/person-profile-model.md, docs/models/occupancy-presence-model.md |
+| Experience model governance boundary | HTBW model authority for experience categories, relationships, visibility-state representation, explainability references, and consumption-only planning inputs consumed by Coordinator V2, Restoration Planning, Productivity Experience Planning, and Experience Projection | docs/models/experience-model.md, docs/contracts/experience-projection-contract.md, docs/models/capability-projection-model.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/room-model.md, docs/models/person-profile-model.md, docs/contracts/experience-restoration-contract.md, docs/contracts/calendar-email-experience-contract.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md |
+| Experience projection governance boundary | HTBW contract authority for experience visibility, discoverability, composition, availability, and explainability across room, person, scope, and memory contexts | docs/contracts/experience-projection-contract.md, docs/architecture/adr-experience-model-governance.md, docs/contracts/capability-projection-contract.md, docs/contracts/room-interaction-contract.md, docs/contracts/room-vocabulary-registry-contract.md | docs/models/interaction-model.md, docs/models/person-profile-model.md, docs/models/event-model.md, docs/architecture/context-before-intent.md |
+| Person continuity and affinity governance boundary | HTBW contract authority for continuity eligibility, continuity visibility, affinity visibility, consent-bounded influence, guest-safe protections, and explainability across person and room context | docs/contracts/person-continuity-affinity-contract.md, docs/architecture/adr-personalization-governance.md, docs/architecture/adr-household-memory-governance.md, docs/contracts/person-identity-contract.md, docs/contracts/experience-projection-contract.md | docs/models/person-profile-model.md, docs/models/interaction-model.md, docs/models/event-model.md, docs/architecture/identity-governance-reference.md |
+| Experience restoration governance boundary | HTBW contract authority for restoration eligibility, confidence gates, quiet-hours and posture policy influence, guest-safe restrictions, and restoration explainability across person, room, occupancy, continuity, affinity, and memory context | docs/contracts/experience-restoration-contract.md, docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-personalization-governance.md, docs/architecture/adr-occupancy-and-presence-governance.md, docs/contracts/person-continuity-affinity-contract.md | docs/models/interaction-model.md, docs/models/person-profile-model.md, docs/models/event-model.md, docs/architecture/context-before-intent.md |
+| Experience Restoration Context model governance boundary | HTBW model authority for restoration candidate representation, restoration context representation, restoration decision inputs, occupancy references, confidence references, and restoration explainability references consumed by E8 Experience Restoration Planning, Occupancy-Aware Planning, Restoration Explainability, and Restoration Suppression Analysis | docs/models/experience-restoration-context-model.md, docs/contracts/experience-restoration-contract.md, docs/contracts/occupancy-and-presence-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/person-profile-model.md, docs/models/person-continuity-model.md, docs/models/person-room-affinity-model.md, docs/models/experience-model.md, docs/models/occupancy-presence-model.md |
+| Household memory contract governance boundary | HTBW contract authority for memory eligibility, visibility, explainability, privacy, retention, and retrieval boundaries derived from authoritative event history and provenance | docs/contracts/household-memory-contract.md, docs/architecture/adr-household-memory-governance.md, docs/architecture/adr-provenance-governance.md, docs/contracts/person-identity-contract.md, docs/contracts/person-continuity-affinity-contract.md | docs/models/event-model.md, docs/models/interaction-model.md, docs/models/person-profile-model.md, docs/architecture/identity-governance-reference.md |
+| Occupancy and Presence contract governance boundary | HTBW contract authority for occupancy semantics, occupancy states, confidence governance, decision gates, guest-safe behavior, multi-person behavior, and explainability | docs/contracts/occupancy-and-presence-contract.md, docs/architecture/adr-occupancy-and-presence-governance.md, docs/contracts/person-identity-contract.md, docs/contracts/experience-restoration-contract.md, docs/contracts/household-memory-contract.md | docs/models/occupancy-presence-model.md, docs/models/room-model.md, docs/models/person-profile-model.md, docs/models/event-model.md, docs/models/interaction-model.md |
+| Occupancy and Presence model governance boundary | HTBW model authority for occupancy state, occupancy confidence, identity confidence references, source references, guest-safe modeling, and explainability consumed by restoration, messaging, and household memory decisions | docs/models/occupancy-presence-model.md, docs/architecture/adr-occupancy-and-presence-governance.md, docs/contracts/person-identity-contract.md, docs/contracts/room-interaction-contract.md, docs/contracts/experience-restoration-contract.md | docs/models/room-model.md, docs/models/person-profile-model.md, docs/models/event-model.md, docs/models/signal-model.md, docs/architecture/identity-governance-reference.md |
+| Person Continuity model governance boundary | HTBW model authority for continuity state representation, continuity references, continuity explainability references, and continuity relationships consumed by Restoration Planning, Experience Consumption, and Personalization Consumption | docs/models/person-continuity-model.md, docs/contracts/person-continuity-affinity-contract.md, docs/contracts/experience-restoration-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/interaction-model.md, docs/models/experience-model.md, docs/models/occupancy-presence-model.md |
+| Person-Room Affinity model governance boundary | HTBW model authority for affinity relationship representation, room preference representation, preference explainability references, and room-aware preference relationships consumed by E7 Person Affinity Planning, Restoration Planning, Messaging Consumption, and Room-Aware Experience Consumption | docs/models/person-room-affinity-model.md, docs/contracts/person-continuity-affinity-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/person-continuity-model.md, docs/models/experience-model.md, docs/models/occupancy-presence-model.md |
+| Provenance governance boundary | HTBW contract authority for attribution semantics, lineage, confidence, canonical provenance fields, and explainability across shopping, tasks, messages, reminders, memory, productivity writes, and coordination actions | docs/contracts/provenance-contract.md, docs/architecture/adr-provenance-governance.md, docs/contracts/household-memory-contract.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/multi-item-capture-interpretation-contract.md | docs/models/event-model.md, docs/models/interaction-model.md, docs/models/person-profile-model.md, docs/architecture/identity-governance-reference.md |
+| Provenance model governance boundary | HTBW model authority for canonical provenance field representation, attribution representation, confidence representation, explanation source representation, and provenance relationships consumed by E10 Household Memory Planning, E13 Productivity Experiences, E14 Multi-Item Capture, and future attribution-aware planning | docs/models/provenance-model.md, docs/contracts/provenance-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/event-model.md, docs/models/interaction-model.md, docs/models/person-profile-model.md, docs/models/occupancy-presence-model.md |
+| Household Memory model governance boundary | HTBW model authority for memory reference representation, memory relationship representation, memory explanation representation, and memory visibility references consumed by E10 Household Memory Planning, Memory-Aware Experiences, Memory-Aware Productivity Experiences, and Household Summarization | docs/models/household-memory-model.md, docs/contracts/household-memory-contract.md, docs/contracts/provenance-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/provenance-model.md, docs/models/event-model.md, docs/models/interaction-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Calendar and Email experience governance boundary | HTBW contract authority for calendar and email experience visibility, discoverability, briefing participation, privacy, consent, explainability, and source attribution without source-of-record ownership | docs/contracts/calendar-email-experience-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-provenance-governance.md, docs/contracts/household-memory-contract.md | docs/contracts/person-identity-contract.md, docs/models/event-model.md, docs/models/person-profile-model.md, docs/architecture/identity-governance-reference.md |
+| Calendar Experience model governance boundary | HTBW model authority for calendar context representation, free/busy representation, household coordination references, briefing references, calendar explainability references, and guest-safe calendar visibility consumed by E13 Productivity Experiences, Briefing Generation, Household Coordination, and Productivity Synthesis | docs/models/calendar-experience-model.md, docs/contracts/calendar-email-experience-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/experience-projection-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Email Experience model governance boundary | HTBW model authority for email awareness representation, importance indicator representation, summary reference representation, source attribution references, and guest-safe email visibility consumed by E13 Productivity Experiences, Briefing Generation, Email Awareness Experiences, and Productivity Synthesis | docs/models/email-experience-model.md, docs/contracts/calendar-email-experience-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/experience-projection-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Task and Shopping experience governance boundary | HTBW contract authority for task and shopping experience visibility, assignment and completion awareness, duplicate handling expectations, briefing participation, privacy, consent, explainability, and source attribution without source-of-record ownership | docs/contracts/task-shopping-experience-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-provenance-governance.md, docs/contracts/household-memory-contract.md | docs/contracts/person-identity-contract.md, docs/models/event-model.md, docs/models/person-profile-model.md, docs/architecture/identity-governance-reference.md |
+| Task Experience model governance boundary | HTBW model authority for ownership representation, assignment representation, completion representation, due-awareness representation, provenance linkage references, task explainability references, and guest-safe task visibility consumed by E13 Productivity Experiences, Household Coordination, Briefing Experiences, and Productivity Synthesis | docs/models/task-experience-model.md, docs/contracts/task-shopping-experience-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/experience-projection-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Shopping Experience model governance boundary | HTBW model authority for shopping item representation, ownership representation, duplicate indicator representation, completion representation, provenance linkage references, and guest-safe shopping visibility consumed by E13 Productivity Experiences, Household Coordination, Briefing Experiences, and Multi-Item Capture | docs/models/shopping-experience-model.md, docs/contracts/task-shopping-experience-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/experience-projection-contract.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Knowledge, Briefing, and Household Status Synthesis governance boundary | HTBW contract authority for knowledge responses, briefing composition, household status synthesis, calm-by-default ordering, guest-safe visibility, explainability, and provenance-bound source attribution | docs/contracts/knowledge-briefing-status-synthesis-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-provenance-governance.md, docs/contracts/household-memory-contract.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/calendar-email-experience-contract.md | docs/models/event-model.md, docs/models/person-profile-model.md, docs/architecture/identity-governance-reference.md |
+| Knowledge Query Experience model governance boundary | HTBW model authority for knowledge request representation, knowledge response representation, source reference representation, uncertainty reference representation, and knowledge explainability references consumed by E13 Productivity Experiences, Briefing Experiences, Household Status Synthesis, and Productivity Synthesis | docs/models/knowledge-query-experience-model.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/v2-c1-contract-refactor-baseline.md, docs/contracts/experience-projection-contract.md | docs/models/experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Briefing Composition model governance boundary | HTBW model authority for briefing section representation, source reference representation, priority ordering representation, calm-by-default ordering representation, and briefing explainability references consumed by E13 Productivity Experiences, Briefing Experiences, Household Status Synthesis, and Coordination Experiences | docs/models/briefing-composition-model.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/v2-c1-contract-refactor-baseline.md, docs/contracts/experience-projection-contract.md | docs/models/calendar-experience-model.md, docs/models/email-experience-model.md, docs/models/task-experience-model.md, docs/models/shopping-experience-model.md, docs/models/knowledge-query-experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Household Coordination contract governance boundary | HTBW contract authority for cross-domain household coordination awareness, coordination visibility semantics, coordination explainability semantics, person-aware and guest-safe coordination boundaries, and provenance consumption without source-of-record ownership transfer | docs/contracts/household-coordination-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-provenance-governance.md, docs/contracts/calendar-email-experience-contract.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md, docs/contracts/household-memory-contract.md, docs/contracts/provenance-contract.md | docs/contracts/person-identity-contract.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/interaction-model.md, docs/models/event-model.md, docs/models/occupancy-presence-model.md |
+| Household Coordination Snapshot model governance boundary | HTBW model authority for coordination snapshot representation, cross-domain coordination references, coordination visibility references, and coordination explainability references consumed by E14 Household Coordination, Coordination Experiences, Household Planning, and Household Status Synthesis | docs/models/household-coordination-snapshot-model.md, docs/contracts/household-coordination-contract.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/v2-c1-contract-refactor-baseline.md | docs/models/calendar-experience-model.md, docs/models/task-experience-model.md, docs/models/shopping-experience-model.md, docs/models/email-experience-model.md, docs/models/briefing-composition-model.md, docs/models/knowledge-query-experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/room-model.md, docs/models/occupancy-presence-model.md |
+| Multi-Item Capture Result model governance boundary | HTBW model authority for utterance representation, decomposition result representation, item lineage representation, provenance propagation references, and decomposition explainability references consumed by E13 Productivity Experiences, Task Creation Workflows, Shopping Creation Workflows, and Future Multi-Item Capture Consumption | docs/models/multi-item-capture-result-model.md, docs/contracts/multi-item-capture-interpretation-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/contracts/v2-c1-contract-refactor-baseline.md, docs/contracts/provenance-contract.md | docs/models/task-experience-model.md, docs/models/shopping-experience-model.md, docs/models/provenance-model.md, docs/models/household-memory-model.md, docs/models/person-profile-model.md, docs/models/interaction-model.md, docs/models/event-model.md, docs/models/occupancy-presence-model.md, docs/models/experience-model.md |
+| Multi-Item Capture Interpretation governance boundary | HTBW contract authority for multi-item decomposition, provenance propagation, ambiguity handling, confirmation policy, and decomposition explainability for shopping and task capture workflows | docs/contracts/multi-item-capture-interpretation-contract.md, docs/architecture/adr-household-productivity-experience-governance.md, docs/architecture/adr-experience-model-governance.md, docs/architecture/adr-provenance-governance.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/household-memory-contract.md | docs/contracts/person-identity-contract.md, docs/models/interaction-model.md, docs/models/event-model.md, docs/architecture/identity-governance-reference.md |
+| HACS and Platinum contract compliance governance boundary | HTBW final E1 contract-level quality gate for HACS readiness, Platinum readiness, diagnostics, repairability, privacy, explainability, and E12 consumption readiness | docs/architecture/hacs-platinum-contract-compliance-checklist.md, docs/architecture/hacs-and-platinum-governance-standard.md, docs/architecture/platinum-target-checklist.md, docs/architecture/implementation-verification-checklist.md, docs/contracts/provenance-contract.md, docs/contracts/occupancy-and-presence-contract.md | docs/contracts/v2-c1-contract-refactor-baseline.md, docs/contracts/experience-restoration-contract.md, docs/contracts/household-memory-contract.md, docs/contracts/task-shopping-experience-contract.md, docs/contracts/knowledge-briefing-status-synthesis-contract.md |
+| Source-of-record external provider boundaries | External providers and platform peers | docs/architecture/canonical-architecture.md, docs/contracts/service-contracts.md | docs/architecture/system-flow.md, docs/architecture/identity-governance-reference.md |
 
 ---
 
-### Integration Rule
+## Architecture Consistency Review
 
-All document and file operations must go through:
+### Conflicts Found
 
-document_storage abstraction layer
+- Canonical architecture previously mixed platform authority with an Asset Intelligence-specific five-layer runtime stack.
+- Ownership language had drift risk in some sections.
 
-No other component may:
+### Corrections Applied
 
-- access files directly
-- assume file paths
-- perform file I/O
+- Retained strict four-service canonical model.
+- Explicitly prohibited introduction of a fifth platform service.
+- Preserved Coordinator V2 as consumer/orchestrator only.
+- Restored authoritative ADR/contract/model governance references and compliance guidance.
 
----
+### Unresolved Concerns
 
-### Final Principle
-
-If the data is not inherently part of Home Assistant’s state model, it does not belong inside Home Assistant.
-
-It must be externalized and accessed through a controlled abstraction layer.
-
----
-
-## 2. Environment Model (Sensing Layer)
-
-The environment model represents current room conditions.
-
-### Responsibilities
-
-- read sensor data from Home Assistant
-- normalize all signals into a structured environment snapshot
-- compute confidence and source status
-- include spatial context (windows)
-
-### Rules
-
-- must not evaluate risk
-- must not mutate data
-- must always return a valid structure
-- must be deterministic for given inputs
-
----
-
-## 3. Evaluation Engine (Decision Layer)
-
-The evaluation engine determines asset condition.
-
-### Responsibilities
-
-- compare environment snapshot to asset requirements
-- produce risk state
-- produce reasons for the result
-
-### Rules
-
-- must be pure and deterministic
-- must not mutate state
-- must not access Home Assistant directly
-- must not perform persistence
-
----
-
-## 4. Coordinator (Runtime Orchestration)
-
-The coordinator is the runtime brain of the system.
-
-### Responsibilities
-
-- build one environment snapshot per room
-- evaluate all assets against that snapshot
-- apply debounce and transition logic
-- generate events
-- maintain in-memory projections
-- notify entities
-
-### Rules
-
-- must be the only place where state transitions occur
-- must manage all event generation
-- must not define evaluation rules
-- must not read sensors directly
-
----
-
-## 5. Entities and Interaction
-
-Entities expose system state to Home Assistant.
-
-Concierge handles interaction and orchestration.
-
-### Responsibilities
-
-Entities:
-
-- display current state
-- expose projections
-- remain lightweight
-
-Concierge:
-
-- handle communication
-- orchestrate services
-- manage user interaction
-
-### Rules
-
-Entities must not:
-
-- perform evaluation
-- store data
-- contain history
-
-Concierge must not:
-
-- own data
-- bypass services
-- perform domain evaluation
-
----
-
-## Supporting Models
-
-The system is supported by four core models:
-
-- Asset Model
-- Room Model
-- Environment Model
-- Exposure Model
-
-Each model has a defined role and must not overlap.
-
----
-### Exposure Model Clarification
-
-Exposure is a runtime model computed during the environment interpretation phase.
-
-It combines:
-
-- environment conditions
-- window orientation
-- asset placement
-- external context (such as sun position)
-
-Exposure is not a separate architectural layer.
-
-It is:
-
-- computed deterministically each cycle
-- used as input to evaluation
-- not stored in the system of record
-
----
-
-## Data Flow
-
-The system follows a strict flow:
-
-Sensor Data → Environment Model → Evaluation Engine → Coordinator → Store → Entities
-
-### Rules
-
-- each step must be deterministic
-- no step may skip another
-- all writes must go through the store
-
----
-
-## Service Flow
-
-All mutations follow this pattern:
-
-Service Call → Validation → Store Write → Coordinator Refresh
-
-### Rules
-
-- no direct store mutation
-- no bypassing validation
-- no partial writes
-
----
-
-## Event Model
-
-Events represent all meaningful system changes.
-
-### Event Sources
-
-- coordinator (primary)
-- service calls
-- configuration changes
-
-### Rules
-
-- events must be immutable
-- events must be structured
-- events must be timestamped
-- events must be bounded (history limits)
-
----
-
-## Exposure Integration
-
-Exposure is a runtime model that enhances evaluation context.
-
-### Responsibilities
-
-- combine environment, windows, placement, and sun context
-- provide directional and exposure signals
-
-### Rules
-
-- must not be stored
-- must be recalculated each cycle
-- must remain explainable
-
----
-
-## Advisory Layer
-
-Advisory provides recommendations but does not act.
-
-### Responsibilities
-
-- suggest improvements
-- explain system behavior
-- guide user decisions
-
-### Rules
-
-- must not mutate state
-- must not override evaluation
-- must be explainable
-
----
-## Contract Enforcement (Future Phase)
-
-Contracts defined in this repository are currently human-readable.
-
-In a future phase, these contracts should be enforced using:
-
-- versioned schemas (e.g., JSON Schema)
-- CI validation checks
-- service payload validation
-
-This will ensure:
-
-- Asset Intelligence and Concierge remain synchronized
-- breaking changes are detected early
-- contract compliance is enforced automatically
-
-Until then, contracts in this repository are the authoritative source of truth and must be followed strictly.
-
----
-## Documentation Responsibility Model
-
-Each document type has a distinct responsibility:
-
-- Philosophy defines why the system behaves as it does
-- Models define what data exists
-- Contracts define boundaries between components
-- Patterns define how behavior is implemented
-- Architecture defines system structure and flow
-
-Patterns may reflect philosophy, but must not redefine it.
-
-Contracts must take precedence over patterns when conflicts arise.
----
-## AI Integration
-
-AI is an optional advisory enhancement.
-
-### Responsibilities
-
-- suggest configurations
-- explain results
-- generate recommendations
-
-### Rules
-
-- must not mutate system state
-- must go through services
-- must be validated
-- must be explainable
-
----
-
-## Failure Handling
-
-The system must degrade gracefully.
-
-### Rules
-
-- missing data reduces confidence
-- system must not fail due to missing sensors
-- system must always return valid output
-- no partial state mutations allowed
-
----
-
-## Architectural Guardrails
-
-The system must never:
-
-- evaluate inside entities
-- persist inside evaluation
-- read sensors outside the environment model
-- mutate state outside services and coordinator
-- allow AI to bypass validation
+- None in this restoration pass.
 
 ---
 
 ## Final Principle
 
-The system must be:
+Architecture authority remains in HTBW.
 
-- deterministic
-- explainable
-- stable
-- predictable
+Concierge Coordinator V2 consumes governed context and orchestrates execution.
 
-If a feature violates these principles, it must not be implemented.
+E2 baseline models are aligned to the completed E1 contract architecture and must continue to consume it rather than redefine it.
+
+Platform source-of-record ownership and four-service boundaries must remain explicit and unchanged.
+
+Future E10 planning must treat [docs/architecture/adr-household-memory-governance.md](adr-household-memory-governance.md) as a mandatory dependency.
+
+Future E8a planning must treat [docs/architecture/adr-occupancy-and-presence-governance.md](adr-occupancy-and-presence-governance.md) as a mandatory dependency.
+
+Future E8 planning must treat [docs/architecture/adr-occupancy-and-presence-governance.md](adr-occupancy-and-presence-governance.md) as a mandatory dependency.
+
+Future E9 planning must treat [docs/architecture/adr-occupancy-and-presence-governance.md](adr-occupancy-and-presence-governance.md) as a mandatory dependency.
+
+Future E10 planning must treat [docs/architecture/adr-occupancy-and-presence-governance.md](adr-occupancy-and-presence-governance.md) as a mandatory dependency.
+
+Future E3a planning must treat [docs/architecture/adr-concierge-v1-capability-preservation-governance.md](adr-concierge-v1-capability-preservation-governance.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/architecture/hacs-and-platinum-governance-standard.md](hacs-and-platinum-governance-standard.md) as a mandatory dependency.
+
+Future E12 closure evaluation must treat [docs/architecture/hacs-and-platinum-governance-standard.md](hacs-and-platinum-governance-standard.md) as a mandatory gate framework.
+
+Future E2 model refactoring must treat [docs/contracts/v2-c1-contract-refactor-baseline.md](../contracts/v2-c1-contract-refactor-baseline.md) as a mandatory contract baseline dependency.
+
+Future E4 planning must treat [docs/contracts/room-vocabulary-registry-contract.md](../contracts/room-vocabulary-registry-contract.md) as a mandatory dependency.
+
+Future E4 planning must treat [docs/contracts/room-interaction-contract.md](../contracts/room-interaction-contract.md) as a mandatory dependency.
+
+Future E4 planning must treat [docs/models/room-vocabulary-registry-model.md](../models/room-vocabulary-registry-model.md) as authoritative.
+
+Future Capability Projection planning must treat [docs/models/room-vocabulary-registry-model.md](../models/room-vocabulary-registry-model.md) as authoritative.
+
+Future Experience Planning must treat [docs/models/room-vocabulary-registry-model.md](../models/room-vocabulary-registry-model.md) as authoritative.
+
+Future Composite Room Planning must treat [docs/models/room-vocabulary-registry-model.md](../models/room-vocabulary-registry-model.md) as authoritative.
+
+Future E5 planning must treat [docs/contracts/capability-projection-contract.md](../contracts/capability-projection-contract.md) as a mandatory dependency.
+
+Future E5 planning must treat [docs/contracts/room-interaction-contract.md](../contracts/room-interaction-contract.md) as a mandatory dependency.
+
+Future E5 planning must treat [docs/models/capability-projection-model.md](../models/capability-projection-model.md) as a mandatory dependency.
+
+Future Experience Projection planning must treat [docs/models/capability-projection-model.md](../models/capability-projection-model.md) as a mandatory dependency.
+
+Future Coordinator V2 planning must treat [docs/models/capability-projection-model.md](../models/capability-projection-model.md) as a mandatory dependency.
+
+Experience Model consumes Capability Projection Model and Experience Projection Contract authority.
+
+Future E6 planning must treat [docs/models/experience-model.md](../models/experience-model.md) as authoritative.
+
+Future Coordinator V2 planning must treat [docs/models/experience-model.md](../models/experience-model.md) as authoritative.
+
+Future Restoration planning must treat [docs/models/experience-model.md](../models/experience-model.md) as authoritative.
+
+Future Productivity Experience planning must treat [docs/models/experience-model.md](../models/experience-model.md) as authoritative.
+
+Future E6 planning must treat [docs/contracts/experience-projection-contract.md](../contracts/experience-projection-contract.md) as a mandatory dependency.
+
+Future E7 planning must treat [docs/contracts/person-continuity-affinity-contract.md](../contracts/person-continuity-affinity-contract.md) as a mandatory dependency.
+
+Future E8 planning must treat [docs/contracts/person-continuity-affinity-contract.md](../contracts/person-continuity-affinity-contract.md) as a mandatory dependency.
+
+Future E8 planning must treat [docs/contracts/experience-restoration-contract.md](../contracts/experience-restoration-contract.md) as a mandatory dependency.
+
+Future E8a planning must treat [docs/contracts/person-continuity-affinity-contract.md](../contracts/person-continuity-affinity-contract.md) as a mandatory dependency.
+
+Future E8a planning must treat [docs/contracts/experience-restoration-contract.md](../contracts/experience-restoration-contract.md) as a mandatory dependency.
+
+Future E9 planning must treat [docs/contracts/person-continuity-affinity-contract.md](../contracts/person-continuity-affinity-contract.md) as a mandatory dependency.
+
+Future E9 planning must treat [docs/contracts/experience-restoration-contract.md](../contracts/experience-restoration-contract.md) as a mandatory dependency.
+
+Future E10 planning must treat [docs/contracts/experience-restoration-contract.md](../contracts/experience-restoration-contract.md) as a mandatory dependency.
+
+Future E10 planning must treat [docs/contracts/household-memory-contract.md](../contracts/household-memory-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/household-memory-contract.md](../contracts/household-memory-contract.md) as a mandatory dependency.
+
+Future E8a planning must treat [docs/models/occupancy-presence-model.md](../models/occupancy-presence-model.md) as a mandatory dependency.
+
+Future E8a planning must treat [docs/contracts/occupancy-and-presence-contract.md](../contracts/occupancy-and-presence-contract.md) as a mandatory dependency.
+
+Future E8 planning must treat [docs/contracts/occupancy-and-presence-contract.md](../contracts/occupancy-and-presence-contract.md) as a mandatory dependency.
+
+Future E9 planning must treat [docs/contracts/occupancy-and-presence-contract.md](../contracts/occupancy-and-presence-contract.md) as a mandatory dependency.
+
+Future E10 planning must treat [docs/contracts/occupancy-and-presence-contract.md](../contracts/occupancy-and-presence-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/occupancy-and-presence-contract.md](../contracts/occupancy-and-presence-contract.md) as a mandatory dependency.
+
+Future E7 planning must treat [docs/models/person-continuity-model.md](../models/person-continuity-model.md) as authoritative.
+
+Future Restoration planning must treat [docs/models/person-continuity-model.md](../models/person-continuity-model.md) as authoritative.
+
+Future Experience Consumption planning must treat [docs/models/person-continuity-model.md](../models/person-continuity-model.md) as authoritative.
+
+Future Personalization Consumption planning must treat [docs/models/person-continuity-model.md](../models/person-continuity-model.md) as authoritative.
+
+Person Continuity Model consumes Person Continuity and Affinity Contract authority and Person Profile Model authority.
+
+Future E7 planning must treat [docs/models/person-room-affinity-model.md](../models/person-room-affinity-model.md) as authoritative.
+
+Future Restoration planning must treat [docs/models/person-room-affinity-model.md](../models/person-room-affinity-model.md) as authoritative.
+
+Future Messaging Consumption planning must treat [docs/models/person-room-affinity-model.md](../models/person-room-affinity-model.md) as authoritative.
+
+Future Room-Aware Experience Consumption planning must treat [docs/models/person-room-affinity-model.md](../models/person-room-affinity-model.md) as authoritative.
+
+Person-Room Affinity Model consumes Person Continuity and Affinity Contract authority, Person Profile Model authority, and Room Model authority.
+
+Future E8 Experience Restoration Planning must treat [docs/models/experience-restoration-context-model.md](../models/experience-restoration-context-model.md) as authoritative.
+
+Future Occupancy-Aware Planning must treat [docs/models/experience-restoration-context-model.md](../models/experience-restoration-context-model.md) as authoritative.
+
+Future Restoration Explainability planning must treat [docs/models/experience-restoration-context-model.md](../models/experience-restoration-context-model.md) as authoritative.
+
+Future Restoration Suppression Analysis must treat [docs/models/experience-restoration-context-model.md](../models/experience-restoration-context-model.md) as authoritative.
+
+Experience Restoration Context Model consumes Experience Restoration Contract authority, Occupancy and Presence Contract authority, Person Continuity Model authority, Person-Room Affinity Model authority, and Experience Model authority.
+
+Future E10 Household Memory Planning must treat [docs/models/provenance-model.md](../models/provenance-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/provenance-model.md](../models/provenance-model.md) as authoritative.
+
+Future E14 Multi-Item Capture must treat [docs/models/provenance-model.md](../models/provenance-model.md) as authoritative.
+
+Future attribution-aware planning must treat [docs/models/provenance-model.md](../models/provenance-model.md) as authoritative.
+
+Provenance Model consumes Provenance Contract authority, Event Model authority, and Interaction Model authority.
+
+Future E10 Household Memory Planning must treat [docs/models/household-memory-model.md](../models/household-memory-model.md) as authoritative.
+
+Future Memory-Aware Experiences must treat [docs/models/household-memory-model.md](../models/household-memory-model.md) as authoritative.
+
+Future Memory-Aware Productivity Experiences must treat [docs/models/household-memory-model.md](../models/household-memory-model.md) as authoritative.
+
+Future Household Summarization must treat [docs/models/household-memory-model.md](../models/household-memory-model.md) as authoritative.
+
+Household Memory Model consumes Household Memory Contract authority, Provenance Contract authority, Provenance Model authority, and Event Model authority.
+
+Future restoration planning must treat [docs/models/occupancy-presence-model.md](../models/occupancy-presence-model.md) as a mandatory dependency.
+
+Future messaging planning must treat [docs/models/occupancy-presence-model.md](../models/occupancy-presence-model.md) as a mandatory dependency.
+
+Future household memory planning must treat [docs/models/occupancy-presence-model.md](../models/occupancy-presence-model.md) as a mandatory dependency.
+
+Future E13 planning must treat [docs/architecture/adr-household-productivity-experience-governance.md](adr-household-productivity-experience-governance.md) as a mandatory dependency.
+
+Future E13 planning must treat [docs/contracts/experience-projection-contract.md](../contracts/experience-projection-contract.md) as a mandatory dependency.
+
+Future E13 planning must treat [docs/contracts/calendar-email-experience-contract.md](../contracts/calendar-email-experience-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/calendar-email-experience-contract.md](../contracts/calendar-email-experience-contract.md) as a mandatory dependency.
+
+Future E13 Productivity Experiences must treat [docs/models/calendar-experience-model.md](../models/calendar-experience-model.md) as authoritative.
+
+Future Briefing Generation must treat [docs/models/calendar-experience-model.md](../models/calendar-experience-model.md) as authoritative.
+
+Future Household Coordination must treat [docs/models/calendar-experience-model.md](../models/calendar-experience-model.md) as authoritative.
+
+Future Productivity Synthesis must treat [docs/models/calendar-experience-model.md](../models/calendar-experience-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/email-experience-model.md](../models/email-experience-model.md) as authoritative.
+
+Future Briefing Generation must treat [docs/models/email-experience-model.md](../models/email-experience-model.md) as authoritative.
+
+Future Email Awareness Experiences must treat [docs/models/email-experience-model.md](../models/email-experience-model.md) as authoritative.
+
+Future Productivity Synthesis must treat [docs/models/email-experience-model.md](../models/email-experience-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/task-experience-model.md](../models/task-experience-model.md) as authoritative.
+
+Future Household Coordination must treat [docs/models/task-experience-model.md](../models/task-experience-model.md) as authoritative.
+
+Future Briefing Experiences must treat [docs/models/task-experience-model.md](../models/task-experience-model.md) as authoritative.
+
+Future Productivity Synthesis must treat [docs/models/task-experience-model.md](../models/task-experience-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/shopping-experience-model.md](../models/shopping-experience-model.md) as authoritative.
+
+Future Household Coordination must treat [docs/models/shopping-experience-model.md](../models/shopping-experience-model.md) as authoritative.
+
+Future Briefing Experiences must treat [docs/models/shopping-experience-model.md](../models/shopping-experience-model.md) as authoritative.
+
+Future Multi-Item Capture must treat [docs/models/shopping-experience-model.md](../models/shopping-experience-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/knowledge-query-experience-model.md](../models/knowledge-query-experience-model.md) as authoritative.
+
+Future Briefing Experiences must treat [docs/models/knowledge-query-experience-model.md](../models/knowledge-query-experience-model.md) as authoritative.
+
+Future Household Status Synthesis must treat [docs/models/knowledge-query-experience-model.md](../models/knowledge-query-experience-model.md) as authoritative.
+
+Future Productivity Synthesis must treat [docs/models/knowledge-query-experience-model.md](../models/knowledge-query-experience-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/briefing-composition-model.md](../models/briefing-composition-model.md) as authoritative.
+
+Future Briefing Experiences must treat [docs/models/briefing-composition-model.md](../models/briefing-composition-model.md) as authoritative.
+
+Future Household Status Synthesis must treat [docs/models/briefing-composition-model.md](../models/briefing-composition-model.md) as authoritative.
+
+Future Coordination Experiences must treat [docs/models/briefing-composition-model.md](../models/briefing-composition-model.md) as authoritative.
+
+Future E14 Household Coordination must treat [docs/models/household-coordination-snapshot-model.md](../models/household-coordination-snapshot-model.md) as authoritative.
+
+Future E14 Household Coordination must treat [docs/contracts/household-coordination-contract.md](../contracts/household-coordination-contract.md) as authoritative.
+
+Future Household Coordination Snapshot Model consumption must treat [docs/contracts/household-coordination-contract.md](../contracts/household-coordination-contract.md) as authoritative.
+
+Future Coordination Experiences must treat [docs/models/household-coordination-snapshot-model.md](../models/household-coordination-snapshot-model.md) as authoritative.
+
+Future Coordination Experiences must treat [docs/contracts/household-coordination-contract.md](../contracts/household-coordination-contract.md) as authoritative.
+
+Future Household Planning must treat [docs/models/household-coordination-snapshot-model.md](../models/household-coordination-snapshot-model.md) as authoritative.
+
+Future Household Planning must treat [docs/contracts/household-coordination-contract.md](../contracts/household-coordination-contract.md) as authoritative.
+
+Future Household Status Synthesis must treat [docs/models/household-coordination-snapshot-model.md](../models/household-coordination-snapshot-model.md) as authoritative.
+
+Future E13 Productivity Experiences must treat [docs/models/multi-item-capture-result-model.md](../models/multi-item-capture-result-model.md) as authoritative.
+
+Future Task Creation Workflows must treat [docs/models/multi-item-capture-result-model.md](../models/multi-item-capture-result-model.md) as authoritative.
+
+Future Shopping Creation Workflows must treat [docs/models/multi-item-capture-result-model.md](../models/multi-item-capture-result-model.md) as authoritative.
+
+Future Multi-Item Capture Consumption must treat [docs/models/multi-item-capture-result-model.md](../models/multi-item-capture-result-model.md) as authoritative.
+
+Future E13 planning must treat [docs/contracts/task-shopping-experience-contract.md](../contracts/task-shopping-experience-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/task-shopping-experience-contract.md](../contracts/task-shopping-experience-contract.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/architecture/adr-provenance-governance.md](adr-provenance-governance.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/contracts/household-memory-contract.md](../contracts/household-memory-contract.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/contracts/calendar-email-experience-contract.md](../contracts/calendar-email-experience-contract.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/contracts/task-shopping-experience-contract.md](../contracts/task-shopping-experience-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/knowledge-briefing-status-synthesis-contract.md](../contracts/knowledge-briefing-status-synthesis-contract.md) as a mandatory dependency.
+
+Future E13 planning must treat [docs/contracts/knowledge-briefing-status-synthesis-contract.md](../contracts/knowledge-briefing-status-synthesis-contract.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/contracts/knowledge-briefing-status-synthesis-contract.md](../contracts/knowledge-briefing-status-synthesis-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/multi-item-capture-interpretation-contract.md](../contracts/multi-item-capture-interpretation-contract.md) as a mandatory dependency.
+
+Future E13 planning must treat [docs/contracts/multi-item-capture-interpretation-contract.md](../contracts/multi-item-capture-interpretation-contract.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/contracts/multi-item-capture-interpretation-contract.md](../contracts/multi-item-capture-interpretation-contract.md) as a mandatory dependency.
+
+Future E9 planning must treat [docs/contracts/provenance-contract.md](../contracts/provenance-contract.md) as a mandatory dependency.
+
+Future E10 planning must treat [docs/contracts/provenance-contract.md](../contracts/provenance-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/contracts/provenance-contract.md](../contracts/provenance-contract.md) as a mandatory dependency.
+
+Future E13 planning must treat [docs/contracts/provenance-contract.md](../contracts/provenance-contract.md) as a mandatory dependency.
+
+Future E14 planning must treat [docs/contracts/provenance-contract.md](../contracts/provenance-contract.md) as a mandatory dependency.
+
+Future E12 planning must treat [docs/architecture/hacs-platinum-contract-compliance-checklist.md](hacs-platinum-contract-compliance-checklist.md) as a mandatory dependency.
+
+Future planning that consumes E1 outputs must treat [docs/architecture/hacs-platinum-contract-compliance-checklist.md](hacs-platinum-contract-compliance-checklist.md) as a mandatory dependency.
+
+Deferred closure dependency note for V2-C7:
+
+V2-C7 implementation may complete, but issue closure remains blocked until V2-C11 is completed and validated.
+
+Deferred closure dependency note for V2-C8:
+
+V2-C8 implementation may complete, but issue closure remains blocked until V2-C11 is completed and validated.
+
+V2-C11 satisfies the dependency blocking closure of V2-C7 and V2-C8 when no remaining dependency gaps exist.

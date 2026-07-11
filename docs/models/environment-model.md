@@ -4,6 +4,10 @@
 
 The Environment Model defines the standardized structure for representing room conditions in Asset Intelligence.
 
+This model is consumed by Experience Projection and Household Status Synthesis.
+
+Occupancy is referenced externally and is not owned here.
+
 It provides a normalized, deterministic snapshot of the physical environment used for:
 
 - asset evaluation
@@ -30,6 +34,8 @@ The environment model represents current physical conditions.
 
 It does not interpret, decide, or act.
 
+It remains environmental authority for environmental conditions only.
+
 ---
 
 ## Canonical Environment Domains
@@ -52,6 +58,14 @@ The canonical environment model includes the following domains:
 All domains should be present in the normalized environment object.
 
 If data is unavailable, values should be null and confidence should be adjusted.
+
+## Contract Alignment
+
+This model aligns with:
+
+- Experience Projection Contract
+- Knowledge, Briefing, and Household Status Synthesis Contract
+- Occupancy and Presence Contract
 
 ---
 
@@ -679,6 +693,24 @@ Environment model produces current conditions.
 Evaluation engine compares current conditions to asset requirements.
 
 Coordinator applies runtime behavior and state transitions.
+
+## Occupancy Relationship
+
+Occupancy context is external to the environment model.
+
+The model may reference occupancy-adjacent significance in explanation, but it does not own occupancy or presence truth.
+
+## Household Status Synthesis Relationship
+
+Household status synthesis may consume environment outputs.
+
+The environment model does not own household status synthesis authority.
+
+## Experience Projection Relationship
+
+Experience projection may consume environment outputs for context-aware visibility and briefing surfaces.
+
+The environment model does not own experience projection authority.
 
 ---
 

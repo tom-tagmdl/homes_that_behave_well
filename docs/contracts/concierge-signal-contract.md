@@ -275,6 +275,50 @@ Signals must never:
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-009 Household Memory Governance Boundaries
+- ADR-010 Household Productivity Experience Governance Boundaries
+- ADR-011 Provenance Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract defines signal-consumption boundaries and does not redefine signal ownership.
+
+---
+
+## Ownership Boundary Validation
+
+Ownership constraints in this contract:
+
+- signal providers remain authoritative for signal state and lifecycle
+- Concierge consumes signals for orchestration and communication only
+- Coordinator V2 remains orchestration-only and does not become a signal source-of-record
+
+---
+
+## Terminology Alignment
+
+Canonical terminology in this contract:
+
+- Signal
+- Context
+- Capability
+- Experience
+- Provenance
+- Occupancy
+- Presence
+- Scope
+
+Legacy V1 assumptions that permit Concierge-side signal reinterpretation are prohibited.
+
+---
+
 ## Final Principle
 
 Signals represent the state of the household.

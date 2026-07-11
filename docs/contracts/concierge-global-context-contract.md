@@ -457,6 +457,50 @@ Global Context must not:
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-010 Household Productivity Experience Governance Boundaries
+- ADR-011 Provenance Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+Global Context remains a consumed capability surface and does not become governance authority.
+
+---
+
+## Ownership Boundary Validation
+
+Ownership boundaries preserved by this contract:
+
+- provider integrations remain source-of-record for context values
+- Concierge consumes and projects context and does not create context truth
+- Coordinator V2 uses context for orchestration and does not redefine provider ownership
+
+---
+
+## Terminology Alignment
+
+Canonical terminology used in this contract:
+
+- Context
+- Capability
+- Experience
+- Room
+- Area
+- Scope
+- Occupancy
+- Presence
+- Provenance
+
+Legacy V1 assumptions that treated context as Concierge-owned state are prohibited.
+
+---
+
 ## Final Principle
 
 Global Context provides awareness of the world.

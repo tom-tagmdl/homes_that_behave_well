@@ -222,6 +222,51 @@ Invalid updates must not partially apply.
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-006 Capability Projection Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-008 Personalization Governance Boundaries
+- ADR-010 Household Productivity Experience Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- ADR-013 Concierge V1 Household-Facing Outcome Preservation Governance
+- HACS and Platinum Governance Standard
+
+This contract defines global policy configuration boundaries and does not redefine governance authority.
+
+---
+
+## Ownership Boundary Validation
+
+Ownership constraints in this contract:
+
+- global policy remains configuration and orchestration policy, not source-of-record reassignment
+- Foundation remains authoritative for room and occupancy truth
+- Voice Identity remains authoritative for attribution and confidence outputs
+- Coordinator V2 remains orchestration-only and policy-consuming
+
+---
+
+## Terminology Alignment
+
+Canonical terminology in this contract:
+
+- Global Configuration
+- Room
+- Floor
+- Scope
+- Capability
+- Attribution
+- Confidence
+- Context
+
+Legacy V1 assumptions that blur global policy with room-truth ownership are prohibited.
+
+---
+
 ## Final Principle
 
 Global configuration sets whole-home policy.

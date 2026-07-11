@@ -218,6 +218,49 @@ Must not:
 
 ---
 
+## V2 Governance Consumption
+
+This contract consumes and aligns with:
+
+- ADR-004 Coordinator V2 Governance Boundaries
+- ADR-007 Experience Model Governance Boundaries
+- ADR-008 Personalization Governance Boundaries
+- ADR-009 Household Memory Governance Boundaries
+- ADR-010 Household Productivity Experience Governance Boundaries
+- ADR-011 Provenance Governance Boundaries
+- ADR-012 Occupancy and Presence Governance Boundaries
+- HACS and Platinum Governance Standard
+
+This contract defines identity-consumption boundaries and does not redefine identity governance ownership.
+
+---
+
+## Ownership Boundary Validation
+
+Ownership constraints in this contract:
+
+- Voice Identity remains authoritative for attribution and confidence outputs
+- Foundation remains authoritative for room and occupancy truth used during attribution context resolution
+- Coordinator V2 consumes identity context for orchestration and does not own attribution algorithms
+
+---
+
+## Terminology Alignment
+
+Canonical terminology in this contract:
+
+- Attribution
+- Confidence
+- Personalization
+- Occupancy
+- Presence
+- Context
+- Scope
+
+Legacy V1 assumptions that identity can bypass governance or safety boundaries are prohibited.
+
+---
+
 ## Final Principle
 
 Person-aware interaction should improve comfort and reduce friction while preserving determinism, transparency, and user agency.
