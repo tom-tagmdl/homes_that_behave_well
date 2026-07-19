@@ -649,6 +649,37 @@ rules:
 
 ---
 
+## concierge.push_person_message
+
+Delivers a person-scoped message to the requested household output channel.
+
+input:
+  person_id:
+  target_id:
+  message:
+  title:
+  data:
+
+output:
+  sent:
+  person_id:
+  target_id:
+  service:
+  messaging_governance_boundary:
+
+rules:
+
+- must resolve delivery against the best available room context before falling back to the person's linked room
+- must treat explicit entity targets as higher priority than symbolic target names when both are valid
+- web UI and dashboard-style targets must use Home Assistant persistent notification delivery
+- voice-assistant targets must use Assist Satellite announce semantics and may synthesize TTS media first when TTS is configured
+- speaker targets must use the room's configured TTS settings when present
+- when room TTS settings are blank, delivery must fall back to integration-level voice defaults without inventing new voice settings
+- mobile targets must route through the person's configured mobile notify targets
+- delivery decisions must remain deterministic and explainable
+
+---
+
 ## concierge.get_room_art_summary
 
 Returns room-aware art inventory and descriptions for an identified person.

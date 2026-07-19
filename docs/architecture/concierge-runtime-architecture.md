@@ -100,6 +100,10 @@ This enables:
 - deterministic routing
 - faster household-facing outcomes
 
+For person-scoped message delivery, Concierge must resolve the most relevant room context first and then route the message to the appropriate output channel for that room or person.
+Supported delivery channels include voice assistant announcement, room speaker TTS, dashboard or kiosk display, web UI notification, and mobile notification.
+Channel choice must remain explainable and follow governed fallback precedence rather than hidden inference.
+
 ---
 
 ## Interaction-Space And Conversation Policy
