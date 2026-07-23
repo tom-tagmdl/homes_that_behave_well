@@ -45,7 +45,7 @@ Identity-capable implementations may read:
 - Aqara room presence devices
 - presence and occupancy context
 - room and interaction space context
-- conversation ownership context
+- conversation correlation context (`conversation_id`, `device_id`, `satellite_id`)
 - explicit user corrections
 - optional speaker-attribution provider output
 
@@ -67,6 +67,12 @@ Identity layer output must include:
 - effective_interaction_style
 - expiration metadata
 - explainability summary
+
+Identity outputs are short-lived runtime context and must not become long-lived
+identity sessions unless an accepted ADR explicitly approves extended retention.
+
+Runtime identity outputs must never include raw audio, embeddings, vectors, or
+biometric internals.
 
 ---
 
@@ -113,6 +119,18 @@ Room behavior by confidence:
 - low confidence: ask room clarification before room-context responses
 
 Low confidence must never block low-risk deterministic actions.
+
+Runtime attribution reuse defaults should remain short-lived:
+
+- known high confidence: 30 seconds
+- known medium confidence: 15 seconds
+- low confidence or ambiguous: 5 to 10 seconds
+- unknown: no reuse
+- unavailable: no reuse
+
+Absolute cap: 60 seconds unless superseded by accepted ADR authority.
+
+`conversation_id` is a correlation key and not identity authority.
 
 ---
 
@@ -189,6 +207,9 @@ If no known-device/person linkage is available:
 
 The system must not fail command execution only because identity is uncertain.
 
+For identity-required and sensitive actions, policy may challenge or deny when
+identity is missing, stale, ambiguous, or unavailable.
+
 ---
 
 ## Integration Responsibilities
@@ -200,11 +221,25 @@ Must:
 - consume identity context when available
 - apply person style within policy bounds
 - preserve deterministic action behavior
+- classify identity requirement before executing protected/person-scoped intents
 
 Must not:
 
 - invent identity without evidence
 - use identity to bypass room context
+- perform biometric comparison or speaker attribution logic
+
+### Voice Identity
+
+Must:
+
+- perform attribution while audio is available
+- own attribution context lifecycle and expiry
+- publish safe attribution context outputs for consumers
+
+Must not:
+
+- transfer biometric internals across consumption boundaries
 
 ### Other Integrations
 
@@ -256,6 +291,14 @@ Canonical terminology in this contract:
 - Presence
 - Context
 - Scope
+
+Identity requirement classification vocabulary:
+
+- `identity_not_required`
+- `identity_optional`
+- `identity_required`
+- `identity_required_fresh`
+- `identity_required_step_up`
 
 Legacy V1 assumptions that identity can bypass governance or safety boundaries are prohibited.
 
