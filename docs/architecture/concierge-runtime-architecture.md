@@ -1,5 +1,12 @@
 ﻿# Concierge Runtime Architecture
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [framework.md](framework.md), [../contracts/concierge-contract.md](../contracts/concierge-contract.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This document defines Concierge runtime behavior under HTBW governance.

@@ -1,5 +1,10 @@
 # Final Roadmap Closure Review
 
+> **Document status: Historical — retained as a planning and closure record.**
+> This document predates the refoundation recorded in [decision-ledger.md](decision-ledger.md).
+> It is retained as evidence. It is **not** current authority.
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## 1. Purpose
 
 Define the purpose of the Final Roadmap Closure Review.

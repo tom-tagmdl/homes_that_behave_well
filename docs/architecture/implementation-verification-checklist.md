@@ -1,5 +1,9 @@
 # Implementation Verification Checklist
 
+> **Document status: Operational.**
+> Non-architectural process/checklist document. Canonical architecture:
+> [framework.md](framework.md). Terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This checklist defines repository facts that must be verified before implementation begins.

@@ -1,5 +1,10 @@
 # Issue Execution Review Checklist
 
+> **Document status: Operational.**
+> Non-architectural process/checklist document. Canonical architecture:
+> [../architecture/framework.md](../architecture/framework.md). Terminology:
+> [../models/glossary.md](../models/glossary.md).
+
 ## 1. Purpose
 
 Define the purpose of the Issue Execution Review Checklist.

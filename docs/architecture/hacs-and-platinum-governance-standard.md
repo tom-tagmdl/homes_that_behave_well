@@ -1,5 +1,9 @@
 # Architecture Governance Standard: HACS and Platinum Governance Gates
 
+> **Document status: Operational.**
+> Non-architectural process/checklist document. Canonical architecture:
+> [framework.md](framework.md). Terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Status
 
 Accepted.

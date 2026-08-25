@@ -1,5 +1,12 @@
 # Voice Enrollment Phase 0 Issues Tracker
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [../models/person-and-identity.md](../models/person-and-identity.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 This tracker mirrors the intended GitHub Issues for Concierge Phase 0.
 
 Use this file to track status until GitHub Issue creation is completed.

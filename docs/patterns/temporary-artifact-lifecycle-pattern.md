@@ -1,5 +1,10 @@
 # Temporary Artifact Lifecycle Pattern
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+
 ## Purpose
 
 This reusable Homes That Behave Well pattern defines how temporary artifacts should be managed across platform components.
@@ -94,6 +99,44 @@ Voice enrollment is a direct instance of this pattern:
 - Commit: persist profile outputs
 - Cleanup: delete temporary recordings and manifest
 - Verify: startup orphan reconciliation and cleanup
+
+---
+
+## Observed refinements from legacy implementations
+
+**Non-normative.** Harvested from the Concierge, Voice Identity and Asset Intelligence
+documentation sets. These sharpen the invariants above without adding to them, and none
+of the values named is canonical.
+
+**Idempotent is not the same as complete.** One implementation distinguishes a cleanup
+that removed artifacts from a cleanup that found nothing to remove. Both are successful
+and neither is an error, but collapsing them loses the ability to tell an interrupted
+session from a session that never wrote anything.
+
+**Reconciliation needs a taxonomy, not a scan.** Rather than looking for stray files, the
+same implementation enumerates the distinct ways the pattern can be left inconsistent — a
+working directory with no session record, a session record with no manifest, a manifest
+with no artifacts, and artifacts under an unreadable manifest — and handles each
+explicitly. Naming the failure modes is what makes reconciliation reviewable.
+
+**Cleanup that could not run must say so.** Where the storage dependency is unavailable,
+cleanup is reported as unresolved and retried when the dependency returns. It is never
+reported as successful, which is the same requirement the artifact-lifecycle decision
+places on parent removal.
+
+**Failure detail is sanitised at the boundary.** Diagnostics receive a governed code
+rather than the underlying error text, consistent with the allowlist invariant above and
+with the rule that artifact internals and storage paths are never exposed.
+
+**A temporary artifact may carry its own expiry.** One implementation gives a generated
+export a short, unconditional lifetime, so the artifact removes itself even if no
+subsequent step runs. Where the consumer is immediate, self-expiry is a stronger guarantee
+than a cleanup step that depends on a later stage completing.
+
+**Bound the payload as well as the count.** Another implementation caps individual field
+length, collection size and nesting depth when writing bounded history, summarising heavy
+nested structures rather than embedding them. A count-only bound still permits an
+unbounded record.
 
 ---
 

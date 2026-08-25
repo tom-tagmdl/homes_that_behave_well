@@ -1,5 +1,10 @@
 # UI Patterns
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+
 ## Purpose
 
 UI Patterns define how the system presents information and interacts with the user.

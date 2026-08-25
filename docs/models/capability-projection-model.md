@@ -1,5 +1,12 @@
 # Capability Projection Model
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [room-configuration.md](room-configuration.md)
+> Canonical terminology: [glossary.md](glossary.md).
+
 ## Purpose
 
 The Capability Projection Model defines how Concierge represents projected capability sets for downstream consumption.

@@ -2,229 +2,270 @@
 
 # Homes That Behave Well
 
-Homes That Behave Well is the authoritative platform specification for building calm, deterministic, explainable, and trustworthy Home Assistant-based homes.
+> **Document status: Canonical (constitutional) entry point.**
+> Canonical authority order: [docs/governance/authority-order.md](docs/governance/authority-order.md).
+> Canonical terminology: [docs/models/glossary.md](docs/models/glossary.md).
+> Document classification for every file in this repository:
+> [docs/governance/document-register.md](docs/governance/document-register.md).
 
-This repository is the source of truth for how the Homes Platform is designed, how responsibilities are divided, and how integrations must behave when working together.
+**Homes That Behave Well (HTBW) is the constitutional architecture for homes that are calm,
+predictable, explainable, and trustworthy.**
 
-It governs the shared rules and contracts used across:
-
-- Asset Intelligence
-- Concierge
-- Voice Identity
-- Future platform integrations such as security, energy, presence, and additional intelligence layers
-
----
-
-## What This Repository Is
-
-This repository defines the platform itself.
-
-It contains the authoritative:
-
-- philosophy
-- architecture
-- contracts
-- models
-- patterns
-- cross-repo behavioral rules
-
-These documents are intended to prevent architectural drift and ensure all implementations remain aligned as the platform expands.
+This repository defines the framework. It does not execute runtime logic.
 
 ---
 
-## What This Repository Governs
+## The framework
 
-Homes That Behave Well defines:
+HTBW Core is defined by **seven responsibilities**, in framework order.
 
-- platform philosophy and behavioral expectations
-- architectural boundaries between integrations
-- service interaction rules
-- runtime and configuration models
-- interaction and execution patterns
-- AI usage boundaries
-- performance and determinism requirements
-- Home Assistant-native implementation standards
+| # | Responsibility | Question |
+|---|---|---|
+| 1 | **Foundation** | What exists, and how do we describe it? |
+| 2 | **Stewardship** | What matters, and what must be cared for? |
+| 3 | **Identity** | Who do we believe this is? |
+| 4 | **Truth** | What is actually true now? |
+| 5 | **Continuity** | What should be remembered, resumed, or transferred? |
+| 6 | **Operational Trust** | What is allowed? |
+| 7 | **Concierge** | What should happen now? |
 
-This repository does not execute runtime logic. It defines the rules that runtime implementations must follow.
+Two things are deliberately **not** layers:
+
+- **Human Trust is an outcome**, not a component. It emerges when the home behaves predictably and
+  explains itself.
+- **Behavioral Governance is cross-cutting**, expressed through Operational Trust policy and the
+  Decision Trace.
+
+> **Concierge orchestrates. It does not own everything it consumes.**
+
+> **The framework provides governed capability. The household provides the values, priorities,
+> consent, and care expectations.** The household declares what matters; **Stewardship** represents
+> that declaration and creates governed care obligations. Operational Trust determines what is
+> appropriate for a request in a context; it does not author the household's values.
+
+Full definition: [docs/architecture/north-star.md](docs/architecture/north-star.md) and
+[docs/architecture/framework.md](docs/architecture/framework.md).
 
 ---
 
-## Platform Model
+## Constitutional refoundation
 
-The platform is built from independent integrations with strict responsibilities.
+This repository was refounded on the seven-responsibility framework. The refoundation superseded the
+earlier **four-service platform model** (Foundation, Asset Intelligence, Voice Identity, Concierge).
 
-| Component | Responsibility |
-|------|----------------|
-| Foundation | Source-of-truth platform facts for rooms, spaces, devices, presence, occupancy, and environmental state |
-| Asset Intelligence | Asset domain intelligence, constraints, risk, and care guidance |
-| Voice Identity | Speaker fingerprint lifecycle, identity attribution contracts, confidence outputs |
-| Concierge | Context engine, orchestration, coordinator policy, and user-facing interaction routing |
-| Homes That Behave Well | Platform philosophy, architecture, contracts, models, patterns, governance |
+| Previously asserted | Current disposition |
+|---|---|
+| Foundation owns truth | **Truth** is a first-class fact engine; Foundation defines what a Fact *is* |
+| Asset Intelligence answers "what matters" | **Stewardship** answers it; the asset model is Foundation-owned descriptive knowledge |
+| Voice Identity is a platform service | **Identity** is the responsibility; voice is one evidence source |
+| Room Configuration belongs to Concierge | **Foundation** owns it, as an interaction-definition model |
+| No fifth platform service | Superseded — there are seven responsibilities |
 
-Platform responsibility model:
+Recorded in [docs/governance/decision-ledger.md](docs/governance/decision-ledger.md) and
+[docs/architecture/adr-htbw-core-refoundation.md](docs/architecture/adr-htbw-core-refoundation.md).
 
-- Foundation -> What is true?
-- Asset Intelligence -> What matters?
-- Voice Identity -> Who is interacting?
-- Concierge -> What should happen?
+**Asset Intelligence, Voice Identity, and Concierge remain separate released products** with their own
+lifecycles. HTBW Core is greenfield and creates no compatibility requirement for them. See
+[docs/architecture/greenfield-mandate.md](docs/architecture/greenfield-mandate.md).
 
-Conceptual platform view:
+---
+
+## Dependency direction
 
 ```mermaid
 flowchart TD
-	F[Foundation\nWhat is true?]
-	A[Asset Intelligence\nWhat matters?]
-	V[Voice Identity\nWho is interacting?]
-	C[Concierge\nWhat should happen?]
+    F["1 Foundation<br/>What exists?"]
+    S["2 Stewardship<br/>What matters?"]
+    I["3 Identity<br/>Who is this?"]
+    T["4 Truth<br/>What is true now?"]
+    K["5 Continuity<br/>What is remembered?"]
+    O["6 Operational Trust<br/>What is allowed?"]
+    C["7 Concierge<br/>What should happen?"]
 
-	F --> C
-	A --> C
-	V --> C
+    F --> S
+    F --> I
+    F --> T
+    F --> K
+    F --> O
+    I --> T
+    T --> S
+    T --> K
+    T --> O
+    S --> O
+    S --> C
+    K --> C
+    O --> C
 ```
 
----
-
-## Core Principles
-
-Homes in this platform must be:
-
-- Calm: no unnecessary interruptions, noise, or repetition
-- Predictable: the same input leads to the same outcome
-- Explainable: every action and response has a clear reason
-- Deterministic: execution paths are defined in advance
-- Local-first: Home Assistant-native capability is preferred whenever possible
-- Progressively intelligent: new integrations extend understanding without increasing chaos
-- Identity before authorization: permissions require identity context before policy application
+Dependencies flow **downward only**. Nothing depends on Concierge. See
+[docs/architecture/dependency-view.md](docs/architecture/dependency-view.md).
 
 ---
 
-## Responsibility Boundaries
+## Principles
 
-The platform depends on strict separation of concerns.
+Twenty-six principles govern the framework. The ones most often needed:
 
-- Concierge never owns domain data, evaluation logic, or system-of-record persistence.
-- Asset Intelligence never owns interaction, orchestration, or communication behavior.
-- Homes That Behave Well defines the contracts and rules both must follow.
+- **P8** — Evidence is not Truth
+- **P9** — An identity assertion is not a contextual truth
+- **P13** — Concierge orchestrates; it does not own everything it consumes
+- **P14** — Explicit configuration over runtime discovery
+- **P15** — Uncertainty must remain visible
+- **P16** — The home must explain both its actions and its non-actions
+- **P17** — Architecture outlasts technology
+- **P19** — Operational Trust is a responsibility; Human Trust is an outcome
+- **P21** — Home Assistant First
+- **P22** — Connected Storage
+- **P23** — Native Experience
+- **P25** — The framework is vendor-agnostic
+- **P26** — A learned suggestion is not an autonomous policy
 
-This separation is a platform guarantee, not a style preference.
-
----
-
-## AI Position
-
-AI is optional, bounded, and subordinate to deterministic system behavior.
-
-Rules:
-
-- AI never mutates system state directly
-- AI may assist with summarization, explanation, and bounded recommendations
-- All state changes must go through validated services and defined contracts
-- AI outputs must remain explainable, auditable, and grounded in system data
-
-AI may improve delivery. It must not redefine truth or execution.
+Full list: [docs/architecture/principles.md](docs/architecture/principles.md).
 
 ---
 
-## Home Assistant Alignment
+## Home Assistant position
 
-All downstream implementations are expected to remain native to Home Assistant.
+**Home Assistant First.** Before HTBW builds a capability: does Home Assistant already provide it? If
+yes, use it. If partially, extend it natively. If no, build it — and record why.
 
-This includes:
+**Native Experience.** HTBW presents as a native part of Home Assistant. No invented UI standards.
 
-- config flow and options flow patterns
-- service registration and validation
-- entity and device registry usage
-- native dialogs, selectors, and UI behaviors
-- HACS-compliant repository and release practices
+**Vendor-agnostic.** Home Assistant is the first implementation environment, not a constraint on the
+architecture.
 
-Homes That Behave Well does not replace Home Assistant standards. It layers platform rules on top of them.
+**Object distinctions are preserved.** A Home Assistant Device, Entity, or Area is never automatically
+the same object as an HTBW Asset, Person, Pet, Room, or Service.
 
----
-
-## How To Read This Repository
-
-Recommended reading order:
-
-1. Philosophy
-2. Architecture
-3. Contracts
-4. Models
-5. Patterns
-
-Suggested entry points:
-
-- [docs/philosophy/homes-that-behave-well.md](docs/philosophy/homes-that-behave-well.md)
-- [docs/architecture/canonical-architecture.md](docs/architecture/canonical-architecture.md)
-- [docs/architecture/concierge-runtime-architecture.md](docs/architecture/concierge-runtime-architecture.md)
-- [docs/architecture/person-identity-and-enrollment-architecture.md](docs/architecture/person-identity-and-enrollment-architecture.md)
-- [docs/architecture/voice-recognition-and-enrollment-architecture.md](docs/architecture/voice-recognition-and-enrollment-architecture.md)
-- [docs/architecture/adr-voice-identity-platform-service.md](docs/architecture/adr-voice-identity-platform-service.md)
-- [docs/architecture/voice-identity-trust-and-data-residency-policy.md](docs/architecture/voice-identity-trust-and-data-residency-policy.md)
-- [docs/architecture/identity-governance-reference.md](docs/architecture/identity-governance-reference.md)
-- [docs/architecture/platinum-target-checklist.md](docs/architecture/platinum-target-checklist.md)
-- [docs/architecture/voice-identity-gold-gap-checklist.md](docs/architecture/voice-identity-gold-gap-checklist.md)
-- [docs/contracts/concierge-contract.md](docs/contracts/concierge-contract.md)
-- [docs/contracts/person-identity-contract.md](docs/contracts/person-identity-contract.md)
-- [docs/contracts/voice-recognition-contract.md](docs/contracts/voice-recognition-contract.md)
-- [docs/contracts/asset-intelligence-contract.md](docs/contracts/asset-intelligence-contract.md)
+See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assistant-boundary.md).
 
 ---
 
-## Repository Structure
+## Reading order
 
-Top-level structure:
+**Start here:**
 
-- `docs/philosophy/` — why the system behaves the way it does
-- `docs/architecture/` — canonical structure, runtime layering, and system flow
-- `docs/contracts/` — boundaries, service surfaces, and platform obligations
-- `docs/models/` — data and runtime representations
-- `docs/patterns/` — implementation rules for execution, interaction, messaging, UI, and configuration
-- `examples/` — scenarios and interaction flows used to illustrate intended behavior
+1. [docs/architecture/north-star.md](docs/architecture/north-star.md) — the constitution
+2. [docs/architecture/framework.md](docs/architecture/framework.md) — the seven responsibilities in full
+3. [docs/models/glossary.md](docs/models/glossary.md) — canonical terminology
+4. [docs/architecture/principles.md](docs/architecture/principles.md) — P1–P26
 
-Person-aware interaction architecture is defined as a Concierge sub-project and includes:
+**Then:**
 
-- person identity and enrollment architecture
-- voice recognition and enrollment architecture
-- person identity contract
-- voice recognition contract
-- person profile model
-- voice profile model
-- person identity runtime and UI patterns
-- voice recognition patterns
+5. [docs/architecture/dependency-view.md](docs/architecture/dependency-view.md)
+6. [docs/architecture/runtime-sequence.md](docs/architecture/runtime-sequence.md)
+7. [docs/contracts/README.md](docs/contracts/README.md)
+8. [docs/scenarios/README.md](docs/scenarios/README.md)
+**Governing behavior:**
 
----
+- [docs/architecture/behavioral-governance.md](docs/architecture/behavioral-governance.md)
+- [docs/architecture/explainability.md](docs/architecture/explainability.md)
+- [docs/architecture/failure-and-degradation.md](docs/architecture/failure-and-degradation.md)
+- [docs/architecture/privacy.md](docs/architecture/privacy.md)
 
-## How Downstream Repositories Use This
+**Building it:**
 
-This repository is designed to be used alongside implementation repositories such as Asset Intelligence and Concierge.
+- [docs/architecture/greenfield-mandate.md](docs/architecture/greenfield-mandate.md)
+- [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assistant-boundary.md)
+- [docs/architecture/connected-storage.md](docs/architecture/connected-storage.md)
+- [docs/assessment/assessment-to-platform.md](docs/assessment/assessment-to-platform.md)
 
-It is used to:
+**Voice evidence:**
 
-- ground implementation decisions in shared platform rules
-- keep cross-repo behavior synchronized
-- guide Copilot and human development work
-- reduce ambiguity during feature design and refactoring
-- ensure future integrations inherit consistent behavior
+- [docs/architecture/adr-wyoming-compatible-voice-evidence-runtime.md](docs/architecture/adr-wyoming-compatible-voice-evidence-runtime.md)
+  — Accepted as **DL-50**. The capability execution host, the Wyoming boundary, and the Voice Evidence
+  Provider Principle.
 
-When patterns evolve in implementation, those changes should be reflected here so the platform remains coherent.
+**Governance:**
 
----
-
-## Governance Rule
-
-Contracts and architecture in this repository take precedence over downstream reinterpretation.
-
-If an implementation introduces a new pattern, boundary, or capability model that affects more than one integration, this repository must be updated so that the change becomes part of the shared platform definition.
-
-This repository exists to keep the platform aligned as it grows.
+- [docs/governance/authority-order.md](docs/governance/authority-order.md)
+- [docs/governance/decision-ledger.md](docs/governance/decision-ledger.md)
+- [docs/governance/open-decision-issue-index.md](docs/governance/open-decision-issue-index.md)
+- [docs/governance/document-lifecycle.md](docs/governance/document-lifecycle.md)
+- [docs/governance/document-register.md](docs/governance/document-register.md)
+- [docs/governance/season-1-architectural-baseline.md](docs/governance/season-1-architectural-baseline.md)
+  — point-in-time status snapshot. **Not authority.**
 
 ---
 
-## Design Goal
+## Repository structure
 
-This platform is not conventional automation.
+| Path | Contents |
+|---|---|
+| `docs/architecture/` | The framework, principles, cross-cutting concerns, and ADRs |
+| `docs/models/` | Canonical models for each responsibility, plus the glossary |
+| `docs/contracts/` | Explicit boundaries between responsibilities |
+| `docs/scenarios/` | Canonical acceptance scenarios |
+| `docs/assessment/` | Assessment-to-platform traceability |
+| `docs/governance/` | Authority order, document lifecycle, decision ledger, document register, open-decision issue index |
+| `docs/philosophy/` | Why the home behaves as it does |
+| `docs/patterns/` | Implementation patterns (subordinate to canon) |
+| `docs/development/` | Development checklists and guardrails |
+| `examples/` | Historical illustrations, retained as evidence |
 
-It is a structured, deterministic, decision-support system for the home.
+---
+
+## Document status
+
+**Every Markdown file in this repository carries a status banner.** Canonical documents define the
+framework; historical documents are retained as architectural evidence and are not current authority.
+
+When documents disagree, [docs/governance/authority-order.md](docs/governance/authority-order.md)
+decides. Every file's disposition is recorded in
+[docs/governance/document-register.md](docs/governance/document-register.md).
+
+---
+
+## Open decisions
+
+**Seventy-four decisions are deliberately unresolved**, recorded as **OD-01** through **OD-84** in
+[docs/governance/decision-ledger.md](docs/governance/decision-ledger.md) — including the Home Assistant
+representation strategy, Truth Fact confidence representation, identity-confidence thresholds,
+Decision Trace retention, and the Stewardship obligation lifecycle. Ten of the eighty-four
+identifiers are closed or resolved and are preserved rather than deleted.
+
+**A deliberately open decision is not a gap.** Recording it honestly is better than inventing an answer
+the household has not chosen.
+
+> **GitHub issues are the authoritative source for the current status, remaining questions,
+> dependencies, and closure evidence of each open decision. This repository remains authoritative for
+> accepted architecture.** The identifier-to-issue mapping is
+> [docs/governance/open-decision-issue-index.md](docs/governance/open-decision-issue-index.md).
+
+---
+
+## The governance test
+
+The documentation in this repository must be able to answer, without contradiction:
+
+What exists? · What participates? · What is exposed? · What do residents call it here? · Who is this? ·
+What is actually true? · What matters and must be cared for? · What should be remembered, resumed, or
+transferred? · What is allowed? · What should happen now? · Why did it happen? · Why did it not happen? ·
+Which policy or fact took priority? · Where is each responsibility defined? · Which decisions remain
+open?
+
+---
+
+## How downstream repositories use this
+
+Asset Intelligence, Voice Identity, and Concierge are **separate released products**. This repository
+grounds their architectural decisions and records the discoveries made in building them. It does **not**
+impose a compatibility requirement on them, and it contains no runtime code.
+
+When a pattern evolves during implementation, it should be reflected here so the framework stays
+coherent — subject to
+[docs/governance/authority-order.md](docs/governance/authority-order.md), in which implementation is
+rank 6 and does not override the framework.
+
+---
+
+## Design goal
+
+This is not conventional automation.
+
+It is a structured, explainable decision framework for the home — one that can always say what it
+believed, what it did, what it did not do, and why.
+
 
 The goal is not merely to automate devices.
 

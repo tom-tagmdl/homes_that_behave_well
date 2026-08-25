@@ -1,5 +1,10 @@
 # AI Assisted Actions
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+
 ## Purpose
 
 AI Assisted Actions define how artificial intelligence interacts with the system.

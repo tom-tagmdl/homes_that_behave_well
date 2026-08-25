@@ -1,5 +1,12 @@
 ﻿# Identity Governance Reference
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [../contracts/identity-contract.md](../contracts/identity-contract.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This document records HTBW identity governance constraints used by Concierge and Voice Identity integrations.
@@ -85,14 +92,20 @@ Rules:
 
 ## Confidence Policy
 
-Confidence bands govern personalization and clarification behavior, not ownership or truth mutation.
+**A confidence band states the strength of identity support and nothing else** (**DL-39**). It carries
+no personalization, presentation, disclosure, access, or confirmation meaning of its own. What a band
+is *sufficient for* is an **Operational Trust requirement**, and the four bands are **Low**,
+**Moderate**, **High**, and **Very High**. **`None` is a Trust requirement value, never an Identity
+band.**
 
-- high confidence: allow direct personalization
-- medium confidence: conservative personalization
-- low confidence: neutral style and deterministic routing
-- very low confidence: concise clarification when necessary
+The behaviour a household may configure against those requirements — direct personalization,
+conservative personalization, neutral style and deterministic routing, or a concise clarification —
+is Operational Trust policy, resolved per capability and protected operation. See
+[../models/operational-trust.md](../models/operational-trust.md).
 
-Low confidence must not block safe, deterministic low-risk actions.
+A low band must not block safe, deterministic low-risk actions: such actions are ordinarily
+configured with a Required Identity Band of `None`, and **an unmet presentation threshold never denies
+an action**.
 
 ---
 

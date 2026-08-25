@@ -1,5 +1,12 @@
 # Briefing Composition Model
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [experience-and-session.md](experience-and-session.md)
+> Canonical terminology: [glossary.md](glossary.md).
+
 ## Purpose
 
 The Briefing Composition Model defines how Concierge represents briefing sections, ordering semantics, source references, calm-by-default composition, and explainability references for downstream productivity experiences.

@@ -1,5 +1,11 @@
 # Homes That Behave Well
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/north-star.md](../architecture/north-star.md),
+> [../architecture/framework.md](../architecture/framework.md), and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+
 ## Overview
 
 Homes That Behave Well is a philosophy for building smart home systems that are calm, predictable, and trustworthy.

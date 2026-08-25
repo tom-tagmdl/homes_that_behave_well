@@ -1,5 +1,13 @@
 # Concierge Philosophy
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/north-star.md](../architecture/north-star.md),
+> [../architecture/framework.md](../architecture/framework.md), and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+> Superseded terminology appears in this document: "Composite Room" is now **Merged Room**, and
+> "Interaction Space" is now **Room Context**. See [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 The Concierge Philosophy defines the guiding principles behind the design and behavior of the Concierge system.

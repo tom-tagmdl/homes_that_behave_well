@@ -1,5 +1,27 @@
 # Occupancy and Presence Model
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [truth.md](truth.md)
+> Canonical terminology: [glossary.md](glossary.md).
+>
+> **Two elements of this document must not be implemented.**
+>
+> 1. **Its numeric confidence values** — `occupancy_confidence: {value: 0.92}` and
+>    `identity_confidence: 0.86` — are **superseded**. Identity confidence is the four bands
+>    **Low < Moderate < High < Very High**, carried only by a `known` assertion (**DL-39**); a
+>    percentage is never canonical public confidence, and a configured value is **never** presented as
+>    measured accuracy (**DL-32**). **Truth Fact confidence representation is open decision OD-74**, and
+>    the numbers below pre-empt nothing.
+> 2. **Its claim to be a "mandatory dependency" for downstream planning** is superseded. Occupancy and
+>    presence Facts are owned by **Truth**, and no consumption model sits between Truth and its
+>    consumers.
+>
+> Its `guest` occupancy state is likewise superseded: an unidentified human is the **Unknown Person**
+> assertion outcome (**DL-33**), and **no synthetic Guest Person is ever created**.
+
 ## Purpose
 
 The Occupancy and Presence Model defines how Concierge consumes occupancy and presence information for downstream decision-making.

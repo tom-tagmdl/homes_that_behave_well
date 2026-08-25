@@ -1,0 +1,815 @@
+# Home Assistant Boundary
+
+> **Document status: Canonical.**
+> Governed by the Home Assistant First principle (P21) in [principles.md](principles.md).
+
+---
+
+## Position
+
+**HTBW extends Home Assistant. HTBW does not compete with Home Assistant.**
+
+Home Assistant is the initial reference platform. The HTBW framework itself remains vendor-agnostic
+and must be able to assess and describe homes built on other platforms.
+
+---
+
+## Home Assistant First
+
+Before introducing any new model, storage mechanism, workflow, configuration system, UI concept,
+registry, or architectural construct:
+
+1. Review official Home Assistant documentation.
+2. Review official Home Assistant developer documentation.
+3. Review official Assist and Voice Assistant documentation.
+4. Determine whether Home Assistant already provides a documented pattern.
+
+Prefer Home Assistant primitives whenever they appropriately represent the requirement.
+
+An HTBW extension is justified **only** when Home Assistant cannot practically represent the required
+information. The justification belongs in an ADR or in
+[../governance/decision-ledger.md](../governance/decision-ledger.md).
+
+---
+
+## What Home Assistant may provide
+
+- Device Registry
+- Entity Registry
+- Area Registry
+- Floors
+- Labels
+- Person entities
+- State changes
+- Events
+- Services and actions
+- Calendars
+- Media players
+- Voice-assistant events and Assist pipelines
+- Integration data
+- Automation infrastructure
+- Config flows and options flows
+- Recorder state history, including prior-state linkage and deduplicated attributes
+- Event bus and recorded events
+- Context identifiers, parent context identifiers, and user context identifiers
+- History panel, CSV export, and the history REST endpoint
+- Activity (Logbook)
+- Long-term statistics
+- Recorder retention, purge actions, and include/exclude filters
+- Attribute recording controls
+- State restoration across restart
+- Config-entry versioning and migration
+- Area aliases, and Area environmental entity assignments where the household has configured them
+- Repairs issues and guided repair flows
+- Conversation, custom sentences, and custom intents
+- To-do entities, with their triggers and conditions
+- Tag scan events
+- Backup, including automatic backup and its result reporting
+- Native automations, scripts, scenes, and blueprints authored by the household
+
+---
+
+## What HTBW owns
+
+- The canonical framework
+- The household domain model
+- Responsibility contracts
+- Room and Merged Room configuration
+- Participation and exposure
+- Contextual vocabulary
+- Identity assertions
+- Truth facts
+- Stewardship obligations
+- Continuity sessions and preferences
+- Operational Trust policy
+- Concierge decisions
+- Decision Traces
+- Explainability
+- Assessment traceability
+- The unified HTBW resident experience
+
+---
+
+## Object distinctions
+
+These object kinds are **not** interchangeable. Treating them as the same object is a defect.
+
+| HTBW concept | Possible Home Assistant backing | Why they differ |
+|---|---|---|
+| Physical Room | Area, including its `aliases`, `floor_id`, `labels`, and its assigned `temperature_entity_id` and `humidity_entity_id` | An Area is a registry grouping. A Physical Room is a household place with environmental and maintenance meaning. The Area registry now carries **native environmental entity assignments**, which HTBW consumes rather than duplicates. |
+| Room / Merged Room | One or more Areas | A Room is an interaction context. Home Assistant has no equivalent construct. |
+| Asset | Zero, one, or many Devices | Many Assets have no device at all. One Asset may span several Devices. |
+| Capability | One or many Entities | A capability is expressed in household terms; entities are platform terms. |
+| Vocabulary Term | None | Home Assistant aliases operate per entity; HTBW vocabulary is Room-scoped and may target a configured group. |
+| Person | `person` entity | HTBW Person carries roles, identity evidence associations, preferences, and authority that the entity does not. |
+| Pet | None | No native primitive exists. |
+| Service (provider) | None | No native primitive exists. |
+| Fact | State | A state is evidence. A Fact is governed, provenance-bearing, and confidence-bearing. |
+| Obligation | Calendar event or `todo` item (partially) | An obligation has accountability, lifecycle, and escalation semantics beyond a calendar entry. |
+| Session | None | Media player state is evidence about a session, not the session. |
+| Policy | None | Automations encode behavior; they do not express governed authority. |
+| Decision Trace | Logbook (partially) | The logbook records what changed, not why a decision was reached or refused. |
+| Historical Fact | Recorder `states` row (partially) | A recorded state is historical **evidence**. A Historical Fact is a governed conclusion carrying confidence at the time, provenance, coverage, validity, and lifecycle. |
+| Change Record | Recorder `states` row with `old_state_id` (partially) | Home Assistant links prior state per entity. A Change Record spans non-entity subjects, names an owning responsibility, carries privacy and retention classification, and survives purge policy independently. |
+| Domain Event | Bus event | A bus event is a platform occurrence. A Domain Event is a governed household occurrence with an owner and provenance. |
+| Snapshot | Long-term statistics (partially) | Statistics are numeric downsamples of entity measurements. A Snapshot is governed state across a bounded scope, identifying exact record versions. |
+| Version Identity | Config-entry `version` (not equivalent) | A config-entry version is a **schema** version used for migration. It does not identify an exact state of a record and produces no change record. |
+| Correlation and causation | Context ID, Parent Context ID, User Context ID | Home Assistant context is the closest native primitive and must be evaluated before any HTBW alternative is designed. Whether it is adopted is **OD-38**. |
+| Preservation Hold | None | Recorder purge is global or entity-scoped. **No per-record purge exemption exists.** |
+| Tombstone | None | Purge deletes rows, leaving nothing to distinguish *"the record was removed"* from *"nothing happened"*. |
+| Communication | Notification, persistent notification, or `alert` (none equivalent) | A notification is a **delivery outcome**. A Communication is a governed household interaction with identity, version, audience, category, urgency, lifecycle, and history that exists whether or not anything was ever sent. |
+| Delivery Attempt | A `notify` or `assist_satellite` action call | An action call is fire-and-forget. A Delivery Attempt is a recorded, bounded act to one surface with its own governed outcome. |
+| Audience | `target`, notify group, or entity list | A target is a device or entity. An Audience is a **specification of people** — a person, role, authority class, or *anyone present with authority*. Home Assistant has no equivalent. |
+| Urgency | iOS `interruption-level`, Android channel `importance` | Two different, non-portable per-platform ladders, neither governed by household policy. HTBW Urgency is an Operational Trust **entitlement** mapped downward, never adopted upward. |
+| Acknowledgement | `alert` acknowledgement, `clear_notification`, `mobile_app_notification_cleared` | Dismissal identifies nobody. HTBW Acknowledgement is **person-attributed**. `context.user_id` on `mobile_app_notification_action` is the only native attribution path, and only for actionable notifications. |
+| HTBW **Alert** category | The `alert` integration | ⚠️ **Name collision.** The HTBW Alert category describes *what a Communication is about*. The `alert` integration is a **condition-driven retry mechanism** watching an entity state. They are not the same object and must never be conflated. |
+| Household Inbox | The notifications panel | The panel is a stored list of persistent notifications. The Household Inbox is a **projection**, filtered by the viewer's authority at read time, and is never persisted. |
+| Suppression | Nothing | A notification that was not sent leaves no native trace. HTBW records a suppression as a governed change with a Decision Trace. **"Nothing was sent" and "we decided not to send" are different facts.** |
+| **Exposure** (HTBW, **P6**, **P7**, **DL-11**) | Assist entity exposure settings | ⚠️ **Name collision.** Assist exposure decides whether an **assistant may target or interact with** an entity. HTBW Exposure decides whether, and how, the **existence of or information about** something may be perceptible to a resident. They are different concepts and must never be merged. |
+| HTBW configuration defect | Repairs issue in the issue registry | A Repairs issue is a **surface** for an administrator-correctable problem. It is not the defect definition, not an obligation, and not a Communication. |
+| Native automation, script, scene, blueprint | Automation, script, scene, blueprint | These are **native participants** the household owns through Home Assistant. HTBW references and observes them. HTBW does not own, absorb, rewrite, or replace them. |
+| Behaviour source | Context ID, Parent Context ID, User Context ID, and the originating integration where identifiable | Context supplies correlation and, where the platform supplies it, an attributable user. It does not supply the household meaning of *what caused this*, which HTBW records as behaviour attribution on the **Domain Event**. See [../models/temporal-record.md](../models/temporal-record.md). |
+
+### Exposure precedence
+
+> **Home Assistant Assist exposure is a platform boundary. HTBW may narrow it. HTBW must never bypass
+> it.**
+
+- Assist exposure determines whether an assistant **may target or interact with** an entity.
+- HTBW Exposure determines whether, and how, **the existence of or information about** something may
+  be perceptible to a resident.
+- **HTBW must not use voice to convey information about, or act upon, an entity that Home Assistant
+  has not exposed to the applicable assistant.**
+- Where HTBW would expose something that Home Assistant has not, the correct outcome is a reported
+  configuration condition — never a silent bypass. The residual question is **OD-59**.
+
+HTBW Exposure is defined in [../models/room-configuration.md](../models/room-configuration.md). **This
+is the canonical explanation of the distinction; other documents cross-reference it rather than
+restate it.**
+
+Four states are involved, and **they must never be collapsed into one**:
+
+| State | Owner | Question it answers |
+|---|---|---|
+| Native Assist exposure | Home Assistant | May an assistant target this entity at all? |
+| HTBW participation | Room Configuration | Does this object take part in this Room's interaction model? |
+| HTBW contextual exposure | Room Configuration | Is it reachable by a term, and offered in Room Help? |
+| Authority | Operational Trust | May this resident act on it, or know it exists? |
+
+**Configuring a contextual term exposes nothing to Assist and grants no authority.** Home Assistant
+documents exposure as the control that prevents sensitive devices, such as locks and garage doors,
+being controlled inadvertently by voice; HTBW narrows that boundary and never routes around it.
+
+### Repairs is a surface, not an owner
+
+**Repairs is the preferred Home Assistant surface for HTBW integration configuration defects and
+administrator-correctable platform problems** — a Room whose constituent Area was deleted, a
+vocabulary term whose target no longer exists, an unreachable connected-storage anchor.
+
+| Rule | Statement |
+|---|---|
+| Repairs does not own the defect | The defect definition remains with the responsibility that detected it |
+| Repairs is not an obligation store | A household obligation is Stewardship-owned and never becomes a Repairs issue |
+| Repairs is not a Communication | A Repairs issue is not addressed to an audience and carries no Urgency entitlement |
+| Ignoring is not acknowledgement | **Ignoring a Repair identifies nobody.** It is not a person-attributed acknowledgement of a Communication |
+| Severity is not Urgency | `IssueSeverity` is a developer-facing platform ladder, not resident-facing Urgency |
+
+Adoption scope is **OD-60**.
+
+---
+
+## Representation strategy
+
+The accepted representation rule is **DL-31** in
+[../governance/decision-ledger.md](../governance/decision-ledger.md). It governs how HTBW references,
+extends, and projects Home Assistant objects. The **persistence model** for governed HTBW records is
+settled by **DL-46** and **DL-47**; the remaining **representation mechanism** — config entry,
+subentry, or private storage — is the residual part of **OD-01**.
+
+### The rule
+
+> **Home Assistant remains authoritative for native registry objects and for every property those
+> objects natively own.**
+>
+> **HTBW references native objects by their stable Home Assistant identifiers and retains only the
+> additional information required to satisfy an HTBW constitutional requirement.**
+
+| Rule | Statement |
+|---|---|
+| Reference, do not copy | Native data is **read from Home Assistant when needed**. It is not copied into HTBW storage for convenience |
+| No duplicate maintenance | **No resident may be required to maintain the same information twice** |
+| Prefer native representation | Where an HTBW concept benefits from native visibility, discovery, state, automation, targeting, dashboards, actions, Area relationships, or entity behaviour, prefer creating or using a native representation over a parallel object hierarchy |
+| Extension by reference | An HTBW extension attaches meaning **to** a native object. It does not absorb it |
+| Precise ownership language | Never write *"Home Assistant owns the HTBW concept."* Distinguish **semantic definition**, **native representation**, **extension data**, **runtime state**, and **registry authority** |
+
+Once an HTBW concept has a native representation: Home Assistant is authoritative for the registry
+object, its native fields, and its native relationships; HTBW holds only the governance, meaning,
+stewardship, identity, continuity, policy, explainability, or historical information that is not
+natively represented; and HTBW references the native object by its stable identifier.
+
+### The three representation categories
+
+| Category | Definition | Members |
+|---|---|---|
+| **1 — Referenced and extended** | The native object exists independently of HTBW | Area, Floor, Device, Entity, Label, Person, Config Entry |
+| **2 — Represented natively** | The concept originates in an HTBW requirement but benefits from a native representation the integration creates and manages | Asset Device, Asset-derived Entity, managed classification Label |
+| **3 — Governed HTBW records** | No sufficient native representation exists | Merged Room, Decision Trace, Communication, Temporal Record, Preservation Hold, Evidence Package, Stewardship Obligation, Continuity Preference |
+
+Category 3 still **references** native objects where a relationship exists, still avoids copying
+native definitions, and may still project into native surfaces. **A projection never becomes the
+authoritative HTBW record.**
+
+### What every extension must define
+
+1. Native object type · 2. Native stable identifier · 3. HTBW extension type · 4. HTBW owner ·
+5. Additional fields retained · 6. Native fields explicitly **not** copied · 7. Behaviour on rename ·
+8. Behaviour on Area or Floor move · 9. Behaviour when unavailable · 10. Behaviour when disabled ·
+11. Behaviour when removed · 12. Tombstone or historical-reference behaviour · 13. Repair behaviour
+for a broken reference · 14. Projection behaviour, if any · 15. Explainability and historical
+implications.
+
+Rename, Area change, and Floor change require **no synchronisation**, because nothing was copied. A
+removed native object produces a **broken reference**, which is reported through the Repairs boundary
+above and never silently rewritten in history.
+
+### Deletion is directional
+
+| Case | Rule |
+|---|---|
+| Deleting an HTBW extension of a **referenced** native object | **Never deletes the native object.** The extension is removed; the Area, Device, Entity, Person, or Label remains |
+| Deleting an HTBW extension of an **HTBW-created** native object | May remove the native representation **only** where HTBW created it, the relationship is explicitly governed, the user is authorised, and referential and historical consequences have been evaluated |
+| Removing an association | Removes participation. It deletes nothing |
+| Removing a managed Label | Removes a **projection**. It never changes the authoritative HTBW classification |
+| Native object deleted outside HTBW | Produces a broken reference. **Historical references are never silently rewritten**, and HTBW does not recreate the object without governed user intent |
+
+Home Assistant supports integration-initiated device removal through the opt-in
+`async_remove_config_entry_device` pattern; where a native representation HTBW created is removed,
+that supported pattern applies.
+
+### Home Assistant First applies to storage and retention
+
+> **Home Assistant owns Home Assistant data. HTBW consumes it.**
+
+The representation rule above is a rule about **models**. It applies identically to **storage and
+retention**: where Home Assistant already governs and retains the information, **HTBW creates no
+parallel store and no second retention model**.
+
+| Home Assistant governs and retains | HTBW does |
+|---|---|
+| Recorder state history and long-term statistics | Consume through the boundary. **No copy for the purpose of having a copy** |
+| Entity state and attributes | Consume as evidence. Truth governs Facts; it does not restate state |
+| Device state and registry data | Reference by stable identifier |
+| Person state and `user_id` linkage | Reference and extend. No parallel person store |
+| Area membership, floors, labels, aliases | Reference. No parallel registry |
+| Recorder retention and purge | **Follow it.** HTBW does not run a second purge over native history |
+| Native metadata | Reference. Never mirror for convenience |
+
+**Duplication requires a governed gap, never a preference.** The only justification for an HTBW
+record alongside a native one is a documented governance requirement that Home Assistant cannot
+satisfy — recorded under the ordered burden of proof (**P21**, **DL-30**) and reviewed in the
+temporal and communication capability reviews below. Convenience, query shape, performance
+speculation, and *"it is easier to own it"* are not justifications. **Wanting longer retention is not
+a gap**; it is a reason to extend retention through Connected Storage, not to copy native history.
+
+**HTBW builds no second Recorder.** Native state history has one owner. An HTBW governed record
+alongside it exists to carry governance that Recorder cannot express — classification, versioning,
+Tombstones, Preservation Holds — and never to restate the state itself.
+
+Where a gap **is** established, the extension governs; it does not replace. A native record remains
+authoritative, and a purged native record resolves to *"no longer retained"*, never *"never
+existed."* **The presence of Connected Storage changes none of this** — it does not transfer
+ownership of native data, and external history is an HTBW **extension**, never a replacement for
+Home Assistant history, which remains the source while it is available.
+
+**Extending retention beyond the Home Assistant window is a Connected Storage capability**, with its
+own dependency and its own configured window. Without Connected Storage, HTBW follows the available
+Home Assistant storage and retention boundaries: capabilities that need no external artifact remain
+available, and those that do are **unavailable** rather than degraded into a local store. See
+[connected-storage.md](connected-storage.md).
+
+**Home Assistant is also the storage provider itself.** It owns the network-storage connection —
+protocol, mount, credentials, and administration — and HTBW selects none of them. HTBW's ownership
+begins only after a valid storage dependency has been made available (**DL-44**). Home Assistant
+First applies to the storage *connection* exactly as it applies to storage *content*: HTBW does not
+build what the platform already provides.
+
+### Object-by-object representation
+
+Read together with the object distinctions above: that table says which concepts are **not the same
+thing**; this one says **how each is referenced, extended, and projected**.
+
+| Concept | Native HA object | Native authority | HTBW relationship | Extension owner | HTBW data retained | Native projection | Duplication prohibited | Residual question |
+|---|---|---|---|---|---|---|---|---|
+| Area | Area | Name, picture, `floor_id`, `aliases`, `labels`, assigned temperature and humidity entities | Reference by area ID | Foundation | None beyond the reference | Not applicable | Area name, picture, floor, aliases, labels | — |
+| Floor | Floor | Native floor object | Reference | Foundation | None beyond the reference | Not applicable | Floor definitions | **OD-10** — whether Floor is a first-class HTBW scope. Developer documentation unverifiable |
+| Room Configuration | Area (constituents) | The Areas themselves | Extends one or more Areas | Foundation (Room Configuration) | Participation, exposure, vocabulary, exclusions, Room Help, capability exposure, composite-fact inputs, experience endpoints | Not applicable | Anything the Area natively owns | **OD-11** |
+| Merged Room | None | Not applicable | References constituent Areas or Rooms | Foundation (Room Configuration) | Merged interaction, participation, vocabulary, and experience semantics | Undecided | Constituent Area definitions | **OD-70** |
+| Existing Device | Device | Identifiers, manufacturer, model, `model_id`, serial number, versions, `via_device`, `area_id`, config entries | Reference by device ID | The responsibility using it | Participation and governed references only | Not applicable | A competing device registry; native device metadata | — |
+| Existing Entity | Entity | `unique_id`, entity ID, state, attributes, device and area assignment | Reference by entity ID; read state as evidence | The responsibility using it | Participation, evidence role, governed references | Not applicable | A competing entity registry; native state as a second current-state authority | — |
+| Asset | Zero, one, or many Devices | Whatever native objects exist | Semantic definition is HTBW's | Foundation (asset model) | Identity, descriptive knowledge, documentation references, limits, relationships | See Asset Device | Native device metadata | — |
+| Asset Device | Device | The registry entry, once created | **Created and managed by the integration** where the Asset has no native backing | Foundation (asset model) | The device ID, plus Asset extension data | The Asset made visible to dashboards, automations, targeting, and Assist | Re-creating a Device for an Asset that already has one | — |
+| Asset-derived Entity | Entity | The registry entry and the published state | Created by the integration where the state is useful natively | The responsibility that determines the value | The entity ID and the determination inputs | Attention or obligation state made consumable natively | A second authority for the value it publishes | **OD-69** |
+| Label | Label | The label object | Reference; and create and manage a **reserved subset** | Foundation | Which managed labels are HTBW-maintained | The projection mechanism itself | A competing general-purpose label system; deleting or overwriting resident labels | **OD-68** |
+| Asset Type | Label (projection only) | The label object, not the classification | Authoritative in HTBW | **Foundation (asset model)** | The authoritative type value and its change history | Managed reserved Labels, derived | Requiring residents to maintain type and labels separately | **OD-68** |
+| Person | `person` entity | Name, picture, device trackers, optional user association, access flags | Reference by the native Person | **Distributed** — each extension keeps its own owner | Consent, identity-evidence associations, roles, preferences, obligations, communication and external-service references | Not applicable | A second Person record; native name, picture, presence relationships, or user association | — |
+| Person-associated tracker or evidence source | `device_tracker`, and other native evidence | The association and the tracker state | Consumes the resulting evidence | Identity | The **Identity Evidence Association** — person-specific reliability, claim applicability, freshness, family, consent — and assertion records | Not applicable | A duplicate person-to-tracker registry | **DL-32**, **DL-38**, **DL-39** |
+| Unknown Person | **None — and none is created** | Not applicable | An Identity Assertion outcome carrying no Person reference | Identity | The assertion only, expiring with it | **Never projected** | Creating a Person named *Guest*, *Visitor*, *Unknown*, or similar to carry a policy | **DL-33** |
+| External camera or video evidence | Owned by the providing integration | The media, its identifiers, and its retention | **Referenced**, never copied | Concierge, within a reconstruction | The reference, the times, and the stated relationship to a hypothesis | Not applicable | Copying media in order to correlate it; asserting that a clip depicts an actor | **OD-40**; **DL-35** |
+| HTBW Config Entry | Config Entry | The entry and its data | HTBW's own configuration | Foundation | HTBW configuration | Not applicable | — | — |
+| Referenced provider or integration configuration | Another integration's Config Entry, conversation agent, or Assist pipeline | Credentials, endpoints, model and connection configuration | **Selects or references** the already-configured capability | The responsibility governing its use | Allowed use, disclosure constraints, authority constraints, orchestration policy | Not applicable | Credentials, endpoints, model configuration, connection information | **OD-67** — not preempted here |
+| Communication | None equivalent | Not applicable | Governed HTBW record | Foundation defines; Concierge decides delivery | The full Communication model | Delivery surfaces; Household Inbox as a projection | Treating a notification as the Communication | **OD-42** |
+| Decision Trace | Logbook / Activity (partially) | The native entry, if one is written | Governed HTBW record | Concierge | The full trace | Optional native entry as a projection | Treating a native entry as the trace | **OD-29** |
+| Temporal Record | Recorder rows (partially) | The native rows | Governed HTBW record | The owning responsibility | Change Records, Domain Events, Snapshots, versions | Not applicable | Treating recorder history as governed history | **OD-01** residual |
+| Stewardship Obligation | Calendar or `todo` (partially) | The projected item | Governed HTBW record | Stewardship | Significance, accountability, state, escalation intent | Calendar or `todo` item | Treating list completion as fulfilment | **OD-23** |
+| Continuity Preference | None | Not applicable | Governed HTBW record | Continuity | Person-scoped and room-scoped preferences | Not applicable | Treating media-player state as the preference | — |
+| Native name | Device name, Entity name | The name itself, including a registry name the resident set | **Read through the native reference** | Not applicable | Nothing | Not applicable | An independently maintained HTBW name for the same object | — |
+| Native Assist alias | Alias on an **entity, Area, or Floor** | The alias | **Read.** May seed a contextual term | Not applicable | Nothing; the seed becomes an HTBW term, not a stored alias | Not applicable | An HTBW alias store; automatic write-back; automatic import over a household term | — |
+| Contextual Vocabulary term | None | Not applicable | HTBW extension held **by reference** to the native target | Foundation (Room Configuration) | Term, target set, scope, exclusions, mapping source | **None — never projected as a native alias** | Duplicating native names as HTBW vocabulary merely to reproduce them | **OD-13** |
+| Assist exposure | Per-entity, per-assistant exposure | Whether an assistant may target the entity | **Read and narrowed, never bypassed** | Operational Trust narrows use; Room Configuration narrows participation | Nothing | Not applicable | Treating a contextual term as exposure, or exposure as authority | **OD-59** |
+
+> **HTBW must never create a native Person to represent someone it cannot identify.** A *Guest*,
+> *Visitor*, or *Unknown* Person would write a fiction into a registry HTBW does not own, and would
+> make an unidentified stranger indistinguishable from a household member. **Unidentified people
+> require no Person object and no enrollment** (**DL-33**). A Person the household deliberately
+> creates for a *specific* non-resident is a different thing entirely — that person is **known**.
+
+### Representation scenarios
+
+| # | Situation | Required architectural result |
+|---|---|---|
+| 1 | An existing Area receives a Room Configuration | Name, picture, floor, and native metadata are **read from Home Assistant**. Room Configuration stores only interaction extensions. **An Area rename requires no synchronisation** |
+| 2 | Two Areas participate in a Merged Room | The Merged Room **references** both. Constituent definitions are not copied, native changes remain visible through the reference, and merged interaction semantics stay HTBW-owned |
+| 3 | Stewardship initiates an Instrument Asset | The integration creates a native Device through the supported registration pattern; managed reserved Labels mark it; **Asset Type is authoritative as Instrument**; the resident maintains no matching labels by hand; HTBW retains only Instrument-specific extension data |
+| 4 | An Asset's attention state becomes adverse | The determination stays with the responsibility that owns it — obligation state is **Stewardship's**, current conditions are **Truth's**. The value is **projected** through a native Entity so native automations and orchestration can consume it. **The Entity is a projection, never a competing authority**, and the determination remains explainable to its inputs and policy |
+| 5 | A resident changes Asset Type from Furniture to Antique | The authoritative type changes through the governed HTBW mechanism, only HTBW-managed labels are reconciled, **resident-created labels are untouched**, the change is recorded, and **a projection failure never changes the authoritative type** |
+| 6 | A resident removes an HTBW-managed Asset label | **The authoritative Asset Type is unchanged.** The missing label never reclassifies the Asset. Whether the projection is restored, reported through Repairs, or left pending reconciliation is **OD-68** |
+| 7 | A native Person is extended with mailbox and calendar references | **No second Person record is created.** Native data stays native; HTBW retains only governed extension references; **each extension keeps its own owner** |
+| 8 | The native Person is renamed, or its picture changes | HTBW reads the updated native values. **No synchronisation exists, because nothing was copied** |
+| 9 | HTBW uses an already-configured capability | HTBW **selects** the existing configuration through a supported selection mechanism. Credentials, endpoints, and model configuration are **not copied**. HTBW stores only its own governance. **OD-67 stays open** |
+| 10 | A referenced Device is deleted outside HTBW | The reference becomes **unresolved and is reported**, historical references are **not rewritten**, and HTBW does not recreate the Device without governed user intent |
+
+### Verified platform basis
+
+| Claim | Documentation |
+|---|---|
+| Device properties, and manual device registration by an integration against a config entry | `https://developers.home-assistant.io/docs/device_registry_index/` |
+| Integration-initiated device removal is opt-in through `async_remove_config_entry_device` | `https://developers.home-assistant.io/docs/device_registry_index/` |
+| `entry_type` accepts only `None` or the `service` member — **there is no extensible device-level classification field** | `https://developers.home-assistant.io/docs/device_registry_index/` |
+| Entity registration requires a stable `unique_id`, with documented acceptable and unacceptable sources | `https://developers.home-assistant.io/docs/entity_registry_index/` |
+| Labels apply to areas, devices, entities, automations, scenes, scripts, and helpers, and can be used as targets | `https://www.home-assistant.io/docs/organizing/labels/` |
+| A configuration entry can be selected, returning its entry ID, optionally filtered to one integration | `https://www.home-assistant.io/docs/blueprint/selectors/` |
+| A conversation agent can be selected, returning its ID; an Assist pipeline can be selected | `https://www.home-assistant.io/docs/blueprint/selectors/` |
+| Person links device trackers and may be associated with a user account | `https://www.home-assistant.io/integrations/person/` |
+| A device tracker's state is a zone name, `Home`, `Not home`, `unavailable`, or `unknown` — **the granularity is the zone, never a Room or Area** | `https://www.home-assistant.io/integrations/device_tracker/` |
+| `tracking_type` distinguishes **position** trackers from **connection** trackers, and a connection tracker **assumes** the device is in its associated zone while connected | `https://www.home-assistant.io/integrations/device_tracker/` |
+| Legacy device trackers carry neither `tracking_type` nor `in_zones`, and are scheduled for removal in the first half of 2027 | `https://www.home-assistant.io/integrations/device_tracker/` |
+| Assist uses entity, Area, and Floor names **and configured aliases**; aliases may be added to an entity, an Area, or a Floor | `https://www.home-assistant.io/voice_control/aliases/` |
+| Configured aliases are **not used by Assist alone** — they may also be used by Google Assistant | `https://www.home-assistant.io/voice_control/aliases/` |
+| The **same alias may be applied to entities in different Areas**, matched in conjunction with the Area name | `https://www.home-assistant.io/voice_control/aliases/` |
+| Entities must be exposed per assistant, to prevent sensitive devices being controlled inadvertently by voice | `https://www.home-assistant.io/voice_control/voice_remote_expose_devices/` |
+
+> **Device class is not extensible at the device level.** `entry_type` supports only `None` and
+> `service`, and device classes are **entity** classifications drawn from per-domain enumerations.
+> **HTBW must not claim a custom device class of "Asset", and must not repurpose native registry
+> fields.** Labels are the native classification projection.
+
+> **Not verified:** any API for creating or managing Label objects from an integration, and the Floor
+> registry developer pages. **No links are recorded for them, and none are fabricated.** The
+> architectural requirement for a managed classification projection stands; **its mechanism is
+> OD-68**, and **OD-10** is unaffected.
+
+> **No native Device-level alias is documented**, and **no integration-facing alias-writing capability
+> is documented** — Home Assistant describes alias editing as a resident interface action. Neither is
+> claimed here. **Do not describe native aliases as globally unique, globally conflicting,
+> Area-scoped, Device-scoped, or assistant-scoped**; the documentation supports none of those
+> characterisations, and explicitly describes reusing one alias across Areas.
+
+> **Not verified:** any native Room-level or Area-level BLE proximity capability, and any native
+> *kiosk* concept. **Device tracker granularity is documented as the zone**, and a connection tracker's
+> zone is documented as an **assumption** while connected. **HTBW must not claim native Room-level
+> presence detection, and must not treat a kiosk account as anything other than a Home Assistant
+> user account.** Native tracker evidence therefore supports **Household Presence**; **Room Presence
+> requires evidence whose Room granularity is actually grounded**, and where it is not, no Room
+> Presence claim is asserted. **OD-16** is bounded accordingly.
+
+### Names, aliases, and contextual vocabulary
+
+The same reference-and-extension rule governs household language. **Native naming information may
+seed an HTBW contextual term. A seed is not synchronisation, and nothing is ever written back.**
+
+| Rule | Statement |
+|---|---|
+| Native authority | Home Assistant owns native names, native aliases, native exposure, and native object identity |
+| Extension by reference | A contextual term attaches Room-scoped household meaning **to** the native target |
+| No duplicate maintenance | A resident who named an object in Home Assistant is **never asked to name it again** to make it usable |
+| Native projection only where appropriate | A contextual term is **not** projected as a native alias, because it may name a group, a capability, or a Room-dependent target that no alias can carry — and because configured aliases reach assistants beyond Assist |
+| No reverse synchronisation | A native rename never overwrites a household-defined term, and an HTBW term never rewrites a native alias |
+
+> **Where a native target concept already expresses the required set safely — an Area, a Floor, a
+> label, a domain, a device class, or a documented intent slot — prefer the native target and record
+> which was used.** Retain HTBW resolution only where Room-specific participation, exclusions,
+> grouping, or household meaning is additionally required. This is **DL-30** applied to language.
+
+**Derived recognition forms of a configured term are HTBW-internal.** They are generated from the
+household's own term, they are never written to Home Assistant, and they create no native alias, no
+native object, and no additional exposure.
+
+The full rule, the seed-once lifecycle, recognition forms, and Merged Room treatment are in
+[../models/contextual-vocabulary.md](../models/contextual-vocabulary.md). **OD-14 is resolved by it.**
+**OD-70** and **OD-13** are untouched.
+
+---
+
+## Temporal capability review
+
+Conducted under **P21** against official Home Assistant documentation. The full review, with
+documentation links and the reviewed capability list, is recorded in
+[adr-temporal-record-model.md](adr-temporal-record-model.md).
+
+### Patterns to evaluate before designing an HTBW alternative
+
+Each of the following must be evaluated before any HTBW equivalent is designed:
+
+- `old_state_id` or equivalent prior-state linkage
+- Context ID
+- Parent Context ID
+- User Context ID
+- Deduplicated attributes
+- Recorder retention
+- Long-term statistics
+- Config-entry update and migration patterns
+- Assist pipeline event context
+
+### Gaps that justify extension
+
+These, and only these, justify an HTBW temporal extension:
+
+| Gap | Consequence |
+|---|---|
+| No per-record purge exemption | A Preservation Hold is unimplementable natively |
+| No governed-record versioning | A Decision Trace cannot reference the policy version it applied |
+| No governed non-entity subjects | Room, Merged Room, Asset, Person, obligation, session, and incident retrieval cannot be expressed |
+| No governed-Fact semantics | Historical Facts cannot be represented |
+| No field-level historical redaction | Attribute exclusion is permanent and class-level, and cannot redact a recorded row |
+| No Tombstone distinction | Removal and absence become indistinguishable |
+| No per-record retention classification | Floors and ceilings cannot coexist per record class |
+| No durable structured Decision Trace | Activity records what changed, not why |
+| No Preservation Hold semantics | Holds have no native representation |
+
+### Purged native records
+
+When a referenced native Home Assistant record has been purged, the governed HTBW reference must
+resolve to **"no longer retained"** — never **"never existed."** Silently converting a purged record
+into an absent one is a false statement about the household.
+
+**The explanation survives the purge without a copy.** The accepted Fact that Truth recorded — its
+Statement, confidence at the time, Provenance, and Freshness — remains available and carries what was
+material to the decision. **It was never a copy of the native row, and it must not be widened into
+one** (**DL-46**).
+
+**Storage helper documentation was not verified during this review, and no link to it is recorded.**
+**OD-01's residual must not be closed on assumed Storage helper behaviour.** Two facts about config
+entries *are* verified and narrow it: Home Assistant documents config entries and subentries as
+**configuration data created and removed by the user through the UI**, which makes them structurally
+unsuitable for immutable historical records.
+
+---
+
+## Communication capability review
+
+Conducted under **P21** against official Home Assistant documentation, version **2026.8.2**. The full
+review, with verified documentation links, capability list, and gaps **G1**–**G11**, is recorded in
+[adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md).
+
+> **Home Assistant is used for delivery. It is not used for communication governance.**
+
+### Patterns to evaluate before designing an HTBW alternative
+
+- `notify` entities, `notify.send_message`, and notify groups
+- `persistent_notification.create` / `dismiss` / `dismiss_all`, and `notification_id` replacement
+- Companion `tag` replacement, `clear_notification`, and `timeout`
+- `assist_satellite.announce`, `ask_question`, and `start_conversation`
+- `tts.speak` and `tts.say`
+- `alert` `repeat`, `can_acknowledge`, `skip_first`, and `done_message`
+- `todo` incomplete-item state and its triggers
+- `mobile_app_notification_action` and `mobile_app_notification_cleared`, including
+  `context.id`, `context.parent_id`, and `context.user_id`
+- `authenticationRequired` action step-up
+
+`assist_satellite.start_conversation` is the natural implementation of the **retrieval
+conversation**; `announce` is the natural implementation of **content-free indication**.
+
+### Gaps that justify extension
+
+| Gap | Consequence |
+|---|---|
+| No audience model | P32 has no native anchor; targets are entities, never people |
+| No cross-surface communication identity | *"Was this conveyed?"* is natively unanswerable |
+| Delivery is fire-and-forget | `Delivered` and `Presented` are natively unattestable for most surfaces |
+| Acknowledgement is not person-attributed at the domain level | Acknowledgement requires HTBW-side identity binding |
+| **No suppression record** | Directly defeats **P27** |
+| Acknowledgement is not guaranteed to arrive | Unknown must be representable and must never decay into *not acknowledged* |
+| No governed retention for notifications | Retention floors cannot be honoured natively |
+| No tombstone for a cleared or purged notification | Removal and absence become indistinguishable |
+| Urgency is per-platform and non-portable | Urgency must be an HTBW concept mapped downward |
+| Escalation is retry only — `alert.repeat` never changes audience | Confirms that retry and escalation are distinct |
+| `alert` is condition-driven, not communication-driven | Cannot represent a Communication whose subject is an Obligation |
+
+### Misuse to avoid
+
+- **`todo` is an outstanding-obligation surface, not a communication inbox.** Do not conflate them.
+- **`alert` is a retry implementation, not an escalation model.** Its `repeat` list changes timing,
+  never audience.
+- **Do not adopt the Home Assistant notification object as the HTBW Communication object.**
+
+### Documentation not verified
+
+> **Dashboard visibility semantics, `media_player` delivery semantics, and voice-satellite indicator
+> behaviour were not verified during this review, and no links to them are recorded.** Open decisions
+> **OD-43**, **OD-55**, and **OD-57** must not be closed on assumed behaviour in those areas.
+
+---
+
+## Platform capability review
+
+Conducted under **P21** and the **P21 burden of proof** in [principles.md](principles.md).
+Documentation version **2026.8.2**. This is the durable architecture record of the platform alignment
+review. It records what was evaluated, what remains, and which decision each finding affects.
+
+### Documentation reviewed
+
+| Capability | Documentation | Verified |
+|---|---|---|
+| Architecture overview | `https://developers.home-assistant.io/docs/architecture_index/` | Yes |
+| Entity registry | `https://developers.home-assistant.io/docs/entity_registry_index/` | Yes |
+| Device registry | `https://developers.home-assistant.io/docs/device_registry_index/` | Yes |
+| Area registry | `https://developers.home-assistant.io/docs/area_registry_index/` | Yes |
+| Built-in intents | `https://developers.home-assistant.io/docs/intent_builtin/` | Yes |
+| Repairs platform | `https://developers.home-assistant.io/docs/core/platform/repairs/` | Yes |
+| Repairs | `https://www.home-assistant.io/integrations/repairs/` | Yes |
+| Recorder | `https://www.home-assistant.io/integrations/recorder/` | Yes |
+| Activity | `https://www.home-assistant.io/integrations/logbook/` | Yes |
+| History | `https://www.home-assistant.io/integrations/history/` | Yes |
+| To-do list | `https://www.home-assistant.io/integrations/todo/` | Yes |
+| Person | `https://www.home-assistant.io/integrations/person/` | Yes |
+| Conversation | `https://www.home-assistant.io/integrations/conversation/` | Yes |
+| Backup | `https://www.home-assistant.io/integrations/backup/` | Yes |
+| Tags | `https://www.home-assistant.io/integrations/tag/` | Yes |
+| Areas | `https://www.home-assistant.io/docs/organizing/areas/` | Yes |
+| Labels | `https://www.home-assistant.io/docs/organizing/labels/` | Yes |
+| Exposing entities to Assist | `https://www.home-assistant.io/voice_control/voice_remote_expose_devices/` | Yes |
+| Local Assist pipeline | `https://www.home-assistant.io/voice_control/voice_remote_local_assistant/` | Yes |
+| Wyoming Protocol integration | `https://www.home-assistant.io/integrations/wyoming/` | Yes |
+| Wyoming Protocol specification | `https://github.com/OHF-Voice/wyoming` | Yes |
+| Wyoming app packaging reference | `https://github.com/rhasspy/wyoming-addons` | Yes |
+
+> **Not verified during this review:** the Floor registry and Label registry developer pages, which
+> did not resolve. **No links are recorded for them, and none are fabricated.** **OD-10** must not be
+> closed on assumed Floor-registry behaviour.
+
+### Native capability evaluated, and the outcome
+
+| Native capability | Evidence | HTBW extension required | Remaining constitutional gap | Decision affected |
+|---|---|---|---|---|
+| Area registry, including `aliases`, `floor_id`, `labels`, and assigned temperature and humidity entities | Area registry attribute table | Room and Merged Room only | No interaction context; no participation or exposure state | **OD-61** |
+| Entity and device registries, `unique_id`, `via_device` | Registry documentation | Asset and Capability only | Registry objects carry no household meaning | **OD-01** |
+| Person entity, `user_id` linkage, administrator and local-access-only flags | Person integration | Roles, authority classes, evidence association | No household role model; administrator is binary | **DL-39**, **DL-40** |
+| Device tracker states, `tracking_type`, `in_zones`, coordinates and `gps_accuracy`, and the Person-to-tracker relationship | Device tracker integration | Person-specific reliability, claim applicability, freshness, correlation | **Zone granularity only**, and a connection tracker assumes its zone. No Room-level presence, and no person-specific reliability | **OD-16** |
+| Assist entity exposure | Exposing entities to Assist | HTBW Exposure, which is a different concept | Native exposure governs assistant targeting, not resident perception | **OD-59** |
+| Built-in intents, including `name` / `area` / `floor` / `domain` / `device_class` slot combinations, and `HassRespond`, `HassNevermind`, `HassGetState`, `HassBroadcast` | Built-in intents | Room-scoped vocabulary, groups, exclusions, Merged Room semantics | No Room-scoped vocabulary; broadcast targets satellites, never an audience | **OD-13**, **OD-14**, **OD-52** |
+| Conversation, custom sentences, `intent_script`, custom intents | Conversation integration | Governed retrieval scopes and authority filtering | Conversation owns no records and no authority | **OD-62** |
+| Repairs issue registry, `severity`, `is_fixable`, `is_persistent`, `learn_more_url`, ignore semantics, `RepairsFlow` | Repairs platform documentation | Defect definition only | Ignoring identifies nobody; severity is developer-facing | **OD-60** |
+| To-do entities, with `item_added`, `item_completed`, `item_removed` triggers and completion conditions | To-do list integration | Obligation, significance, accountability, escalation | Completion is a list state, not proof that care occurred | **OD-23** |
+| Recorder, `purge_keep_days`, `recorder.purge_entities`, include and exclude filters | Recorder integration | Governed retention, holds, tombstones | Purge is global or entity-scoped; there is no per-record exemption | **DL-47**, **OD-01**, **OD-39** |
+| Activity, and `logbook.log` custom entries | Activity integration | Decision Trace | Activity records what changed, never why | **OD-29** |
+| History panel export and the history REST endpoint | History integration | Governed export scope | Export is entity-scoped and ungoverned | **OD-09**, **OD-35** |
+| Backup, automatic backup, and backup result reporting | Backup integration | Nothing for platform-resident state | Connected storage is outside backup scope unless deliberately placed within it | **OD-09**, **OD-36** |
+| Tag scan events carrying `tag_id`, `name`, and `device_id` | Tags integration | Confidence banding and evidence fusion | A tag identifies an object and a scanner, never a person | **OD-16** |
+| Labels across areas, devices, entities, automations, scenes, scripts, and helpers | Labels documentation | Nothing | Labels are flat, global, and ungoverned | — |
+| Assist pipelines, Wyoming, local speech-to-text and text-to-speech | Local Assist pipeline | Identity evidence governance | Speech-to-Phrase is close-ended and does not support open-ended items out of the box | **OD-07** |
+| Wyoming Protocol, as the audio and voice-service boundary — JSONL plus PCM; service types `asr`, `tts`, `wake`, `handle`, `intent`, `satellite`, `mic`, `snd`; `user-event` as the user-defined extension point; `select-program`; `info.satellite.area` | Wyoming Protocol specification and integration | Voice evidence production and governance | **No speaker, identification, verification, or biometric service type exists, and no speaker-evidence event exists.** `info.satellite.area` carries an area **name**, not a stable `area_id`, so it never resolves a Room by itself under **DL-31** | **DL-50** — adopted as the preferred voice-pipeline boundary; the protocol gap is recorded, not filled |
+
+### Maintained integration and ecosystem capability evaluated
+
+| Area | Capability | Position |
+|---|---|---|
+| Presence and identity evidence | Device trackers, companion-app signals, BLE presence projects, camera-based detection | **Consume as evidence.** HTBW does not build presence detection. A detection is never an Identity Assertion (**DL-06**) |
+| Media | Media players and established media-management projects | **Consume.** HTBW does not re-implement media routing or library management. A Session is not media-player state |
+| Autonomous lighting and comparable policy add-ons | Third-party engines that decide and act on their own | **Permitted, under an explicit delegation boundary.** See below |
+| Transport | Matter, Z-Wave, Zigbee, ESPHome | **Consume.** No governance implication |
+
+### New HTBW capability avoided
+
+The review found **no requirement for a new HTBW responsibility, store, history mechanism, escalation
+ladder, or source of truth.** Every finding resolved to *consume a native capability*, *record a
+distinction*, or *govern an existing capability more precisely*.
+
+### Execution host for an HTBW capability
+
+**This document previously addressed apps — formerly add-ons — only as third-party engines that decide
+and act, governed as a delegation boundary under OD-66.** An app, container, or host application used
+as the **execution host for HTBW's own capability** is a different thing, and it was nowhere addressed.
+That omission was **OD-80**, **resolved 2026-08-25 as DL-50** and recorded in
+[adr-wyoming-compatible-voice-evidence-runtime.md](adr-wyoming-compatible-voice-evidence-runtime.md).
+
+**The distinction is not cosmetic.** A third-party engine under **OD-66** *decides and acts on its own*
+and is governed as a delegation. An execution host **decides nothing** — it runs HTBW's own capability
+because the integration process cannot, and every decision remains with the responsibility that owns
+it. Governing one as the other would either grant a runtime authority it does not have, or refuse a
+run-time arrangement that carries no authority at all.
+
+**Two things are already settled and are not held open by OD-80.**
+
+| Settled | Statement |
+|---|---|
+| **Availability** | Where an execution host is declared and is missing, unreachable, or incompatible, the capability is **unavailable and names why** under **DL-41**. **HTBW does not emulate it**, does not substitute an approximation, and does not silently reduce the capability to something weaker sharing its name |
+| **Manifest requirements** | A hard `manifest.json` `requirements` entry is an **all-or-nothing gate for the entire integration**. A dependency that is optional to a capability **must not be declared there**, or a degraded capability becomes a total setup failure. This is verified behaviour, not a precaution |
+
+**What DL-50 decided.** A capability that cannot execute inside the integration process **may declare
+an execution host**, named in its dependency declaration and in the Decision Trace. **The rule is a
+per-capability declared host; a Home Assistant app is the reference deployment and not the
+architecture**, because **P25** keeps Home Assistant the first implementation environment and not a
+constraint, and apps exist only on some installation types. **The Wyoming protocol is the preferred
+voice-pipeline interoperability boundary** wherever HTBW requires runtime audio, discharging the
+**DL-30** burden at step 2 — and Wyoming is a protocol, never an HTBW component, with no third-party
+voice project becoming a mandatory dependency.
+
+**Three boundaries are unaffected by it.** Data residency remains **OD-07**. Third-party
+engines that decide and act remain **OD-66**. **HTBW acquires no host operating-system
+administration**, consistent with the storage boundary — HTBW's ownership begins only once a valid
+host has been made available, and covers what HTBW runs there and how it governs it.
+
+---
+
+## Native automations, scripts, and scenes
+
+**HTBW must coexist with behaviour the household authored in Home Assistant.** Automations, scripts,
+scenes, blueprints, and integration-generated behaviour are native participants. HTBW observes them.
+
+| Rule | Statement |
+|---|---|
+| No ownership | HTBW does not own, absorb, replace, or require the rewriting of any native automation, script, scene, or blueprint |
+| Reference, do not copy | HTBW references native objects by their platform identifiers rather than copying their definitions, unless a documented gap requires otherwise (**P30**) |
+| Observation is evidence | What HTBW observes is recorded as a **Domain Event**, owned by the responsibility that observed it. It is not a Decision Trace |
+| No fabricated trace | **HTBW never produces a Decision Trace for a decision HTBW did not make** |
+
+Where the platform supplies the evidence, an observation may reference the automation, script, or
+scene involved; the invoked action; the resulting state transition; the triggering event; the Context,
+Parent Context, and User Context identifiers; the related entity, device, Area, Room, or person; the
+initiating resident where attributable; the observable result; and the source integration where
+identifiable. **Where the platform does not supply it, it is not inferred.** The evidence model is
+**OD-64**.
+
+---
+
+## What Home Assistant context can and cannot establish
+
+Recorded under **OD-38**, which **remains open**.
+
+| Context may support | Context does not establish |
+|---|---|
+| Correlation of related events into one reconstructable sequence | Semantic reasoning about why anything happened |
+| A relationship between an initiating operation and a resulting operation, **where Home Assistant supplies that relationship** through a parent context | Causation beyond what that documented relationship supports |
+| Resident attribution, **only where the platform actually supplies an attributable user** | A resident's identity where the platform supplies no user |
+
+Context is **not** HTBW Version Identity: a context identifier correlates occurrences and does not
+identify an exact state of a governed record. Context is **not** a Decision Trace: it links what
+happened and never records why. **OD-38 must not be closed until all of its acceptance criteria are
+satisfied.**
+
+### Native evidence entering identity fusion
+
+Native objects enter the Identity Fusion Function **by reference only** (**DL-31**), and each carries
+the ceiling of what the platform genuinely supplies (**DL-30**, **DL-38**).
+
+| Native source | May support | Must not be promoted into |
+|---|---|---|
+| Native Person state | Household Presence, at the granularity the platform supplies | Room Presence, or speaker attribution |
+| Device Tracker, and its **source tracker** | Household Presence; zone membership as the platform reports it | A Room-level claim the tracker does not supply |
+| Native zone information | The zone the platform reports | An HTBW Room, unless the deployment genuinely grounds the mapping |
+| Authenticated user, and context user identifier | Authenticated Session Identity; Interaction Initiator **where the platform actually supplies a user** | The physical holder, the current speaker, or presence |
+| Device and Entity identifiers | Stable reference for an Identity Evidence Association | A copied registry, or an identity of their own |
+| Voice-assistant capture context | Endpoint Context, and the bound in which a voice match is meaningful | Any human identity |
+
+**A native Person is derived from its trackers, and shares their evidence family.** Consuming the
+native Person state and the trackers that produce it is **one contribution, not several** — a separate
+entity identifier is not proof of independence, and neither is a separate integration.
+
+**Room-level proximity detection and managed-endpoint human identity remain unverified.** No
+integration-level documentation establishing native Room-level BLE detection, or a native kiosk
+identity concept, has been verified. **A Room-Presence ceiling may therefore be claimed only where the
+specific deployment's source genuinely supplies it**, and fusion must not be designed against any
+particular proximity implementation or voice provider.
+
+---
+
+## Location and engagement capability review
+
+Conducted under **P21** and the ordered burden of proof in **DL-30**. Each row records the capability
+evaluated, the documentation status, the HTBW constitutional requirement being tested, and the
+**burden-of-proof status**.
+
+> **A burden is discharged only when the evaluation records the capability, the source documentation, the
+> constitutional requirement, the remaining gap, and why the lower layer cannot practically satisfy it.**
+> **An undocumented evaluation does not discharge the burden, and unverifiable documentation leaves the
+> decision open.** Nothing below is asserted beyond what documentation supports, and **no capability is
+> fabricated or assumed.**
+
+| # | Capability evaluated | Documentation status | HTBW requirement tested | Burden status |
+|---|---|---|---|---|
+| **L1** | **Pet location** — any native primitive representing a Pet or its location | **No native primitive exists.** [Object distinctions](#object-distinctions) already records *Pet — None — No native primitive exists* | A Pet-subject Location Fact with confidence, provenance, freshness, and validity | **Step 1 fails on documented absence.** Steps 2–4 **not evaluated**; **not discharged** |
+| **L2** | **Pet tag location** — deriving a Pet's Room from a worn tag, collar, or beacon | **Not verified.** Native tag scan events are documented, and they supply a tag identifier, a tag name, and the scanning device — **an interaction with a tagged object**, not a continuous location. No native worn-tag Room-location capability has been located | A Room-granularity Pet Location Fact | **Not discharged.** A tag-location claim may be published **for the tag**; a Pet-location claim at Room granularity may not be asserted from it |
+| **L3** | **Device location** — native `device_tracker` and Person state as the source of *where is my phone?* | **Verified.** *"A device tracker's state is a zone name, `Home`, `Not home`, `unavailable`, or `unknown` — the granularity is the zone, never a Room or Area."* `tracking_type` distinguishes **position** from **connection** trackers, and a connection tracker **assumes** the device is in its associated zone while connected | A Device-subject Location Fact | **Discharged at zone granularity only.** Native capability satisfies *where is this device, by zone*. **HTBW adds governed meaning — subject typing, confidence, provenance, freshness, validity, preserved conflict, `unknown` — and builds no second device tracker.** A **Room-level** device claim is **not discharged** |
+| **L4** | **Room-level device proximity** — any native capability placing a device in an Area or Room | **Not verified.** Explicitly recorded above: *"**Not verified:** any native Room-level or Area-level BLE proximity capability"* | Room-granularity Device and Person Location Facts; Room Presence ceilings | **Not discharged.** A Room-Presence or Room-level device ceiling may be claimed **only where a specific deployment's source genuinely grounds it**, and never by default |
+| **L5** | **Room-level BLE proximity** — native Bluetooth or BLE integrations as a Room-granularity source | **Not verified.** No integration-level documentation establishing native Room-level BLE detection has been located | Room Presence and Room-level Location Facts | **Not discharged.** Fusion must not be designed against any particular proximity implementation |
+| **L6** | **Companion App room attribution** — whether the Companion App supplies an Area or Room for an interaction or for the device | **Not verified.** Companion-app signals are documented as an evidence source; **no room-attribution capability has been located and none is claimed** | Room Context for a Companion App interaction; Room-granularity device location | **Not discharged.** **OD-73** is bounded accordingly and must not be closed on assumed Companion App behaviour |
+| **L7** | **Mobile-surface Room Context** — resolving the Room a request is evaluated against, for a phone, wearable, Companion App, or browser session | **Not verified**, and additionally **blocked on ownership**: Room Context is owned by Foundation, which [dependency-view.md](dependency-view.md) rule 6 forbids from consuming Truth | Room Context resolution; complete Decision Trace field 5 | **Not discharged**, on both documentary and constitutional grounds. **Open decision OD-73** |
+| **L8** | **Kiosk** — any native concept of a kiosk as distinct from a user account | **Not verified.** Explicitly recorded above: *"no native kiosk concept"* | Endpoint Context; probable Room context for a managed endpoint | **Not discharged.** *"HTBW must not treat a kiosk account as anything other than a Home Assistant user account"* |
+| **L9** | **Recorder and history as a location-history store** | **Verified.** Recorder state history, long-term statistics, retention, and purge are documented and authoritative | Historical location explainability (**P27**) | **Discharged in Home Assistant's favour.** **HTBW builds no second Recorder and no parallel location history** (**DL-42**, **DL-46**). Durable explanation after native expiry is carried by the accepted **Fact**, not by a copied row. **Wanting longer retention is not a gap**; it is a reason to extend through Connected Storage |
+| **L10** | **Areas, Floors, Devices, Entities, Person** as the referenced substrate for every Location Fact Subject | **Verified** for Area, Device, Entity, and Person. **Floor registry developer pages not verified** (**OD-10**) | Stable Subject references under **DL-31** | **Discharged.** Every Fact Subject is **referenced by stable identifier and never copied** |
+
+### What follows from this review
+
+- **Truth may publish a Location Fact only at the granularity its evidence actually grounds.** Zone-level
+  evidence yields a zone-level Fact. *"Tom's phone is home"* is honest; *"Tom's phone is in the Den"* is
+  not, unless the deployment supplies genuinely Room-grounded evidence.
+- **HTBW builds no second device tracker, no second Recorder, and no parallel location history.** The
+  governed meaning HTBW adds is subject typing, confidence, provenance, freshness, validity, coverage,
+  preserved conflict, first-class `unknown`, and lifecycle — **never the position itself**.
+- **A pet tag is evidence about a tag.** It is never independently evidence about the Pet's location, and
+  it is **never** identity evidence about a person.
+- **L1, L2, L4, L5, L6, L7, and L8 are open burdens.** Where the relevant documentation cannot be
+  verified, the burden is not discharged and the decision remains open (**DL-30**). **No implementation may
+  proceed on an undischarged row by assuming the capability exists.**
+
+---
+
+## Adaptive behaviour and delegation
+
+Four classes must remain distinguishable. **Established third-party adaptive integrations are not
+prohibited. What is required is an explicit delegation boundary and an honest statement of the
+explainability limit.**
+
+| Class | Who decided | Who executed | Explainability guarantee |
+|---|---|---|---|
+| **HTBW-governed adaptive behaviour** | HTBW | HTBW, through governed interfaces | Full. Governed, attributable, permission-checked, historically reconstructable, and carrying a Decision Trace |
+| **HTBW-directed external execution** | HTBW | A native mechanism or an external integration | Full for the decision. HTBW retains the Decision Trace; the observation records the execution evidence Home Assistant supplies |
+| **Delegated external adaptive behaviour** | Another policy engine | That engine | **Partial, and disclosed as partial.** HTBW may observe the resulting behaviour and must identify it as delegated where evidence supports that identification. HTBW must not claim to know the external engine's internal reasoning unless that reasoning was supplied as governed evidence |
+| **Opaque or unattributed behaviour** | Unknown | Unknown | **Honest limitation.** HTBW reports what is known and does not invent the missing cause |
+
+> **Reduced explainability must be disclosed, never concealed and never fabricated.** *"The lighting
+> integration changed this, and I do not hold its reasoning"* is a valid and required answer. *"I
+> decided this"* would be false.
+
+**Execution is not decision.** An integration that carried out an HTBW decision is an **executor**,
+and HTBW retains the Decision Trace. **Delegation is explicit**: it arises from a declared boundary,
+not from the observation that an integration performed an action. Where no delegation was declared
+and no decision-maker is evidenced, the behaviour is **opaque** — recorded with the actor that is
+known and no claim about who decided.
+
+The delegation boundary is **OD-66**.
+
+---
+
+## Native Experience
+
+HTBW surfaces should feel like Home Assistant. Prefer HA navigation patterns, dialogs, selectors,
+forms, configuration flows, and interaction conventions.
+
+Residents should feel *"this is Home Assistant enhanced by HTBW,"* not *"this is a separate
+application."*
+
+UI placement never changes architectural ownership. A Room-oriented HTBW screen may present Room
+Configuration, but Room Configuration remains Foundation-owned.
+
+---
+
+## Deliberately undecided
+
+This refoundation does **not** decide whether each HTBW object becomes a Home Assistant config entry,
+config subentry, device, entity, registry item, helper, or private storage record. **This includes
+the persistence shape of Change Records, Snapshots, and Current Projections.**
+
+That is a later technical design decision. It is recorded as an open decision:
+**OD-01** in [../governance/decision-ledger.md](../governance/decision-ledger.md), which now owns
+this residual alone. Related open decisions **OD-35**, **OD-38**, and **OD-42** are likewise not
+resolved here. The platform alignment review adds **OD-59** through **OD-67**, and none of them is
+resolved here either.
+
+Do not resolve them inside a contract, model, or scenario document.
+
+---
+
+## Related documents
+
+- [principles.md](principles.md)
+- [connected-storage.md](connected-storage.md)
+- [greenfield-mandate.md](greenfield-mandate.md)
+- [behavioral-governance.md](behavioral-governance.md)
+- [explainability.md](explainability.md)
+- [../models/temporal-record.md](../models/temporal-record.md)
+- [../models/communication.md](../models/communication.md)
+- [../models/room-configuration.md](../models/room-configuration.md)
+- [adr-home-assistant-first-and-connected-storage.md](adr-home-assistant-first-and-connected-storage.md)
+- [adr-temporal-record-model.md](adr-temporal-record-model.md)
+- [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)

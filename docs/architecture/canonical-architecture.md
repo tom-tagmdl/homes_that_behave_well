@@ -1,5 +1,31 @@
 ﻿# Canonical Architecture
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+>
+> **Canonical replacements:**
+> - [north-star.md](north-star.md) — the seven-responsibility framework
+> - [framework.md](framework.md) — full ownership definitions
+> - [dependency-view.md](dependency-view.md) — dependency direction
+> - [../governance/authority-order.md](../governance/authority-order.md) — the current authority order
+>
+> **Specifically superseded by this document's own text:**
+> - "HTBW is a four-service platform" — HTBW Core is defined by **seven responsibilities**
+> - "No fifth platform service is introduced by this architecture" — **withdrawn**; this prohibition
+>   prevented Truth, Stewardship, Continuity, and Operational Trust from having owners
+> - "Foundation — What is true?" — **Truth** is a first-class fact engine; see
+>   [adr-truth-as-fact-engine.md](adr-truth-as-fact-engine.md)
+> - "Asset Intelligence — What matters?" — **Stewardship** answers this; the asset model is
+>   Foundation-owned descriptive knowledge
+> - "Voice Identity — Who is interacting?" — **Identity** is the responsibility; see
+>   [adr-identity-replaces-voice-identity-boundary.md](adr-identity-replaces-voice-identity-boundary.md)
+> - The Authority Order section — superseded by
+>   [../governance/authority-order.md](../governance/authority-order.md)
+>
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This document is the architecture of record for Homes That Behave Well (HTBW).

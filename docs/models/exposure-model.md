@@ -1,5 +1,12 @@
 # Exposure Model
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [room-configuration.md](room-configuration.md)
+> Canonical terminology: [glossary.md](glossary.md).
+
 ## Purpose
 
 The Exposure Model defines how environmental conditions, spatial context, and asset placement combine to produce exposure risk.

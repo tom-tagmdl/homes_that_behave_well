@@ -1,5 +1,12 @@
 # Room Interaction Contract
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [room-configuration-contract.md](room-configuration-contract.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This contract defines deterministic interaction behavior for:

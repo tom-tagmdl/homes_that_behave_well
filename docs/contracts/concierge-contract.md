@@ -1,65 +1,312 @@
 # Concierge Contract
 
-## Purpose
-
-Concierge is the interaction and orchestration layer of the system.
-
-It is responsible for how the home communicates, responds, and assists the user.
-
-Concierge does not own data or logic. It coordinates capabilities exposed by other integrations.
-
----
-
-## Core Responsibility
-
-Concierge owns:
-
-- User interaction (voice, UI prompts, questions)
-- Orchestration across integrations
-- Messaging and communication behavior
-- Context awareness (room, user presence, mode)
-- Person-aware interaction style application (when available)
-- Decision about when and how to respond
-
-Concierge does not own:
-
-- Asset data
-- Environment requirements
-- Persistent state
-- Evaluation logic
+> **Document status: Canonical contract.**
+> Responsibility: **Concierge**. Framework:
+> [../architecture/framework.md](../architecture/framework.md).
+> Terminology: [../models/glossary.md](../models/glossary.md).
+>
+> Sections **1 through 14** below are canonical. The **Historical appendix** that follows them is
+> retained as architectural evidence from the pre-refoundation Concierge exploration. Where the
+> appendix conflicts with the canonical sections or with
+> [../architecture/framework.md](../architecture/framework.md), the canonical text prevails.
 
 ---
 
-## System Role
+## 1. Owning responsibility
 
-Concierge acts as:
+**Concierge — what should happen now?**
 
-- The interface between the user and the system
-- The orchestrator of integration capabilities
-- The decision-maker for communication timing and modality
+> **Concierge orchestrates. It does not own everything it consumes.**
 
-Concierge is not:
-
-- A data store
-- A decision engine for domain logic
-- A system of record
+Concierge is the last responsibility in the framework order because it depends on all the others.
+Nothing depends on Concierge.
 
 ---
 
-## Data Boundaries
+## 2. Consumes
 
-Concierge must never:
-
-- Write directly to any system of record
-- Store persistent asset or room data
-- Perform evaluation of raw environment inputs
-
-All data access must be:
-
-- Read via exposed services or APIs
-- Written via explicit service calls
+| From | What |
+|---|---|
+| Foundation | Object definitions, relationships, capability descriptions |
+| Room Configuration | Room Context, participation, exposure, experience endpoints |
+| Contextual Vocabulary | Resolved target sets for household terms |
+| Identity | The identity assertion, with confidence and reason code |
+| Truth | Authoritative facts, with confidence, provenance, and freshness |
+| Stewardship | Obligation state, significance, accountability, escalation intent |
+| Continuity | Preferences, session state, transfer and resume intent and eligibility |
+| Operational Trust | The authority decision and the effective autonomy level |
 
 ---
+
+## 3. Owns
+
+- Interpretation of intent
+- Selection among permitted actions
+- Conflict resolution between competing permitted outcomes
+- Timing, modality, and phrasing of communication
+- Whether to act, ask, defer, convey, escalate, or do nothing
+- Resolution of a Communication **audience specification** to **Delivery Surfaces**
+- The decision to deliver, suppress, defer, retry, or give up, and each **Delivery Attempt**
+- The **record of every Communication state transition and Delivery Attempt outcome**
+- Execution through governed interfaces
+- Composition of the Decision Trace
+- The resident-facing explanation
+
+> **Concierge owns delivery, not communication significance.** See
+> [../models/communication.md](../models/communication.md).
+
+---
+
+## 4. Does not own
+
+- Object definitions or asset knowledge (Foundation)
+- Room Configuration or vocabulary (Foundation)
+- The definitions of Communication, Delivery, Delivery Attempt, Delivery Surface, and Urgency
+  (Foundation)
+- Who a person is (Identity)
+- What is true (Truth)
+- What matters and what care is owed (Stewardship)
+- The **significance** a Communication references, and the **escalation ladder** (Stewardship)
+- Preferences, sessions, and continuity intent (Continuity)
+- Whether outstanding Communications are re-presented as a person moves — the **preference**
+  (Continuity)
+- Authority, permission, and autonomy level (Operational Trust)
+- **Urgency entitlement, interruption authority, audience eligibility, visibility classification, and
+  communication retention classification** (Operational Trust)
+
+---
+
+## 5. Hard prohibitions
+
+1. **Concierge must not resolve competing Truths by inventing a fact.** If facts conflict, Truth
+   preserves or resolves the conflict. Concierge decides what to do *given* the uncertainty.
+2. **Concierge must not select sensors at runtime.** Eligible contributors are declared by Room
+   Configuration.
+3. **Concierge must not runtime-search devices to satisfy a vocabulary term.** Resolution is explicit
+   and configured.
+4. **Concierge must not grant itself authority.** If Operational Trust returns `prohibited` or
+   `undecidable`, Concierge must not act.
+5. **Concierge must not treat an identity assertion as a presence fact.**
+6. **Concierge must not treat a preference as an instruction.**
+7. **Concierge must not treat an obligation as a Communication.** Stewardship states the obligation;
+   Concierge decides whether, when, and how to surface it.
+8. **Concierge must not promote a learned pattern into autonomous behavior.**
+9. **Concierge must not act silently when it cannot explain the action.**
+10. **Concierge must not write to another responsibility's system of record.** All state changes occur
+    through the owning responsibility's governed interface.
+11. **Concierge must not announce merely because it was permitted to act.** Authority to act is not
+    authority to announce (**P32**).
+12. **Concierge must not infer `Presented` from `Delivered`.** Where a surface cannot attest
+    presentation, the outcome is **unknown** and must be reported as such.
+13. **Concierge must not fail to deliver silently.** A suppression is recorded with a Decision Trace;
+    an undeliverable Communication is recorded and reported.
+14. **Concierge must not embed delivery history inside a Communication.** Delivery history is Change
+    Records referencing the Communication by Version Identity.
+15. **Concierge must not escalate by changing the audience on its own authority.** Changing the
+    audience is Stewardship's ladder and Operational Trust's authority. Repeating delivery to the
+    same audience is **retry**, and is Concierge's.
+16. **Concierge must not treat a category as an interruption entitlement.** Urgency is granted by
+    Operational Trust.
+
+---
+
+## 6. The orchestration sequence
+
+Concierge must honour the ordering rules in
+[../architecture/runtime-sequence.md](../architecture/runtime-sequence.md):
+
+- Context before intent
+- Resolution before discovery
+- Identity before authorization
+- Truth before decision
+- Trace always
+
+---
+
+## 7. Permitted outcomes
+
+Concierge always produces exactly one governed outcome, and always produces a Decision Trace.
+
+| Outcome | When |
+|---|---|
+| Act | Permitted at Autonomous level, with sufficient certainty |
+| Propose, then act on confirmation | Permitted at Assisted level, or uncertainty warrants asking |
+| Ask for disambiguation | Intent, target, or identity is ambiguous |
+| Choose the benign action | Uncertainty is present but a safe subset is clearly permitted |
+| Defer | The action is permitted but the moment is suppressed |
+| Convey without acting | An obligation or condition warrants awareness only |
+| Escalate | An unmet obligation or safety condition requires an authorised person |
+| Do nothing, and be able to say why | Prohibited, undecidable, or suppressed |
+| Refuse, and explain | Authority denied or consent missing |
+
+**Doing nothing is a decision and is traced.**
+
+### Delivery outcomes
+
+Where the outcome is a Communication, Concierge additionally records the **two-level** outcome model
+defined in [../models/communication.md](../models/communication.md):
+
+| Level | States |
+|---|---|
+| Communication lifecycle | Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable |
+| Delivery Attempt outcome | Attempted, Delivered, Presented, Failed |
+
+The two levels are never flattened. A Communication has one current lifecycle state and may have many
+Delivery Attempts.
+
+---
+
+## 8. Conflict resolution
+
+Concierge resolves conflicts *among permitted outcomes*. It does not resolve conflicts by weakening
+another responsibility's answer.
+
+| Conflict | Concierge may | Concierge may not |
+|---|---|---|
+| Two facts disagree | Act on the reduced-confidence or unresolved state, or ask | Pick a preferred fact |
+| Two people's sessions collide | Ask, defer, or apply a permitted priority rule | Displace a session without authority |
+| Two obligations compete | Surface, prioritise by significance within policy | Waive an obligation |
+| A preference conflicts with a policy | Follow the policy and explain | Follow the preference |
+| Intent is ambiguous | Ask, offering only exposed options | Guess |
+
+The priority hierarchy is recorded in
+[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md); its exact global
+order is open decision **OD-04**.
+
+---
+
+## 9. What consumers may rely upon
+
+Nothing in the framework depends on Concierge. Residents rely upon Concierge for one coherent
+experience across surfaces, and for an explanation of every action and non-action.
+
+---
+
+## 10. Uncertainty and unknown representation
+
+Uncertainty must survive the whole pipeline and reach the resident. Concierge must be able to say:
+
+- "I was not certain it was you."
+- "I could not tell whether the room was occupied."
+- "I did not do that because the room is in Nighttime mode."
+- "The Beam is deliberately not part of *Speakers* in this room."
+
+**Concierge must never conceal uncertainty by acting confidently.**
+
+---
+
+## 11. Failure and degradation behavior
+
+| Condition | Behavior |
+|---|---|
+| Room Context unresolved | Do not guess a Room; state the context is unknown and ask |
+| Identity `unknown` or `ambiguous` | Apply guest-safe treatment; ask for authority-bearing actions |
+| Truth `unknown` | Refuse, ask, or choose the benign action; never treat unknown as false |
+| Operational Trust unavailable | Fail closed; do not act |
+| Continuity unavailable | Do not substitute defaults silently; state what could not be read |
+| A governed interface fails mid-action | Report the partial outcome precisely; do not claim success |
+| The Decision Trace cannot be written | Treat as a defect and report it |
+| No permitted Delivery Surface exists for the audience | Record **Undeliverable** and report it; never fail silently |
+| A Delivery Attempt fails at the platform boundary | Record **Failed** with a diagnosable reason; never claim success |
+| A surface cannot attest presentation | Record `Presented` as **unknown**; never infer it from `Delivered` |
+| An acknowledgement never arrives | Remain **unknown**; never decay into *not acknowledged* |
+| Occupancy is `unknown` and the surface is shared | Do not announce; reduce to content-free indication, choose a personal surface, or defer |
+
+Where delivery must degrade, **the delivery degrades — the governance does not.**
+
+See [../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md).
+
+---
+
+## 12. Privacy constraints
+
+Concierge is the surface where privacy is most easily violated. It must:
+
+- Apply Operational Trust visibility rules before speaking or displaying anything
+- Never disclose another person's preferences, presence history, sessions, or obligations
+- Never voice sensitive content in a Room where an unauthorised listener may be present
+- Never include biometric internals in an explanation
+- Evaluate outbound delivery against **who can perceive the surface**, not against the intended
+  recipient (**P32**)
+- Prefer **content-free indication** followed by identity-gated retrieval where content may not be
+  disclosed on the available surface
+- Never enumerate on a shared surface **whose** Communications are waiting
+- Re-evaluate visibility at **each** Delivery Attempt; never rely on a stored resolved visibility
+  value
+
+See [../architecture/privacy.md](../architecture/privacy.md) and
+[../models/communication.md](../models/communication.md).
+
+---
+
+## 13. Explainability contributions
+
+Concierge **composes** the Decision Trace from every contributing responsibility and produces both the
+machine form and the human form. It authors only the fields it owns: conflicts detected, resolution
+applied, action taken, action suppressed, suppression reason, alternative considered.
+
+Concierge additionally contributes the **communication record**: creation, suppression with its
+Decision Trace, each Delivery Attempt and its outcome, acknowledgement, expiry, and supersession.
+This is what makes *"why didn't you tell me?"* answerable under **P27**.
+
+See [../models/decision-trace.md](../models/decision-trace.md) and
+[../models/communication.md](../models/communication.md).
+
+---
+
+## 14. Open decisions
+
+| ID | Question |
+|---|---|
+| OD-04 | Exact global priority order across policy scopes |
+| OD-29 | Where Decision Traces are persisted |
+| OD-30 | Which surfaces expose Decision Traces, and to whom |
+| OD-43 | Delivery Surface capability model, including perceptibility and attestation |
+| OD-44 | Delivery outcome semantics across the two levels |
+| OD-45 | Acknowledgement semantics and acknowledger identification |
+| OD-47 | Household Inbox projection scope and refresh semantics |
+| OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
+| OD-52 | Audience specification model |
+| OD-54 | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
+| OD-55 | Presentation attestation per surface class |
+| OD-57 | Indication versus content separation |
+
+### Related documents
+
+- [../scenarios/concierge-use-cases.md](../scenarios/concierge-use-cases.md) — **the twenty canonical Concierge human-outcome use cases**, each with a maturity classification. Architecture and outcome guidance, **not proof of implementation**
+- [../architecture/framework.md](../architecture/framework.md)
+- [../architecture/runtime-sequence.md](../architecture/runtime-sequence.md)
+- [../architecture/privacy.md](../architecture/privacy.md)
+- [../architecture/adr-resident-communication-and-delivery-separation.md](../architecture/adr-resident-communication-and-delivery-separation.md)
+- [operational-trust-contract.md](operational-trust-contract.md)
+- [../models/decision-trace.md](../models/decision-trace.md)
+- [../models/communication.md](../models/communication.md)
+
+---
+---
+
+# Historical appendix
+
+> **Status: Historical — subordinate to the canonical sections above.**
+> This appendix records the pre-refoundation Concierge exploration. It is retained as architectural
+> evidence and as a source of preserved discoveries. It is **not** current authority, and it uses
+> superseded terminology in places.
+>
+> Known supersessions in this appendix:
+> - "Asset Intelligence exposes asset and environment capabilities" describes a **separate released
+>   product**, not an HTBW Core layer. See [../models/asset.md](../models/asset.md).
+> - "Interaction space" is superseded by **Room Context**, and "composite room" by **Merged Room**.
+>   See [../models/glossary.md](../models/glossary.md).
+> - "person-identity-contract.md" is superseded by [identity-contract.md](identity-contract.md).
+> - Room posture, quiet-hours, and protected-action authorization are now owned by **Operational
+>   Trust**. See [operational-trust-contract.md](operational-trust-contract.md).
+> - Auditability and trace stitching are now expressed as the **Decision Trace**. See
+>   [../models/decision-trace.md](../models/decision-trace.md).
+> - The "Communication Model" section below describes **delivery levels**, not communications. Its
+>   Info / Attention / Urgent levels are superseded by the separate **Category** and **Urgency** axes,
+>   and its Night Mode and Quiet-Hours rules are now owned by **Operational Trust**. See
+>   [../models/communication.md](../models/communication.md) and
+>   [operational-trust-contract.md](operational-trust-contract.md).
 
 ## Service Interaction Rules
 
@@ -97,6 +344,12 @@ Concierge must not:
 ---
 
 ## Communication Model
+
+> **Superseded.** This section merged *what a communication is about* with *what it may interrupt*,
+> and treated delivery levels as communication kinds. The canonical treatment separates **Category**
+> (owned by the originator) from **Urgency** (an entitlement granted by Operational Trust), and
+> separates the Communication from the Delivery. Night Mode, quiet hours, and room posture are owned
+> by **Operational Trust**. See [../models/communication.md](../models/communication.md).
 
 Concierge controls all communication using defined levels:
 

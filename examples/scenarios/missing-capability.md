@@ -1,5 +1,12 @@
 # Scenario: Missing Capability
 
+> **Document status: Historical illustration.**
+> Retained as a worked example from the pre-refoundation exploration. It is **not** current authority.
+> Canonical scenarios: [../../docs/scenarios/README.md](../../docs/scenarios/README.md).
+> Closest canonical successor: [../../docs/scenarios/room-vocabulary.md](../../docs/scenarios/room-vocabulary.md)
+> Terminology in this document may be superseded; see
+> [../../docs/models/glossary.md](../../docs/models/glossary.md).
+
 ## Purpose
 
 This scenario demonstrates how the system behaves when a problem exists but no automated solution is available.

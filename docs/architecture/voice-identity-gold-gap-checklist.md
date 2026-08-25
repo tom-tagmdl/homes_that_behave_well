@@ -1,5 +1,12 @@
 # Voice Identity Gold Gap Checklist
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [../contracts/identity-contract.md](../contracts/identity-contract.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 This checklist turns the Home Assistant Gold bar into a practical gap list for
 Voice Identity.
 

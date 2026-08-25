@@ -1,5 +1,12 @@
 # Task and Shopping Experience Contract
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [../models/experience-and-session.md](../models/experience-and-session.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This contract defines the authoritative boundary for Task and Shopping as household productivity experiences.

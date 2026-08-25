@@ -1,5 +1,12 @@
 # Voice Enrollment Storage, Cleanup, and Retention Architecture
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [privacy.md](privacy.md), [connected-storage.md](connected-storage.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This document defines storage, cleanup, and retention architecture for Concierge voice enrollment temporary artifacts.

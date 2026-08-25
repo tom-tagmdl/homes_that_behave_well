@@ -1,5 +1,15 @@
 # Standard Implementation Prompt Header
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [authority-order.md](authority-order.md),
+> [../architecture/framework.md](../architecture/framework.md), and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+> Where this document names **Voice Identity** or **Asset Intelligence** as an ownership domain, it
+> refers to the separately released **repository**, not to an HTBW Core layer. HTBW Core has no Voice
+> Identity layer: the responsibility is **Identity**, and voice is one evidence source. See
+> [../models/glossary.md](../models/glossary.md) section "Products versus responsibilities".
+
 ## 1. Purpose
 
 Define the purpose of the Standard Implementation Prompt Header.

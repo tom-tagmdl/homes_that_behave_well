@@ -1,5 +1,12 @@
 # Person-Room Affinity Model
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [continuity.md](continuity.md)
+> Canonical terminology: [glossary.md](glossary.md).
+
 ## Purpose
 
 The Person-Room Affinity Model defines how Concierge represents person-room affinity and preference relationships for room-aware planning and personalization consumption.

@@ -1,5 +1,10 @@
 # Interaction Patterns
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+
 ## Purpose
 
 Interaction Patterns define how Concierge surfaces actionable and contextual experiences to the user across voice and UI.

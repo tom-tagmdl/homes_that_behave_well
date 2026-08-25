@@ -1,0 +1,356 @@
+# Document Register
+
+> **Document status: Canonical governance.**
+> Lifecycle rules: [document-lifecycle.md](document-lifecycle.md).
+> Authority: [authority-order.md](authority-order.md).
+
+---
+
+## Purpose
+
+**Every Markdown file in the HTBW repository is classified here. No file is unclassified.**
+
+Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** · **Archive**.
+**No file is deleted by the refoundation.**
+
+---
+
+## 1. Root
+
+| File | Status | Disposition | Canonical replacement |
+|---|---|---|---|
+| `README.md` | Canonical | **Revise** — rewritten on the seven-responsibility framework | — |
+
+---
+
+## 2. `docs/architecture/` — canonical
+
+| File | Status | Disposition |
+|---|---|---|
+| `north-star.md` | Canonical (constitutional) | New |
+| `principles.md` | Canonical (constitutional) | New |
+| `framework.md` | Canonical (constitutional) | New |
+| `dependency-view.md` | Canonical | New |
+| `runtime-sequence.md` | Canonical | New |
+| `greenfield-mandate.md` | Canonical | New |
+| `home-assistant-boundary.md` | Canonical | New |
+| `connected-storage.md` | Canonical | New |
+| `behavioral-governance.md` | Canonical | New |
+| `explainability.md` | Canonical | New |
+| `failure-and-degradation.md` | Canonical | New |
+| `privacy.md` | Canonical | New |
+| `adr-htbw-core-refoundation.md` | Canonical ADR | New |
+| `adr-identity-replaces-voice-identity-boundary.md` | Canonical ADR | New |
+| `adr-truth-as-fact-engine.md` | Canonical ADR | New |
+| `adr-room-configuration-ownership.md` | Canonical ADR | New |
+| `adr-home-assistant-first-and-connected-storage.md` | Canonical ADR | New |
+| `adr-historical-explainability-and-historical-truth.md` | Canonical ADR | New |
+| `adr-temporal-record-model.md` | Canonical ADR | New |
+| `adr-resident-communication-and-delivery-separation.md` | Canonical ADR | New |
+| `adr-wyoming-compatible-voice-evidence-runtime.md` | Canonical ADR | **New** — Accepted 2026-08-25 as **DL-50** |
+
+---
+
+## 3. `docs/architecture/` — pre-refoundation
+
+| File | Status | Disposition | Canonical replacement |
+|---|---|---|---|
+| `canonical-architecture.md` | Historical | **Supersede** | `north-star.md`, `framework.md`, `dependency-view.md`, `../governance/authority-order.md` |
+| `system-flow.md` | Historical | Supersede | `runtime-sequence.md`, `dependency-view.md` |
+| `concierge-runtime-architecture.md` | Historical | Supersede | `framework.md`, `../contracts/concierge-contract.md` |
+| `context-before-intent.md` | Active — subordinate | Revise | Principle preserved in `runtime-sequence.md` |
+| `identity-governance-reference.md` | Historical | Supersede | `../contracts/identity-contract.md` |
+| `person-identity-and-enrollment-architecture.md` | Historical | Supersede | `../models/person-and-identity.md` |
+| `voice-recognition-and-enrollment-architecture.md` | Historical | Supersede | `../models/person-and-identity.md` |
+| `voice-profile-enrollment-architecture.md` | Historical | Supersede | `../models/person-and-identity.md` |
+| `voice-profile-lifecycle-management.md` | Historical | Supersede | `../models/person-and-identity.md` |
+| `voice-enrollment-lifecycle-and-state-machine.md` | Historical | Archive — enrollment-lifecycle evidence | `../models/person-and-identity.md` |
+| `voice-enrollment-privacy-and-data-handling-policy.md` | Historical | Archive — privacy evidence | `privacy.md` |
+| `voice-enrollment-storage-cleanup-and-retention-architecture.md` | Historical | Archive — retention evidence | `privacy.md`, `connected-storage.md` |
+| `voice-identity-trust-and-data-residency-policy.md` | Historical | Archive — residency evidence | `privacy.md` |
+| `voice-enrollment-modernization-roadmap.md` | Historical | Archive — planning record | — |
+| `voice-enrollment-pr-boundary-plan.md` | Historical | Archive — planning record | — |
+| `voice-enrollment-phase0-execution-package.md` | Historical | Archive — planning record | — |
+| `voice-enrollment-phase0-issues-tracker.md` | Historical | Archive — planning record | — |
+| `voice-identity-gold-gap-checklist.md` | Historical | Archive — quality record | — |
+| `news-context-and-briefing-architecture.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `adr-voice-identity-platform-service.md` | Historical | **Supersede** | `adr-identity-replaces-voice-identity-boundary.md` |
+| `adr-voice-profile-enrollment-architecture.md` | Historical | Supersede | `adr-identity-replaces-voice-identity-boundary.md` |
+| `adr-voice-enrollment-phase0-complete.md` | Historical | Archive — completion record | — |
+| `adr-room-vocabulary-governance.md` | Historical | Supersede | `adr-room-configuration-ownership.md` |
+| `adr-occupancy-and-presence-governance.md` | Historical | Supersede | `adr-truth-as-fact-engine.md` |
+| `adr-capability-projection-governance.md` | Historical | Supersede | `adr-room-configuration-ownership.md` |
+| `adr-experience-model-governance.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `adr-personalization-governance.md` | Historical | Supersede | `../models/continuity.md` |
+| `adr-household-memory-governance.md` | Historical | Supersede | `../models/continuity.md` |
+| `adr-household-productivity-experience-governance.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `adr-provenance-governance.md` | Historical | Supersede | `adr-truth-as-fact-engine.md`, `../models/decision-trace.md` |
+| `adr-coordinator-v2-governance.md` | Historical | Supersede | `../contracts/concierge-contract.md` |
+| `adr-concierge-v1-capability-preservation-governance.md` | Historical | Archive — capability-preservation evidence | `greenfield-mandate.md` |
+| `hacs-and-platinum-governance-standard.md` | Operational | Keep | — |
+| `hacs-platinum-contract-compliance-checklist.md` | Operational | Keep | — |
+| `platinum-target-checklist.md` | Operational | Keep | — |
+| `implementation-verification-checklist.md` | Operational | Keep | — |
+
+---
+
+## 4. `docs/models/` — canonical
+
+| File | Status | Disposition |
+|---|---|---|
+| `glossary.md` | Canonical (constitutional) | New |
+| `home.md` | Canonical | New |
+| `room.md` | Canonical | New |
+| `room-configuration.md` | Canonical | New |
+| `contextual-vocabulary.md` | Canonical | New |
+| `asset.md` | Canonical | New |
+| `person-and-identity.md` | Canonical | New |
+| `truth.md` | Canonical | New |
+| `stewardship.md` | Canonical | New |
+| `continuity.md` | Canonical | New |
+| `experience-and-session.md` | Canonical | New |
+| `operational-trust.md` | Canonical | New |
+| `decision-trace.md` | Canonical | New |
+| `temporal-record.md` | Canonical | New |
+| `communication.md` | Canonical | New |
+
+---
+
+## 5. `docs/models/` — pre-refoundation
+
+| File | Status | Disposition | Canonical replacement |
+|---|---|---|---|
+| `room-model.md` | Historical | **Supersede** | `room.md`, `room-configuration.md` |
+| `room-vocabulary-registry-model.md` | Historical | **Supersede** | `contextual-vocabulary.md` |
+| `asset-model.md` | Historical | Supersede | `asset.md` |
+| `person-profile-model.md` | Historical | Supersede | `person-and-identity.md` |
+| `voice-profile-model.md` | Historical | Supersede | `person-and-identity.md` |
+| `voice-enrollment-domain-model.md` | Historical | Archive — enrollment evidence | `person-and-identity.md` |
+| `occupancy-presence-model.md` | Historical | Supersede | `truth.md` |
+| `environment-model.md` | Historical | Supersede | `truth.md` |
+| `event-model.md` | Historical | Supersede | `truth.md` |
+| `signal-model.md` | Historical | Supersede | `truth.md` |
+| `provenance-model.md` | Historical | Merge | `truth.md`, `decision-trace.md` |
+| `exposure-model.md` | Historical | Merge | `room-configuration.md` |
+| `capability-projection-model.md` | Historical | Supersede | `room-configuration.md` |
+| `interaction-model.md` | Historical | Supersede | `room-configuration.md`, `../contracts/concierge-contract.md` |
+| `experience-model.md` | Historical | Supersede | `experience-and-session.md` |
+| `experience-restoration-context-model.md` | Historical | Supersede | `continuity.md` |
+| `person-continuity-model.md` | Historical | Supersede | `continuity.md` |
+| `person-room-affinity-model.md` | Historical | Supersede | `continuity.md` |
+| `household-memory-model.md` | Historical | Supersede | `continuity.md` |
+| `household-coordination-snapshot-model.md` | Historical | Supersede | `continuity.md` |
+| `briefing-composition-model.md` | Historical | Supersede | `experience-and-session.md` |
+| `calendar-experience-model.md` | Historical | Supersede | `experience-and-session.md` |
+| `email-experience-model.md` | Historical | Supersede | `experience-and-session.md` |
+| `task-experience-model.md` | Historical | Supersede | `experience-and-session.md` |
+| `shopping-experience-model.md` | Historical | Supersede | `experience-and-session.md` |
+| `knowledge-query-experience-model.md` | Historical | Supersede | `experience-and-session.md`, `contextual-vocabulary.md` |
+| `multi-item-capture-result-model.md` | Historical | Archive — interpretation evidence | `../contracts/concierge-contract.md` |
+
+---
+
+## 6. `docs/contracts/` — canonical
+
+| File | Status | Disposition |
+|---|---|---|
+| `README.md` | Canonical | New |
+| `foundation-contract.md` | Canonical | New |
+| `room-configuration-contract.md` | Canonical | New |
+| `contextual-vocabulary-contract.md` | Canonical | New |
+| `identity-contract.md` | Canonical | New |
+| `truth-contract.md` | Canonical | New |
+| `stewardship-contract.md` | Canonical | New |
+| `continuity-contract.md` | Canonical | New |
+| `operational-trust-contract.md` | Canonical | New |
+| `concierge-contract.md` | Canonical + historical appendix | **Revise** — canonical sections 1–14 prepended; prior content retained as a marked appendix |
+
+---
+
+## 7. `docs/contracts/` — pre-refoundation
+
+| File | Status | Disposition | Canonical replacement |
+|---|---|---|---|
+| `composite-room-contract.md` | Historical | **Supersede** | `room-configuration-contract.md` |
+| `room-interaction-contract.md` | Historical | Supersede | `room-configuration-contract.md` |
+| `room-awareness-contract.md` | Historical | Supersede | `truth-contract.md`, `room-configuration-contract.md` |
+| `room-vocabulary-registry-contract.md` | Historical | **Supersede** | `contextual-vocabulary-contract.md` |
+| `capability-projection-contract.md` | Historical | Supersede | `room-configuration-contract.md` |
+| `person-identity-contract.md` | Historical | **Supersede** | `identity-contract.md` |
+| `voice-recognition-contract.md` | Historical | **Supersede** | `identity-contract.md` |
+| `occupancy-and-presence-contract.md` | Historical | Supersede | `truth-contract.md` |
+| `provenance-contract.md` | Historical | Merge | `truth-contract.md`, `../models/decision-trace.md` |
+| `asset-intelligence-contract.md` | Historical | Supersede | `foundation-contract.md`, `stewardship-contract.md` |
+| `experience-projection-contract.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `experience-restoration-contract.md` | Historical | Supersede | `continuity-contract.md` |
+| `person-continuity-affinity-contract.md` | Historical | Supersede | `continuity-contract.md` |
+| `household-memory-contract.md` | Historical | Supersede | `continuity-contract.md` |
+| `household-coordination-contract.md` | Historical | Supersede | `continuity-contract.md` |
+| `calendar-email-experience-contract.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `task-shopping-experience-contract.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `knowledge-briefing-status-synthesis-contract.md` | Historical | Supersede | `../models/experience-and-session.md` |
+| `multi-item-capture-interpretation-contract.md` | Historical | Archive — interpretation evidence | `concierge-contract.md` |
+| `concierge-scope-contract.md` | Historical | Supersede | `concierge-contract.md`, `operational-trust-contract.md` |
+| `concierge-signal-contract.md` | Historical | Supersede | `truth-contract.md` |
+| `concierge-global-config-contract.md` | Historical | Supersede | `operational-trust-contract.md` |
+| `concierge-global-context-contract.md` | Historical | Supersede | `truth-contract.md`, `room-configuration-contract.md` |
+| `service-contracts.md` | Historical | Supersede | `README.md` |
+| `performance-contract.md` | Active — subordinate | Revise | — |
+| `v2-c1-contract-refactor-baseline.md` | Historical | Archive — refactor record | — |
+
+---
+
+## 8. `docs/scenarios/` — canonical
+
+| File | Status | Disposition |
+|---|---|---|
+| `README.md` | Canonical | New |
+| `room-vocabulary.md` | Canonical | New |
+| `follow-me-media.md` | Canonical | New |
+| `multi-person-conflict.md` | Canonical | New |
+| `nighttime-suppression.md` | Canonical | New |
+| `stewardship-obligations.md` | Canonical | New |
+| `stewardship-use-cases.md` | Canonical | New — the eight canonical Stewardship use cases, added by the Episode 6 narrative-validation review |
+| `continuity-use-cases.md` | Canonical | New — the fifteen canonical Continuity use cases, added by the Episode 7 narrative-validation review |
+| `concierge-use-cases.md` | Canonical | New — the twenty canonical Concierge human-outcome use cases, added by the Episode 8 narrative-validation review. **Carries a maturity classification per use case and is explicitly not proof of implementation** |
+| `why-did-this-happen.md` | Canonical | New |
+| `where-is-tom.md` | Canonical | New |
+| `where-is-maisey.md` | Canonical | New |
+| `where-is-my-phone.md` | Canonical | New |
+
+---
+
+## 9. `docs/assessment/`
+
+| File | Status | Disposition |
+|---|---|---|
+| `assessment-to-platform.md` | Canonical | New |
+
+---
+
+## 10. `docs/governance/`
+
+| File | Status | Disposition |
+|---|---|---|
+| `authority-order.md` | Canonical | New |
+| `document-lifecycle.md` | Canonical | New |
+| `decision-ledger.md` | Canonical | New |
+| `open-decision-issue-index.md` | Canonical | New — identifier-to-issue mapping for every open decision |
+| `document-register.md` | Canonical | New (this document) |
+| `season-1-architectural-baseline.md` | Operational | **New** — point-in-time Season 1 baseline snapshot, 2026-08-25. **Creates no authority**; the decision ledger and the open-decision issue index prevail on any conflict |
+| `htbw-architecture-execution-grounding-standard.md` | Active — subordinate | Revise |
+| `standard-implementation-prompt-header.md` | Active — subordinate | Revise |
+| `issue-execution-review-checklist.md` | Operational | Keep |
+| `cross-repo-ownership-drift-checklist.md` | Active — subordinate | Revise |
+| `hacs-and-platinum-governance-gate.md` | Operational | Keep |
+| `concierge-v2-roadmap-coverage-review.md` | Historical | Archive — roadmap record |
+| `final-roadmap-closure-review.md` | Historical | Archive — closure record |
+
+---
+
+## 11. `docs/philosophy/`
+
+| File | Status | Disposition |
+|---|---|---|
+| `homes-that-behave-well.md` | Active — subordinate | Revise — philosophy remains valid; framework references defer to canon |
+| `concierge-philosophy.md` | Active — subordinate | Revise |
+
+---
+
+## 12. `docs/patterns/`
+
+All pattern documents are **Active — subordinate**. They describe implementation technique, not
+architecture ownership. Where they assert ownership, canonical authority prevails.
+
+| File | Disposition |
+|---|---|
+| `advisory-patterns.md` | Revise |
+| `ai-assisted-actions.md` | Revise |
+| `configuration-patterns.md` | Revise |
+| `execution-patterns.md` | Revise |
+| `interaction-patterns.md` | Revise |
+| `messaging-patterns.md` | Revise |
+| `signal-patterns.md` | Revise |
+| `temporary-artifact-lifecycle-pattern.md` | Revise |
+| `ui-patterns.md` | Revise |
+| `person-identity-patterns.md` | Revise — terminology superseded; see `../contracts/identity-contract.md` |
+| `voice-integration-patterns.md` | Revise — terminology superseded; see `../contracts/identity-contract.md` |
+| `voice-recognition-patterns.md` | Revise — terminology superseded; see `../contracts/identity-contract.md` |
+
+---
+
+## 13. `docs/development/`
+
+| File | Status | Disposition |
+|---|---|---|
+| `architecture-guardrails.md` | Active — subordinate | Revise |
+| `implementation-checklist.md` | Operational | Keep |
+
+---
+
+## 14. `examples/`
+
+All example documents are **Historical illustrations**, retained as evidence and as household framing.
+Canonical scenarios: [../scenarios/README.md](../scenarios/README.md).
+
+| File | Canonical successor |
+|---|---|
+| `examples/interaction-flows/concierge-to-asset-update.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/artwork-risk.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/calm-operation.md` | `../scenarios/nighttime-suppression.md` |
+| `examples/scenarios/concierge-artwork-history.md` | `../scenarios/room-vocabulary.md` |
+| `examples/scenarios/concierge-capability-discovery.md` | `../scenarios/room-vocabulary.md` |
+| `examples/scenarios/concierge-personalization.md` | `../scenarios/follow-me-media.md` |
+| `examples/scenarios/conflicting-asset-requirements.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/data-closet-equipment.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/event-explanation.md` | `../scenarios/why-did-this-happen.md` |
+| `examples/scenarios/gradual-degradation.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/missing-capability.md` | `../scenarios/room-vocabulary.md` |
+| `examples/scenarios/multi-room-prioritization.md` | `../scenarios/multi-person-conflict.md` |
+| `examples/scenarios/piano-preservation.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/rare-book-placement.md` | `../scenarios/stewardship-obligations.md` |
+| `examples/scenarios/room-change-summary.md` | `../scenarios/why-did-this-happen.md` |
+| `examples/scenarios/room-dashboard-response.md` | `../scenarios/room-vocabulary.md` |
+
+---
+
+## Summary
+
+Verified against the working tree: **186 Markdown files, 0 unclassified.**
+
+| Category | Count |
+|---|---|
+| New canonical documents | 56 |
+| Revised in place | 2 (`README.md`, `concierge-contract.md`) |
+| **Canonical total** (56 new + 2 revised) | **58** |
+| Marked Active — subordinate | 20 |
+| Marked Historical — superseded | 83 |
+| Marked Historical illustration (`examples/`) | 16 |
+| Marked Historical — planning/closure record | 2 |
+| **Historical total** | **101** |
+| Operational | 7 |
+| **Total classified** | **186** |
+| **Unclassified** | **0** |
+| **Deleted** | **0** |
+
+Every Markdown file in this repository carries a `> **Document status: ...**` banner immediately
+after its H1. No file was deleted, moved, or renamed by the refoundation.
+
+Three canonical documents were added after the original refoundation count of 181 files, under the
+temporal-record governance decisions: `../models/temporal-record.md`,
+`../architecture/adr-historical-explainability-and-historical-truth.md`, and
+`../architecture/adr-temporal-record-model.md`. See
+[decision-ledger.md](decision-ledger.md) entries **DL-24** through **DL-27**.
+
+Two further canonical documents were added under the resident-communication governance decisions,
+bringing the total to 186: `../models/communication.md` and
+`../architecture/adr-resident-communication-and-delivery-separation.md`. See
+[decision-ledger.md](decision-ledger.md) entries **DL-28** and **DL-29**.
+
+---
+
+## Related documents
+
+- [document-lifecycle.md](document-lifecycle.md)
+- [authority-order.md](authority-order.md)
+- [decision-ledger.md](decision-ledger.md)

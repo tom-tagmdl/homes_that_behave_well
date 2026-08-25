@@ -1,5 +1,10 @@
 # Advisory Patterns
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
+> [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+
 ## Purpose
 
 Advisory Patterns define how the system generates and presents recommendations.
@@ -10,6 +15,12 @@ Advisory is different from alerts.
 - Advisory suggests what could be improved
 
 This distinction is critical to maintaining a calm and trustworthy system.
+
+> **Terminology boundary.** **Advisory is a Stewardship judgement**, not a Communication category and
+> not a delivery kind. A Communication that conveys an advisory carries the **stewardship** category,
+> and its Urgency is granted by Operational Trust. *Alert* in this document refers to the household
+> meaning above — not to the Home Assistant `alert` integration. See
+> [../models/communication.md](../models/communication.md).
 
 ---
 

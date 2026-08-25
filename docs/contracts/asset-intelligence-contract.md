@@ -1,5 +1,12 @@
 # Asset Intelligence Contract
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [foundation-contract.md](foundation-contract.md), [stewardship-contract.md](stewardship-contract.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 Asset Intelligence is the authoritative system for managing assets, environments, and risk evaluation.

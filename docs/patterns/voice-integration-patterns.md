@@ -1,5 +1,14 @@
 # Voice Integration Patterns
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
+> [../models/glossary.md](../models/glossary.md).
+> Identity terminology in this document is superseded: the responsibility is **Identity**, and voice is
+> one evidence source. See [../contracts/identity-contract.md](../contracts/identity-contract.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+> Superseded terminology appears in this document: "Composite Room" is now **Merged Room**, and
+> "Interaction Space" is now **Room Context**. See [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 Voice Integration Patterns define how Concierge integrates with Home Assistant's native voice system.

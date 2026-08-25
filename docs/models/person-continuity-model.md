@@ -1,5 +1,12 @@
 # Person Continuity Model
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [continuity.md](continuity.md)
+> Canonical terminology: [glossary.md](glossary.md).
+
 ## Purpose
 
 The Person Continuity Model defines how Concierge represents continuity state associated with a person for planning and restoration-related experiences.

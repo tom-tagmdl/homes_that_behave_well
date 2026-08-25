@@ -1,5 +1,15 @@
 ﻿# Context Before Intent
 
+> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
+> Where this document conflicts with canonical authority, canonical authority prevails.
+> This document predates the refoundation in two respects that do **not** invalidate the pattern
+> itself. Its reference to the "four-service model" is superseded: HTBW Core is defined by **seven
+> responsibilities** (see [framework.md](framework.md)). Its "Interaction Space" is now **Room
+> Context**, and "Voice Identity" is now the **Identity** responsibility with voice as one evidence
+> source. The context-before-intent rule itself remains canonical and is expressed in
+> [runtime-sequence.md](runtime-sequence.md).
+
 ## Purpose
 
 This document defines the Context Before Intent execution pattern for Concierge.

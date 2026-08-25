@@ -1,5 +1,9 @@
 # Platinum Target Checklist
 
+> **Document status: Operational.**
+> Non-architectural process/checklist document. Canonical architecture:
+> [framework.md](framework.md). Terminology: [../models/glossary.md](../models/glossary.md).
+
 This checklist defines the shared target for all Homes Platform integrations.
 
 It is not a separate product requirement. It is the platform's design ceiling for

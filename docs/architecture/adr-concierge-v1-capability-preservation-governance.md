@@ -1,5 +1,12 @@
 # ADR: Concierge V1 Household-Facing Outcome Preservation Governance
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [greenfield-mandate.md](greenfield-mandate.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## ADR Number
 
 ADR-013

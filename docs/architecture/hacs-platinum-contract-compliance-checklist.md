@@ -1,5 +1,9 @@
 # HACS and Platinum Contract Compliance Checklist
 
+> **Document status: Operational.**
+> Non-architectural process/checklist document. Canonical architecture:
+> [framework.md](framework.md). Terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This checklist defines the contract-level governance framework used to assess whether HTBW contract artifacts satisfy architectural, operational, maintainability, explainability, privacy, and readiness expectations.

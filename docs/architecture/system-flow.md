@@ -1,5 +1,12 @@
 ﻿# System Flow
 
+> **Document status: Historical — superseded by the HTBW constitutional refoundation.**
+> This document predates the refoundation recorded in
+> [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> It is retained as architectural evidence. It is **not** current authority.
+> Canonical replacement: [runtime-sequence.md](runtime-sequence.md), [dependency-view.md](dependency-view.md)
+> Canonical terminology: [../models/glossary.md](../models/glossary.md).
+
 ## Purpose
 
 This document defines canonical runtime flow across the HTBW platform.

@@ -1,5 +1,14 @@
 # HACS and Platinum Governance Gate
 
+> **Document status: Operational.**
+> Non-architectural process/checklist document. Canonical architecture:
+> [../architecture/framework.md](../architecture/framework.md). Terminology:
+> [../models/glossary.md](../models/glossary.md).
+> Where this document names **Voice Identity** or **Asset Intelligence** as an ownership domain, it
+> refers to the separately released **repository**, not to an HTBW Core layer. HTBW Core has no Voice
+> Identity layer: the responsibility is **Identity**, and voice is one evidence source. See
+> [../models/glossary.md](../models/glossary.md) section "Products versus responsibilities".
+
 ## 1. Purpose
 
 Define the authoritative E12-R1 governance baseline for HACS and Platinum readiness.
