@@ -1,4 +1,4 @@
-![Homes That Behave Well](brand/Homes-that-behave-well-dark.png)
+<img width="1536" height="1024" alt="HTBW-GitHub02" src="https://github.com/user-attachments/assets/b460b2d2-a5f9-4f75-9e7e-716c121c8db8" />
 
 # Homes That Behave Well
 
