@@ -20,17 +20,33 @@ The following are **not required** and must never be introduced as a constraint 
 - Compatibility shims
 - Migration adapters
 
+> **Scope of the migration-adapter prohibition, settled by DL-52.** This list prohibits compatibility
+> **as a constraint on HTBW Core design**, and **DL-19** prohibits **implicit** migration obligations.
+> **An explicit, optional, one-way, terminating adoption that constrains no HTBW model is outside
+> it.** The prohibition keeps its full force through the rule that **adoption maps into HTBW's own
+> accepted models and reports unmappable content as *not adopted*** — the moment an HTBW model is
+> shaped by what a legacy product happens to store, this mandate is violated. See
+> [adr-product-disposition-and-legacy-adoption.md](adr-product-disposition-and-legacy-adoption.md).
+
 ---
 
 ## Status of the reference repositories
 
+> **Disposition is now stated per product by DL-51.** This section is the origin of that asymmetry and
+> is reaffirmed by it.
+
 **Asset Intelligence** is a separate, released product with its own lifecycle. It is not merged into
-HTBW Core, not deprecated by this refoundation, and not modified by it. HTBW Core may learn from its
-concepts, contracts, and household outcomes, but is not required to depend on it or copy its
-implementation.
+HTBW Core, not deprecated by this refoundation, and not modified by it. **It is not retired**, and
+**HTBW must never require it to be installed.** HTBW Core may learn from its concepts, contracts, and
+household outcomes, but is not required to depend on it or copy its implementation. **HTBW absorbs
+equivalent functionality directly**, and a household's existing Asset Intelligence data may be
+**adopted once** under **DL-52**.
 
 **Voice Identity** and **Concierge** were exploratory projects. They revealed important architectural
-concepts and household outcomes. **They are not compatibility commitments.**
+concepts and household outcomes. **They are not compatibility commitments.** Their functionality is
+**absorbed into HTBW and the standalone integrations will sunset** (**DL-51**), while **Identity** and
+**Concierge** remain first-class HTBW responsibilities. **Sunset creates no compatibility requirement,
+and it is not permission to inherit a sunsetting product's defects.**
 
 No HTBW Core document may cite an existing implementation as a reason to preserve a boundary, schema,
 API, module name, or ownership assignment.

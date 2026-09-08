@@ -116,13 +116,20 @@ Asset Intelligence, Voice Identity, and Concierge. That model is **superseded**.
 | Previous platform service | Current disposition |
 |---|---|
 | Foundation | Retained and expanded as a framework responsibility. Foundation no longer owns Truth. |
-| Asset Intelligence | Remains a **separate released product with its own lifecycle**. It is not an HTBW Core framework layer. The HTBW **asset model** is a Foundation-owned descriptive model; **significance and care** belong to Stewardship. See [../models/asset.md](../models/asset.md). |
-| Voice Identity | **Superseded as a product boundary inside HTBW Core.** The responsibility is now **Identity**. Voice is one identity-evidence source among many. See [../models/person-and-identity.md](../models/person-and-identity.md). |
-| Concierge | Retained as the orchestration and resident-interaction responsibility. Concierge no longer owns records it consumes. |
+| Asset Intelligence | Remains a **separate released product with its own lifecycle**, and **is not retired**. It is not an HTBW Core framework layer, and **HTBW must never require it to be installed** (**DL-51**). The HTBW **asset model** is a Foundation-owned descriptive model; **significance and care** belong to Stewardship. See [../models/asset.md](../models/asset.md). |
+| Voice Identity | **Superseded as a product boundary inside HTBW Core.** The responsibility is now **Identity**. Voice is one identity-evidence source among many. **The standalone integration will sunset** (**DL-51**). See [../models/person-and-identity.md](../models/person-and-identity.md). |
+| Concierge | Retained as the orchestration and resident-interaction responsibility. Concierge no longer owns records it consumes. **The standalone integration will sunset** (**DL-51**); the responsibility is unchanged by that. |
 
 The standalone Asset Intelligence repository is untouched by this refoundation, keeps its own
 release lifecycle, and creates no compatibility requirement for HTBW Core. See
 [greenfield-mandate.md](greenfield-mandate.md).
+
+> **Product disposition and responsibility disposition are separable, and DL-51 depends on that
+> separation.** A responsibility may be first-class inside HTBW while its released product continues,
+> and a product may sunset while its responsibility is unchanged. A household's existing Asset
+> Intelligence data may be **adopted once** into HTBW under **DL-52** — **one-time, authoritative, and
+> terminating**, never a runtime dependency and never synchronisation. See
+> [adr-product-disposition-and-legacy-adoption.md](adr-product-disposition-and-legacy-adoption.md).
 
 ---
 

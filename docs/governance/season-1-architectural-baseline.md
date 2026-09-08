@@ -68,7 +68,7 @@ at least one document**.
 
 | ID | Issue | Question | Raised by |
 |---|---|---|---|
-| **OD-82** | **#160** | Product consolidation and retirement | A **verified contradiction** with `authority-order.md` |
+| **OD-82** | **#160** | Product consolidation and retirement | A **verified contradiction** with `authority-order.md`. **Resolved 2026-08-26 as DL-51 and DL-52** |
 | **OD-83** | **#168** | Voiceprint gallery structure under channel diversity | DL-50 acceptance, separated deliberately |
 | **OD-84** | **#169** | Multi-speaker evidence and speaker plurality | Post-acceptance harvest |
 
@@ -144,7 +144,14 @@ promise**, and it is currently blocked on **OD-01**.
 | Open-decision issue index | **Canonical**; ledger and index verified consistent |
 | Document register | **Canonical**; every new file registered |
 | Episode narrative validation pattern | Established — Episodes 4/5, 6 (#75), 7 (#151), 8 (**#170**) |
-| **Version control of the constitutional set** | **Resolved by this baseline** — see §12 and **#145** |
+| **Version control of the constitutional set** | **Committed locally only — NOT resolved.** See the correction below and **#145** |
+
+> **Corrected 2026-09-08 against direct `git` evidence.** This row previously read *"Resolved by this
+> baseline"*. **That was true of the local commit and false of the governed remote.** Verified:
+> `origin/main` is at `b1e02b3` and contains **137 files**, and **none** of
+> `decision-ledger.md`, `authority-order.md`, `north-star.md`, `truth.md`, this file, or
+> `docs/scenarios/` is present in it. The baseline commit `e39c0936` exists **only in the local
+> repository**, the branches have **diverged**, and **#145 remains open**.
 
 ---
 
@@ -158,7 +165,7 @@ promise**, and it is currently blocked on **OD-01**.
 | Pet model consolidation | **#144** | Medium |
 | HTBW visual canon not under repository governance | **#150** | Medium |
 | Home Assistant native capability verification backlog (**DL-30**) | **#146** | **High** — several decisions cannot close without it |
-| Constitutional set not under version control | **#145** | **Addressed by this baseline** |
+| Constitutional set not under version control | **#145** | **NOT addressed.** Committed locally at `e39c0936`; **absent from `origin/main`**, which holds 137 files and none of the constitutional set. **High** |
 
 ---
 
@@ -352,8 +359,15 @@ They may appear as *intent*, clearly framed. They may not appear as *what the ho
 | **#178** | `cross-repo-ownership-drift-checklist.md` | Active — subordinate |
 | **#186** | `concierge-v2-roadmap-coverage-review.md`, `final-roadmap-closure-review.md` | Historical |
 
-**No issue with these numbers has ever existed** — the repository's highest issue number is 170. They
-are pre-refoundation artefacts. **No canonical document is affected.**
+**When this snapshot was taken, no issue with these numbers had ever existed** — the repository's
+highest issue number was 170. They are pre-refoundation artefacts, and the source documents show they
+are **Concierge** issue numbers. **No canonical document is affected.**
+
+> **Corrected 2026-09-08.** HTBW issues **#176**, **#177**, **#178**, and **#179** now exist, so the
+> bare references above **silently resolve to unrelated HTBW issues**. The references are still
+> dangling in the sense that matters — they do not point at the Concierge issues they meant — but they
+> are no longer *non-existent*, and the sentence *"no issue with these numbers has ever existed"* is
+> now false. **The remediation is unchanged: qualify each reference with its repository.**
 
 ### C-2 — A stale issue-state assertion in two canonical governance documents — **RESOLVED 2026-08-25**
 
@@ -388,10 +402,19 @@ Low severity, and no canonical document is affected.
 
 ### Not a contradiction, and recorded so it is not mistaken for one
 
-**OD-82 is itself an unresolved contradiction** — between the premise that the standalone products are
+**OD-82 was itself an unresolved contradiction** — between the premise that the standalone products are
 being retired and `authority-order.md`'s non-negotiable that they remain separate released products.
-**It is raised, tracked, and deliberately unresolved**, which is the correct state and not a defect in
-this baseline.
+At the time of this snapshot it was **raised, tracked, and deliberately unresolved**, which was the
+correct state and not a defect in this baseline.
+
+> **Resolved 2026-08-26 as DL-51 and DL-52**, after a review found a **second and deeper
+> contradiction**: `greenfield-mandate.md` and `north-star.md` already described Voice Identity and
+> Concierge differently from the flattened non-negotiable. **The asymmetry was already in the
+> canonical tier, and the flattening was the defect.** Disposition is now stated **per product**, the
+> non-negotiable is **amended rather than deleted**, and the adoption residual is separated as
+> **OD-85**. See
+> [../architecture/adr-product-disposition-and-legacy-adoption.md](../architecture/adr-product-disposition-and-legacy-adoption.md).
+> **This snapshot is not rewritten; the resolution is recorded against it.**
 
 ---
 

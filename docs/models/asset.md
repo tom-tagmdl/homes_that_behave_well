@@ -20,12 +20,24 @@ it is, where it is, what it relates to, and what is known about it.
 ## Relationship to the standalone product
 
 The standalone **Asset Intelligence** integration remains a separate released product with its own
-lifecycle. This refoundation does not merge, modify, deprecate, or create compatibility requirements
-for it.
+lifecycle, and **it is not retired**. This refoundation does not merge, modify, deprecate, or create
+compatibility requirements for it.
 
 HTBW Core may learn from its concepts, contracts, and household outcomes. HTBW Core is **not** required
 to depend on it or copy its implementation. See
 [../architecture/greenfield-mandate.md](../architecture/greenfield-mandate.md).
+
+> **HTBW must never require Asset Intelligence to be installed** (**DL-51**). It is never a
+> prerequisite, never a mandatory **DL-41** dependency, and never a condition of any resident-facing
+> outcome. **HTBW absorbs equivalent functionality directly.**
+
+**A resident's investment survives the transition.** Where a household already holds asset knowledge
+in the standalone product, HTBW offers a **one-time, authoritative, terminating adoption** of it
+(**DL-52**) — never a runtime dependency, never continuous synchronisation, and never shared
+authority. **Relationships and limits are adopted as declarations; service history is adopted as
+Stewardship Care Evidence of kind `attested`; and observational history is never adopted as a Truth
+Fact.** Scope, artifact custody, coexistence, and surface remain open decision **OD-85**. See
+[../architecture/adr-product-disposition-and-legacy-adoption.md](../architecture/adr-product-disposition-and-legacy-adoption.md).
 
 ---
 

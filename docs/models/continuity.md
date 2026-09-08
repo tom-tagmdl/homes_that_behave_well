@@ -150,6 +150,27 @@ a **Domain Event** owned by the responsibility that observed it. The governing r
 [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) under **P26**;
 the lifecycle is **OD-28** and evidence eligibility is **OD-65**.
 
+### Habit continuity and vocabulary continuity are not Continuity scopes
+
+**Continuity has exactly two scopes — person-scoped and room-scoped — and their silence on household
+habits and household words must not be read as an invitation to add a third tier.**
+
+*Habit continuity* and *vocabulary continuity* are useful **review lenses** for asking whether a
+change breaks something the household relies on. **Neither is a Continuity storage scope, a remembered
+value class, or an architectural construct**, and neither may be used to justify a household-scoped,
+vocabulary-scoped, or habit-scoped tier alongside the two above.
+
+The words the household uses are **Contextual Vocabulary**, owned by Room Configuration
+([contextual-vocabulary.md](contextual-vocabulary.md)), and a vocabulary term is a **configured
+mapping**, never a remembered value. **The consequence for the household when a term changes or is
+withdrawn is not settled**, and is **OD-86** — it belongs to vocabulary governance, not to Continuity.
+An established household routine is likewise not a Continuity object: what it rests on is either a
+configured mapping, an approved preference already held at one of the two scopes, or a household
+automation that HTBW references and never rewrites.
+
+**No debt construct follows from this.** *Vocabulary debt* and *habit debt* are narrative language and
+carry no architectural meaning here.
+
 ---
 
 ## Three modes of continuity

@@ -90,6 +90,16 @@ Additionally:
 - The discoveries made in those products are carried forward deliberately and credited in
   [greenfield-mandate.md](greenfield-mandate.md).
 
+> **Amended 2026-08-26 by DL-51.** The first bullet recorded the state of the portfolio at
+> refoundation and stated one disposition for three products. **Disposition is now stated per
+> product**: Asset Intelligence remains a released standalone integration and is never a required
+> dependency of HTBW, while the standalone Voice Identity and Concierge integrations will **sunset**
+> with their responsibilities unchanged. **The second half of the bullet is unchanged in force** — no
+> compatibility requirement was created then, and none is created by sunset or by adoption
+> (**DL-19**). This annotation records the amendment; **the original text is preserved as
+> architectural evidence and is not rewritten.** See
+> [adr-product-disposition-and-legacy-adoption.md](adr-product-disposition-and-legacy-adoption.md).
+
 ### Costs accepted
 
 - A large documentation diff, including status banners on pre-refoundation files

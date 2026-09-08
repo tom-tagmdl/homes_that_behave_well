@@ -122,6 +122,24 @@ must be explainable as such.
 - The prohibition on runtime device search for vocabulary resolution
 - The prohibition on runtime sensor selection
 
+### Not carried forward
+
+> **Superseded authority is superseded, not inherited.** Recorded 2026-08-27 by the Episode 10
+> governance narrative validation.
+
+The superseded `adr-room-vocabulary-governance.md`,
+`room-vocabulary-registry-contract.md`, and `room-vocabulary-registry-model.md` carried a **managed
+vocabulary lifecycle** — *create, update, deprecate, retire vocabulary terms under governance*. **The
+replacement set established above did not carry the deprecate-and-retire half forward**, and
+**nothing in this ADR reactivates it.** A superseded document is evidence that a question once had an
+owner; it is never authority for the answer.
+
+The consequence is that **the household-facing effect of changing, retargeting, or withdrawing a term
+is unowned**, which is now **OD-86**. **Recording this asserts no transitional alias, deprecation
+window, grace period, or withdrawal behaviour**, and creates no lifecycle construct. The accepted
+position is unchanged: **Room Configuration owns the mapping, Concierge consumes the resolved
+target**, and vocabulary never renames or replaces the authoritative asset.
+
 ### Costs accepted
 
 - Explicit configuration is more work for the household than inference. This is principle **P14 —
@@ -145,7 +163,8 @@ must be explainable as such.
 
 **OD-01** HA representation strategy; **OD-02** connected-storage format, **since closed as DL-43, DL-44, and DL-45**; **OD-10** Floors as a
 first-class scope; **OD-11** a Physical Room in more than one Room; **OD-12** structured exclusion
-reasons; **OD-13** vocabulary inheritance; **OD-14** HA aliases.
+reasons; **OD-13** vocabulary inheritance; **OD-14** HA aliases; **OD-86** the household consequence of
+changing or withdrawing a vocabulary term — distinct from **OD-13**, which is inheritance across scopes.
 
 ---
 

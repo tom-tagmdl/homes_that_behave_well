@@ -97,8 +97,17 @@ These bind regardless of rank:
 
 - The framework is **vendor-agnostic**; Home Assistant is the first implementation environment, not a
   constraint on the architecture.
-- Asset Intelligence, Voice Identity, and Concierge remain **separate released products** with their
-  own lifecycles. No compatibility requirement is created for them by anything in this repository.
+- **Product disposition is stated per product, never for the portfolio** (**DL-51**). **Asset
+  Intelligence** remains a **separate released product** with its own lifecycle, and **HTBW must never
+  require it to be installed**. The standalone **Voice Identity** and **Concierge** integrations will
+  **sunset**, while **Identity** and **Concierge** remain first-class HTBW responsibilities. **No
+  compatibility requirement is created for any of them by anything in this repository** (**DL-19**).
+  A product may sunset while its responsibility is unchanged, and a responsibility may be first-class
+  inside HTBW while its released product continues. See
+  [../architecture/adr-product-disposition-and-legacy-adoption.md](../architecture/adr-product-disposition-and-legacy-adoption.md).
+- **A resident's investment in describing their household survives the transition** (**DL-52**).
+  Adoption of Asset Intelligence data is **one-time, authoritative, and terminating** — never a runtime
+  dependency, never continuous synchronisation, and never a source of shared authority.
 - HTBW Core is **greenfield**. See
   [../architecture/greenfield-mandate.md](../architecture/greenfield-mandate.md).
 - Explainability is a **required output**, not a feature.

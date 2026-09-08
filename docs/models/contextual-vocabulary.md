@@ -232,6 +232,38 @@ any point**. Whether a Merged Room warrants any native projection is **OD-70** a
 
 ---
 
+## Changing or withdrawing a term — the household consequence is open
+
+This model governs how a term **comes into existence**: it is created by the household, may be seeded
+from a native value, resolves deterministically, and becomes `broken_mapping` when its target no longer
+resolves. Of removal it says only that a term the household withdraws is **removed through the ordinary
+Room Configuration lifecycle, and its history is retained**.
+
+> **History retained is not habit preserved.** **What the home owes the people who still use the old
+> word is not settled, and is OD-86.**
+
+Open there, and deliberately unanswered here: whether a superseded term is recognised at all and for how
+long; whether the home may say that a word it once understood is no longer configured, and which
+responsibility says it; how a change is explained afterwards, given that under **P30** a Decision Trace
+references the exact vocabulary version and so remains accurate while the household habit does not;
+what is owed regarding household-authored automations, scripts, and scenes that named the previous
+target; and what becomes of retained references and of Continuity values captured under the earlier
+term.
+
+**Nothing is asserted here.** **No transitional alias, deprecation window, grace period, or withdrawal
+behaviour is introduced by recording this**, and none may be inferred from it. Rule 6 stands unchanged:
+vocabulary never renames or replaces the authoritative asset. HTBW references household automations as
+named executors and **never rewrites, wraps, or migrates them**.
+
+**This question exists because it was once owned and was not carried forward.** The superseded
+`adr-room-vocabulary-governance.md`, `room-vocabulary-registry-contract.md`, and
+`room-vocabulary-registry-model.md` carried a *managed vocabulary lifecycle*. **They are Historical and
+are not reactivated** — they are evidence that the question existed, never authority for its answer.
+
+**Inheritance across scopes is a different question and remains OD-13.**
+
+---
+
 ## Recognition forms
 
 **A resident configures one term. HTBW may derive additional forms of that term so that ordinary
@@ -381,6 +413,7 @@ linguistic mechanics to receive a usable explanation.**
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
 | OD-13 | Whether vocabulary terms may be inherited from Home scope and overridden per Room |
 | OD-14 | **Resolved.** Native aliases are an **input** — a seed — and never an authority. See *Native names and aliases* above |
+| OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. See *Changing or withdrawing a term* above. A wake-word change is admissible there only as a household-vocabulary sub-question and remains deferred behind **#146** |
 
 ## Related documents
 

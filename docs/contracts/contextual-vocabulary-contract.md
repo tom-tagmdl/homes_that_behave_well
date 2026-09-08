@@ -183,6 +183,7 @@ Explanation records the form heard and the authoritative term it resolved to. Ro
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
 | OD-13 | Whether terms may be inherited from Home scope and overridden per Room |
 | OD-14 | **Resolved.** Native aliases are an input — a seed — and never an authority |
+| OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. **Consumers must not assume any transitional alias, deprecation window, or grace period**, because none is guaranteed and none has been decided. See [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md) |
 
 ## Related documents
 

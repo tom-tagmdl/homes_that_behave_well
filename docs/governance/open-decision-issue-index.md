@@ -19,7 +19,7 @@ the accepted or superseding authority. **It does not restate the issue.** The is
 architectural context, the remaining questions, the options, the acceptance criteria, and the exit
 criteria.
 
-Accepted decisions — **DL-01** through **DL-47** — are closed and binding, are recorded in
+Accepted decisions — **DL-01** through **DL-52** — are closed and binding, are recorded in
 [decision-ledger.md](decision-ledger.md) Part 1, and are **not** tracked as issues.
 
 Repository: `tom-tagmdl/homes_that_behave_well`.
@@ -57,7 +57,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-17** | Composite Fact Computation | Open — Governance Required | **#88** | #93, #91, #89 | DL-04, DL-09, DL-11 |
 | **OD-18** | Fact Freshness Policy | Open — Governance Required | **#89** | #93 | DL-25, DL-38, DL-47 |
 | **OD-19** | Evidence Conflict Resolution | Open — Governance Required | **#90** | #88, #89, #93, #91 | DL-04, DL-25 |
-| **OD-20** | Optional Asset Intelligence Product Integration | Open — Governance Required | **#110** | — | DL-07, DL-08, DL-19, DL-41 |
+| **OD-20** | Optional Asset Intelligence Product Integration | Open — Narrowed by DL-51 | **#110** | — | DL-07, DL-08, DL-19, DL-41, **DL-51** |
 | **OD-21** | Significance Representation | Open — Governance Required | **#107** | — | DL-21, DL-27, DL-39 |
 | **OD-22** | Escalation Ladder Semantics and Defaults | Open — Governance Required | **#108** | #107, #115, #100, #105 | OD-50 resolved into this |
 | **OD-23** | Obligation Projection Surface | Open — Research Required | **#109** | #105, #107, #140 | DL-16, DL-30, DL-31, DL-42 |
@@ -114,9 +114,11 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-78** | Remembered-Value Classes and Restoration Semantics | Open — Blocked | **#149** | #146, #127, #130, #125, #76 | Episode 7 validation (#151) |
 | **OD-79** | Presentation Preference Scope and Precedence | Open — Governance Required | **#152** | #97, #113, #117, #132, #96, #104 | Episode 7 validation (#151) |
 | **OD-81** | HTBW Capability Exposure and Self-Consumption | Open — Governance Required | **#159** | #146, #109, #142, #143, #103, #133, #128, #129, #77, #80 | DL-11, DL-16, DL-30, DL-31, DL-34, DL-39, DL-42, DL-46, DL-47; harvests #155, #156, #157, #158 |
-| **OD-82** | HTBW Product Consolidation and Retirement | Open — Governance Required | **#160** | #110, #153 | `authority-order.md` non-negotiable constraints; DL-05, DL-07, DL-08, DL-19, DL-31, DL-41, DL-45 |
 | **OD-83** | Voiceprint Gallery Structure Under Channel Diversity | Open — Governance Required | **#168** | #163 | DL-32, DL-38, DL-41, DL-43, **DL-50**; OD-16 resolved |
 | **OD-84** | Multi-Speaker Evidence and Speaker Plurality | Open — Governance Required | **#169** | #164, #166 | DL-33, DL-34, DL-35, DL-36, DL-38, **DL-50**; OD-16 resolved |
+| **OD-85** | Adoption Scope, Artifact Custody, and Coexistence Behaviour | Open — Governance Required | **#172** | #110, #82, #76, #142, #159 | DL-45, DL-48, DL-49, **DL-51**, **DL-52**; OD-82 closed |
+| **OD-86** | Vocabulary Change and Term-Withdrawal Consequences | Open — Governance Required | **#174** | #138, #103, #128, #129, #146 | DL-10, DL-14 resolved, DL-27, DL-31, DL-45, P15, P30; superseded vocabulary-lifecycle authority **not** reactivated |
+| **OD-87** | Identity Artifact Invalidation as a Governed Household Event | Open — Governance Required | **#175** | #94, #95, #96, #168, #172, #146 | DL-36, DL-38, DL-41, DL-50, DL-52; **OD-16 resolved and not reopened** |
 
 ---
 
@@ -130,6 +132,10 @@ is not an open decision.
 | Consolidate the Pet model | Documentation Remediation | Remediation Required | **#144** |
 | HTBW constitutional documentation set is not under version control | Documentation Remediation | Remediation Required | **#145** |
 | Home Assistant native capability verification backlog (**DL-30**) | Implementation Mapping | Open — Research Required | **#146** |
+| Monthly Home Assistant release architecture-governance review | Governance Process | Open — **standing obligation, non-terminating**; process defined in `home-assistant-release-review-standard.md` | **#178** |
+| Home Assistant 2026.9 architecture-impact review — September 2026 baseline | Governance Review | Open — first review under the monthly standard; **no decision made, no issue closed** | **#179** |
+| Season 1 public-contract alignment — website, blog, store, and workbook | Governance Review | Open — **Remediation Required**; register in `public-claim-register.md`. Public framework states **six** responsibilities against **DL-01**'s seven; **DL-51** contradicted by a published store item | **#180** |
+| Episode 11 and the ungoverned public framework capabilities | Governance Review | Open — *Technical Debt*, *Home Operating System*, and *Technology Stewardship* are published framework concepts with **zero** repository representation; Episodes 1–3, 9, and 11 have **no artefact** | **#181** |
 | Episode 6 Stewardship narrative validation | Governance Review | Open — pending OD-75 and OD-76 | **#75** |
 | Episode 7 Continuity narrative validation | Governance Review | Open — pending OD-77 and OD-78 | **#151** |
 | Episode 8 Concierge narrative validation | Governance Review | Open — pending acceptance; **no new open decision produced** | **#170** |
@@ -141,6 +147,10 @@ is not an open decision.
 | Enrollment sufficiency and re-enrollment ownership | Governance Challenge | Closed — no new decision required; governed by DL-32, DL-36, DL-38, DL-41, DL-43 and resolved OD-16 | **#156** |
 | Legacy documentation knowledge harvest — all three repositories | Governance Review | Open — pending refinement triage | **#157** |
 | Portfolio operational refinement register | Implementation Planning Input | Open — standing register, not a decision | **#158** |
+| Legacy product transition and Asset Intelligence adoption | Governance Review | Open — **OD-82 closed as DL-51 and DL-52**; pending **OD-85** and the onboarding-surface gap | **#171** |
+| Episode 9 and Episode 10 narrative validation and scenario artifact remediation | Governance Review | Open — Episodes 9 and 10 have **no scenario artefact**; Episode 10 produced **OD-86** and **OD-87** | **#173** |
+| The Home Architecture Workbook is not under repository governance | Documentation Remediation | Remediation Required — referenced by `north-star.md`, absent from the repository. Precedent **#150** | **#176** |
+| Household impact elements for the assessment record | Governance Routing | Open — determines whether an open decision is required; `assessment-to-platform.md` **must not be edited** before routing is accepted | **#177** |
 | Voice evidence runtime — Phase 1, architecture and contracts | Implementation Roadmap | Open — **OD-80 resolved as DL-50**; ADR accepted | **#161** |
 | Voice evidence runtime — Phase 2, App runtime foundation | Implementation Roadmap | Blocked on #161 | **#162** |
 | Voice evidence runtime — Phase 3, channel-aware enrollment | Implementation Roadmap | Blocked on #162 and **OD-83** (#168) | **#163** |
@@ -168,6 +178,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-34** | Closed — DL-42, DL-44, DL-46, DL-47. Mechanism residual retained in **OD-01** |
 | **OD-50** | Resolved — one escalation architecture. Residual is **OD-22** |
 | **OD-80** | Closed — **DL-50**. A capability may declare an execution host; Wyoming is the preferred voice-pipeline boundary; a provider reports candidates and Identity alone resolves. Residuals separated as **OD-82** and **OD-83**. **OD-07** and **OD-66** are not resolved by it |
+| **OD-82** | Closed — **DL-51**, **DL-52**. **Product disposition is stated per product**: Asset Intelligence remains a released standalone integration, **is not retired**, and **HTBW must never require it to be installed**; the standalone Voice Identity and Concierge integrations **sunset** while Identity and Concierge remain first-class responsibilities. **Adoption is one-time, authoritative, and terminating.** The non-negotiable constraint in [authority-order.md](authority-order.md) was **amended, not deleted**, and the canonical contradiction across `authority-order.md`, `greenfield-mandate.md`, `north-star.md`, and `adr-htbw-core-refoundation.md` is reconciled. Residual separated as **OD-85**. **OD-20** is narrowed but not closed |
 
 ---
 

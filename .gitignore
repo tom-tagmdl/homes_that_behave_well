@@ -1,0 +1,15 @@
+# Genuine scratch only. No canonical document is excluded by this file.
+# Every document classified in docs/governance/document-register.md must remain tracked.
+
+# Python virtual environment used for local tooling
+.venv/
+__pycache__/
+
+# Operating-system and editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Temporary output
+*.tmp

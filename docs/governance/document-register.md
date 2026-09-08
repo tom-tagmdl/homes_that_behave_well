@@ -48,6 +48,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-temporal-record-model.md` | Canonical ADR | New |
 | `adr-resident-communication-and-delivery-separation.md` | Canonical ADR | New |
 | `adr-wyoming-compatible-voice-evidence-runtime.md` | Canonical ADR | **New** — Accepted 2026-08-25 as **DL-50** |
+| `adr-product-disposition-and-legacy-adoption.md` | Canonical ADR | **New** — Accepted 2026-08-26 as **DL-51** and **DL-52**. Closes **OD-82**, opens **OD-85**, and amends the non-negotiable constraint in `authority-order.md` |
 
 ---
 
@@ -238,6 +239,9 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `open-decision-issue-index.md` | Canonical | New — identifier-to-issue mapping for every open decision |
 | `document-register.md` | Canonical | New (this document) |
 | `season-1-architectural-baseline.md` | Operational | **New** — point-in-time Season 1 baseline snapshot, 2026-08-25. **Creates no authority**; the decision ledger and the open-decision issue index prevail on any conflict |
+| `home-assistant-release-review-standard.md` | Operational | **New** — the repeatable monthly Home Assistant release review process. **Creates no authority** and decides nothing; it makes the **P21** / **DL-30** verification obligation recurring rather than proposal-triggered |
+| `public-claim-register.md` | Operational | **New** — traceability from material public claims to repository authority, compiled 2026-09-08. **Creates no authority**, accepts no public claim as architecture, and amends no public material |
+| `season-1-traceability-matrix.md` | Operational | **New** — Season 1 narrative-to-architecture traceability, compiled 2026-09-08. **Creates no authority**; records coverage and gaps, and states its evidence limits |
 | `htbw-architecture-execution-grounding-standard.md` | Active — subordinate | Revise |
 | `standard-implementation-prompt-header.md` | Active — subordinate | Revise |
 | `issue-execution-review-checklist.md` | Operational | Keep |

@@ -53,6 +53,45 @@ sufficient to authorize.
 
 Room occupancy, contextual presence, activity, what should happen, preferences, or permissions.
 
+### An outcome that varies by person requires a sufficient Identity Assertion
+
+> **This is a precondition. It is not a DL-41 dependency class.**
+
+Where a capability produces a different outcome for different people — applying a person's
+preferences, evaluating a person-scoped authority, addressing someone by name, disclosing something
+person-specific — that outcome is a **person-scoped capability access**, evaluated against the
+**current Identity Assertion** and against the band the capability requires.
+[../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md) already states it in that
+form: *"applying a person's preferences is a person-scoped capability access, evaluated against the
+current Identity Assertion — not a consequence of the home having addressed someone by name."*
+
+**No dependency class is created.** **DL-41**'s classes are a native Home Assistant capability, an
+integration, a provider, Connected Storage, consent, and configuration. **Identity is not among them
+and must not be added to them.** [failure-and-degradation.md](failure-and-degradation.md) requires
+that a missing dependency is reported as the capability being **unavailable**, with the dependency
+named, and is *"never rendered as a permission or identity failure"* — the two outcomes stay
+distinguishable to the household because they are different kinds of thing, with different remedies.
+
+**No new evaluation stage and no responsibility follow from this.** Identity remains advisory,
+Operational Trust still owns every threshold, and an insufficient assertion produces an honest
+degraded outcome rather than a silently misapplied one. **Voice Identity is not a governance
+dependency**, and naming it as one would reinstate the boundary this ADR replaced.
+
+### Forced artifact invalidation is an open household-event question
+
+The **mechanism** by which a previously sufficient identity artifact becomes unusable — an encoder
+change, an audio-contract change, or a comparability rule — is already settled and is **not reopened**:
+it is a **DL-41** capability outcome, in which the capability is **unavailable** and the missing or
+invalid dependency is **named**.
+
+**What is not settled is the household event that follows**, in which every enrolled Person must enrol
+again — how the household is told and by whom, what the home does in the interval, which fallback
+applies, whether prior consent survives the artifact derived from it, and what completion means for a
+bulk household act. That question is **OD-87**.
+
+> **OD-87 reopens nothing.** It does not reopen **OD-16**, changes no compatibility mechanism, creates
+> no dependency class, and restores no Voice Identity responsibility.
+
 ---
 
 ## Discoveries carried forward
@@ -111,6 +150,10 @@ creates no compatibility requirement for it, and no runtime code was modified.
 **OD-07** local versus cloud voice; the rest resolved as
 **DL-39**; **OD-15** assertion validity
 windows; **OD-16** evidence weighting and fusion.
+
+**OD-87** identity artifact invalidation as a governed household event — raised 2026-08-27 by the
+Episode 10 governance narrative validation. It concerns the **household event**, never the
+compatibility mechanism.
 
 ---
 

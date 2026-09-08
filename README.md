@@ -1,4 +1,4 @@
-![Homes That Behave Well](brand/Homes-that-behave-well-dark.png)
+<img width="1536" height="1024" alt="HTBW-GitHub02" src="https://github.com/user-attachments/assets/b460b2d2-a5f9-4f75-9e7e-716c121c8db8" />
 
 # Homes That Behave Well
 
@@ -64,9 +64,14 @@ earlier **four-service platform model** (Foundation, Asset Intelligence, Voice I
 Recorded in [docs/governance/decision-ledger.md](docs/governance/decision-ledger.md) and
 [docs/architecture/adr-htbw-core-refoundation.md](docs/architecture/adr-htbw-core-refoundation.md).
 
-**Asset Intelligence, Voice Identity, and Concierge remain separate released products** with their own
-lifecycles. HTBW Core is greenfield and creates no compatibility requirement for them. See
-[docs/architecture/greenfield-mandate.md](docs/architecture/greenfield-mandate.md).
+**Product disposition is stated per product** (**DL-51**). **Asset Intelligence remains a separate
+released product** with its own lifecycle, is **not retired**, and **HTBW never requires it to be
+installed**. The standalone **Voice Identity** and **Concierge** integrations will **sunset**, while
+Identity and Concierge remain first-class HTBW responsibilities. HTBW Core is greenfield and creates
+no compatibility requirement for any of them. A household's existing Asset Intelligence data may be
+**adopted once** — one-time, authoritative, and terminating (**DL-52**). See
+[docs/architecture/greenfield-mandate.md](docs/architecture/greenfield-mandate.md) and
+[docs/architecture/adr-product-disposition-and-legacy-adoption.md](docs/architecture/adr-product-disposition-and-legacy-adoption.md).
 
 ---
 
@@ -218,11 +223,12 @@ decides. Every file's disposition is recorded in
 
 ## Open decisions
 
-**Seventy-four decisions are deliberately unresolved**, recorded as **OD-01** through **OD-84** in
+**Seventy-six decisions are deliberately unresolved**, recorded as **OD-01** through **OD-87** in
 [docs/governance/decision-ledger.md](docs/governance/decision-ledger.md) — including the Home Assistant
 representation strategy, Truth Fact confidence representation, identity-confidence thresholds,
-Decision Trace retention, and the Stewardship obligation lifecycle. Ten of the eighty-four
-identifiers are closed or resolved and are preserved rather than deleted.
+Decision Trace retention, the Stewardship obligation lifecycle, legacy adoption scope, vocabulary
+change and term-withdrawal consequences, and identity artifact invalidation. Eleven of
+the eighty-seven identifiers are closed or resolved and are preserved rather than deleted.
 
 **A deliberately open decision is not a gap.** Recording it honestly is better than inventing an answer
 the household has not chosen.
@@ -248,9 +254,11 @@ open?
 
 ## How downstream repositories use this
 
-Asset Intelligence, Voice Identity, and Concierge are **separate released products**. This repository
-grounds their architectural decisions and records the discoveries made in building them. It does **not**
-impose a compatibility requirement on them, and it contains no runtime code.
+Asset Intelligence remains a **separate released product**; the standalone Voice Identity and
+Concierge integrations will **sunset**, with their responsibilities first-class inside HTBW
+(**DL-51**). This repository grounds their architectural decisions and records the discoveries made in
+building them. It does **not** impose a compatibility requirement on them, and it contains no runtime
+code.
 
 When a pattern evolves during implementation, it should be reflected here so the framework stays
 coherent — subject to
