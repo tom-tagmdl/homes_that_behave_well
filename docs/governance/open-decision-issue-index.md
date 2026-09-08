@@ -136,6 +136,7 @@ is not an open decision.
 | Home Assistant 2026.9 architecture-impact review — September 2026 baseline | Governance Review | Open — first review under the monthly standard; **no decision made, no issue closed** | **#179** |
 | Season 1 public-contract alignment — website, blog, store, and workbook | Governance Review | Open — **Remediation Required**; register in `public-claim-register.md`. Public framework states **six** responsibilities against **DL-01**'s seven; **DL-51** contradicted by a published store item | **#180** |
 | Episode 11 and the ungoverned public framework capabilities | Governance Review | Open — *Technical Debt*, *Home Operating System*, and *Technology Stewardship* are published framework concepts with **zero** repository representation; Episodes 1–3, 9, and 11 have **no artefact** | **#181** |
+| External publication remediation package | Governance Remediation | Open — exact replacement copy produced in `external-publication-remediation-package.md`; **nothing applied**, no external system was reachable | **#180**, **#181**, **#176** |
 | Episode 6 Stewardship narrative validation | Governance Review | Open — pending OD-75 and OD-76 | **#75** |
 | Episode 7 Continuity narrative validation | Governance Review | Open — pending OD-77 and OD-78 | **#151** |
 | Episode 8 Concierge narrative validation | Governance Review | Open — pending acceptance; **no new open decision produced** | **#170** |

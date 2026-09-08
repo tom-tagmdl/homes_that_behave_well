@@ -800,6 +800,57 @@ Do not resolve them inside a contract, model, or scenario document.
 
 ---
 
+## Home Assistant 2026.9 re-verification
+
+> **This section is additive. It does not replace, amend, or invalidate the four capability reviews
+> above, and it does not change their recorded documentation version.** Those reviews were conducted
+> against documentation version **2026.8.2** and that evidence date stands as recorded. This section
+> records a **separate, later re-verification** conducted 2026-09-08 under the monthly process in
+> [../governance/home-assistant-release-review-standard.md](../governance/home-assistant-release-review-standard.md),
+> against **Home Assistant Core 2026.9** (released 2026-09-02) and patch **2026.9.1**.
+> **Everything here is a finding or a recommendation. Nothing here is an accepted decision.**
+> Full review: **#179**.
+
+### Verification pins
+
+| Review | Documentation version | Status |
+|---|---|---|
+| Temporal capability review | **2026.8.2** | Re-verified 2026-09-08 against 2026.9 — **one row narrowed**, see **R1** |
+| Communication capability review | **2026.8.2** | Re-verified 2026-09-08 against 2026.9 — **one row narrowed**, see **R4** |
+| Platform capability review | **2026.8.2** | Re-verified 2026-09-08 against 2026.9 — **no row invalidated**; **R5** adds a distinction |
+| Location and engagement capability review | **2026.8.2** | Re-verified 2026-09-08 against 2026.9 — **no row invalidated** |
+
+**No previously verified row was found to be false.** Two were **narrowed** by new native capability.
+
+### Re-verification rows, in the DL-30 five-part form
+
+| # | Capability evaluated | Source documentation | HTBW requirement tested | Remaining gap | Why a lower layer cannot satisfy it |
+|---|---|---|---|---|---|
+| **R1** | **Activity decision causality** — the Activity details dialog now presents what started a change (a person, a state change, a schedule, an integration, or a restart), the automations or scripts it passed through, and the entity's own change, each step clickable, with navigation into automation traces and millisecond timestamps | Release notes 2026.9, *From what changed to why it changed* | Historical explainability (**P27**, **P28**); the Decision Trace | **Narrowed, not closed.** The recorded gap *"Activity records what changed, not why"* is now **partly satisfied for execution causality**. Native Activity still carries **no** identity assertion or confidence, evidence or provenance, context or household posture, authority or policy evaluation, alternatives considered, or policy version applied | **The native layer now satisfies execution causality and HTBW must not rebuild it.** The residual is governed meaning, which no native record represents (**DL-46**) |
+| **R2** | **Automation trace per-step targets** — traces now show which entities, devices, and areas each step targeted | Release notes 2026.9, *Other noteworthy changes* | Referenceable execution evidence for a Decision Trace | **Not discharged.** Whether trace data is **programmatically retrievable by an integration**, and **for how long it is retained**, remains unverified. **#146 item 6** | **Not established.** Presentation improved; the integration-facing interface is undocumented, so the burden is not discharged (**DL-30**) |
+| **R3** | **Actor projection into native context** — whether HTBW may attribute an event or service call to a resolved actor | WebSocket API (`Context` shape in `state_changed`, `call_service`, `fire_event`); Events page; Integration service actions page; Conversation API page | Attribution of a voice, kiosk, ambient, or physical-control interaction to the person HTBW resolved | **NOT VERIFIED — and this is deliberately not recorded as verified absence.** The documented `Context` is `{ id, parent_id, user_id }` and `user_id` denotes an **authenticated Home Assistant user**; the documented Conversation API inputs are exactly `text`, `language`, `agent_id`, `conversation_id`. **No supported native resolved-actor projection mechanism was verified in the official interfaces reviewed. Source and development-environment validation is required before concluding that no supported extension point exists** | **Not established, in either direction.** An undocumented evaluation does not discharge the burden, and **absence of documentation is not absence of capability** (**DL-30**) |
+| **R4** | **Persistent notification replacement semantics** — updating an existing notification now fires `update_type` `updated` rather than `added` | Release notes 2026.9, *Backward-incompatible changes* | Presentation attestation; re-presentation semantics | **Narrowed.** Replacement is now distinguishable from creation. `updated` is still **not** attestation that anyone saw anything, so *"`Delivered` is not `Presented`"* remains natively unsatisfied. **#146 item 5** | **Native events report dispatch, not perception.** No native mechanism attests presentation for most surfaces |
+| **R5** | **Resident-facing severity** — the Security dashboard gains an *Active alerts* section in which the household chooses which entities may trigger it and whether each is an `Alert` or a `Warning` | Release notes 2026.9, *Active alerts and favorites for the Security dashboard* | Urgency and interruption entitlement | **Two distinct native severities now exist and must not be conflated.** The previously verified row *"`IssueSeverity` is a developer-facing platform ladder and is not resident-facing Urgency"* **remains true and is unchanged**. Separately, a **resident-facing, household-declared, two-valued presentation severity** now exists. It carries **no audience, no entitlement, no interruption policy, no acknowledgement, and no obligation subject** | **The native gap is unchanged**: *"No audience model — targets are entities, never people."* A per-entity colour cannot carry an entitlement |
+| **R6** | **Chart accessibility** — charts become a keyboard focus stop with per-point navigation, a screen-reader live region, and an audio tone per point; line and bar charts including the Energy device breakdown, **not** timelines, sankey diagrams, or network graphs | Release notes 2026.9, *Accessibility for charts!* | *Native Experience*; **P18** | **None for native charts.** | **Fully satisfied natively.** **An HTBW surface that renders its own chart now regresses accessibility relative to native**, so the native component is preferred |
+| **R7** | **Device registry — child devices** — 2026.9 introduces child devices referencing `parent_device_id`; `config/device_registry/list` returns a mix of two entry kinds, and a child carries **no** `connections`, `via_device_id`, `entry_type`, `manufacturer`, `model`, `hw_version`, `sw_version`, or `serial_number`. A child with a null `area_id` **inherits its parent's area** | Developer blog, *Device registry WebSocket API changes* and *More device registry deprecations, new helpers and validation* | **DL-31** reference-and-extend; Device-subject Facts | **None architecturally.** Two conformance rules follow for future implementation: **never assume every device-list entry carries `entry_type`, `connections`, or `via_device_id`**, and **resolve a child device's Area by falling back to the parent when `area_id` is null** | **Fully satisfied natively.** **DL-31** already forbids copying the registry. The previously verified row *"Device `entry_type` supports only `None` and `service`"* is unchanged for regular devices |
+| **R8** | **Cloud speech-to-text (Labs)** — a new cloud engine targeting accents, background noise, and non-English languages, available through **Labs**, which Home Assistant states **may not be a permanent addition** | Release notes 2026.9, *Test the new voice processing* | Voice interaction quality | **Not a dependency and must not become one.** A capability whose withdrawal is announced in advance cannot satisfy a **DL-41** dependency. A stated no-retention guarantee is **evidence, not a locality property**, and does not answer **OD-07** | **Out of scope for this boundary.** HTBW consumes speech-to-text output and does not select the engine. **Transcription quality is not speaker evidence**, and **DL-50** stands: speaker evidence never gates transcription |
+| **R9** | **Connected-storage capacity reporting** — the Storage page shows per-mount usage with amber past 85% and red past 95% | Release notes 2026.9, *How full is your network storage?* | Artifact lifecycle (**DL-43**), dependency availability (**DL-41**) | **None.** **HTBW must not build a connected-storage capacity monitor** | **Fully satisfied natively.** **Capacity is not retention**: a full mount is a dependency-unavailable condition, not a retention outcome |
+
+### What follows from this re-verification
+
+- **The largest consequence is a simplification, not a gap.** Any planned HTBW work that would
+  reconstruct immediate source attribution, automation lineage, or trace navigation is now
+  **duplicative** and should be removed from scope by the decision that owns it — **OD-63**, **OD-64**,
+  and **OD-29**. **This section recommends that; it does not decide it.**
+- **`#129` (OD-64) is partially satisfied by native capability** on the presentation and navigability
+  side, and **not** on retrievability, retention, or the non-event case.
+- **The non-event case is untouched by 2026.9.** If an automation never triggered there is no trace and
+  no per-condition record, so *"which condition failed"* remains natively unanswerable, and reading
+  automation configuration to assert that a condition *would have* failed remains prohibited.
+- **No accepted decision is amended, and no open decision is closed, by this section.**
+
+---
+
 ## Related documents
 
 - [principles.md](principles.md)

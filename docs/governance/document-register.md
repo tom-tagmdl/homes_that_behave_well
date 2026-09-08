@@ -242,6 +242,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `home-assistant-release-review-standard.md` | Operational | **New** — the repeatable monthly Home Assistant release review process. **Creates no authority** and decides nothing; it makes the **P21** / **DL-30** verification obligation recurring rather than proposal-triggered |
 | `public-claim-register.md` | Operational | **New** — traceability from material public claims to repository authority, compiled 2026-09-08. **Creates no authority**, accepts no public claim as architecture, and amends no public material |
 | `season-1-traceability-matrix.md` | Operational | **New** — Season 1 narrative-to-architecture traceability, compiled 2026-09-08. **Creates no authority**; records coverage and gaps, and states its evidence limits |
+| `external-publication-remediation-package.md` | Operational | **New** — exact publication-ready replacement content for external artifacts that could not be edited directly, compiled 2026-09-08. **Creates no authority**; nothing in it has been applied |
 | `htbw-architecture-execution-grounding-standard.md` | Active — subordinate | Revise |
 | `standard-implementation-prompt-header.md` | Active — subordinate | Revise |
 | `issue-execution-review-checklist.md` | Operational | Keep |

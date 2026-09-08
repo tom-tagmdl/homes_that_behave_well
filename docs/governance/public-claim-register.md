@@ -158,7 +158,44 @@ consistent. The public material is not consistent with it.**
 
 ---
 
-## 4. What this register deliberately does not do
+## 4. Dispositions, recorded 2026-09-08
+
+**Every disposition below is a remediation position tested against repository authority. None is an
+accepted decision, and none amends the ledger.** Direct editing of the website, store, workbook, and
+YouTube was **unavailable to this review** — no website source, no workbook file, and no episode
+production artifact exists in any accessible location. Exact replacement wording for every external
+change is in
+[external-publication-remediation-package.md](external-publication-remediation-package.md).
+
+| Finding | Disposition | State |
+|---|---|---|
+| **F1** six vs seven responsibilities | **Correct the public page to seven and restore Foundation.** The public wording already exists and is correct in the *Building HTBW* post. **DL-01** is not amended | **Publication-ready correction produced** |
+| **F2** site self-contradiction | **Resolved by F1.** The blog post is the correct statement and needs no change | **Publication-ready correction produced** |
+| **F3** Technical Debt | **Reframe publicly as a condition and assessment lens, addressed through existing responsibilities.** No construct is created, no eighth responsibility is created, and the ledger is not amended | **Publication-ready correction produced** |
+| **F4** Home Operating System | **Retain as a public educational and systems-thinking term, explicitly constrained.** It is not a software operating system, not a responsibility, not a canonical model, and not a competitor to Home Assistant | **Publication-ready correction produced** |
+| **F5** Observability vs Explainability | **Retain as plain-language public vocabulary, anchored to Explainability.** Not added to the glossary as a second concept | **Governed and retained, with constraint** |
+| **F6** *"Truth became the first responsibility"* | **Correct to distinguish narrative order from constitutional order.** Truth was the first responsibility the *series explored*; **Foundation** is first in the constitutional framework | **Publication-ready correction produced** |
+| **F7** Voice Identity playbook vs **DL-51** | **Rename and rescope to Identity, or unpublish.** Do not sell implementation guidance for a sunsetting product | **Publication-ready correction produced** |
+| **F8** HA mantra placement | **Repository first**: record the scope distinction between the platform-neutral framework and platform-specific HTBW Core. Then place the mantra publicly | **Routed — repository clarification required before public change** |
+
+### Public teaching vocabulary, and the limits on each term
+
+**These are public communication terms. They are recorded here, in an Operational document, and
+deliberately *not* added to [../models/glossary.md](../models/glossary.md), because the glossary is
+canonical and constitutional.** They are also **not** *Rejected terms* — a rejected term names a
+construct the architecture does not have, and these name real things using non-canonical words.
+
+| Public term | Governed relationship | Hard limits |
+|---|---|---|
+| **Behaves Well Framework™** | The **brand name** for the HTBW framework. Repository occurrences: **zero** | A brand phrase. **Do not add it to the canonical glossary** without evidence it is intended and stable. It creates no construct |
+| **Home Operating System** | An **educational and systems-thinking description** of the integrated, governed home | **Not** a software operating system · **not** a responsibility · **not** a canonical model · **not** a replacement for or competitor to Home Assistant · **must not** be promoted to canonical architecture through documentation cleanup. Note the collision with **Home Assistant Operating System (HAOS)**, which appears in [../architecture/connected-storage.md](../architecture/connected-storage.md) |
+| **Technology Stewardship** | A **public-facing category** for the practical lifecycle, maintenance, accountability, obsolescence, and debt topics that the **Stewardship** responsibility already governs. `stewardship.md` defines Stewardship as *"the responsibility for significance, care, obligations, **lifecycle accountability**, and ongoing responsibility"* — the category is inside that definition | **Not** a second responsibility · **must not** rename or narrow the constitutional **Stewardship** responsibility |
+| **Technical Debt** | A **condition of a home and an assessment lens**, arising from choices whose future obligations were not made visible. Addressed through **Stewardship** (obligations, lifecycle accountability), **Foundation** (declarations and dependencies), and **Operational Trust** (authority) | **No debt construct is created** — `decision-ledger.md` states this affirmatively, and the word appears normatively in the repository **exactly once**, at **P24** · **not** a responsibility · **not** a cross-cutting capability peer to Explainability · **not** a canonical model |
+| **Observability** | **Plain-language public vocabulary for HTBW's Explainability** where it describes *understanding why the home decided*. The published article's own definition — *"helping the household understand what the Home believes, why it believes it, and how that belief produced a particular outcome"* — is `explainability.md`'s subject | **Two distinct senses must not be merged.** HTBW already uses *observability* in a **narrow operational sense** in subordinate documents — [../architecture/platinum-target-checklist.md](../architecture/platinum-target-checklist.md) §4 — meaning diagnostics and supportability. **Explainability is the canonical, cross-cutting, resident-facing concern.** Do not add *Observability* to the glossary as a second architectural concept |
+
+---
+
+## 5. What this register deliberately does not do
 
 - It **does not amend any public material.** Published articles are not rewritten by a repository review.
 - It **does not accept any public claim as architecture.**
