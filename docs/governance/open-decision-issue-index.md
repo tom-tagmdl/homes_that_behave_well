@@ -53,8 +53,8 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-12** | Exclusion Metadata | Open — Governance Required | **#137** | — | DL-11 |
 | **OD-13** | Contextual Vocabulary Inheritance | Open — Governance Required | **#138** | #135, #136 | DL-09, DL-10; OD-14 resolved |
 | **OD-15** | Identity Assertion Lifetime | Open — Governance Required | **#96** | #89 (**resolved as DL-59**, related not blocking) | DL-32, DL-36, DL-37, DL-38, DL-39 |
-| **OD-17** | Composite Fact Computation | Open — Governance Required | **#88** | #93 (**resolved as DL-58**), #91, #89 (**resolved as DL-59**) | DL-04, DL-09, DL-11, **DL-58**, **DL-59** |
-| **OD-19** | Evidence Conflict Resolution | Open — Governance Required | **#90** | #88, #89 (**resolved as DL-59**), #93 (**resolved as DL-58**), #91 | DL-04, DL-25, **DL-58**, **DL-59** |
+| **OD-17** | Composite Fact Computation | Open — Governance Required | **#88** | #93 (**resolved as DL-58**), #91 (**resolved as DL-60**), #89 (**resolved as DL-59**) | DL-04, DL-09, DL-11, **DL-58**, **DL-59**, **DL-60** |
+| **OD-19** | Evidence Conflict Resolution | Open — Governance Required | **#90** | #88, #89 (**resolved as DL-59**), #93 (**resolved as DL-58**), #91 (**resolved as DL-60**) | DL-04, DL-25, **DL-58**, **DL-59**, **DL-60** |
 | **OD-20** | Optional Asset Intelligence Product Integration | Open — Narrowed by DL-51 | **#110** | — | DL-07, DL-08, DL-19, DL-41, **DL-51** |
 | **OD-21** | Significance Representation | Open — Governance Required | **#107** | — | DL-21, DL-27, DL-39 |
 | **OD-22** | Escalation Ladder Semantics and Defaults | Open — Governance Required | **#108** | #107, #115, #100, #105 | OD-50 resolved into this |
@@ -89,9 +89,8 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-56** | Safety-Category Scope | Open — Governance Required | **#101** | #98, #119 | *HTBW is not a life-safety system* |
 | **OD-57** | Indication and Content Separation | Open — Governance Required | **#102** | #104, #98, #119, #113 | DL-28, DL-29, DL-34 |
 | **OD-58** | Terminology Supersession Scope | Open — Governance Required | **#122** | — | DL-12, DL-28 |
-| **OD-59** | Exposure Precedence | Open — Research Required | **#103** | #140, #146 | DL-11, DL-31; OD-14 precedent |
-| **OD-60** | Repairs Adoption Scope | Open — Governance Required | **#140** | #146 | DL-16, DL-30, DL-41, DL-46 |
-| **OD-61** | Area Environmental Entity Consumption | Open — Governance Required | **#91** | — | DL-09, DL-11, DL-31 |
+| **OD-59** | Exposure Precedence | Open — Research Required | **#103** | #140, #146 | DL-11, DL-31; OD-14 precedent; **DL-60 is an analogous, not identical, precedent (environmental-slot proposal vs. Assist exposure)** |
+| **OD-60** | Repairs Adoption Scope | Open — Governance Required | **#140** | #146 | DL-16, DL-30, DL-41, DL-46; **DL-60 clarifies that ordinary environmental-proposal divergence is a configuration condition, not a Repairs defect, by itself** |
 | **OD-62** | Governed Conversational Retrieval | Open — Governance Required | **#133** | #103, #79, #80, #81, #104, #146 | DL-33, DL-34, DL-35, DL-36, DL-46 |
 | **OD-63** | Behaviour Attribution | Open — Governance Required | **#128** | #129, #84, #93 | DL-38, DL-46 |
 | **OD-64** | Native Behaviour Observation | Open — Research Required | **#129** | #84, #76, #146 | DL-30, DL-31, DL-38, DL-42, DL-46 |
@@ -99,7 +98,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-66** | Delegation Boundary | Open — Governance Required | **#131** | #128, #129, #99, #132 | DL-15, DL-41, DL-46 |
 | **OD-67** | Reasoning Provider Strategy | Open — Governance Required | **#132** | #94 | DL-33, DL-34, DL-41 |
 | **OD-68** | Managed Label Projection Mechanism | Open — Research Required | **#141** | #146 | DL-31 |
-| **OD-69** | Asset-Derived Entity Projection | Open — Governance Required | **#142** | #105, #93, #141 | DL-31, DL-42 |
+| **OD-69** | Asset-Derived Entity Projection | Open — Governance Required | **#142** | #105, #93, #141 | DL-31, DL-42; **evidence comment posted from DL-60 re: current Concierge "Room Confidence"/"People Health" implementation conflict with the accepted no-synthetic-health prohibition** |
 | **OD-70** | Merged Room Native Representation | Open — Governance Required | **#143** | #136, #141 | DL-12, DL-13, DL-31 |
 | **OD-71** | Audience-Uncertainty Disclosure Policy | Open — Governance Required | **#104** | #113, #100, #102, #99 | DL-29, DL-34, DL-37 |
 | **OD-72** | Unknown Actor Correlation Confidence | Open — Research Required | **#92** | #81, #87 | DL-35; **DL-38, DL-39, and DL-58 may not be borrowed** |
@@ -182,6 +181,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-76** | Closed — **DL-57**. Delegated Stewardship authority is an explicit, scoped **Delegated Access Grant**, never inferred from a relationship, Role, or administrator status; self/proxy/capacity model accepted; identity evidence never transfers with a grant; non-resident authorized participants may hold a minimal Person record; revocation is immediate and prospective; OD-22 escalation applies only to a configured accountability change, not ordinary incomplete-obligation notification. Scope boundary against **OD-77** honoured, not absorbed |
 | **OD-74** | Closed — **DL-58**. Truth Fact Confidence is a strength-of-evidentiary-support ordinal band (Low < Moderate < High < Very High), one uniform enumeration across every Fact Subject and class, structurally separate from **DL-39** Identity Confidence and never converted, averaged, or compared against it. Independent of freshness (**OD-18**), provenance, and coverage (**OD-17**); an optional numeric is a non-authoritative ordering value only. **OD-17**, **OD-18**, **OD-19**, and **OD-72** updated with the boundary; none closed by this decision |
 | **OD-18** | Closed — **DL-59**. Truth distinguishes Current-State Sources from Point-in-Time Observation Sources; current-state Facts read the most current authoritative Home Assistant state at evaluation time (never an HTBW-imposed delay); operational expiration is a **DL-25** lifecycle transition via the existing Domain Event mechanism; **DL-58** Truth Confidence is never decayed by elapsed time alone; on-demand refresh is bounded by per-integration **DL-30** verification, never manufacturing a physical observation; freshness/validity windows are household configuration, not architecture. Contextual Person-Presence multi-evidence combination, person-specific evidence reliability, cross-purpose assertion eligibility, and person-associated-device conflicts were identified as already-owned (**DL-38**) or routed as evidence to **OD-15** and **OD-19**, never decided here |
+| **OD-61** | Closed — **DL-60**. Room Configuration defines an extensible Room Environment Standard; a native Area environmental slot seeds a default proposal (never automatic, never overriding an explicit selection/exclusion, never written back), mirroring **OD-14**; multiple same-purpose sources are disambiguated as Primary Authority / Secondary / Composite Contributor / Excluded; one configuration serves both direct questions and composite/care derivations; Merged Rooms surface constituent-Room-scoped candidates; derived purposes (e.g. dew point) are Truth-computed Composite Facts. **OD-17** and **OD-19** remain the aggregation and conflict owners. A Concierge implementation conflict ("Room Confidence"/"People Health" labels) against the already-accepted no-synthetic-health prohibition was found and routed to **OD-69**, not fixed here |
 
 ---
 

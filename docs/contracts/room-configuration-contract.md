@@ -29,6 +29,10 @@ For each Room, an explicit and persisted definition of:
 - Which capabilities are **exposed** to residents
 - Which vocabulary terms are available, and what they resolve to
 - Which sensors are **eligible contributors** to Room-scoped Composite Facts
+- Which Environmental Purpose (temperature, humidity, dew point, illuminance, UV, VOC, particulates,
+  CO2, mold index, leak, pressure, vibration, noise, and other extensible purposes) each environmental
+  source represents, and its disambiguation state — **Primary Authority**, **Secondary/Corroborating**,
+  **Composite Contributor**, or **Explicit Exclusion** (**DL-60**)
 - Which experience endpoints exist (music, video, announcement, conversation) — **this category set
   is extensible household vocabulary, never a closed enumeration** (**DL-55**)
 - Which voice assistants are assigned to the Room
@@ -248,6 +252,7 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-73 | **Interaction-Surface Room Context Resolution** — Room Context for a surface not bound to a Room, and the `room_context.resolved_from` enumeration |
+| OD-61 | **Closed — DL-60.** Room Environment Standard, native Area environmental slot proposal behaviour (mirroring OD-14), Primary Authority/Secondary/Composite/Excluded disambiguation, Merged Room environmental candidates, and derived purposes accepted. Composite derivation remains **OD-17**; conflict resolution remains **OD-19** |
 
 ## Related documents
 

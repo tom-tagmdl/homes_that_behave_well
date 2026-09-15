@@ -112,7 +112,7 @@ These object kinds are **not** interchangeable. Treating them as the same object
 
 | HTBW concept | Possible Home Assistant backing | Why they differ |
 |---|---|---|
-| Physical Room | Area, including its `aliases`, `floor_id`, `labels`, and its assigned `temperature_entity_id` and `humidity_entity_id` | An Area is a registry grouping. A Physical Room is a household place with environmental and maintenance meaning. The Area registry now carries **native environmental entity assignments**, which HTBW consumes rather than duplicates. |
+| Physical Room | Area, including its `aliases`, `floor_id`, `labels`, and its assigned `temperature_entity_id` and `humidity_entity_id` | An Area is a registry grouping. A Physical Room is a household place with environmental and maintenance meaning. The Area registry now carries **native environmental entity assignments**, which HTBW consumes rather than duplicates. **Each such slot seeds a default Room Environment Purpose proposal, never automatic participation, and is never written back** (**DL-60**, resolved **OD-61**). |
 | Room / Merged Room | One or more Areas | A Room is an interaction context. Home Assistant has no equivalent construct. |
 | Asset | Zero, one, or many Devices | Many Assets have no device at all. One Asset may span several Devices. |
 | Capability | One or many Entities | A capability is expressed in household terms; entities are platform terms. |

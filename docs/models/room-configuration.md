@@ -371,6 +371,101 @@ Boundaries:
 - **Truth does not own the sensor inventory.**
 - **Concierge does not choose sensors at runtime.**
 
+### The Room Environment Standard (DL-60)
+
+Resolves **OD-61**. Full acceptance record is **DL-60** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+**Room Configuration defines an extensible household-oriented Environmental Purpose set** — the
+available meanings a source may be mapped to in a Room. Representative purposes include: temperature,
+humidity, dew point, illuminance, UV, VOC, particulates (PM2.5, PM10), CO2, mold index, leak, pressure,
+vibration, noise, and window/orientation/exposure characteristics.
+
+**The set is extensible, never closed, and never claims universal availability.** New integrations and
+sensor classes may be mapped to it without redesigning Room Configuration. A household need not have a
+sensor for every purpose; an unconfigured purpose is simply **unavailable**, never invented, and never
+converted into a normal, healthy, or safe default value merely because no sensor exists.
+
+**One configuration serves every consumer.** The same Environmental Purpose participation and
+authority selection is used for direct Room-level questions, Composite Facts, Asset environmental
+requirement evaluation, Stewardship obligation evaluation, and household-facing explanation. No
+separate environmental mapping exists per consumer.
+
+#### Disambiguating multiple same-purpose sources
+
+More than one eligible source may exist for one Environmental Purpose in a Room — for example an
+air-quality sensor's temperature reading, a presence sensor's temperature reading, and a thermostat's
+temperature reading, all in the same Room. **Existence does not make all of them participants, and
+participation does not make all of them equally authoritative.** Room Configuration represents four
+distinct, non-collapsible states per purpose:
+
+| State | Meaning | At most one per purpose? |
+|---|---|---|
+| **Primary Authority** | The source a direct Room-level question resolves to, absent an accepted composite policy | Yes |
+| **Secondary / Corroborating** | Contributes supporting or contradicting context; never itself the direct answer | No |
+| **Composite Contributor** | Participates in an **OD-17** Composite Fact | No |
+| **Explicit Exclusion** | Deliberately kept out, exactly as the existing three-state participation model already requires | No |
+
+**Runtime never arbitrates among equivalent same-purpose sources** — never by query order, entity
+order, alphabetical order, integration load order, most recent value, vendor preference, or "whichever
+responds first." Only the household's Room Configuration selection determines which source is primary,
+secondary, or composite for a given purpose.
+
+*"What is the current temperature in the Den?"* resolves to the Truth Fact produced from the Den's
+configured **Primary Authority** for Temperature — or, where the household has instead configured only
+a composite policy for that purpose with no distinct primary, to the Room-level Composite Fact. Either
+way, the answer comes from the same configuration a resident set up once.
+
+#### Native Area environmental slots seed a proposal, never automatic participation
+
+A native Home Assistant Area environmental slot (`temperature_entity_id`, `humidity_entity_id`, and any
+future documented slot whose semantics correspond to an accepted Environmental Purpose, each verified
+individually under **DL-30**) **seeds a default proposal for that purpose — exactly as OD-14 already
+established for native naming.** It is never automatic silent participation (**DL-11**): existence in
+an Area does not by itself make a source a contributor. It **is** presented so the household is never
+asked to reconfigure information Home Assistant already holds (**DL-31**): a resident who has already
+told Home Assistant which sensor represents a Room's temperature is never asked to say so again.
+
+- **An explicit HTBW selection or exclusion, once made, is never silently overridden** by a later
+  native (re)assignment. The later native change becomes a **new proposal** presented alongside the
+  existing configuration, not a silent replacement of it.
+- **The resulting divergence is a Room Configuration condition** — explainable and reviewable through
+  this model's own lifecycle, not automatically a Repairs issue (**OD-60** is unaffected by this
+  clarification) and never a silently changed Fact.
+- **HTBW never writes the selection back to the native Area assignment.**
+- Accepting a proposal creates a governed configuration Change Record, exactly as any other
+  participation change does.
+
+#### Merged Room environmental candidates
+
+For a Merged Room, eligible environmental sources are surfaced from **every constituent Room**, with
+the source Room visible for each candidate — never hidden, never presented as though it belonged to
+the Merged Room itself. **No constituent entity is copied.** Room Configuration selects which
+constituent-Room sources participate in the Merged Room's own Primary Authority, Secondary, Composite
+Contributor, and Excluded states, per Environmental Purpose. **OD-17** computes the resulting Composite
+Fact from the selected contributors; **OD-19** governs disagreement among them. Direct questions about
+a constituent Room continue to use that Room's own definition, unaffected by the Merged Room's.
+
+#### Derived Environmental Purposes
+
+A purpose may be **derived** from other established Facts rather than directly measured — for example
+dew point, derived from a Room's configured Temperature and Humidity purposes. Room Configuration
+declares that a purpose is derived and from which inputs; **Truth computes the derived Fact as an
+application of its existing Composite Fact concept** — combining more than one input through a
+documented deterministic formula, rather than a same-dimension aggregation choice. The specific formula
+is implementation mapping and is not decided here. **A missing required input Fact makes the derived
+Fact `unknown`, never invented.**
+
+#### Room Health, Room Confidence, and People Health remain uninvented
+
+**HTBW defines no synthetic Room Health, Room Confidence, or People Health authority.** This restates
+the existing prohibition in [stewardship.md](stewardship.md) (*"Room health" is not an HTBW term*,
+**OD-69**) as it applies to Room Configuration: a household-facing environmental summary may exist as a
+**projection**, but must decompose into individual Truth Facts (each with its own Truth Confidence Band,
+provenance, validity, and coverage) and separately owned Stewardship obligation states. **A projection
+may summarize; it may never create a new determination, and it may never present one aggregate state as
+authoritative.**
+
 ---
 
 ## Consumes
@@ -488,6 +583,7 @@ configuration today must never silently rewrite the explanation of a decision ma
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-70 | Whether a Merged Room warrants a native Home Assistant projection |
 | OD-73 | **Interaction-Surface Room Context Resolution** — how Room Context is resolved for a phone, wearable, Companion App, browser session, or other surface not bound to a Room, without Foundation consuming Truth and without introducing a cycle |
+| OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation, Merged Room environmental candidates, and derived purposes are accepted. **OD-17** and **OD-19** remain the aggregation and conflict owners |
 
 ## Related documents
 

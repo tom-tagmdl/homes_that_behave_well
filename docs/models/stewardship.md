@@ -471,7 +471,10 @@ A Room's condition decomposes into two owned things and nothing else:
 invented (**OD-69**). *Room health* appears only in pre-refoundation and historical illustration
 documents and is **obsolete**. Where a household-facing summary is desired, it is a **projection** over
 Truth Facts and Stewardship obligation states with those fields kept separate and separately
-explainable — never a new determination, and never a second authority.
+explainable — never a new determination, and never a second authority. **This prohibition names Room
+Confidence and People Health explicitly as the same rejected shape** (**DL-60**, `glossary.md`); a
+conflict was found — not fixed — where current Concierge implementation evidence offers both as
+selectable household-facing output labels, tracked as implementation-remediation evidence on **OD-69**.
 
 ---
 
