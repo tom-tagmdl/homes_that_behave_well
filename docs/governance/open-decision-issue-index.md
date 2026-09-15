@@ -53,7 +53,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-12** | Exclusion Metadata | Open — Governance Required | **#137** | — | DL-11 |
 | **OD-13** | Contextual Vocabulary Inheritance | Open — Governance Required | **#138** | #135, #136 | DL-09, DL-10; OD-14 resolved |
 | **OD-15** | Identity Assertion Lifetime | Open — Governance Required | **#96** | #89 (**resolved as DL-59**, related not blocking) | DL-32, DL-36, DL-37, DL-38, DL-39 |
-| **OD-17** | Composite Fact Computation | Open — Governance Required | **#88** | #93 (**resolved as DL-58**), #91 (**resolved as DL-60**), #89 (**resolved as DL-59**) | DL-04, DL-09, DL-11, **DL-58**, **DL-59**, **DL-60** |
+| **OD-17** | Composite Fact Computation | Open — Governance Required, **narrowed by DL-60/DL-61 review** | **#88** | #93 (**resolved as DL-58**), #91 (**resolved as DL-60**), #89 (**resolved as DL-59**) | DL-04, DL-09, DL-11, **DL-58**, **DL-59**, **DL-60**; scope now limited to the Composite-Contributor path and Formula-derived Fact coverage semantics |
 | **OD-19** | Evidence Conflict Resolution | Open — Governance Required | **#90** | #88, #89 (**resolved as DL-59**), #93 (**resolved as DL-58**), #91 (**resolved as DL-60**) | DL-04, DL-25, **DL-58**, **DL-59**, **DL-60** |
 | **OD-20** | Optional Asset Intelligence Product Integration | Open — Narrowed by DL-51 | **#110** | — | DL-07, DL-08, DL-19, DL-41, **DL-51** |
 | **OD-21** | Significance Representation | Open — Governance Required | **#107** | — | DL-21, DL-27, DL-39 |
