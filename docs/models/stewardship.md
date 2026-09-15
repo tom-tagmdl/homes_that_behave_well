@@ -342,17 +342,19 @@ Caregiver, Guardianship, Delegation, or Authorized Abilities responsibility is c
 
 ### Non-resident authorized participants
 
-A housekeeper, dogsitter, sculpture conservator, or collections administrator may hold a **minimal
-Person record** (never a second Person directory — the same native-extension Person model
-[person-and-identity.md](person-and-identity.md) already defines) carrying **only the Delegated Access
-Grants explicitly configured for them**. Their own identity evidence (if any is configured — a phone,
-a BLE tag) remains attached only to them, never to the resident who arranged their access. No
-occupational description (*housekeeper*, *dogsitter*, *conservator*, *collections administrator*)
-grants anything by itself; each grant is explicit, scoped, and independently revocable. A conservator
-authorized for named sculptures gains no access to paintings, antiques, or unrelated collections
-without a separate grant; a dogsitter gains only the explicitly configured pet-care resources, never
-resident medical information, personal mailboxes, or unrelated Asset records; a housekeeper granted a
-music ability gains no calendar, mailbox, or administrative access.
+A housekeeper, dogsitter, sculpture conservator, or collections administrator authorized to interact
+with the system directly is a **Known Non-Resident Person** (`glossary.md`) — never a second Person
+directory, and never an Unknown Person — carrying **only the Delegated Access Grants explicitly
+configured for them**. Their own identity evidence (if any is configured — a phone, a BLE tag) remains
+attached only to them, never to the resident who arranged their access. No occupational description
+(*housekeeper*, *dogsitter*, *conservator*, *collections administrator*) grants anything by itself;
+each grant is explicit, scoped, and independently revocable. A conservator authorized for named
+sculptures gains no access to paintings, antiques, or unrelated collections without a separate grant; a
+dogsitter gains only the explicitly configured pet-care resources, never resident medical information,
+personal mailboxes, or unrelated Asset records; a housekeeper granted a music ability gains no
+calendar, mailbox, or administrative access. Where a conservator, contractor, or service provider acts
+only through a **Service** relationship on the Asset (Foundation) and never interacts with the system
+directly, no Person record — resident or non-resident — is created for them at all.
 
 ### Capacity
 

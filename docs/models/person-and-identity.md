@@ -54,6 +54,7 @@ HTBW retains only what the native object does not hold, and **each extension kee
 | Person-scoped preferences and continuity | **Continuity** |
 | Person-scoped authority and disclosure policy | **Operational Trust** |
 | Obligations and accountability | **Stewardship** |
+| Delegated Access Grants held over another Person's, Asset's, or Pet's Stewardship content (**DL-57**) | **Stewardship** (grant record and lifecycle); Foundation types `caretaker-of`/`owner-of` unchanged |
 | Mailbox, calendar, and other external-service references | Referenced through the responsibility that governs their use; **the underlying configuration is never copied** |
 
 **No extension list is a single record**, and this rule decides nothing about how identity evidence is
@@ -213,7 +214,7 @@ representing:
 - Granted or declined time, and effective time
 - Withdrawal time, where applicable
 - **Self-consent or proxy-consent**, and the recorded actor (see below)
-- Authority basis for proxy consent, where applicable (owned by **OD-76**, referenced not duplicated)
+- Authority basis for proxy consent, where applicable (owned by **DL-57**, referenced not duplicated)
 - Interaction or surface used
 - Deletion effects and retention-floor effects
 - Current eligibility consequence
@@ -259,8 +260,17 @@ association (**DL-31**); Person Setup extends it with governed HTBW participatio
 Its present location inside the Concierge implementation is **rank-4 evidence, not final ownership** —
 the architectural home is: **Foundation** holds the consent record; **Identity** owns the consent
 lifecycle; **Operational Trust** decides whether a capability may proceed given consent state;
-**Concierge** presents the interaction and facilitates capture; **OD-76** owns proxy-authority
-qualification. **No Consent responsibility is created.**
+**Concierge** presents the interaction and facilitates capture; **Stewardship** owns delegated
+authority (proxy qualification and the Delegated Access Grant) per **DL-57**. **No Consent
+responsibility is created.**
+
+**Person Setup is the coordination and management surface for every accepted person-scoped
+configuration named in this document** — identity participation, consent records, Identity Evidence
+Associations, Delegated Access Grants (**DL-57**), person-scoped preferences (Continuity),
+person-scoped authority references (Operational Trust), and non-resident participant records (a
+**Known Non-Resident Person**, `glossary.md`) — **coordinating, never owning**. Each remains governed
+exactly where this document and `stewardship.md` already assign it; Person Setup introduces no new
+responsibility, no new object type, and no new authority model by presenting them together.
 
 Each consent-bearing control states **what association or participation it creates**, never a general
 "I consent to Identity" statement. Conceptual examples (illustrative wording, not mandated strings):
@@ -274,7 +284,7 @@ does not overstate unrelated data access.
 | Native mechanism | Verified capability | Limitation | DL-18 disposition |
 |---|---|---|---|
 | Config flow / options flow | Documented, general-purpose configuration surfaces already used throughout HTBW's Person Setup extensions | No native consent model exists on top of them | **Sufficient as the native-feeling extension surface** — carries required consent checkboxes, disclosures, and remove-association actions |
-| Native Person entity, `user_id` linkage | Verified; supplies the authenticated actor for a proxy-consent audit trail | Administrator flag is binary; carries no household role or care-authority model | Sufficient for **recording the actor**; insufficient, and not used, for **authorizing** proxy scope (that is **OD-76**) |
+| Native Person entity, `user_id` linkage | Verified; supplies the authenticated actor for a proxy-consent audit trail | Administrator flag is binary; carries no household role or care-authority model | Sufficient for **recording the actor**; insufficient, and not used, for **authorizing** proxy scope (governed by **DL-57**) |
 | Repairs | Verified administrator-correctable-defect surface | Not a consent surface — a Repairs issue has no audience, no consent semantics | **Not used for consent capture**; may report a broken consent-dependent configuration |
 | Native conversational confirmation | Exists for other purposes (e.g. Assist confirmations) | No documented native consent-grant semantics | Used **only** for the contextual continuity pattern below, where the disclosed scope is spoken plainly, never for a silent or implicit grant |
 
