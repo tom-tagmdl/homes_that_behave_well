@@ -285,6 +285,11 @@ evidence (weak)  →  assertion (confidence 0.42)  →  fact (unknown / low conf
 
 Any step that discards confidence without recording it is a defect.
 
+**Presentation Attestation is a concrete instance of this rule** (**DL-54**): a Delivery Attempt's
+Presentation Outcome is `Presented`, `Failed`, `Unknown`, or `Attestation Unavailable`, and `Unknown`
+is structurally prevented from decaying into `Failed` or "not presented" on its way to the resident.
+See [../models/communication.md](../models/communication.md).
+
 ---
 
 ## Diagnosability

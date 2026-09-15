@@ -513,6 +513,62 @@ created.** This is a correction to the supplied decision set, not an open questi
 
 ---
 
+## Presentation Attestation Model (DL-54)
+
+**Accepted 2026-09-15**, resolving **OD-55**. Full outcome model, invariants, and worked behaviour are
+recorded in [../models/communication.md](../models/communication.md) under *Presentation Outcome*;
+this section is the formal decision record and the Home Assistant First review.
+
+### Decision
+
+Presentation is a **technical claim only** — that an artifact was rendered, displayed, shown, spoken,
+played, or otherwise made available through a Delivery Surface, using the modality and capability
+actually invoked. It is distinct from Delivery, Perception, Acknowledgement, correctness, and
+household-outcome satisfaction, none inferring another. A `Delivered` attempt's presentation status is
+exactly one of four values: **Presented**, **Failed**, **Unknown**, **Attestation Unavailable** —
+where `Attestation Unavailable` is a capability fact (the surface cannot attest at all) and `Unknown`
+is a per-attempt evidentiary gap on a surface that sometimes can. Neither decays into "not presented".
+Evaluation is by **modality and evidence actually returned**, never by device type, vendor, product
+class, integration name, or Home Assistant entity domain.
+
+### Home Assistant First review (P21, DL-30)
+
+Conducted for this decision. **No undocumented capability is credited, and a successful service call
+alone is never treated as presentation evidence** — only an independently observed state transition,
+confirmed by the platform itself rather than by the calling side, is admitted as evidence.
+
+| Surface / modality | Integration | Documented evidence | What it proves | What it does not prove | DL-30 result | Classification |
+|---|---|---|---|---|---|---|
+| Audio / video playback | `media_player` (generic) | `https://www.home-assistant.io/integrations/media_player/` — documented states `playing`/`paused`/`idle`/etc. and triggers `media_player.started_playing` | An independently observed state transition to `playing` after the specific request — the player itself began rendering | Which specific artifact rendered beyond what was commanded; that a person heard or saw it | **Discharged** for the state-transition case only | **Presented** may be claimed from the observed `playing` transition; **never** from service-call success alone |
+| Sonos playback | `sonos` | `https://www.home-assistant.io/integrations/sonos/` — `media_player.play_media` with `announce: true`; standard `media_player` states apply | Same as generic `media_player`, plus a documented announce-overlay behaviour | Human perception; older/S1 hardware may not fully support `announce` | **Discharged** for state-transition evidence | **Presented** via observed state, as above |
+| Music Assistant playback | `music_assistant` | `https://www.home-assistant.io/integrations/music_assistant/` — creates standard `media_player` entities; `music_assistant.play_announcement` | Same state-transition evidence as generic `media_player` | Same limits as above; a Home-Assistant-imported player appears duplicated in MA | **Discharged** | **Presented** via observed state |
+| Camera-associated speaker | `unifiprotect` | `https://www.home-assistant.io/integrations/unifiprotect/` — camera speaker exposed as a `media_player` entity; documented troubleshooting shows failures surface as connectivity errors | Same `media_player` state-transition evidence; failures are diagnosable, not silent | Network presence is not presentation evidence | **Discharged** | **Presented** via observed state; network-online is **not** evidence |
+| Voice assistant / Assist Satellite | `assist_satellite` | `https://www.home-assistant.io/integrations/assist_satellite/` — documented `announce`/`ask_question`/`start_conversation` actions and `started_responding` trigger ("triggers after…start playing back a response") | An independently observed transition to `responding` — the satellite itself began playback | Physical LED/light indicator behaviour (**separately, not documented — see below**); human perception | **Discharged** for the state-transition case | **Presented** may be claimed from the observed `responding` transition |
+| Television, generic | `media_player` domain | Same generic `media_player` findings apply | Same as generic `media_player` | A `media_player` domain never itself proves visual capability | **Discharged** (state-transition only) | **Presented** via observed state; domain membership alone proves nothing |
+| Roku | `roku` | `https://www.home-assistant.io/integrations/roku/` — documented `sensor.active_app`/`active_app_id` reflecting the platform's own report of the active application | Independent confirmation that the targeted application became active | That specific on-screen content within the app rendered; remote-command success (buttons may silently no-op per app) | **Discharged** for active-app confirmation only | **Presented** (app activation) may be claimed from the `active_app` sensor; remote-command completion alone is **not** evidence |
+| Apple TV | `apple_tv` | `https://www.home-assistant.io/integrations/apple_tv/` — documented FAQ: *"Is it possible to see if a device is on without interacting with it? No"*; *"the tvOS apps themselves decide what commands they support"* | Very limited independent observability; official FAQ confirms remote-command success does not confirm the app actually acted | Presentation of any specific content | **Not discharged** beyond generic `media_player` state | **Presented** (playback) via observed `media_player` state only; all other claims **Attestation Unavailable** |
+| LG webOS TV | `webostv` | `https://www.home-assistant.io/integrations/webostv/` — documented `notify` action displays a message on screen; documented known limitation that some firmware ignores the `icon` parameter without failing the call | A message-display **action exists**; no independently observed confirmation that it rendered | That the message was actually shown — the call can "succeed" while part of the payload is silently dropped, per the documented firmware limitation | **Not discharged** for render confirmation | **Attestation Unavailable** for the `notify` text-display path (service-call success only); **Presented** (playback) via observed generic `media_player` state for video/audio |
+| Mobile notification | Companion App (`mobile_app`) | `https://companion.home-assistant.io/docs/notifications/notifications-basic` — full options reviewed (attachments, grouping, replacing, clearing, channels, TTS-on-device, interruption levels, presentation options, live activity); **no "displayed" event is documented anywhere** | Delivery/service acceptance only | Whether the notification was ever shown on the lock screen or in the shade | **Not discharged** | **Attestation Unavailable.** Only `mobile_app_notification_action` (tap) and `mobile_app_notification_cleared` (dismiss) exist, and both are interaction/acknowledgement evidence, never presentation evidence |
+| `persistent_notification` | `persistent_notification` | `https://www.home-assistant.io/integrations/persistent_notification/` — documented triggers `added`/`removed`/`updated`/`current` describe the notification's existence in frontend state; `dismiss` requires user action | Existence-lifecycle only | That any person viewed the frontend at all | **Not discharged** | **Attestation Unavailable** |
+| Dashboard / kiosk render | Lovelace frontend | `https://www.home-assistant.io/dashboards/views/` — reviewed for **DL-53**; no render-confirmation event is documented for any dashboard view | The `visible` property is a display-tab toggle only | That a view was rendered on any physical screen | **Not discharged** | **Attestation Unavailable** |
+
+This is a genuine extension of the existing platform review recorded above (`Not verified during this
+review: dashboard visibility semantics, media_player delivery semantics, and voice-satellite indicator
+behaviour`). **Dashboard visibility and `media_player` delivery semantics are now verified** (see the
+**DL-53** section and this table). **The physical voice-satellite light/LED indicator specifically
+remains not verified and is not required by this decision** — Presented, where claimed for
+`assist_satellite`, rests on the documented `responding` **state** transition, not on any indicator
+light.
+
+### What this decision does not resolve
+
+- Any per-integration enumeration beyond the surfaces reviewed above; a newly reviewed integration
+  follows the same evidentiary rule (independent observed state, never call-success alone).
+- **OD-44** (delivery outcome semantics generally), **OD-45** (acknowledgement), **OD-54** (retry) —
+  each receives an evidence update, not a closure, from this decision.
+
+---
+
 ## Open decisions
 
 | ID | Question |
@@ -530,7 +586,7 @@ created.** This is a correction to the supplied decision set, not an open questi
 | **OD-52** | Audience specification model, including resolution of *anyone present with authority* |
 | **OD-53** | Communication category enumeration |
 | **OD-54** | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
-| **OD-55** | Presentation attestation per surface class, and the representation of unknown |
+| **OD-55** | **Resolved as DL-54** — Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable), and the representation of unknown |
 | **OD-56** | Safety-category scope, and whether HTBW may originate safety Communications at all |
 | **OD-57** | Indication versus content separation, and when content-free indication becomes mandatory |
 | **OD-58** | Terminology supersession scope for *Notification* and *Message* |

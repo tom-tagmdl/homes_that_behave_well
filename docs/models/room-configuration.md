@@ -310,6 +310,15 @@ The same canonical Room configuration must drive:
 
 This is what prevents drift between what the home says is available and what commands actually do.
 
+### Presentation-purpose vocabulary is vocabulary, not a new concept
+
+A household term such as "Speaker" resolving to a Room's music endpoints, or "Display" resolving to
+its visual endpoint, is an ordinary application of the existing **vocabulary-to-target mapping** above
+— it requires no new capability. Room Configuration continues to own only **which target set a term
+resolves to**; it does not own, and must not be asked to resolve, **which currently available
+technical provider or evidence path** delivers through that target at a given moment, nor how a
+Room-defined outcome spanning several endpoints is aggregated. Those runtime questions are **OD-88**.
+
 ---
 
 ## Sensors and Composite Facts

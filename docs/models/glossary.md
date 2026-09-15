@@ -803,6 +803,18 @@ A Delivery Surface's declared capacity to attest that content was presented. Def
 **Unsupported**. Where unsupported, or where attestation evidence is absent, `Presented` is recorded
 as **unknown**, never inferred as *not presented* (**DL-53**, **OD-55**).
 
+**Presentation Outcome**
+The technical determination of whether a Delivery Attempt's artifact was rendered, displayed, shown,
+spoken, played, or otherwise made available through the selected surface. Exactly one of **Presented**,
+**Failed**, **Unknown**, or **Attestation Unavailable** (**DL-54**). A technical claim only — it never
+asserts perception, acknowledgement, correctness, or that the household's request was satisfied.
+
+**Acknowledgement**
+An explicit responsive act by an **identified person** — closing, dismissing, confirming, denying, or
+answering. Distinct from **Presentation Outcome**: a surface attesting that content was technically
+presented is never acknowledgement, and acknowledgement never rewrites a historical Presentation
+Outcome (**DL-54**, **OD-45**).
+
 **Recipient Attribution Capability**
 A Delivery Surface's declared capacity to supply evidence about who received, perceived,
 acknowledged, or interacted with a delivery. A capability declaration only — it is never itself an

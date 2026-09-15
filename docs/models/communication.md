@@ -465,18 +465,97 @@ See **OD-48**.
 |---|---|
 | **Attempted** | An attempt was made to a specific surface |
 | **Delivered** | The surface accepted it |
-| **Presented** | The surface rendered it perceptibly |
-| **Failed** | The attempt did not succeed |
+| **Presented** | See **Presentation Outcome**, below — a `Delivered` attempt's presentation status |
+| **Failed** | The attempt did not succeed at the delivery level (the surface never accepted it) |
+
+### Presentation Outcome (DL-54)
+
+Presentation means an artifact or information payload associated with a Delivery Attempt was
+rendered, displayed, shown, spoken, played, or otherwise made available through the selected surface,
+using the modality and capability actually invoked. **Presentation is a technical claim only.**
+
+**Preserve these distinctions, none inferring another:**
+
+Delivery is not automatically Presentation. Presentation is not Perception. Perception is not
+Acknowledgement. Acknowledgement is not Outcome Satisfaction. Presentation does not mean correct,
+does not mean the household's request was satisfied, and does not mean the right artifact was
+selected — those are matters for **OD-45** (acknowledgement) and the originating capability's own
+outcome tracking, never for this determination.
+
+A `Delivered` attempt's Presentation Outcome takes exactly one of four values:
+
+| Outcome | Meaning | Example |
+|---|---|---|
+| **Presented** | Authoritative evidence exists that the artifact was technically made available through the surface, using the relevant modality | An observed `media_player` state transition to `playing` after the specific request, or an `assist_satellite` transition to `responding` |
+| **Failed** | Authoritative evidence exists that presentation did not occur because the presentation attempt itself failed | A documented render error; a definitive playback failure; the surface returned an error for this specific presentation |
+| **Unknown** | Available evidence is insufficient to determine whether presentation occurred, on a surface that can sometimes attest it | Evidence did not arrive; the outcome is inconclusive; providers conflict and the conflict cannot be resolved |
+| **Attestation Unavailable** | The selected surface or modality does not support verified Presentation Attestation at all — a capability limitation, never an attempt failure and never transient uncertainty | Mobile notification "displayed" state, dashboard/kiosk render confirmation, `persistent_notification` render confirmation — none is natively evidenced (see the Home Assistant First review below) |
+
+**Required invariants**, all restating and sharpening **DL-53**'s existing rule:
+
+- `Unknown` is not `Failed`, is not "not presented", and is not a falsy boolean.
+- `Attestation Unavailable` is not `Unknown` — the first is a **capability** fact known in advance;
+  the second is a **per-attempt** evidentiary gap.
+- `Presented` does not mean perceived, acknowledged, correct, or that the household's request was
+  satisfied.
+- A structural mechanism (schema, enum, or model invariant — never inferred at read time) must
+  prevent `Unknown` or `Attestation Unavailable` from decaying into `Failed` or "not presented".
+
+> **A successful service call alone is never evidence of `Presented`.** Command or route acceptance
+> without independent state confirmation yields `Unknown` (if the surface can sometimes attest) or
+> `Attestation Unavailable` (if it never can) — never `Presented`.
+
+### Empty-room audio
+
+When authoritative technical evidence confirms an audio artifact was played through the selected
+surface, the Presentation Outcome may be **Presented** even if the Room was empty. The corresponding
+human **Perception** remains **Unknown** unless separate authoritative evidence establishes otherwise.
+Empty-room playback is never equated with perception, and Presentation is never forced to `Unknown`
+merely because Perception is `Unknown` — they are different questions answered by different evidence.
+
+### Presentation is evaluated by modality and evidence, not device class
+
+Presentation Attestation is evaluated against the **modality actually used**, the **capability
+actually invoked**, and the **evidence actually returned** — never merely by physical device type,
+vendor, product category, integration name, or Home Assistant entity domain or device class. A single
+`media_player` entity may represent a speaker, a television, a receiver, or a camera-associated
+speaker, and a single physical endpoint may expose more than one presentation modality (a television
+may present audio and visually; a phone may present audio, visual, image, document, and notification).
+**None of these is architecturally interchangeable, and none may be hard-coded into this model.**
+
+### Behaviour after Failed
+
+A known presentation failure enters the graceful degradation already governed by
+[../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md). Concierge
+may attempt another capable surface, endpoint, endpoint group, modality, or personal fallback only
+where the alternative is permitted by the expected household outcome, current context, Operational
+Trust, audience and disclosure policy, and capability requirements. Where a compliant alternative
+succeeds, the original failure and the fallback result are **both** preserved in the Decision Trace.
+Where none exists, the failure is preserved, explained, and the workflow fails safely — **success is
+never manufactured**.
+
+### Behaviour after Unknown
+
+`Unknown` is valid metadata, not a trigger. It does **not** automatically cause failure, retry,
+escalation, suppression, success, or "not presented" — the next behaviour is workflow- and
+policy-dependent, and is not decided here. Where a workflow requires acknowledgement, `Unknown`
+passes forward **unrewritten**: the Presentation Outcome remains `Unknown` and the Acknowledgement
+Outcome (**OD-45**) is recorded separately. A later acknowledgement may supply stronger evidence about
+receipt or interaction; it is **additive** evidence and never retroactively rewrites the historical
+Presentation Outcome.
 
 ### The honesty rule for Presented
 
-> **Most surfaces cannot attest presentation.** Where a surface cannot attest it, `Presented` is
-> recorded as **unknown**. It is **never** inferred from `Delivered`.
+> **Most surfaces cannot attest presentation.** Where a surface's Presentation Attestation Capability
+> is Unsupported, the Presentation Outcome is **Attestation Unavailable**; where it is supported but
+> the specific attempt's evidence is inconclusive, the outcome is **Unknown**. Neither is **never**
+> inferred from `Delivered`.
 
 A home that reports something as seen when it only knows it was sent has converted uncertainty into
 false certainty. See **P15** and
-[../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md).
-Attestation per surface class is open decision **OD-55**.
+[../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md). Which
+surface classes can attest, and on what specific evidence, remains open decision **OD-55**'s residual
+per-integration enumeration; the outcome model itself is accepted as **DL-54**.
 
 ### Why two levels
 
@@ -697,7 +776,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-52 | Audience specification model |
 | OD-53 | Communication category enumeration |
 | OD-54 | Delivery retry policy |
-| OD-55 | Presentation attestation per surface class |
+| OD-55 | **Closed — DL-54.** Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable); per-surface enumeration evidence recorded in the ADR |
 | OD-56 | Safety-category scope |
 | OD-57 | Indication versus content separation |
 | OD-58 | Terminology supersession scope for *Notification* and *Message* |

@@ -88,7 +88,6 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-52** | Audience Specification | Open — Governance Required | **#100** | #104, #113, #108 | DL-28, DL-29, DL-33, DL-34 |
 | **OD-53** | Communication Taxonomy | Open — Governance Required | **#119** | #101 | Info / Attention / Urgent superseded |
 | **OD-54** | Delivery Retry Policy | Open — Governance Required | **#120** | #114, #115, #113, #98 | Retry is never escalation |
-| **OD-55** | Presentation Attestation | Open — Research Required | **#121** | #113, #146 | DL-28 |
 | **OD-56** | Safety-Category Scope | Open — Governance Required | **#101** | #98, #119 | *HTBW is not a life-safety system* |
 | **OD-57** | Indication and Content Separation | Open — Governance Required | **#102** | #104, #98, #119, #113 | DL-28, DL-29, DL-34 |
 | **OD-58** | Terminology Supersession Scope | Open — Governance Required | **#122** | — | DL-12, DL-28 |
@@ -107,6 +106,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-71** | Audience-Uncertainty Disclosure Policy | Open — Governance Required | **#104** | #113, #100, #102, #99 | DL-29, DL-34, DL-37 |
 | **OD-72** | Unknown Actor Correlation Confidence | Open — Research Required | **#92** | #81, #87 | DL-35; **DL-38 and DL-39 may not be borrowed** |
 | **OD-73** | Interaction-Surface Room Context Resolution | Open — Research Required | **#134** | #146, #93 | DL-09, DL-11, DL-15, DL-30; dependency-view rule 6 |
+| **OD-88** | Dynamic Capability Discovery and Room-Defined Presentation Outcomes | Open — Research Required | **#182** | — | DL-41, DL-53, DL-54; Room Configuration vocabulary-to-target mapping unchanged |
 | **OD-74** | Truth Fact Confidence Representation | Open — Governance Required | **#93** | — | DL-04; **DL-39 bands may not be borrowed** |
 | **OD-76** | Person Stewardship and Delegated Care Authority | **Remediation Required** | **#106** | #94 | Episode 6 validation (#75) |
 | **OD-77** | Person-to-External-Resource Association Ownership | Open — Governance Required | **#148** | #94, #78, #133, #132, #76 | Episode 7 validation (#151) |
@@ -180,6 +180,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-80** | Closed — **DL-50**. A capability may declare an execution host; Wyoming is the preferred voice-pipeline boundary; a provider reports candidates and Identity alone resolves. Residuals separated as **OD-82** and **OD-83**. **OD-07** and **OD-66** are not resolved by it |
 | **OD-82** | Closed — **DL-51**, **DL-52**. **Product disposition is stated per product**: Asset Intelligence remains a released standalone integration, **is not retired**, and **HTBW must never require it to be installed**; the standalone Voice Identity and Concierge integrations **sunset** while Identity and Concierge remain first-class responsibilities. **Adoption is one-time, authoritative, and terminating.** The non-negotiable constraint in [authority-order.md](authority-order.md) was **amended, not deleted**, and the canonical contradiction across `authority-order.md`, `greenfield-mandate.md`, `north-star.md`, and `adr-htbw-core-refoundation.md` is reconciled. Residual separated as **OD-85**. **OD-20** is narrowed but not closed |
 | **OD-43** | Closed — **DL-53**. A Delivery Surface declares capability dimensions and Potential Perceptibility and never declares itself private. A supplied **Recipient-Attribution Assurance Levels** scale was found to duplicate **DL-40** and was resolved by reuse rather than a second scale. Residuals separated as **OD-52**, **OD-55**, **OD-57**, **OD-71**, and **OD-73** |
+| **OD-55** | Closed — **DL-54**. Presentation Outcome is exactly Presented / Failed / Unknown / Attestation Unavailable, evaluated by modality and evidence, never device class. Per-surface Home Assistant evidence recorded in the ADR. Residual runtime multi-provider/multi-endpoint questions separated as **OD-88** |
 
 ---
 
