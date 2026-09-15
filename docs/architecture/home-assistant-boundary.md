@@ -64,6 +64,29 @@ discharge for any narrow future same-purpose aggregation need, without inventing
 algorithm speculatively. See `room-configuration.md`, *Primary Authority is required for the ordinary
 path (DL-62)*.
 
+### Provider-derived environmental indicator evidence (DL-62 clarification)
+
+Reviewed against architecture-owner-supplied air-Q product documentation and its Home Assistant entity
+exposure — no local implementation of an air-Q integration exists in this portfolio's repositories at
+the time of this review; this is external product evidence, not code inspected in-repo.
+
+| air-Q entity family | Classification | Basis |
+|---|---|---|
+| Temperature, Humidity, CO2, CO, NO2, O3, PM1/PM2.5/PM10, Pressure, Noise/Max Noise, VOC, Formaldehyde | **Direct Environmental Measurement** | Reported as the device's own observation of an environmental property |
+| Absolute Humidity, Dew Point | **Provider-Derived Environmental Indicator** | Calculated by the device from other measurements; documented as device-calculated, not HTBW-calculated |
+| Mold-Free Index | **Provider-Derived Environmental Indicator, trend-based** | air-Q's own documentation states it uses humidity and temperature **trends over a period**, not current values alone — never recreated by HTBW (**DL-30**) |
+| Health Index | **Provider-Derived Environmental Indicator** | air-Q's own documentation states it is calculated from provider-selected limit sources and the worst measured variable at a point in time; HTBW does not validate the provider's cited limits |
+| Performance Index | **Provider-Derived Environmental Indicator** | air-Q's own documentation states it is a cumulative calculation of provider-attributed performance reductions from environmental loads (e.g. CO2, temperature); never a measurement of a Person |
+| Virus Index | **Provider-derived but insufficiently documented** | No sufficient provider documentation was reviewed to state its exact basis; HTBW invents no meaning for it and does not use it for a health, safety, or diagnostic claim |
+
+**Home Assistant First conclusion**: where a provider (air-Q or otherwise) already exposes a
+Dew Point, Mold-Free Index, Health Index, Performance Index, or comparable indicator as a native
+entity, that entity is preferred over an HTBW-invented equivalent (**DL-30**) — HTBW selects it as a
+Primary Authority candidate and reads its current published value; it does not reverse-engineer the
+provider's algorithm, and it does not treat the provider's internal inputs as separate HTBW
+contributors. See `truth.md`, *Direct measurements and provider-derived indicators are both
+Authority-Derived (DL-62 clarification)*.
+
 ---
 
 ## What Home Assistant may provide

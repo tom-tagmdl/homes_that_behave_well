@@ -448,6 +448,41 @@ them evidence of such a requirement. Accordingly:
 This applies **identically to a Physical Room and a Merged Room** (**DL-13**); see *Merged Room
 environmental candidates*, below.
 
+#### A Primary Authority may be a Direct Environmental Measurement or a Provider-Derived Environmental Indicator (DL-62 clarification)
+
+A source eligible for Primary Authority selection is one of two kinds, and Room Configuration records
+which kind applies without changing the selection mechanism:
+
+| Kind | Definition | Example |
+|---|---|---|
+| **Direct Environmental Measurement** | A value a device or integration reports as its own observation of an environmental property | A thermostat's temperature reading, a sensor's relative humidity reading |
+| **Provider-Derived Environmental Indicator** | A value an external device, integration, or service **calculates** from one or more measurements, historical trends, or a provider-owned algorithm, and exposes as a native Home Assistant entity | A device's Dew Point entity, Mold-Free Index, Health Index, Performance Index, or Virus Index, where the provider — not HTBW — performs the calculation |
+
+**Either kind may be selected as a Room's Primary Authority for a compatible DL-60 Environmental
+Purpose.** Selecting a Provider-Derived Environmental Indicator does not make Truth's resulting
+Fact an HTBW Formula-Derived Fact — **the provider's internal calculation remains the provider's
+internal calculation**, never re-derived, never validated, and never treated as multiple competing
+HTBW contributors. Truth reads the provider entity's current published value exactly as it would any
+other selected Primary Authority (**DL-59**), producing an **Authority-Derived Fact** that preserves the
+provider's identity, the indicator's provider-qualified name, its native entity reference, its unit or
+scale, and any provider-documented limitation, in addition to the ordinary Truth Confidence, freshness,
+validity, and provenance.
+
+**A Provider-Derived Environmental Indicator must retain its provider-qualified name wherever
+presented** — for example *"air-Q Mold-Free Index"*, never shortened to *"Mold Index"* or presented as
+an HTBW-owned determination. HTBW makes no independent claim that a provider's cited algorithm, limit
+source, or trend window is scientifically validated; it states only that the household's selected
+entity currently reports this value. See [glossary.md](glossary.md), **Provider-Derived Environmental
+Indicator**.
+
+**An HTBW Formula-Derived Fact remains reserved for the case where HTBW itself performs the
+derivation** — no acceptable direct or provider-derived Primary Authority satisfies the purpose, or the
+household explicitly selects the HTBW derivation, and the derivation is named, versioned, and
+DL-30-verified. Home Assistant First applies in order: a direct native entity, then a provider-derived
+native entity, then a verified integration-derived entity, then an accepted household helper, and only
+then an HTBW Formula-Derived Fact — HTBW does not recreate a provider's Dew Point, Mold-Free Index,
+Health Index, Performance Index, or Virus Index merely to obtain an HTBW-owned value.
+
 #### Native Area environmental slots seed a proposal, never automatic participation
 
 A native Home Assistant Area environmental slot (`temperature_entity_id`, `humidity_entity_id`, and any
@@ -497,6 +532,13 @@ formula remains implementation mapping, verified per DL-30.** Dew point's formul
 are accepted on this basis; **mold index and condensation risk remain unresolved** — no HTBW-endorsed
 formula exists for either, and HTBW invents no clinical, medical, or safety-threshold formula.
 
+**A derived purpose is only a Formula-Derived Fact when HTBW itself performs the derivation.** Where a
+device or integration already reports dew point, a mold-risk indicator, or another derived value as its
+own native entity, that entity is a candidate **Provider-Derived Environmental Indicator** — see
+*A Primary Authority may be a Direct Environmental Measurement or a Provider-Derived Environmental
+Indicator (DL-62 clarification)*, above — and Room Configuration selects it as the Primary Authority for
+that purpose in preference to inventing an HTBW derivation (**DL-30**).
+
 #### Room Health, Room Confidence, and People Health remain uninvented
 
 **HTBW defines no synthetic Room Health, Room Confidence, or People Health authority.** This restates
@@ -506,6 +548,14 @@ the existing prohibition in [stewardship.md](stewardship.md) (*"Room health" is 
 provenance, validity, and coverage) and separately owned Stewardship obligation states. **A projection
 may summarize; it may never create a new determination, and it may never present one aggregate state as
 authoritative.**
+
+**A provider-qualified indicator name is not an HTBW health, confidence, or performance claim** (DL-62
+clarification). *"air-Q Health Index"* or *"air-Q Performance Index"* may be displayed as a
+provider-attributed Environmental Indicator; **HTBW never shortens it to "Room Health" or "People
+Health," never presents it as a Person's health or performance, and never lets it override a
+subject-specific Environmental Requirement evaluation** (`stewardship.md`, *Person Environmental
+Requirements*). The provider's product name remains a valid label for its own output; the unqualified
+HTBW terms remain rejected regardless of what any provider names its indicator.
 
 ---
 

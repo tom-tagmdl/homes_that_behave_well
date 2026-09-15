@@ -196,6 +196,50 @@ Each is deliberately unresolved. None blocks the constitutional foundation.
 
 ---
 
+### Notes on the provider-derived environmental indicator clarification (DL-62)
+
+**No decision was created, reopened, or amended by this work.** This is a documentation clarification
+of **DL-62**, prompted by architecture-owner-supplied evidence about the air-Q device's Home Assistant
+entity exposure (Dew Point, Mold-Free Index, Health Index, Performance Index, Virus Index) — no local
+implementation of an air-Q integration exists in this portfolio at the time of review; the evidence is
+external product documentation, evaluated as rank-4-equivalent input, not code inspected in-repo.
+
+**The clarification**: DL-62's Formula-Derived Fact concept applies only where **HTBW itself performs
+a derivation**. A provider's own internal calculation — however many measurements or trends it
+combines — never converts a selected entity into an HTBW Formula-Derived Fact; it remains an
+**Authority-Derived Fact** sourced from a **Provider-Derived Environmental Indicator**, exactly as a
+Direct Environmental Measurement is. This was implicit in DL-62's original text ("the specific formula
+remains implementation mapping") but had not been named as its own classification axis, distinguishing
+*who calculates the value* (provider vs. HTBW) from *what mechanism produces the Truth Fact*
+(Authority-Derived vs. Formula-Derived vs. Composite). The two axes were at risk of being conflated the
+first time a real multi-input provider indicator (air-Q's Health Index, Performance Index) was
+encountered, since a superficial reading of "combines more than one measurement" could wrongly suggest
+Formula-Derived Fact treatment, re-derivation, or validation of the provider's internal calculation —
+none of which DL-62 ever required or permits.
+
+**Household-facing outcome preserved**: a Room may display a selected provider's Health Index,
+Performance Index, Mold-Free Index, and Virus Index as provider-attributed Environmental Indicators
+alongside its direct measurements; Stewardship continues to evaluate each Person's, Pet's, and Asset's
+explicitly configured Environmental Requirement independently against current Room Environment Facts,
+and a favorable or unfavorable provider index never overrides, proves, or diagnoses that evaluation
+(**DL-61**, unaffected).
+
+**Implementation evidence recorded, not fixed** (out of scope, different repositories): Asset
+Intelligence's `environment.py` computes its own `_calculate_mold_index` — an Asset-Intelligence-invented
+formula from temperature, humidity, and derived dew point, predating this repository's governance —
+which is exactly the invention DL-62 declines to make canonical ("Mold Index... remains unresolved; no
+HTBW-endorsed formula exists"). This is legacy rank-4 evidence, already broadly covered by the existing
+Asset Intelligence legacy capability harvest (register **#155**); evidence posted there, not fixed here.
+Concierge's existing "Room Confidence"/"People Health" selectable labels (already tracked on **OD-69**,
+closed as **DL-61**) remain the same previously-found conflict — unchanged by this clarification.
+
+See `docs/models/truth.md`, *Direct measurements and provider-derived indicators are both
+Authority-Derived (DL-62 clarification)*, and `docs/models/room-configuration.md`, *A Primary Authority
+may be a Direct Environmental Measurement or a Provider-Derived Environmental Indicator (DL-62
+clarification)*.
+
+---
+
 ### Notes on the composite-fact and Primary Authority decision
 
 **OD-17 closed as DL-62**, following an architecture-owner-directed second reconciliation review after

@@ -477,6 +477,18 @@ Confidence and People Health explicitly as the same rejected shape** (**DL-60**,
 offers both as selectable household-facing output labels, tracked as implementation-remediation
 evidence on **OD-69**, resolved as **DL-61**.
 
+**A provider-qualified Environmental Indicator is not "room health" (DL-62 clarification).** A
+household may display a selected provider's own indicator — for example *"air-Q Health Index:
+99.9%"* or *"air-Q Performance Index: 81.7%"* — as a **Provider-Derived Environmental Indicator**
+(`truth.md`, `room-configuration.md`). This is a true statement about what the provider currently
+reports, and it is displayed with its provider-qualified name intact. **It is never renamed "Room
+Health," never presented as a Person's health or performance, and it never overrides a subject-specific
+Environmental Requirement evaluation.** Abigail's declared humidity requirement is evaluated against
+current Room Environment Facts independently of any provider index; a favorable provider index never
+proves her requirement is met, and an unfavorable one never diagnoses her or proves the Room is
+medically unsafe. Both statements may be shown together, separately attributed, never merged into one
+Room score.
+
 ### Person Environmental Requirements (DL-61)
 
 Resolves the remainder of **OD-69**. Full acceptance record is **DL-61** in

@@ -416,9 +416,36 @@ Truth:               Living Space temperature = 72.4 degrees
 > Room spanning several constituent Rooms, or a historical implementation having averaged readings are
 > none of them evidence of such a requirement.
 
+### Direct measurements and provider-derived indicators are both Authority-Derived (DL-62 clarification)
+
+A selected Primary Authority's own native entity may be a **Direct Environmental Measurement** (the
+device's own observation) or a **Provider-Derived Environmental Indicator** (a value the provider
+calculates internally from measurements, trends, or a provider-owned algorithm — for example a Dew
+Point, Mold-Free Index, Health Index, Performance Index, or Virus Index entity). **Both produce an
+Authority-Derived Fact when selected; neither is a Composite Fact or a Formula-Derived Fact.** Truth
+reads the provider entity's current published value exactly as any other Primary Authority; **the
+provider's internal calculation is never re-derived, never independently validated, and its internal
+inputs are never treated as separate Truth contributors or as evidence of a runtime conflict.**
+
+An Authority-Derived Fact sourced from a Provider-Derived Environmental Indicator additionally carries:
+
+- The indicator's **provider-qualified name** (for example *"air-Q Mold-Free Index"*), never shortened
+  to an unqualified HTBW term
+- The **provider's identity**
+- Its **direct-versus-provider-derived classification**
+- Any **provider-documented limitation** (for example that a value is trend-based rather than a
+  point-in-time reading, or that its meaning is insufficiently documented)
+
+**HTBW makes no independent scientific claim about a provider's algorithm, cited limit sources, or
+trend window** — Truth is authoritative only for *the selected entity currently reports this value*,
+never for validating the provider's interpretation. See [glossary.md](glossary.md), **Provider-Derived
+Environmental Indicator**.
+
 Truth may still combine **different** Environmental Purposes' current Facts into a single
 **Formula-Derived Fact** — for example Dew Point, derived from a Room's Temperature and Humidity
-Facts through a named, versioned formula. A Formula-Derived Fact preserves its input Fact references,
+Facts through a named, versioned formula. **This path exists only where HTBW itself performs the
+derivation** — never merely because a provider's own indicator internally used multiple measurements. A
+Formula-Derived Fact preserves its input Fact references,
 input validity, input confidence, derivation identity and version, formula or provider provenance,
 produced value, unit, Truth Confidence, validity, and a named failure reason where not produced. **A
 missing or invalid mandatory input publishes the Formula-Derived Fact as `unknown`** — never a partial
@@ -426,6 +453,9 @@ calculation, and never the last derived value retained as current; the missing i
 formula class and versioning discipline are canonical; the specific formula remains implementation
 mapping, verified per **DL-30**. Dew Point's formula class and versioning are accepted on this basis;
 **Mold Index and Condensation Risk remain unresolved** — no HTBW-endorsed formula exists for either.
+**Home Assistant First applies before an HTBW derivation is used**: a direct native entity, then a
+provider-derived native entity, then a verified integration-derived entity, then an accepted household
+helper, and only then an HTBW Formula-Derived Fact.
 
 > "Composite Fact" is unrelated to the superseded term "Composite Room" (now **Merged Room**), which
 > concerns the combination of Physical Rooms. A Formula-Derived Fact may be scoped to a Room or to a

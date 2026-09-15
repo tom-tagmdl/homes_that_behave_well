@@ -226,6 +226,16 @@ Contributor") is removed from that ordinary path** (resolved **OD-17** as **DL-6
 versioned formula (for example Dew Point) and is not same-purpose aggregation; a missing mandatory
 input publishes it as `unknown`, never a partial result.
 
+**A selected Primary Authority may be a Direct Environmental Measurement or a Provider-Derived
+Environmental Indicator** (for example a Dew Point, Mold-Free Index, Health Index, Performance Index,
+or Virus Index entity) — **both produce an Authority-Derived Fact, never a Formula-Derived Fact,
+merely because the provider's own calculation used more than one measurement internally.** The
+provider's internal inputs are never treated as competing Truth contributors. Truth guarantees only
+that the selected entity currently reports this value, preserving the provider's identity and the
+indicator's provider-qualified name; **Truth never independently validates the provider's scientific
+interpretation.** An HTBW Formula-Derived Fact is used only where HTBW itself performs the derivation,
+after Home Assistant First finds no acceptable direct or provider-derived entity (**DL-30**).
+
 ---
 
 ## Conflicting evidence

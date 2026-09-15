@@ -277,6 +277,25 @@ Room. Distinct from **Secondary/Corroborating** participation, and never runtime
 equivalent sources (**DL-60**, **DL-62**).
 Model: [room-configuration.md](room-configuration.md)
 
+**Direct Environmental Measurement**
+A value a device or integration reports as its own observation of an environmental property — for
+example a thermostat's temperature reading. May be selected as a Room's Primary Authority for the
+corresponding Environmental Purpose, producing an Authority-Derived Fact (**DL-62**).
+Model: [truth.md](truth.md)
+
+**Provider-Derived Environmental Indicator**
+A value an external device, integration, or service **calculates** from one or more measurements,
+historical trends, or a provider-owned algorithm, and exposes to Home Assistant as a native entity —
+for example a device's Dew Point, Mold-Free Index, Health Index, Performance Index, or Virus Index
+entity. May be selected as a Room's Primary Authority for a compatible Environmental Purpose, producing
+an **Authority-Derived Fact that preserves the provider's identity and provider-qualified name — never
+an HTBW Formula-Derived Fact merely because the provider's calculation used more than one measurement
+internally.** HTBW makes no independent scientific claim about the provider's algorithm or cited limits;
+it states only that the selected entity currently reports this value. Distinct from Foundation's
+**Service** (an external provider *relationship*, `asset.md`) — this term describes an external
+provider's calculated *environmental value* (**DL-62**).
+Model: [truth.md](truth.md), [room-configuration.md](room-configuration.md)
+
 **Person Environmental Requirement**
 A Person-scoped declared minimum, maximum, or acceptable range for a **DL-60** Environmental Purpose,
 reusing the Asset environmental-limit pattern without treating the Person as an Asset. Held by
@@ -421,6 +440,7 @@ and policies available when a decision is evaluated.
 | **Current Engager** | **Not an HTBW architectural term, and it must not be introduced.** Who is engaging is answered by the applicable **Assertion Purpose**, produced by **Identity**: **Speaker Attribution** (who most likely spoke), **Room Presence** (who is likely physically present in this Room), **Household Presence** (who is likely home), **Interaction Initiator** (who initiated this digital action), **Authenticated Session Identity** (which authenticated account initiated the request), or **Endpoint Context** (through which managed endpoint this arrived). **Use the existing purpose-specific assertions.** A single fused "engager" result would recreate the general-purpose identity score prohibited by **DL-32** and **DL-38**, break the **F1** purpose ceilings, break **DL-36**'s four independent consumers, and break **DL-34**'s separation of Requestor, Speaker, Present Person, Potential Listener, Authorized Recipient, and Delivery Target. **That one Person may be High for Household Presence, High for Room Presence, Moderate as the current speaker, confirmed as an authenticated account, and `unknown` as the physical holder of the device is the point — the architecture preserves those differences rather than averaging them away.** The Truth-side counterpart is the **Engagement Fact**, which states that an interaction is occurring and **never who is engaging** |
 | **Room Health**, **Room Confidence**, **People Health** | **Not HTBW architectural terms; no synthetic authoritative state exists under any of these names** (`stewardship.md`, *"Room health" is not an HTBW term*; **OD-69**). A household-facing environmental summary must decompose into individual Truth Facts (each with its own Truth Confidence Band — **DL-58** — validity, and provenance) and separately owned Stewardship obligation states; it may summarize, but may never create a new determination or present one aggregate verdict as authoritative. **A conflict was found, not resolved**: current Concierge implementation evidence offers "People Health" and "Room Confidence" as selectable household-facing output labels, inconsistent with this prohibition — tracked as implementation-remediation evidence on **OD-69** |
 | **Composite Contributor** (same-purpose sensor aggregation) | **Not an ordinary-path HTBW mechanism.** Room Configuration's earlier four-state disambiguation model (**DL-60**) included a same-purpose aggregation role; **no accepted household use case ever required combining multiple equivalent measurements of one Environmental Purpose into a single Room Fact**, and the role was removed from the ordinary path, narrowing Room Configuration to **Primary Authority** (required), **Secondary/Corroborating**, and **Explicit Exclusion** (**DL-62**, resolving OD-17). Use **Primary Authority** for the ordinary Room-level question, and a **Formula-Derived Fact** for a genuinely different-purpose derivation (for example Dew Point) |
+| **HTBW Health Index**, **HTBW Performance Index**, **Aggregate Room Confidence** | **Not HTBW architectural terms; HTBW invents no such score.** A selected provider's own indicator (for example *"air-Q Health Index"* or *"air-Q Performance Index"*) may be displayed as a **Provider-Derived Environmental Indicator** with its provider-qualified name intact; **HTBW never adopts, recreates, or shortens it into an unqualified HTBW-owned health, wellness, or performance claim**, never presents it as a Person's health or performance, and never lets it override a subject-specific Environmental Requirement evaluation. **A provider's product name remains a valid label for the provider's own output; the unqualified HTBW terms above remain rejected regardless of what any provider names its indicator** (**DL-62**) |
 
 > A **rejected** term differs from a **superseded** one. A superseded term named something real that has
 > since been renamed. **A rejected term names a construct the architecture does not have, and adopting it

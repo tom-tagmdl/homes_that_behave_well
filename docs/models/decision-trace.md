@@ -58,7 +58,7 @@ A trace is produced for **actions, non-actions, and suppressions alike**.
 | 3–4 identity determination and confidence | Identity — recorded as `identity_confidence_band` (**DL-39**), never conflated with field 8 |
 | 5 room context | Room Configuration (Foundation) |
 | 6 vocabulary resolution | Contextual Vocabulary (Foundation) |
-| 7–8 facts and fact confidence | Truth — recorded as `truth_confidence_band` (**DL-58**), plus the Fact's validity state (`current`, `operationally_expired`, `unavailable`, `never_observed` — **DL-59**), never conflated with field 4 or with confidence |
+| 7–8 facts and fact confidence | Truth — recorded as `truth_confidence_band` (**DL-58**), plus the Fact's validity state (`current`, `operationally_expired`, `unavailable`, `never_observed` — **DL-59**), never conflated with field 4 or with confidence. Where the Fact is sourced from a **Provider-Derived Environmental Indicator**, field 7 additionally names the provider and the indicator's provider-qualified name, and distinguishes it from a Direct Environmental Measurement or an HTBW Formula-Derived Fact (**DL-62**) |
 | 9 obligations | Stewardship |
 | 10–11 preferences and continuity intent | Continuity |
 | 12–14 policies, restrictions, autonomy level | Operational Trust |
