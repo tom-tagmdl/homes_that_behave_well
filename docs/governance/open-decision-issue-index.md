@@ -78,7 +78,6 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-40** | Evidence Package Governance | Open — Governance Required | **#86** | #81, #82, #85, #87, #92 | DL-35, DL-43, DL-44, DL-45 |
 | **OD-41** | Incident and Case Object Model | Open — Governance Required | **#87** | #81, #92 | DL-24, DL-35, DL-43 |
 | **OD-42** | Communication Persistence | Open — Blocked | **#112** | #76, #118, #116 | DL-28, DL-31, DL-47 |
-| **OD-43** | Delivery Surface Capability Model | Open — Research Required | **#113** | #134 | DL-28, DL-29, DL-34, DL-41 |
 | **OD-44** | Delivery Outcome Semantics | Open — Governance Required | **#114** | #113, #121, #102 | DL-28; *Completed* superseded |
 | **OD-45** | Acknowledgement Semantics | Open — Governance Required | **#115** | #114, #121, #99 | DL-36, DL-37 |
 | **OD-46** | Urgency Entitlement Model | Open — Governance Required | **#98** | #99, #97, #113 | DL-28, DL-29, DL-34 |
@@ -180,6 +179,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-50** | Resolved — one escalation architecture. Residual is **OD-22** |
 | **OD-80** | Closed — **DL-50**. A capability may declare an execution host; Wyoming is the preferred voice-pipeline boundary; a provider reports candidates and Identity alone resolves. Residuals separated as **OD-82** and **OD-83**. **OD-07** and **OD-66** are not resolved by it |
 | **OD-82** | Closed — **DL-51**, **DL-52**. **Product disposition is stated per product**: Asset Intelligence remains a released standalone integration, **is not retired**, and **HTBW must never require it to be installed**; the standalone Voice Identity and Concierge integrations **sunset** while Identity and Concierge remain first-class responsibilities. **Adoption is one-time, authoritative, and terminating.** The non-negotiable constraint in [authority-order.md](authority-order.md) was **amended, not deleted**, and the canonical contradiction across `authority-order.md`, `greenfield-mandate.md`, `north-star.md`, and `adr-htbw-core-refoundation.md` is reconciled. Residual separated as **OD-85**. **OD-20** is narrowed but not closed |
+| **OD-43** | Closed — **DL-53**. A Delivery Surface declares capability dimensions and Potential Perceptibility and never declares itself private. A supplied **Recipient-Attribution Assurance Levels** scale was found to duplicate **DL-40** and was resolved by reuse rather than a second scale. Residuals separated as **OD-52**, **OD-55**, **OD-57**, **OD-71**, and **OD-73** |
 
 ---
 

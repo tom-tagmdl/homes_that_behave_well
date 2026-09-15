@@ -788,8 +788,27 @@ The act of conveying a Communication through a surface. Distinct from the Commun
 One bounded act of delivery to one surface, with its own outcome. A Communication may have many.
 
 **Delivery Surface**
-A governed capability abstraction of a place through which delivery may occur, declaring what it can
-convey, **to whom it is perceptible**, and whether it can attest presentation. Never a device list.
+A governed capability abstraction of a place through which delivery may occur, declaring its
+**capability dimensions**, its **Potential Perceptibility**, and whether it can attest presentation.
+Never a device list, and **never declares itself private** (**DL-53**).
+
+**Potential Perceptibility**
+Which people could potentially perceive a delivery through a proposed Delivery Surface, given its
+declared capability and current Truth evidence. Distinct from **Audience Composition** (Operational
+Trust's disclosure-time evaluation) and from **Potential Listener** (a specific Person or Unknown
+Person within a composition). Never sufficient on its own to declare a surface private (**DL-53**).
+
+**Presentation Attestation Capability**
+A Delivery Surface's declared capacity to attest that content was presented. Defaults to
+**Unsupported**. Where unsupported, or where attestation evidence is absent, `Presented` is recorded
+as **unknown**, never inferred as *not presented* (**DL-53**, **OD-55**).
+
+**Recipient Attribution Capability**
+A Delivery Surface's declared capacity to supply evidence about who received, perceived,
+acknowledged, or interacted with a delivery. A capability declaration only — it is never itself an
+assurance level, a confirmation, or an Identity Assertion; evidence it supplies is consumed through
+the existing **Required Confirmation Strength** (**DL-40**) and Identity confidence machinery
+(**DL-38**, **DL-39**), never through a second scale (**DL-53**).
 
 **Audience Composition**
 Who may be able to **perceive** content through a proposed Delivery Surface. A governed input to

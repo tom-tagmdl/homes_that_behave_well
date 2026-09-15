@@ -282,7 +282,122 @@ A surface declares what it can convey, **to whom it is perceptible**, and whethe
 something was presented. Perceptibility is the property **P32** depends on; format is not.
 
 > **This model contains no surface catalogue.** Enumerating surfaces would re-couple the domain to
-> transport, which is what **P31** forbids. Surface capability modelling is open decision **OD-43**.
+> transport, which is what **P31** forbids.
+
+#### Capability dimensions (DL-53)
+
+A Delivery Surface declares:
+
+| Dimension | Answers |
+|---|---|
+| **Supported Modalities** | Audio, visual, text, and extensible future modalities |
+| **Content Constraints** | Supported content forms and technical limits on successful delivery |
+| **Interactivity Capability** | One-way, interactive, or conversational, and what response forms are supported |
+| **Persistence Behavior** | Ephemeral, time-limited, persistent, or governed retrieval |
+| **Recipient Acknowledgement Capability** | Whether the recipient can explicitly acknowledge, kept distinct from presentation attestation |
+| **Presentation Attestation Capability** | Whether the surface can supply evidence that presentation occurred. Defaults to **Unsupported** |
+| **Recipient Attribution Capability** | The degree to which the surface can supply evidence about who received, perceived, acknowledged, or interacted with a delivery |
+
+The dimension set is **extensible** and is never a closed list of Home Assistant entity types,
+domains, device classes, integration names, or physical devices.
+
+#### Potential Perceptibility is declared, never privacy
+
+A Delivery Surface declares **Potential Perceptibility** — who could potentially hear, see, read, or
+otherwise perceive delivery through it (Room occupants, nearby people, an interacting person, an
+authenticated session's person, remote viewers, or unknown/unresolved observers, where the canonical
+model supports each). **A Delivery Surface never declares itself private.** Device type, integration
+type, authentication, media-browser visibility, and a dashboard view's per-user `visible` setting are
+each **evidence-insufficient claims of privacy** — the latter two are verified Home Assistant UI-tab
+display toggles, not authorization or security controls (**DL-44**; `dashboards/views` `visible`
+documentation, verified: *"this is only for the display of the tabs; the URL path is still
+accessible"*). A portable surface receives **no automatic privacy classification** merely because it
+moves.
+
+Three questions stay separate and are never collapsed:
+
+| Question | Answered by |
+|---|---|
+| **Potential Perceptibility** — who could perceive the delivery? | The Delivery Surface declaration plus current Truth evidence |
+| **Recipient Attribution** — who does available evidence indicate is receiving it? | Truth, Identity, and the surface's declared Recipient Attribution Capability |
+| **Disclosure Appropriateness** — is delivery here appropriate for this content and audience? | Operational Trust |
+
+Authentication may supply strong recipient-attribution evidence. **Authentication does not make a
+surface private.**
+
+#### Split ownership (DL-53)
+
+| Responsibility | Owns | Does not own |
+|---|---|---|
+| **Foundation** | The Delivery Surface capability model and declaration schema | Delivery decisions |
+| **Integration** | Stable, verified technical characteristics and capabilities it actually exposes | Household values, perceptibility conclusions, privacy, or disclosure appropriateness |
+| **Household** | Contextual perceptibility declarations and configuration a platform cannot authoritatively determine; may configure which evidence combinations satisfy a **Required Confirmation Strength** class (**DL-40**) within platform constraints | Canonical meanings of confirmation-strength classes |
+| **Truth** | Current facts bearing on perceptibility and context (Room Context, occupancy, presence, authentication state, and other authoritative facts) | Delivery decisions; declaring a surface private |
+| **Identity** | Identity evidence and confidence contributing to recipient attribution | Disclosure appropriateness |
+| **Operational Trust** | Whether delivery is appropriate given audience, content sensitivity, perceptibility, attribution evidence, policy, and current evidence — the disclosure-risk determination | The Delivery Surface model |
+| **Concierge** | Delivery Target selection and the governed delivery attempt | Perceptibility truth, identity determination, or the Delivery Surface model |
+
+#### Fixed and portable surfaces (DL-53; coordinated with OD-73)
+
+Fixed and portable surfaces both declare capabilities and Potential Perceptibility characteristics.
+Current context is evaluated at delivery time against available governed evidence (Room Context,
+occupancy, person presence, BLE association, authenticated person-scoped sessions, voice identity,
+interaction continuity, household declarations, and other authoritative Truth evidence). Mobility may
+be a characteristic relevant to that evaluation; it never turns dynamic Truth into static Delivery
+Surface configuration.
+
+**What DL-53 decides:** the capability model, its Potential Perceptibility declaration, and that a
+portable surface receives no automatic privacy classification. **What remains OD-73's alone:** the
+exact mechanism by which Room Context is resolved for an interaction originating from a surface that
+is not bound to a Room. DL-53 consumes whatever OD-73 eventually accepts as one input among the Truth
+evidence a portable surface's perceptibility evaluation draws on, and preempts none of OD-73's
+alternatives.
+
+#### Presentation attestation defaults (DL-53; enumeration remains OD-55)
+
+**Presentation Attestation Capability defaults to Unsupported.** Where attestation is unsupported, or
+where attestation evidence is absent, `Presented` is recorded as **unknown** — never inferred from
+`Delivered`, and never decayed into *not presented*. Delivery attempted, technical delivery accepted,
+content presented, content perceived, recipient acknowledged, and recipient attributed remain **six
+distinct states**, and none is inferred from another without authoritative evidence. Which surface
+classes can attest presentation, and on what evidence, remains **OD-55**.
+
+#### Strict DL-41 dependency behaviour
+
+Where a capability declares a dependency and that dependency is unavailable, the capability is
+**unavailable**, the missing dependency is **named**, and no approximation or unsupported evidence is
+substituted (**DL-41**). Where Recipient Attribution Capability depends on a named identity-evidence
+source that is unavailable, the Decision Trace states that the capability or evidence is unavailable
+**because that named dependency is unavailable** — never as a low-confidence result. An independently
+declared alternative evidence source may still be evaluated on its own terms.
+
+#### Delivery Surface suitability
+
+Delivery Surface selection is a **communication-appropriateness decision constrained by disclosure
+risk**, never a search for the apparently safest device. It weighs intended audience, content
+sensitivity, communication outcome, supported modalities, content constraints, interactivity,
+persistence, acknowledgement and presentation-attestation requirements, Recipient Attribution
+requirements, Potential Perceptibility, current Truth, household preference and policy, and disclosure
+risk. Broad perceptibility can be the **correct** choice for shared content — a television may be more
+suitable than a phone for a household news item because it best matches the intended shared audience,
+not because the television is public. **No fixed content-to-surface mapping is created.**
+
+#### Disclosure-risk hierarchy and confirmation (DL-53; reuses DL-37, DL-40)
+
+Where Operational Trust finds audience certainty, recipient attribution, or disclosure appropriateness
+insufficient, the governed order is: confirm at the **Required Confirmation Strength** the protected
+content or action requires (**DL-40**); if the current interaction cannot support that strength, move
+confirmation to a surface or channel that can; if compliant confirmation is obtained, continue only
+within its authorized scope; if confirmation is declined, unavailable, expired, or insufficient,
+degrade to a compliant delivery or indication path; if none exists, fail safely and name the reason.
+
+**A confirmation must meet or exceed the Required Confirmation Strength of what it protects** — this
+restates **DL-40** and **DL-37** for the delivery-surface case rather than creating a second scale.
+Evidence that only reaches `Verbal` can never authorize what requires `Authenticated` or `Strong`
+(**DL-40**), exactly as a spoken *yes* remains inadequate for the operation classes **DL-37** already
+names. Which mechanism satisfies which class remains deployment-verified configuration under **OD-51**;
+Recipient Attribution Capability declares what evidence a surface **can** contribute toward satisfying
+a class, never a class of its own.
 
 ### Indication and content are separate deliveries
 
@@ -570,7 +685,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; Communication object persistence remains **OD-42**, subordinate to **OD-01** |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-42 | Communication object persistence and Home Assistant representation |
-| OD-43 | Delivery Surface capability model, including perceptibility and attestation |
+| OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation; portable-surface Room Context mechanism remains **OD-73** |
 | OD-44 | Delivery outcome semantics across the two levels |
 | OD-45 | Acknowledgement semantics and acknowledger identification |
 | OD-46 | Urgency classification as an Operational Trust entitlement |

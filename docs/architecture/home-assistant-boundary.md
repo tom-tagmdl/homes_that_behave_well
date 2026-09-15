@@ -528,6 +528,13 @@ conversation**; `announce` is the natural implementation of **content-free indic
 > behaviour were not verified during this review, and no links to them are recorded.** Open decisions
 > **OD-43**, **OD-55**, and **OD-57** must not be closed on assumed behaviour in those areas.
 
+**Update (DL-53):** Dashboard view visibility and `media_player` delivery semantics were subsequently
+located and verified for the Delivery Surface capability decision — see the Home Assistant First
+review in [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md#delivery-surface-capability-model-dl-53).
+**Voice-satellite indicator (light/LED) behaviour remains not verified**, and no link to it is recorded
+anywhere in this repository; **OD-55** and **OD-57** still must not be closed on assumed behaviour
+there.
+
 ---
 
 ## Platform capability review

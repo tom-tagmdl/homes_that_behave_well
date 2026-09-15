@@ -457,12 +457,68 @@ communication content is stored in connected storage merely because it is conven
 
 ---
 
+## Delivery Surface Capability Model (DL-53)
+
+**Accepted 2026-09-15**, resolving **OD-43**. Full capability model, ownership table, and worked
+detail are recorded in [../models/communication.md](../models/communication.md) under *Delivery
+Surface*; this section is the formal decision record.
+
+### Decision
+
+A Delivery Surface declares seven capability dimensions — Supported Modalities, Content Constraints,
+Interactivity Capability, Persistence Behavior, Recipient Acknowledgement Capability, Presentation
+Attestation Capability, and Recipient Attribution Capability — plus a **Potential Perceptibility**
+declaration. The dimension set is extensible and is never a closed device, domain, or integration
+list. **A Delivery Surface never declares itself private**, and no device type, integration type,
+authentication state, media-browser visibility (**DL-44**), or dashboard-view `visible` setting is
+sufficient evidence of privacy on its own.
+
+### Home Assistant First review (P21, DL-30)
+
+Conducted for this decision, extending the review already recorded above.
+
+| Capability | Documentation | Verified | Finding |
+|---|---|---|---|
+| Dashboard view visibility | `https://www.home-assistant.io/dashboards/views/` | **Yes** | The `visible` property is a per-user **display toggle for the view tab only** — *"this is only for the display of the tabs; the URL path is still accessible"* regardless of setting. **Confirms it is not an authorization or privacy control** |
+| `media_player` delivery semantics | `https://www.home-assistant.io/integrations/media_player/` | **Yes** | States (`playing`, `paused`, `idle`, …) and triggers (`started_playing`, `stopped_playing`, …) evidence that a surface **accepted and began rendering** media. **No acknowledgement, no per-listener evidence, and no presentation-attestation capability exists** |
+| Voice-satellite indicator behaviour | `https://www.home-assistant.io/integrations/assist_satellite/` | **No** | The entity models command-processing lifecycle (`idle`, `listening`, `processing`, `responding`) and `announce` / `ask_question` / `start_conversation` actions. **No physical indicator (light/LED) behaviour is documented at this reference, and none is fabricated** |
+
+This discharges the burden the ledger recorded against closing **OD-43**, **OD-55**, and **OD-57** on
+assumed behaviour: dashboard visibility and `media_player` delivery semantics are now **located,
+reviewed, and verified**. **OD-55** and **OD-57** still require their own closure, and the
+voice-satellite indicator gap remains open evidence for whichever of them needs it.
+
+### What this decision does not resolve
+
+- **OD-52** — the audience *specification* model.
+- **OD-55** — which surface classes can attest presentation, and on what evidence.
+- **OD-57** — when content-free indication becomes mandatory.
+- **OD-71** — the policy applied under audience uncertainty.
+- **OD-73** — the mechanism by which Room Context is resolved for a non-room-bound surface. DL-53
+  depends on whatever OD-73 accepts as one Truth input to a portable surface's perceptibility
+  evaluation, and preempts none of its alternatives.
+
+### Contradiction identified and resolved
+
+The originating decision set proposed a fourth named scale — **Recipient-Attribution Assurance
+Levels: `None` / `Low` / `Moderate` / `High`** — governing whether a confirmation or attribution
+result is strong enough to authorize disclosure. **This duplicates an already accepted decision.**
+**DL-40** already accepts an ordered, evidence-derived, mechanism-verified class set for exactly this
+purpose — **Required Confirmation Strength: `None` < Verbal < Authenticated < Strong** — and **DL-37**
+states plainly that **no second confirmation model exists**. Minting a second scale for the same
+governance question would violate both. **Resolution: Recipient Attribution Capability is a declared
+surface property** (what evidence a surface can supply), and **the strength gating a confirmation or
+disclosure decision remains DL-40's Required Confirmation Strength; no new assurance scale is
+created.** This is a correction to the supplied decision set, not an open question.
+
+---
+
 ## Open decisions
 
 | ID | Question |
 |---|---|
 | **OD-42** | Communication object persistence and Home Assistant representation — subordinate to OD-01, which now owns the persistence-mechanism residual alone |
-| **OD-43** | Delivery Surface capability model, including perceptibility and presentation attestation |
+| **OD-43** | **Resolved as DL-53** — Delivery Surface capability model, including perceptibility and presentation attestation |
 | **OD-44** | Delivery outcome semantics across the two levels |
 | **OD-45** | Acknowledgement semantics, acknowledger identification, and whether unacknowledged delivery is a failure |
 | **OD-46** | Urgency classification as an Operational Trust entitlement, and its mapping to non-portable platform ladders |
