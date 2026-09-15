@@ -472,9 +472,98 @@ invented (**OD-69**). *Room health* appears only in pre-refoundation and histori
 documents and is **obsolete**. Where a household-facing summary is desired, it is a **projection** over
 Truth Facts and Stewardship obligation states with those fields kept separate and separately
 explainable — never a new determination, and never a second authority. **This prohibition names Room
-Confidence and People Health explicitly as the same rejected shape** (**DL-60**, `glossary.md`); a
-conflict was found — not fixed — where current Concierge implementation evidence offers both as
-selectable household-facing output labels, tracked as implementation-remediation evidence on **OD-69**.
+Confidence and People Health explicitly as the same rejected shape** (**DL-60**, **DL-61**,
+`glossary.md`); a conflict was found — not fixed — where current Concierge implementation evidence
+offers both as selectable household-facing output labels, tracked as implementation-remediation
+evidence on **OD-69**, resolved as **DL-61**.
+
+### Person Environmental Requirements (DL-61)
+
+Resolves the remainder of **OD-69**. Full acceptance record is **DL-61** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+**A Person may declare Environmental Requirements, reusing the Asset environmental-limit pattern
+exactly — without becoming an Asset.** Stewardship's scope of care already includes *"people, where
+appropriate and consented"* (above); this section formalizes the previously-flagged architectural
+expectation in the Aging-Parent Support use case (`stewardship-use-cases.md`) into accepted
+architecture, requiring no new responsibility and no new authority model.
+
+| Question | Owner |
+|---|---|
+| What does this Person require, as a declared property? | **Foundation**, through Person Setup, exactly as an Asset's environmental limits are Foundation's |
+| What is the current Room Environment? | **Truth**, as **DL-60** Environmental Purpose Facts |
+| Where is the Person now? | **Truth**, as a Contextual Person-Presence Fact (**DL-38**, **DL-59**) |
+| Does the current Room Environment satisfy the Person's requirement? | **Stewardship** |
+| May this be disclosed, and to whom? | **Operational Trust** |
+| What should be said, and how? | **Concierge** |
+
+A Person Environmental Requirement carries: the applicable **Environmental Purpose** (**DL-60**); a
+minimum, maximum, or acceptable range; **significance**, with provenance; **self- or proxy-declared
+basis** (**DL-56**, **DL-57** — an authenticated administrator may facilitate a requirement for a minor
+or a dependent Person exactly as any other proxy-established Stewardship content, asserting no legal or
+medical sufficiency); consent state; effective period; and withdrawal history. **This is the smallest
+shape that supports the accepted use cases — no field is added beyond what the Asset pattern already
+required.**
+
+#### Preference, Requirement, and medical threshold are three distinct kinds
+
+| Kind | Effect | Owner |
+|---|---|---|
+| **Preference** | May guide Continuity personalization or produce an Advisory | Continuity, Stewardship |
+| **Requirement** | Drives a Stewardship obligation evaluation | Stewardship |
+| **Medical or clinical threshold** | **HTBW invents and validates none.** A requirement's value is a household or person declaration, never a clinical determination | — |
+
+**A Requirement is never a diagnosis.** Stewardship states that a declared range was or was not met by
+a current Fact — never that a condition exists, was caused, or requires clinical attention.
+
+#### Location-bounded evaluation
+
+**A Person's Environmental Requirement is evaluated against current Room Environment Facts only while
+a valid Contextual Person-Presence Fact places that Person in the Room** (**DL-59**). Where the
+Person's location is unknown, **no current suitability claim is made**, and the prior Room is never
+substituted as current. Where a required Environmental Purpose has no valid current Fact for that
+Room, the requirement evaluates to **`unknown`** — never assumed met, and never assumed unmet.
+
+#### Every subject is evaluated independently
+
+**A Room may contain People, Pets, and Assets simultaneously, each carrying its own applicable
+requirements — Stewardship evaluates every subject independently.** One subject's requirement being met
+has no bearing on another's; requirements are never averaged, never ranked, and a Room is never assigned
+one universal verdict. Where two subjects' requirements conflict (one wants higher humidity than
+another tolerates), **the conflict is surfaced, never silently resolved** — corrective-action choice
+remains Operational Trust's and the household's, exactly as any other Stewardship conflict.
+
+### Environmental Coverage, Configuration Completeness, and Truth Confidence stay separate (DL-61)
+
+Three measures answer three different questions and are **never collapsed, renamed into one another, or
+averaged**:
+
+| Measure | Question | Owner |
+|---|---|---|
+| **Configuration Completeness** | Of the Environmental Purposes the household selected as *applicable* to a Room, how many currently have a configured source? | **Room Configuration** |
+| **Environmental Coverage** | Of the purposes that *are* configured, how many currently have a valid, available Fact? | A projection over Truth's per-Fact validity (**DL-59**) |
+| **Truth Confidence** | How strongly is one particular Fact supported? | **Truth**, per Fact (**DL-58**) |
+
+**An unconfigured but inapplicable purpose never counts against either measure.** A Room with no UV
+requirement is not "incomplete" for lacking a UV sensor, and a Room with no configured Mold Index source
+is not thereby unhealthy — **missing configuration is not an environmental failure, and unavailable
+current data is not missing configuration.**
+
+### Room Environmental Status is a projection, never an authority (DL-61)
+
+A household-facing **Room Environmental Status** may summarize current per-subject Stewardship
+evaluations for a Room's applicable Persons, Pets, and Assets. It is **never a Truth Fact, never a
+probability, never a medical or clinical status, and never a replacement for an individual requirement
+evaluation.** Any presentation color is presentation only — the underlying projection state is defined
+independently, and every projected state must drill through to its subject, Environmental Purpose,
+current Fact, requirement, evaluation, significance, provenance, Truth Confidence, and validity. A
+projection summarizing "no known unmet applicable requirements," "one or more requirements unmet,"
+"evaluation inputs unavailable," "conflicting subject requirements," or "no applicable requirements
+currently configured" is acceptable; a single green/amber/red health verdict that suppresses which
+subject or requirement produced it is not.
+
+**HTBW asserts no diagnosis, clinical advice, wellness score, medical claim, or life-safety guarantee at
+any point in this model.**
 
 ---
 
@@ -850,6 +939,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted evidence that care occurred; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — the Delegated Access Grant, self/proxy/capacity model, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
+| OD-69 | **Resolved as DL-61.** Asset-derived Entity projection reuses existing owned vocabularies; Person Environmental Requirements reuse the Asset environmental-limit pattern; Environmental Coverage, Configuration Completeness, and Truth Confidence are kept separate; Room Environmental Status is a non-authoritative projection; Room Health, Room Confidence, and People Health are formally rejected |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is **OD-01** |
 

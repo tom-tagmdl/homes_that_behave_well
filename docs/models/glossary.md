@@ -260,7 +260,34 @@ participation and **Composite Contributor** participation, and never runtime-arb
 equivalent sources (**DL-60**).
 Model: [room-configuration.md](room-configuration.md)
 
-Model: [truth.md](truth.md), [room-configuration.md](room-configuration.md)
+**Person Environmental Requirement**
+A Person-scoped declared minimum, maximum, or acceptable range for a **DL-60** Environmental Purpose,
+reusing the Asset environmental-limit pattern without treating the Person as an Asset. Held by
+Foundation, coordinated through Person Setup, self- or proxy-declared (**DL-56**, **DL-57**), and
+evaluated by Stewardship against current Room Environment Facts only while a valid Contextual
+Person-Presence Fact places the Person in that Room (**DL-61**). Never a diagnosis, a clinical
+threshold, or a medical determination.
+Model: [stewardship.md](stewardship.md)
+
+**Configuration Completeness**
+Of the Environmental Purposes a household has selected as *applicable* to a Room, the fraction that
+currently have a configured source. A **Room Configuration** concern, distinct from Environmental
+Coverage and Truth Confidence. An inapplicable, unconfigured purpose never counts against it (**DL-61**).
+Model: [room-configuration.md](room-configuration.md)
+
+**Environmental Coverage**
+Of a Room's *configured* Environmental Purposes, the fraction currently available with a valid Fact — a
+projection over Truth's per-Fact validity (**DL-59**), never itself a Truth Fact, never Truth Confidence,
+and never Configuration Completeness (**DL-61**).
+Model: [stewardship.md](stewardship.md)
+
+**Room Environmental Status**
+A non-authoritative household-facing projection over current per-subject Stewardship evaluations for a
+Room's applicable Persons, Pets, and Assets. Never a Truth Fact, never a probability, never a medical or
+clinical status, and never a replacement for an individual requirement evaluation; any presentation
+color is presentation only, and every projected state drills through to its subject, Fact, requirement,
+evaluation, significance, provenance, confidence, and validity (**DL-61**).
+Model: [stewardship.md](stewardship.md)
 
 **Presence**
 A Truth fact that a specific person is in a specific Room.

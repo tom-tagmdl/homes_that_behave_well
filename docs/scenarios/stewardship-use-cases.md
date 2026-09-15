@@ -408,7 +408,7 @@ speak for herself.
 | Associated wearables as evidence-source references | Foundation; reliability per **Person-and-source** association (**DL-32**) | HTBW | Foundation / Identity | Required | **A** |
 | Medication schedule | **Stewardship** obligation | HTBW | Stewardship | Required — see gaps | **A / U** |
 | Physician appointments | **Stewardship** schedule obligation | HTBW | Stewardship | Required | **A / U** |
-| Accessibility and environmental support requirements | Declared care expectation; environmental limits as Room-scoped care requirements | HTBW | Stewardship | Required | **E** |
+| Accessibility and environmental support requirements | **Resolved as DL-61.** Person Environmental Requirements, reusing the Asset environmental-limit pattern, held by Foundation through Person Setup, evaluated by Stewardship against current Room Environment Facts (**DL-60**) while a valid Contextual Person-Presence Fact applies | HTBW | Stewardship | Required | **A** |
 | Preferred notification paths | **Continuity** owns the preference; **Operational Trust** decides when it may be applied | HTBW | Continuity | Required | **A** |
 | Escalation contacts | **Stewardship** ladder; **Operational Trust** authority | HTBW | Stewardship | Required | **A** — **OD-22** |
 | Disclosure and retention rules for care information | **Operational Trust** policy; retention per **DL-47** | HTBW | Operational Trust | Required | **A** |
@@ -431,7 +431,7 @@ speak for herself.
 | 10 | Explainability | Decision Trace | Which configured rule, whose consent, which audience evaluation, which escalation, and **why nothing was said where nothing was said** |
 | 11 | Continuity interaction | **Continuity** | Preferred delivery, preferred presentation, and re-presentation preference (**OD-48**). **Continuity is not a child of Stewardship** |
 | 12 | Retention | **DL-47** + consent lifecycle | Consent-lifecycle records are a **structural retention floor** that survives any configured window |
-| 13 | Closure criteria | **Stewardship** | Recorded acknowledgement or recorded administration. **The accepted completion evidence is unresolved** (**OD-75**) |
+| 13 | Closure criteria | **Stewardship** | Recorded acknowledgement or recorded administration, per the accepted **Care Evidence Record** (**DL-48**) |
 | 14 | Failure / uncertainty | **Stewardship** and **Operational Trust** | Unknown facts produce `unknown` obligations; uncertain audience degrades the **delivery**, not the governance (**P32**, **OD-71**) |
 | 15 | HA native capabilities | Home Assistant | Person, Calendar, `todo`, Companion App surfaces, Recorder |
 | 16 | What must never happen | — | **No medical diagnosis, no clinical advice, no health inference, and no wellness scoring.** HTBW is **not a life-safety system** |
@@ -479,6 +479,28 @@ crossed — never what it might mean clinically.
 | 5 | **Executor** | The climate entity is changed by the automation or service call |
 | 6 | **Truth**, then **Stewardship** | The temperature returns to range; the obligation returns to `met` |
 
+### E — Eleanor's declared humidity requirement, evaluated where she currently is (DL-61)
+
+| Step | Responsibility | Statement |
+|---|---|---|
+| 1 | **Foundation**, through Person Setup | Eleanor's declared humidity requirement: 45–60% |
+| 2 | **Identity**, then **Truth** | Eleanor's consented bracelet supports a current **Contextual Person-Presence Fact**: Eleanor is in the Den |
+| 3 | **Truth** | The Den is at 38% relative humidity, Truth Confidence Band: High |
+| 4 | **Stewardship** | Eleanor's humidity requirement is `unmet` — 38% is below her declared 45% minimum |
+| 5 | **Operational Trust** | Evaluates disclosure and audience before any Communication |
+| 6 | **Concierge** | Conveys only where authorized, and explains: current value, required range, Room, and time |
+
+**No diagnosis is produced.** The result states that a declared range was not met by a current
+reading — never that a condition exists or requires clinical attention.
+
+### F — Eleanor's location becomes unknown (DL-61)
+
+| Step | Responsibility | Statement |
+|---|---|---|
+| 1 | **Truth** | Eleanor's Contextual Person-Presence Fact becomes `unknown` — the bracelet's evidence no longer supports a current Room |
+| 2 | **Stewardship** | Eleanor's environmental requirements are **not evaluated against the last known Room** |
+| 3 | **Concierge** | States that current suitability cannot be evaluated because Eleanor's location is unknown — never that the prior Room remains suitable or unsuitable |
+
 ## Acceptance scenarios
 
 | # | Given | Then | Must not |
@@ -488,6 +510,9 @@ crossed — never what it might mean clinically.
 | 3.3 | A medication reminder with guests present | Private delivery or content-free indication | Announce health content to a shared surface because the action was permitted (**P32**) |
 | 3.4 | A wearable observation | Evaluated only against an explicitly agreed rule | Produce a diagnosis, a clinical interpretation, or a wellness score |
 | 3.5 | An escalation to David | Performed by Concierge under Operational Trust authority, with a Decision Trace | Stewardship escalating directly |
+| 3.9 | Eleanor's declared humidity requirement and a current Den Fact below it | The requirement is `unmet`, explainable to the current Fact, the requirement, and their provenance (**DL-61**) | Report a diagnosis, a health verdict, or a Room-wide health state |
+| 3.10 | Eleanor's location is unknown | No current suitability claim; the prior Room is never substituted as current | Evaluate the last known Room as current |
+| 3.11 | Eleanor and Tom share a Room with different declared requirements | Each is evaluated independently; a conflict between them is surfaced, never silently resolved | Average, rank, or merge their requirements into one Room verdict |
 | 3.6 | David wants to manage Eleanor's care | **Supported through an explicit Delegated Access Grant** (**DL-57**) that Eleanor establishes, or an authorized proxy establishes under the capacity model, scoped to specific obligations and operations | Infer delegated authority from the `caretaker-of` relationship, a Role, or administrator status alone |
 | 3.7 | Any care record | Retained under **DL-47** with consent-lifecycle floors | Retain health content beyond the consented lifecycle |
 | 3.8 | Any emergency-shaped condition | Reported honestly within the accepted limits | Represent HTBW as a life-safety system |

@@ -115,7 +115,7 @@ The Asset is the household-meaningful object.
 | Authoritative asset identity | The formal name, for example *1918 A.B. Chase 6' Grand Piano* |
 | Documentation | Manuals, photos, receipts, appraisals, certificates |
 | Service plan | Owned as an obligation by Stewardship; referenced here |
-| Environmental limits | Operating and preservation limits the asset requires |
+| Environmental limits | Operating and preservation limits the asset requires. **The same pattern — a declared requirement, a current Truth Fact, and a Stewardship evaluation — extends to Person Environmental Requirements without converting a Person into an Asset** (**DL-61**) |
 | Warranty | Coverage window, provider, terms reference |
 | Maintenance history | Record of what was done and when |
 | Assigned caretaker | A reference to the Stewardship-owned caretaker assignment, expressed as a Foundation caretaker-of relationship |

@@ -220,6 +220,7 @@ and who is accountable.
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted completion evidence; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — one person may hold Stewardship access delegated by another, self/proxy/capacity model, the Delegated Access Grant construct, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
+| OD-69 | **Resolved as DL-61.** Asset-derived Entity projection reuses existing owned vocabularies, never an invented health scale; Person Environmental Requirements reuse the Asset environmental-limit pattern through Person Setup; Environmental Coverage, Configuration Completeness, and Truth Confidence remain three separate measures; Room Environmental Status is a non-authoritative projection; Room Health, Room Confidence, and People Health are formally rejected as authoritative terms |
 
 ## Related documents
 
