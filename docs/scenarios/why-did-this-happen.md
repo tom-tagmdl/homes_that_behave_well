@@ -40,10 +40,10 @@ Tom walks into the Den and jazz begins playing. He asks, "Why did you do that?"
 
 | Element of the explanation | Supplied by |
 |---|---|
-| "I recognised you" | Identity — candidate Tom, confidence 0.94 |
+| "I recognised you" | Identity — candidate Tom, identity_confidence_band: High |
 | "the Den" | Room Configuration — Room Context resolved from the assistant's assigned Room |
 | "the Den speakers" | Contextual Vocabulary — configured target set |
-| "the Den was free" | Truth — no active session, confidence high |
+| "the Den was free" | Truth — no active session, Truth Confidence Band: High |
 | "your preferred genre" | Continuity — person-scoped preference |
 | "quiet hours weren't active" | Truth + Operational Trust — the fact, and the policy that consumed it |
 | "I didn't need to ask" | Operational Trust — effective autonomy level was Autonomous |
@@ -220,9 +220,10 @@ The Sonos Beam in the Living Space is changed from **not selected** to **deliber
 
 ## Scenario 11 — The lifecycle of a Historical Fact
 
-A Presence Fact for Tom in the Den is **established** at 19:02 with confidence high. At 19:40 a
-contributor drops out and the **confidence changes** to medium. At 20:15 a newer fact **supersedes**
-it when Tom is observed in the Kitchen. At 20:45 the original fact **operationally expires**.
+A Presence Fact for Tom in the Den is **established** at 19:02 with Truth Confidence Band: High. At
+19:40 a contributor drops out and the **confidence changes** to Truth Confidence Band: Moderate. At
+20:15 a newer fact **supersedes** it when Tom is observed in the Kitchen. At 20:45 the original fact
+**operationally expires**.
 
 > "Between 7 and 8 that evening I believed you were in the Den. I was confident at first, then less so
 > when one of the sensors stopped reporting, and at quarter past eight I concluded you'd moved to the

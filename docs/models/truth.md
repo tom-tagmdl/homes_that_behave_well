@@ -110,10 +110,63 @@ stable identifier under **DL-31**.
 > single extensible model**, with one owner, one lifecycle, one provenance model, one conflict model, and
 > one retention rule (**DL-47**).
 
-**Confidence representation across every Subject and Fact class is open decision OD-74.** The four
-Identity confidence bands are **DL-39** and describe *only* the strength of support for a `known`
-known-Person **Identity Assertion**. **They are not Truth Fact confidence and must not be borrowed for
-one.**
+**Confidence representation is DL-58 (resolved OD-74).** The four Identity confidence bands are
+**DL-39** and describe *only* the strength of support for a `known` known-Person **Identity
+Assertion**. **They are not Truth Fact confidence and must not be borrowed for one.**
+
+### Truth Confidence (DL-58)
+
+**Truth Confidence describes the strength of qualified evidentiary support for a Fact under the
+applicable Truth evaluation policy.** It is never probability, measured accuracy, certainty, or
+Identity Confidence, and it never authorizes anything — sufficiency for an operation remains
+Operational Trust's (**DL-36**).
+
+The canonical representation is one uniform ordinal band — **Truth Confidence Band** — applied
+identically across every Fact Subject and Fact class:
+
+| Band | Meaning |
+|---|---|
+| **Low** | A publishable Fact has meaningful qualified support, but substantial uncertainty remains |
+| **Moderate** | A publishable Fact has credible qualified support, but material uncertainty remains |
+| **High** | A publishable Fact has strong qualified support under the applicable Truth policy |
+| **Very High** | A publishable Fact has the strongest qualified support available under the applicable Truth policy — **not certainty** |
+
+**Ordering is authoritative** — Low < Moderate < High < Very High — and the bands are never added,
+averaged, or treated as a distance. `None`, `unknown`, `unresolved`, `stale`, and `withdrawn` remain
+**first-class Fact states, never a fifth band**, mirroring **DL-39**'s *state and band are different
+dimensions*. Per-Fact-class derivation, evidence ceilings, and publication requirements may differ;
+**the vocabulary does not** — no per-Subject or per-class confidence enumeration is created.
+
+**Structurally separate from DL-39, permanently.** A **Truth Confidence Band** and a **DL-39 Identity
+Confidence Band** share household-facing labels and nothing else: they are separately owned (Truth;
+Identity), separately typed (`truth_confidence_band`; `identity_confidence_band`), never converted,
+never averaged, and never compared as though they measured the same thing. **A Pet, Asset, or Device
+Fact is structurally unable to carry an Identity Confidence Band** — Identity's candidate set contains
+known Persons only. A Person-subject Truth Fact still carries a **Truth Confidence Band**, produced by
+Truth from its own evaluation, never copied from the Identity Assertion that fed it.
+
+**Comparability is ordinal and semantic only, never arithmetic.** High is above Moderate in every Fact
+class, and Very High is the strongest supported band in every Fact class — but confidence values are
+never added, averaged, multiplied, or subtracted, two High-confidence Facts are not equally accurate by
+statistical claim, and a higher band never automatically outranks another Fact for an operational
+consequence, which remains independently governed.
+
+**Confidence is independent of freshness, provenance, and coverage** — four separate mandatory Fact
+dimensions, never collapsed into one field. **OD-18** owns freshness and validity effects; **OD-17**
+owns Composite Fact derivation, including what contributor coverage (for example *2 of 3 contributors*)
+means for a published band; **OD-19** owns conflict-resolution effects. None of the three redefines
+this representation, and none of them — nor **OD-72** — may borrow the Identity Fusion Function or
+DL-39 bands to answer a Truth-side question.
+
+**An optional normalised numeric may accompany the band as a non-authoritative deterministic ordering
+value only.** It is never resident-facing probability, likelihood, calibration, or accuracy; it never
+merges Fact classes or merges Truth and Identity; it is never sufficient evidence and never authorizes
+anything. No numeric is mandated by this decision, and none is introduced into the canonical model,
+since no accepted consumer currently requires one.
+
+**Every Historical Fact retains its Truth Confidence Band and the Truth evaluation-policy version that
+produced it.** A later policy or band-map change never rewrites a prior Fact; a Historical Fact carrying
+`High` remains interpretable as the accepted band under the version referenced at the time.
 
 ---
 
@@ -230,7 +283,7 @@ Truth may use multiple eligible contributing sensors to establish a single **Com
 ```
 Room Configuration:  eligible contributors for Living Space temperature = Sensor A, Sensor C
 Truth:               Living Space temperature = 72 degrees
-                     confidence: high
+                     truth_confidence_band: High
                      coverage:   2 of 2 eligible contributors reporting
                      provenance: Sensor A (71.6), Sensor C (72.4)
 ```
@@ -253,13 +306,15 @@ here**. Open decision **OD-17**.
 ## Identity assertions become presence facts
 
 ```
-Identity asserts:        candidate Tom, confidence 0.94, evidence voice + BLE + phone
+Identity asserts:        candidate Tom, identity_confidence_band: High, evidence voice + BLE + phone
 Room Configuration says: the Den's occupancy evidence sources are X and Y
-Truth establishes:       Tom is present in the Den (confidence, provenance, validity)
+Truth establishes:       Tom is present in the Den (truth_confidence_band, provenance, validity)
 ```
 
 The identity assertion is evidence. The presence fact is Truth. They are different objects with
-different owners.
+different owners, and **the Identity Confidence Band on the assertion is never copied onto, converted
+into, or averaged with the Truth Confidence Band Truth independently derives for the presence Fact**
+(**DL-58**).
 
 **Truth receives the assertion only.** Biometric internals never cross this boundary, so Truth has
 nothing to store or expose. See [person-and-identity.md](person-and-identity.md).
@@ -518,6 +573,7 @@ remains accurate after the Fact has since changed, expired, or been withdrawn.
 | OD-18 | Fact validity and expiration defaults per fact class — this governs **operational** validity, not Historical Fact retention, which is settled by **DL-47** |
 | OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases above** |
 | OD-73 | **Interaction-Surface Room Context Resolution.** How Room Context is resolved for a phone, wearable, Companion App, browser session, or other non-room-bound surface. An Engagement Fact records Room Context as `unresolved` until this closes |
+| OD-74 | **Resolved as DL-58.** Truth Fact Confidence is a uniform ordinal band (Low < Moderate < High < Very High), structurally separate from DL-39 Identity Confidence, independent of freshness/provenance/coverage, and consumed without redefinition by OD-17, OD-18, and OD-19 |
 | OD-74 | **Truth Fact Confidence Representation.** How Fact confidence is represented across every Fact class and Subject. **The DL-39 Identity bands are not available for this and must not be borrowed** |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Historical Facts follow External History Retention with their own Retention Classification; per-Fact-class differentiation is Operational Trust policy |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is **OD-01** |

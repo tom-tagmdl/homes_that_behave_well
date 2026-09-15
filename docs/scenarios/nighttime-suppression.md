@@ -20,7 +20,7 @@ For the rest of the night, the Primary Bedroom behaves differently.
 | Step | Responsibility | Action |
 |---|---|---|
 | 1 | Room Configuration | Resolves Room Context → Primary Bedroom |
-| 2 | Identity | Asserts David, confidence 0.95 |
+| 2 | Identity | Asserts David, identity_confidence_band: Very High |
 | 3 | Operational Trust | Confirms David may set Nighttime mode for this Room |
 | 4 | Concierge | Executes the routine through governed interfaces |
 | 5 | Truth | Establishes the fact: **the Primary Bedroom is in Nighttime mode** |

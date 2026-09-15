@@ -1045,7 +1045,7 @@ provider_match:   Tom, 0.82, voice, capture context Den satellite
 
 assertion:        candidate Tom
                   purpose    current speaker in the Den
-                  confidence high
+                  identity_confidence_band: High
                   supported  voice match; Tom's wearable observed in the Den;
                              capture endpoint is the Den satellite; Den occupancy active
                   families   voice biometric; wearable proximity; room occupancy
@@ -1189,8 +1189,8 @@ This distinction must be preserved everywhere in the platform.
 | Concept | Owner | Example |
 |---|---|---|
 | **Identity Evidence** | Identity | A voice sample matched Tom's profile at 0.91; Tom's phone is on the Den Wi-Fi AP |
-| **Identity Assertion** | Identity | Candidate person Tom, confidence 0.94, from voice + BLE + phone |
-| **Contextual Person-Presence Fact** | **Truth** | Tom is present in the Den |
+| **Identity Assertion** | Identity | Candidate person Tom, identity_confidence_band: High, from voice + BLE + phone |
+| **Contextual Person-Presence Fact** | **Truth** | Tom is present in the Den, carrying its own **Truth Confidence Band** (**DL-58**), independently derived — never the Identity Assertion's band |
 
 An identity assertion is an **input** to the presence fact. It is not the presence fact.
 

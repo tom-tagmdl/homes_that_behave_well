@@ -37,7 +37,7 @@ Voice Identity is superseded as a platform-service boundary inside HTBW Core.
 | Concept | Owner | Example |
 |---|---|---|
 | **Identity Evidence** | Identity | A voice sample matched Tom's profile at 0.91 |
-| **Identity Assertion** | Identity | Candidate Tom, confidence 0.94, from voice + BLE + phone |
+| **Identity Assertion** | Identity | Candidate Tom, identity_confidence_band: High, from voice + BLE + phone |
 | **Contextual Person-Presence Fact** | **Truth** | Tom is present in the Den |
 
 An identity assertion is an **input** to a presence fact. No responsibility may record an assertion as

@@ -53,9 +53,9 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-12** | Exclusion Metadata | Open — Governance Required | **#137** | — | DL-11 |
 | **OD-13** | Contextual Vocabulary Inheritance | Open — Governance Required | **#138** | #135, #136 | DL-09, DL-10; OD-14 resolved |
 | **OD-15** | Identity Assertion Lifetime | Open — Governance Required | **#96** | — | DL-32, DL-36, DL-37, DL-38, DL-39 |
-| **OD-17** | Composite Fact Computation | Open — Governance Required | **#88** | #93, #91, #89 | DL-04, DL-09, DL-11 |
-| **OD-18** | Fact Freshness Policy | Open — Governance Required | **#89** | #93 | DL-25, DL-38, DL-47 |
-| **OD-19** | Evidence Conflict Resolution | Open — Governance Required | **#90** | #88, #89, #93, #91 | DL-04, DL-25 |
+| **OD-17** | Composite Fact Computation | Open — Governance Required | **#88** | #93 (**resolved as DL-58**), #91, #89 | DL-04, DL-09, DL-11, **DL-58** |
+| **OD-18** | Fact Freshness Policy | Open — Governance Required | **#89** | #93 (**resolved as DL-58**) | DL-25, DL-38, DL-47, **DL-58** |
+| **OD-19** | Evidence Conflict Resolution | Open — Governance Required | **#90** | #88, #89, #93 (**resolved as DL-58**), #91 | DL-04, DL-25, **DL-58** |
 | **OD-20** | Optional Asset Intelligence Product Integration | Open — Narrowed by DL-51 | **#110** | — | DL-07, DL-08, DL-19, DL-41, **DL-51** |
 | **OD-21** | Significance Representation | Open — Governance Required | **#107** | — | DL-21, DL-27, DL-39 |
 | **OD-22** | Escalation Ladder Semantics and Defaults | Open — Governance Required | **#108** | #107, #115, #100, #105 | OD-50 resolved into this |
@@ -103,9 +103,8 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-69** | Asset-Derived Entity Projection | Open — Governance Required | **#142** | #105, #93, #141 | DL-31, DL-42 |
 | **OD-70** | Merged Room Native Representation | Open — Governance Required | **#143** | #136, #141 | DL-12, DL-13, DL-31 |
 | **OD-71** | Audience-Uncertainty Disclosure Policy | Open — Governance Required | **#104** | #113, #100, #102, #99 | DL-29, DL-34, DL-37 |
-| **OD-72** | Unknown Actor Correlation Confidence | Open — Research Required | **#92** | #81, #87 | DL-35; **DL-38 and DL-39 may not be borrowed** |
-| **OD-73** | Interaction-Surface Room Context Resolution | Open — Research Required | **#134** | #146, #93 | DL-09, DL-11, DL-15, DL-30; dependency-view rule 6 |
-| **OD-74** | Truth Fact Confidence Representation | Open — Governance Required | **#93** | — | DL-04; **DL-39 bands may not be borrowed** |
+| **OD-72** | Unknown Actor Correlation Confidence | Open — Research Required | **#92** | #81, #87 | DL-35; **DL-38, DL-39, and DL-58 may not be borrowed** |
+| **OD-73** | Interaction-Surface Room Context Resolution | Open — Research Required | **#134** | #146, #93 (**resolved as DL-58**) | DL-09, DL-11, DL-15, DL-30; dependency-view rule 6 |
 | **OD-77** | Person-to-External-Resource Association Ownership | Open — Governance Required | **#148** | #94, #78, #133, #132, #76 | Episode 7 validation (#151); evidence comment posted from **OD-76/DL-57**'s Delegated Access Grant primitive |
 | **OD-78** | Remembered-Value Classes and Restoration Semantics | Open — Blocked | **#149** | #146, #127, #130, #125, #76 | Episode 7 validation (#151) |
 | **OD-79** | Presentation Preference Scope and Precedence | Open — Governance Required | **#152** | #97, #113, #117, #132, #96, #104 | Episode 7 validation (#151) |
@@ -182,6 +181,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-88** | Closed — **DL-55**. Governance-harvest result: execution-provider selection, endpoint identity, device-interaction/workflow boundary, and capability evolution all reduced to existing owners (Room Configuration, Asset model, DL-53, DL-41); only a narrow room-level outcome projection over DL-54 was new |
 | **OD-06** | Closed — **DL-56**. Consent is required for person association, never environmental observation alone; Person Setup is the capture/review experience; self/proxy consent, withdrawal/deletion, and the DL-43/DL-47 reconciliation are accepted. Residual proxy-authority qualification separated to **OD-76**; exceptional legal/incident correlation separated to **OD-89** |
 | **OD-76** | Closed — **DL-57**. Delegated Stewardship authority is an explicit, scoped **Delegated Access Grant**, never inferred from a relationship, Role, or administrator status; self/proxy/capacity model accepted; identity evidence never transfers with a grant; non-resident authorized participants may hold a minimal Person record; revocation is immediate and prospective; OD-22 escalation applies only to a configured accountability change, not ordinary incomplete-obligation notification. Scope boundary against **OD-77** honoured, not absorbed |
+| **OD-74** | Closed — **DL-58**. Truth Fact Confidence is a strength-of-evidentiary-support ordinal band (Low < Moderate < High < Very High), one uniform enumeration across every Fact Subject and class, structurally separate from **DL-39** Identity Confidence and never converted, averaged, or compared against it. Independent of freshness (**OD-18**), provenance, and coverage (**OD-17**); an optional numeric is a non-authoritative ordering value only. **OD-17**, **OD-18**, **OD-19**, and **OD-72** updated with the boundary; none closed by this decision |
 
 ---
 

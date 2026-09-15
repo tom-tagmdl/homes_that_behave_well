@@ -18,7 +18,7 @@ jazz is playing in the Den when he arrives.
 | Step | Responsibility | Action |
 |---|---|---|
 | 1 | Room Configuration | Resolves Room Context → Office |
-| 2 | Identity | Asserts candidate Tom, confidence 0.94, from voice + BLE + assigned phone |
+| 2 | Identity | Asserts candidate Tom, identity_confidence_band: High, from voice + BLE + assigned phone |
 | 3 | Continuity | Records Follow-Me intent on Tom's active jazz session; origin Room = Office |
 | 4 | Truth | Later establishes: Tom is present in the Den; the Office is now unoccupied; the Den has no active session |
 | 5 | Continuity | Evaluates transfer eligibility → eligible; destination endpoints configured and available |
@@ -82,7 +82,7 @@ The home asks: "You left a documentary in the Primary Bedroom. Would you like it
 
 | Step | Responsibility | Action |
 |---|---|---|
-| 1 | Identity | Asserts Tom, confidence 0.92 |
+| 1 | Identity | Asserts Tom, identity_confidence_band: High |
 | 2 | Truth | Tom is present in the Den; the Den has no active session |
 | 3 | Continuity | A resume candidate exists and is within its eligibility window |
 | 4 | Operational Trust | Media in the Den is permitted at **Assisted** level for this class |

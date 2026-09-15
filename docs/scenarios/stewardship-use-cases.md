@@ -186,7 +186,7 @@ is accountable.
 
 | Step | Responsibility | Statement |
 |---|---|---|
-| 1 | **Truth** | The Den is at 47% relative humidity, confidence high |
+| 1 | **Truth** | The Den is at 47% relative humidity, Truth Confidence Band: High |
 | 2 | **Stewardship** | The watercolour's preservation obligation is `met` |
 | 3 | **Concierge** | Nothing happens, and the non-event is not announced |
 
@@ -197,7 +197,7 @@ is accountable.
 | Step | Responsibility | Statement |
 |---|---|---|
 | 1 | **Foundation asset model** | The watercolour requires 40–55% relative humidity — a declared property of the thing |
-| 2 | **Truth** | The Den is at 68% relative humidity, confidence high, 2 of 2 contributors |
+| 2 | **Truth** | The Den is at 68% relative humidity, Truth Confidence Band: High, 2 of 2 contributors |
 | 3 | **Stewardship** | The preservation obligation is `unmet`; significance is high — irreplaceable, household-declared |
 | 4 | **Operational Trust** | Running the dehumidifier is permitted autonomously; the caretaker Communication is permitted on a personal surface |
 | 5 | **Concierge** | Start dehumidification, convey to the caretaker, and explain |
@@ -563,7 +563,7 @@ water damage.
 
 | Step | Responsibility | Statement |
 |---|---|---|
-| 1 | **Truth** | The Laundry leak sensor reports wet, confidence high, fresh |
+| 1 | **Truth** | The Laundry leak sensor reports wet, Truth Confidence Band: High, fresh |
 | 2 | **Stewardship** | The home's water-protection obligation is `unmet`; significance is safety, household-declared |
 | 3 | **Operational Trust** | Autonomous shutoff is permitted; interruption at high urgency is entitled |
 | 4 | **Concierge** | Requests shutoff, conveys to the household, explains |

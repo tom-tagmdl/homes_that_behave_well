@@ -55,10 +55,10 @@ A trace is produced for **actions, non-actions, and suppressions alike**.
 | Field group | Contributing responsibility |
 |---|---|
 | 1–2 request and requester | Concierge (interaction), Identity (candidate) |
-| 3–4 identity determination and confidence | Identity |
+| 3–4 identity determination and confidence | Identity — recorded as `identity_confidence_band` (**DL-39**), never conflated with field 8 |
 | 5 room context | Room Configuration (Foundation) |
 | 6 vocabulary resolution | Contextual Vocabulary (Foundation) |
-| 7–8 facts and fact confidence | Truth |
+| 7–8 facts and fact confidence | Truth — recorded as `truth_confidence_band` (**DL-58**), never conflated with field 4 |
 | 9 obligations | Stewardship |
 | 10–11 preferences and continuity intent | Continuity |
 | 12–14 policies, restrictions, autonomy level | Operational Trust |
@@ -314,7 +314,7 @@ requester:
   assertion_purpose: current_speaker
   candidate_person: Tom
   assertion_state: known
-  confidence_band: High
+  identity_confidence_band: High
   fusion_policy_version: 4
   supporting_evidence_families: [voice, wearable_proximity]
   contradicting_evidence: none
@@ -332,12 +332,12 @@ vocabulary_resolution:
 capability_availability: available
 facts_consulted:
   - statement: den.occupied = true
-    confidence: high
+    truth_confidence_band: High
     provenance: [motion_a, presence_b]
     freshness_s: 4
     fact_ref: <governed reference>
   - statement: den.active_session = none
-    confidence: high
+    truth_confidence_band: High
 obligations_considered: []
 preferences_considered:
   - person_scoped.preferred_genre = jazz
@@ -390,10 +390,10 @@ decision_id: 2026-07-21T23:41:52Z/primary_bedroom/media.transfer
 requested: follow_me_transfer(session: tom.jazz, origin: office, destination: primary_bedroom)
 requester:
   candidate_person: Tom
-  identity_confidence: 0.91
+  identity_confidence_band: High
 facts_consulted:
   - statement: primary_bedroom.mode = nighttime
-    confidence: high
+    truth_confidence_band: High
 policies_evaluated:
   - primary_bedroom.nighttime: no_incoming_media
 restrictions_applied: [primary_bedroom.nighttime.no_incoming_media]

@@ -20,7 +20,7 @@ you like the news in the Den, or somewhere else?"
 | Step | Responsibility | Action |
 |---|---|---|
 | 1 | Room Configuration | Resolves Room Context → Den |
-| 2 | Identity | Asserts candidate David, confidence 0.93 |
+| 2 | Identity | Asserts candidate David, identity_confidence_band: High |
 | 3 | Truth | The Den is occupied by Tom and David; an active session exists |
 | 4 | Continuity | Reports the active session: owner Tom, experience class media, started in the Den |
 | 5 | Operational Trust | David has no authority to displace Tom's session without confirmation |
@@ -145,7 +145,7 @@ A child in the Kitchen says, "Turn on the oven." Nothing happens, and the home e
 
 | Step | Responsibility | Action |
 |---|---|---|
-| 1 | Identity | Asserts the child, confidence 0.88 |
+| 1 | Identity | Asserts the child, identity_confidence_band: High |
 | 2 | Operational Trust | Child-safety policy prohibits heat-source control for this person |
 | 3 | Concierge | Refuses and explains in age-appropriate language |
 

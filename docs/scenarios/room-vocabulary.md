@@ -174,7 +174,7 @@ Tom asks, "How warm is it in here?" The home says 72 degrees. It does not read o
 
 ```
 Truth: Living Space temperature = 72 degrees
-       confidence: high
+       truth_confidence_band: High
        coverage:   2 of 2 eligible contributors reporting
        provenance: Sensor A (71.6), Sensor C (72.4)
 ```

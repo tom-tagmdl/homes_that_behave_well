@@ -280,7 +280,7 @@ It may never be produced implicitly by an absent configuration.
 An uncertain input must not become a certain output.
 
 ```
-evidence (weak)  →  assertion (confidence 0.42)  →  fact (unknown / low confidence)
+evidence (weak)  →  assertion (identity_confidence_band: Low)  →  fact (unknown / truth_confidence_band: Low)
                  →  decision (ask, or no action)  →  explanation states the uncertainty
 ```
 

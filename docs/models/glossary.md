@@ -311,6 +311,21 @@ from, who or what produced it, and when.
 
 **Confidence**
 A stated degree of belief attached to an assertion or fact. Confidence is never silently discarded.
+**This is a general term, never itself a machine-form field.** The two governed, separately-typed
+forms are **Truth Confidence Band** (Truth-owned, **DL-58**) and **Identity Confidence Band**
+(Identity-owned, **DL-39**) — they share household-facing labels and nothing else, and are never
+converted, averaged, or compared as though they measured the same thing.
+
+**Truth Confidence Band**
+One of exactly four ordered levels — **Low < Moderate < High < Very High** — expressing the strength
+of qualified evidentiary support for a Truth Fact under the applicable Truth evaluation policy. Applies
+identically across every Fact Subject (Home, Room, Merged Room, Person, Pet, Asset, Device) and Fact
+class. **Never probability, measured accuracy, or certainty; never a DL-39 Identity Confidence Band;
+never authorizes anything.** Independent of freshness, provenance, and contributor coverage. An
+optional normalised numeric may accompany the band as a non-authoritative deterministic ordering value
+only. `None`, `unknown`, `unresolved`, `stale`, and `withdrawn` remain first-class Fact states, never a
+fifth band.
+Model: [truth.md](truth.md)
 
 **Freshness**
 How recently the underlying evidence was observed, and whether it remains valid.

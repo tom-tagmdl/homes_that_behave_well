@@ -13,8 +13,9 @@
 >    `identity_confidence: 0.86` — are **superseded**. Identity confidence is the four bands
 >    **Low < Moderate < High < Very High**, carried only by a `known` assertion (**DL-39**); a
 >    percentage is never canonical public confidence, and a configured value is **never** presented as
->    measured accuracy (**DL-32**). **Truth Fact confidence representation is open decision OD-74**, and
->    the numbers below pre-empt nothing.
+>    measured accuracy (**DL-32**). **Truth Fact confidence representation is resolved as DL-58**
+>    (formerly open decision OD-74) as the same four-label ordinal band, separately typed and never
+>    convertible to or from an Identity Confidence Band, and the numbers below pre-empt nothing.
 > 2. **Its claim to be a "mandatory dependency" for downstream planning** is superseded. Occupancy and
 >    presence Facts are owned by **Truth**, and no consumption model sits between Truth and its
 >    consumers.

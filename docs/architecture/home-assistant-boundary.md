@@ -104,7 +104,7 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Person | `person` entity | HTBW Person carries roles, identity evidence associations, preferences, and authority that the entity does not. |
 | Pet | None | No native primitive exists. |
 | Service (provider) | None | No native primitive exists. |
-| Fact | State | A state is evidence. A Fact is governed, provenance-bearing, and confidence-bearing. |
+| Fact | State | A state is evidence. A Fact is governed, provenance-bearing, and confidence-bearing. **No native Fact-confidence construct exists**; the Truth Confidence Band representation is an HTBW judgement about the state, never a replacement for it (**DL-58**). |
 | Obligation | Calendar event or `todo` item (partially) | An obligation has accountability, lifecycle, and escalation semantics beyond a calendar entry. |
 | Session | None | Media player state is evidence about a session, not the session. |
 | Policy | None | Automations encode behavior; they do not express governed authority. |
