@@ -48,6 +48,16 @@ The governing chain — **Consent → Available Evidence → Identity → Operat
 eligibility before fusion and sufficiency after it. **Consent determines what evidence may be used;
 Operational Trust ensures those choices are applied consistently and respectfully.**
 
+**The consent scope model, the canonical consent record, self- and proxy-consent, Person Setup as the
+capture and review experience, withdrawal/deletion semantics, and the DL-43/DL-47 resolution are
+accepted as DL-56** — see [../models/person-and-identity.md](../models/person-and-identity.md#consent-dl-56).
+Withdrawing Voice Identity participation excludes the evidence **immediately**, before weighting, and
+triggers **DL-43** deletion of the voiceprint, derived profile, and any temporary samples; it is never
+merely down-weighted. **Observation is not Person Association**: environmental observation (a camera
+image containing a person, a BLE device's presence, motion, occupancy) requires no person-association
+consent, and correlation capability is never itself authorization to associate an observation with a
+named Person.
+
 ---
 
 ## What Identity will never guarantee

@@ -28,6 +28,11 @@ has explicitly and knowingly chosen otherwise.
 - Consent is recorded, attributable, and revocable.
 - Consent is scoped: consenting to voice identity is not consent to calendar access.
 - A person who has not consented must still be able to use the home in a guest-safe way.
+- **The full scope model, canonical record, self/proxy consent, withdrawal, retention resolution, and
+  state distinctions are accepted as DL-56** — see
+  [../models/person-and-identity.md](../models/person-and-identity.md#consent-dl-56). **Consent is
+  required for person association, never for environmental observation by itself**; correlation
+  capability is never itself authorization.
 
 ### Participation is optional
 
@@ -515,7 +520,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | ID | Open decision |
 |---|---|
 | OD-05 | Decision Trace retention floor and ceiling |
-| OD-06 | Consent user experience and its Home Assistant-native surface |
+| OD-06 | **Resolved as DL-56.** Consent user experience and its Home Assistant-native surface |
 | OD-07 | Local versus cloud voice implementation |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-09 | Export and deletion mechanics across connected storage |

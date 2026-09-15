@@ -199,11 +199,15 @@ re-litigated elsewhere.
 | Aspect | Owner | Meaning |
 |---|---|---|
 | **Consent record** | Foundation | The durable record attached to the Person: what was consented to, by whom, when, and its provenance |
-| **Consent lifecycle** | Identity | Capture, scope, renewal, expiry, and revocation of consent for identity evidence and enrollment |
-| **Consent policy and enforcement** | **Operational Trust** | Which actions require consent, what consent is sufficient, and refusal when consent is missing or expired |
+| **Consent lifecycle** | Identity | Capture, scope, reaffirmation, and revocation of consent for identity evidence and enrollment. **Consent does not silently expire** (**DL-56**); an "expiry" is only a household- or legal-policy-mandated boundary stated explicitly, never a default |
+| **Consent policy and enforcement** | **Operational Trust** | Which actions require consent, what consent is sufficient, and refusal when consent is missing or withdrawn |
 
 Operational Trust does not capture consent and does not store the record. It decides what consent is
-required and refuses when it is absent. **Missing consent is never implied consent.**
+required and refuses when it is absent. **Missing consent is never implied consent.** The scope model,
+canonical record, self/proxy distinction, withdrawal semantics, and state distinctions (**consent not
+given** / **declined** / **withdrawn** / **permission denied** / **dependency missing** / **unknown**)
+are accepted as **DL-56** — see
+[../models/person-and-identity.md](../models/person-and-identity.md#consent-dl-56).
 
 ### Participation is optional, and participation requires consent
 

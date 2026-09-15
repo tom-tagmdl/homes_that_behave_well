@@ -149,6 +149,240 @@ consistently and respectfully.** See [operational-trust.md](operational-trust.md
 
 ---
 
+## Consent (DL-56)
+
+Resolves **OD-06**. Full acceptance record is **DL-56** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+### Observation is not Person Association
+
+**Consent is required for person association and person-scoped participation, not for environmental
+observation by itself.** The home may observe environmental facts according to applicable privacy,
+camera, retention, and household policy without any person-association consent: a person visible in
+camera video, an image containing a person, motion, occupancy, a BLE device's presence, a phone or
+watch signal, an unknown device moving between Rooms, an interaction from an unidentified person, or
+any other non-person-scoped event.
+
+Consent is required only where the home seeks to **associate** an observation with a named Person —
+binding a voiceprint, a BLE device, a phone, a watch, or a correlated observation to a Person; building
+or using a person-scoped identity profile; performing person-scoped learning, personalization, or
+Stewardship; or using a relationship to identify that Person in a future interaction.
+
+> **Observation is not Person Association. Co-presence is not Person Association. Correlation
+> capability is not authorization.** That the home *could* correlate a camera image, a BLE device, a
+> phone, a watch, a voice, or an interaction into one identity does not mean it may — repeated
+> co-presence is never itself sufficient to bypass consent.
+
+### Consent scope: participation-based at the household surface, precise underneath
+
+The household-facing experience is **participation-based and contextual** — a person consents by
+**knowingly establishing a person-associated participation relationship**, not by reasoning about
+evidence sources, assertion purposes, or Fusion Policy. The canonical record underneath is precise
+enough for eligibility, explainability, withdrawal, and retention. **These are one model presented at
+two levels of detail, never two inconsistent models.**
+
+Participation-consent actions include, at minimum:
+
+| Action | What is consented to |
+|---|---|
+| **Voice enrollment** | Creation of a voiceprint; its association with the person; its use as eligible identity evidence; use only for the disclosed identity purpose |
+| **BLE / phone / watch association** | Association of the specified device with the person; use of that association as eligible presence or identity evidence; tracking the device per disclosed policy |
+| **Authenticated application login** | Association between the authenticated session and the person; eligibility to attribute supported activity from that session to the person; use only within the disclosed application and capability scope |
+| **Contextual continuity ("remember me")** | See *Contextual continuity consent*, below |
+
+**Adding a data source is not identity-association consent by default.** Configuring a person-scoped
+email account, calendar, news source, music preference, information source, or general-question/LLM
+capability is **capability authorization**, **data-source authorization**, **preference
+configuration**, or **access configuration** — never an unrestricted grant, and never assumed to imply
+identity-evidence consent or the reverse. Each configuration action states what it authorizes; Person
+Setup presents them coherently without collapsing their distinctions.
+
+### The canonical consent record
+
+Foundation holds one canonical consent record per granted or declined participation, capable of
+representing:
+
+- Person or participant reference
+- Participation type (voice, BLE/phone/watch, authenticated app, contextual continuity, or a future
+  class)
+- Evidence source or association covered
+- Capability or purpose enabled
+- Data class involved, where required
+- **Consent state**: not given, declined, granted, withdrawn (see *State distinctions*, below)
+- Consent scope
+- Granted or declined time, and effective time
+- Withdrawal time, where applicable
+- **Self-consent or proxy-consent**, and the recorded actor (see below)
+- Authority basis for proxy consent, where applicable (owned by **OD-76**, referenced not duplicated)
+- Interaction or surface used
+- Deletion effects and retention-floor effects
+- Current eligibility consequence
+- Historical-explainability reference
+
+This is the same record `person-and-identity.md`'s Person object already names under *Consent
+records*; this section defines its required shape. **No second, inconsistent consent model is
+created.**
+
+### Self-consent and proxy consent
+
+Both are supported. **A proxy action never masquerades as self-consent.** The interface and the record
+state plainly that the signed-in person is acting **as a proxy** for another person's consent, and
+capture: the person for whom consent is recorded; the signed-in actor who recorded it; the self/proxy
+distinction; time; scope; the consent-bearing interaction; and any disclosed limitation. The signed-in
+identity supplies the audit actor.
+
+**OD-06 owns**: that self- and proxy-consent paths exist; that proxy consent must be explicit and
+never silently assumed; that the acting person must be authenticated or otherwise authoritatively
+recorded; that an audit trail is required; the consent scope granted; the consent lifecycle
+consequences; and that a proxy action never masquerades as self-consent.
+
+**OD-76 owns, and is not duplicated here**: who qualifies as an authorized proxy (administrator
+eligibility is **not** automatic — a native Home Assistant administrator flag is binary and is never
+treated as a household care-authority role); parent, guardian, caregiver, or steward authority; a
+person's limited capacity; scope and limits of proxy authority; delegation; revocation of proxy
+authority; conflicts between the person and a proxy or between competing proxies; and whether any
+consent type may never be proxy-granted. **Until OD-76 accepts an answer, a proxy-consent action
+records the proxy fact and the actor, and Operational Trust treats the authority basis as
+unestablished** — it is never assumed permissive.
+
+### Person Setup: the primary consent experience
+
+**Person Setup (Person Management) is the primary experience for consent capture, review, and
+withdrawal.** It coordinates with, and never duplicates, native Home Assistant Person maintenance:
+Home Assistant remains authoritative for the native Person's name, picture, and `device_tracker`/user
+association (**DL-31**); Person Setup extends it with governed HTBW participation configuration only.
+Its present location inside the Concierge implementation is **rank-4 evidence, not final ownership** —
+the architectural home is: **Foundation** holds the consent record; **Identity** owns the consent
+lifecycle; **Operational Trust** decides whether a capability may proceed given consent state;
+**Concierge** presents the interaction and facilitates capture; **OD-76** owns proxy-authority
+qualification. **No Consent responsibility is created.**
+
+Each consent-bearing control states **what association or participation it creates**, never a general
+"I consent to Identity" statement. Conceptual examples (illustrative wording, not mandated strings):
+*"Participate in Voice Identity"* discloses voiceprint creation, association, identification use, and
+retention/deletion behaviour; a device-association action discloses which device, which person, what
+the association is used for, and how to remove it; an authenticated-app login states its scope and
+does not overstate unrelated data access.
+
+#### Home Assistant First review (DL-18)
+
+| Native mechanism | Verified capability | Limitation | DL-18 disposition |
+|---|---|---|---|
+| Config flow / options flow | Documented, general-purpose configuration surfaces already used throughout HTBW's Person Setup extensions | No native consent model exists on top of them | **Sufficient as the native-feeling extension surface** — carries required consent checkboxes, disclosures, and remove-association actions |
+| Native Person entity, `user_id` linkage | Verified; supplies the authenticated actor for a proxy-consent audit trail | Administrator flag is binary; carries no household role or care-authority model | Sufficient for **recording the actor**; insufficient, and not used, for **authorizing** proxy scope (that is **OD-76**) |
+| Repairs | Verified administrator-correctable-defect surface | Not a consent surface — a Repairs issue has no audience, no consent semantics | **Not used for consent capture**; may report a broken consent-dependent configuration |
+| Native conversational confirmation | Exists for other purposes (e.g. Assist confirmations) | No documented native consent-grant semantics | Used **only** for the contextual continuity pattern below, where the disclosed scope is spoken plainly, never for a silent or implicit grant |
+
+**Burden of proof discharged**: no bespoke UI standard is proposed. Config/options-flow-based Person
+Setup, extended with explicit per-action disclosure, is the native-feeling mechanism; DL-18 is
+satisfied without inventing a parallel consent UI.
+
+### Contextual continuity consent ("would you like me to remember you")
+
+A secondary, contextual Person Setup path exists for an unidentified or guest participant who
+interacts with the home without enrollment (asking about art, asking general questions, participating
+in a Room interaction). The home may ask a disclosed equivalent of *"Would you like me to remember
+you?"*. This remains **Person Setup** — contextual and conversational rather than the comprehensive
+household-member flow — not a new experience or responsibility.
+
+- **Declined or no consent**: no durable Person profile is created; no observation is attached to a
+  named identity; no person-scoped learning occurs (**DL-33**); the unidentified-person policy
+  continues to apply.
+- **Consented**: only the minimum record the consent authorizes is created — typically a lightweight
+  continuity record carrying the supplied name, recognised under existing **frequent-guest /
+  continuity vocabulary**. A voice profile or device association is created **only** if separately
+  disclosed and separately consented. **No automatic grant** of email, calendar, household
+  administration, private data, or resident-level capability follows from this path. The record is
+  reviewable and withdrawable exactly as full Person Setup's is, and may later be expanded into full
+  Person Setup.
+- **No durable synthetic "Guest Person" is ever created** merely because a guest was observed — this
+  restates **DL-33** for the contextual path specifically.
+
+### Withdrawal and deletion
+
+Withdrawal is **explicit and capability-specific**.
+
+**Voice Identity.** Unchecking or otherwise withdrawing Voice Identity participation makes voice
+evidence **ineligible immediately**, excluded before weighting under **DL-38** stage 1 — never
+down-weighted. Voiceprints, derived identity profiles, and temporary enrollment samples are **deleted**
+under **DL-43**. Dependent capabilities become **unavailable** and name the missing dependency under
+**DL-41**. The person is told what was deleted, what record survives, and which capabilities are now
+unavailable.
+
+**BLE / phone / watch.** Removing the device from the person withdraws consent for that association.
+The home may continue observing the device as an **unidentified device** under applicable policy;
+future observations are **never** attributed to the former person; dependent capabilities become
+unavailable if no other eligible evidence satisfies them; no hidden association survives.
+
+**Authenticated app.** Logging out or removing the association ends the eligibility it established for
+attributing session activity to the person; it does not, by itself, alter separately configured
+data-source or preference authorizations, which withdraw on their own terms.
+
+### Consent duration and renewal
+
+**Consent remains effective until explicitly withdrawn; it does not silently expire.** Optional
+periodic reaffirmation may be offered during a suitable interaction, but: no response is not
+withdrawal; failure to interact is not withdrawal; a missed renewal prompt is not withdrawal; inactivity
+is not withdrawal. A documented reaffirmation is recorded as a **reaffirmation** event, distinct from
+**initial consent**, a **scope change**, and a **withdrawal** — the four are never collapsed. Renewal
+prompting follows existing indication and communication governance and never becomes indefinite
+repeated prompting.
+
+### DL-43 versus DL-47: what is deleted, what survives
+
+The tension is resolved by keeping two records **separate in kind**, never merged:
+
+| Deleted (DL-43) | Retained (DL-47 structural floor) |
+|---|---|
+| Voiceprints | That consent was granted, its scope, and when it became effective |
+| Derived identity profiles | Whether it was self- or proxy-consent, and who recorded proxy consent |
+| Temporary enrollment samples | When it was withdrawn |
+| Other consent-dependent identity material named by canonical policy | What deletion was triggered, and that dependent eligibility ended |
+
+**The retained lifecycle record is never sufficient to reconstruct deleted biometric or derived
+identity material** — it proves that consent existed and ended, not what the evidence was. The
+Decision Trace is never a replacement identity profile: it references the lifecycle record, and it
+never stores a biometric embedding, raw payload, or reconstructable derivation.
+
+### Historical explainability after a consent change
+
+A consent change **never rewrites** a historical decision. A Decision Trace produced while consent was
+active may explain that the person-associated evidence was eligible **at that time**, identifying the
+person only to the extent the retention and deletion architecture permits, and must never imply that
+consent remains active now. After withdrawal, new observations are **never** attributed to the person
+through the withdrawn association: the honest explanation states that an unassociated device was
+observed, an unidentified person interacted, or a person with observed devices issued a command — never
+the withdrawn person's name via that evidence.
+
+### State distinctions
+
+Resident-facing explainability names the actual reason and never collapses these into a generic
+"unavailable":
+
+| State | Meaning |
+|---|---|
+| **Consent not given** | The applicable participation consent was never granted; the capability is unavailable because eligibility is absent |
+| **Consent declined** | The person explicitly declined an offered participation |
+| **Consent withdrawn** | Consent previously existed and was explicitly ended; deletion and eligibility consequences occurred |
+| **Permission denied** | Consent may exist, but a distinct authorization or policy denies the requested action |
+| **Dependency missing** | A required technical or architectural dependency is unavailable (**DL-41**) |
+| **Unknown** | The consent state or required evidence cannot be resolved; **never** silently treated as granted or withdrawn |
+
+Illustrative phrasing (not mandated strings): *"Voice personalization is unavailable because Voice
+Identity consent was not granted."* / *"...because Voice Identity consent was withdrawn."* / *"Calendar
+access is denied by the configured access policy."* / *"Voice Identity is unavailable because the
+required integration is missing."*
+
+### Exceptional access is not decided here
+
+Whether previously unassociated camera or device observations may ever be correlated for a legal
+request, an incident, or exceptional access is **not decided by OD-06**, has **no existing canonical
+owner** in this repository (verified: no accepted decision governs law-enforcement, warrant, emergency,
+or lawful-disclosure correlation; only the generic legal/regulatory non-claim exists), and is tracked
+separately as **OD-89**. OD-06's ordinary consent requirement is unaffected and creates no bypass.
+
+---
+
 ## The identity assertion
 
 Identity's output is an assertion, not a fact about the world.

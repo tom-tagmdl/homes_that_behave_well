@@ -46,8 +46,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-01** | Governed-Record Persistence Shape | Open — Research Required | **#76** | #146 | DL-26, DL-31, DL-42, DL-44, DL-46, DL-47 |
 | **OD-04** | Policy Precedence Order | Open — Governance Required | **#97** | #135, #98, #99, #119 | DL-03, DL-14, DL-36 |
 | **OD-05** | Decision Trace Retention Floor and Ceiling | Open — Partially Decided | **#77** | #99, #79, #76 | DL-24, DL-46, DL-47 |
-| **OD-06** | Consent Capture and Revocation Experience | Open — Governance Required | **#94** | — | DL-38, DL-41, DL-43, DL-47 |
-| **OD-07** | Voice Processing Locality | Open — Research Required | **#95** | #94 | DL-05, DL-19, DL-41 |
+| **OD-07** | Voice Processing Locality | Open — Research Required | **#95** | #94 (**resolved as DL-56**) | DL-05, DL-19, DL-41 |
 | **OD-09** | Data Portability and Erasure Mechanics | Open — Research Required | **#78** | #77, #125, #118, #82, #86, #76 | DL-42, DL-43, DL-44, DL-45, DL-47 |
 | **OD-10** | Scope Hierarchy and Whether Floors Are First-Class | Open — Research Required | **#135** | #146 | DL-09, DL-12, DL-13, DL-30, DL-31 |
 | **OD-11** | Room Composition Rules | Open — Governance Required | **#136** | — | DL-11, DL-12, DL-13 |
@@ -116,7 +115,8 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-84** | Multi-Speaker Evidence and Speaker Plurality | Open — Governance Required | **#169** | #164, #166 | DL-33, DL-34, DL-35, DL-36, DL-38, **DL-50**; OD-16 resolved |
 | **OD-85** | Adoption Scope, Artifact Custody, and Coexistence Behaviour | Open — Governance Required | **#172** | #110, #82, #76, #142, #159 | DL-45, DL-48, DL-49, **DL-51**, **DL-52**; OD-82 closed |
 | **OD-86** | Vocabulary Change and Term-Withdrawal Consequences | Open — Governance Required | **#174** | #138, #103, #128, #129, #146 | DL-10, DL-14 resolved, DL-27, DL-31, DL-45, P15, P30; superseded vocabulary-lifecycle authority **not** reactivated |
-| **OD-87** | Identity Artifact Invalidation as a Governed Household Event | Open — Governance Required | **#175** | #94, #95, #96, #168, #172, #146 | DL-36, DL-38, DL-41, DL-50, DL-52; **OD-16 resolved and not reopened** |
+| **OD-87** | Identity Artifact Invalidation as a Governed Household Event | Open — Governance Required | **#175** | #94 (**resolved as DL-56**), #95, #96, #168, #172, #146 | DL-36, DL-38, DL-41, DL-50, DL-52; **OD-16 resolved and not reopened** |
+| **OD-89** | Exceptional Retrospective Correlation and Legal/Incident Access | Open — Research Required | **#183** | — | DL-35, DL-43, DL-56; raised by OD-06's closure, creates no consent bypass |
 
 ---
 
@@ -181,6 +181,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-43** | Closed — **DL-53**. A Delivery Surface declares capability dimensions and Potential Perceptibility and never declares itself private. A supplied **Recipient-Attribution Assurance Levels** scale was found to duplicate **DL-40** and was resolved by reuse rather than a second scale. Residuals separated as **OD-52**, **OD-55**, **OD-57**, **OD-71**, and **OD-73** |
 | **OD-55** | Closed — **DL-54**. Presentation Outcome is exactly Presented / Failed / Unknown / Attestation Unavailable, evaluated by modality and evidence, never device class. Per-surface Home Assistant evidence recorded in the ADR. Residual runtime multi-provider/multi-endpoint questions separated as **OD-88** |
 | **OD-88** | Closed — **DL-55**. Governance-harvest result: execution-provider selection, endpoint identity, device-interaction/workflow boundary, and capability evolution all reduced to existing owners (Room Configuration, Asset model, DL-53, DL-41); only a narrow room-level outcome projection over DL-54 was new |
+| **OD-06** | Closed — **DL-56**. Consent is required for person association, never environmental observation alone; Person Setup is the capture/review experience; self/proxy consent, withdrawal/deletion, and the DL-43/DL-47 reconciliation are accepted. Residual proxy-authority qualification separated to **OD-76**; exceptional legal/incident correlation separated to **OD-89** |
 
 ---
 
