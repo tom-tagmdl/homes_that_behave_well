@@ -145,6 +145,26 @@ Assist, grant authority to use it, make every one of its capabilities resident-v
 every Entity belonging to a Device. **A Device-level term is never assumed to apply to all of that
 Device's Entities**; the participating target or capability is identified explicitly.
 
+#### Explicit participation already selects the execution provider (DL-55)
+
+Where one physical endpoint is represented by more than one technical provider (for example a Sonos
+speaker visible through the native Sonos integration, Music Assistant, and the Home Assistant device
+registry simultaneously), **participation's existing rule that the target is identified explicitly
+already resolves which provider executes** — the household's (or configuration flow's) explicit
+native reference names one concrete entity, not an abstract capability class, so there is no runtime
+choice left to make. **No separate provider-precedence mechanism is required for execution.** A
+provider whose entity was not selected may still contribute identity, capability, or connectivity
+**evidence** through Truth, but it never becomes a competing execution or attestation authority for
+that participating target (**DL-41**, **DL-54**). Endpoint identity across multiple provider records
+for one physical thing is the existing **Asset** model's concern where the household has declared an
+Asset (`docs/models/asset.md`: one Asset may be represented by several Devices); where no Asset is
+declared, the participating target's own native reference is a sufficient identity anchor for this
+Room's purposes, and no name/room/IP/vendor matching is required or permitted. Residual runtime
+questions this does not answer — room-level outcome aggregation across several participating
+endpoints, and configuration evolution as capabilities change — are addressed in
+[../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md) and this
+model's existing failure-behavior table, respectively. See **OD-88**, resolved as **DL-55**.
+
 For each participating target the configuration may present the native reference, the native display
 name, applicable native Assist aliases, native Assist exposure status, the HTBW contextual term,
 whether that term is seeded or household-defined, target scope, participation status, explicit

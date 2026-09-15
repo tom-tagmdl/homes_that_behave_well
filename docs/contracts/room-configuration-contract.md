@@ -29,7 +29,8 @@ For each Room, an explicit and persisted definition of:
 - Which capabilities are **exposed** to residents
 - Which vocabulary terms are available, and what they resolve to
 - Which sensors are **eligible contributors** to Room-scoped Composite Facts
-- Which experience endpoints exist (music, video, announcement, conversation)
+- Which experience endpoints exist (music, video, announcement, conversation) — **this category set
+  is extensible household vocabulary, never a closed enumeration** (**DL-55**)
 - Which voice assistants are assigned to the Room
 - Room-scoped authority scoping inputs
 - The exposed-term list used by Room Help

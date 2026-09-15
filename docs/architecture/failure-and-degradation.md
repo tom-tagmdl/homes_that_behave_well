@@ -203,6 +203,7 @@ timing are implementation matters and are not settled by this document.
 | A vocabulary term maps ambiguously | Room Configuration | Ask which target was meant. Offer only exposed options. |
 | A target device is unavailable | Truth / execution | Report partial or failed execution honestly. Do not claim success. |
 | A configured speaker group is partially unavailable | Continuity / Concierge | Apply the configured partial-availability policy: proceed with available members, ask, or refuse. Record which members were unavailable. |
+| A Room-defined presentation outcome spans multiple participating endpoints with mixed results | Concierge | Record the **room-level Presentation Outcome** as `Presented` where at least one participating endpoint achieved `Presented` (**DL-54**), carrying a **Degraded** quality label when any participating endpoint did not. Endpoint-level outcomes remain individually visible. **Never average, score, or replace them with a single room-health value** (**DL-55**). |
 | Home Assistant restarts during an active session | Continuity | Do not fabricate a session. Re-establish only what can be verified. Offer resume where eligible. |
 | A room transition is missed | Truth / Continuity | Do not retroactively invent a transfer. Treat the newly observed Room as current and explain the gap. |
 | A third-party calendar or email service is disconnected | Truth / experience source | Report the source as unavailable. Do not present stale data as current. Do not degrade privacy to compensate. |

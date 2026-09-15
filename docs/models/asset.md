@@ -186,6 +186,12 @@ relationships, and Assist without HTBW building a parallel hierarchy.
 | The Asset has no native backing — artwork, an instrument, furniture, a collection | The integration **may create a native Device** for it through the supported registration pattern, so the Asset is natively visible |
 | The Asset spans several Devices | The Asset remains the single household-meaningful object. It does not become several Assets |
 
+**This is the accepted endpoint-identity anchor where more than one technical provider represents one
+physical presentation endpoint** (for example a speaker visible through more than one integration) —
+see **DL-55** and [room-configuration.md](room-configuration.md). No new identity construct is created
+for that case; where the household has not declared the endpoint as an Asset at all, the Room
+Configuration participation reference itself is a sufficient anchor.
+
 Once a native Device exists, Home Assistant is authoritative for the registry entry and its native
 fields. HTBW retains the device identifier and only the Asset knowledge Home Assistant does not hold:
 identity, documentation references, provenance, appraisal and warranty references, environmental and

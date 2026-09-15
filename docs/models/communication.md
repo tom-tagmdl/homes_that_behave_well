@@ -474,6 +474,12 @@ Presentation means an artifact or information payload associated with a Delivery
 rendered, displayed, shown, spoken, played, or otherwise made available through the selected surface,
 using the modality and capability actually invoked. **Presentation is a technical claim only.**
 
+> A Room-defined outcome spanning several participating endpoints (for example a merged-room
+> "Speaker" resolving to two physical speakers) carries its own **room-level** Presentation Outcome,
+> a narrow projection over these endpoint-level outcomes rather than a replacement for them — see
+> [../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md) and
+> **DL-55**.
+
 **Preserve these distinctions, none inferring another:**
 
 Delivery is not automatically Presentation. Presentation is not Perception. Perception is not
