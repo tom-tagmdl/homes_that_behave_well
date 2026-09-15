@@ -106,8 +106,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 | **OD-72** | Unknown Actor Correlation Confidence | Open — Research Required | **#92** | #81, #87 | DL-35; **DL-38 and DL-39 may not be borrowed** |
 | **OD-73** | Interaction-Surface Room Context Resolution | Open — Research Required | **#134** | #146, #93 | DL-09, DL-11, DL-15, DL-30; dependency-view rule 6 |
 | **OD-74** | Truth Fact Confidence Representation | Open — Governance Required | **#93** | — | DL-04; **DL-39 bands may not be borrowed** |
-| **OD-76** | Person Stewardship and Delegated Care Authority | **Remediation Required** | **#106** | #94 | Episode 6 validation (#75) |
-| **OD-77** | Person-to-External-Resource Association Ownership | Open — Governance Required | **#148** | #94, #78, #133, #132, #76 | Episode 7 validation (#151) |
+| **OD-77** | Person-to-External-Resource Association Ownership | Open — Governance Required | **#148** | #94, #78, #133, #132, #76 | Episode 7 validation (#151); evidence comment posted from **OD-76/DL-57**'s Delegated Access Grant primitive |
 | **OD-78** | Remembered-Value Classes and Restoration Semantics | Open — Blocked | **#149** | #146, #127, #130, #125, #76 | Episode 7 validation (#151) |
 | **OD-79** | Presentation Preference Scope and Precedence | Open — Governance Required | **#152** | #97, #113, #117, #132, #96, #104 | Episode 7 validation (#151) |
 | **OD-81** | HTBW Capability Exposure and Self-Consumption | Open — Governance Required | **#159** | #146, #109, #142, #143, #103, #133, #128, #129, #77, #80 | DL-11, DL-16, DL-30, DL-31, DL-34, DL-39, DL-42, DL-46, DL-47; harvests #155, #156, #157, #158 |
@@ -135,7 +134,7 @@ is not an open decision.
 | Season 1 public-contract alignment — website, blog, store, and workbook | Governance Review | Open — **Remediation Required**; register in `public-claim-register.md`. Public framework states **six** responsibilities against **DL-01**'s seven; **DL-51** contradicted by a published store item | **#180** |
 | Episode 11 and the ungoverned public framework capabilities | Governance Review | Open — *Technical Debt*, *Home Operating System*, and *Technology Stewardship* are published framework concepts with **zero** repository representation; Episodes 1–3, 9, and 11 have **no artefact** | **#181** |
 | External publication remediation package | Governance Remediation | Open — exact replacement copy produced in `external-publication-remediation-package.md`; **nothing applied**, no external system was reachable | **#180**, **#181**, **#176** |
-| Episode 6 Stewardship narrative validation | Governance Review | Open — pending OD-75 and OD-76 | **#75** |
+| Episode 6 Stewardship narrative validation | Governance Review | Open — both prerequisites now resolved (**OD-75** as DL-48/DL-49; **OD-76** as DL-57); narrative validation itself not yet performed | **#75** |
 | Episode 7 Continuity narrative validation | Governance Review | Open — pending OD-77 and OD-78 | **#151** |
 | Episode 8 Concierge narrative validation | Governance Review | Open — pending acceptance; **no new open decision produced** | **#170** |
 | Season 1 architectural baseline | Governance Review | Snapshot recorded 2026-08-25 — `season-1-architectural-baseline.md`. **Not authority** | **#147** |
@@ -182,6 +181,7 @@ identifiers in an older document can see immediately that it is settled.
 | **OD-55** | Closed — **DL-54**. Presentation Outcome is exactly Presented / Failed / Unknown / Attestation Unavailable, evaluated by modality and evidence, never device class. Per-surface Home Assistant evidence recorded in the ADR. Residual runtime multi-provider/multi-endpoint questions separated as **OD-88** |
 | **OD-88** | Closed — **DL-55**. Governance-harvest result: execution-provider selection, endpoint identity, device-interaction/workflow boundary, and capability evolution all reduced to existing owners (Room Configuration, Asset model, DL-53, DL-41); only a narrow room-level outcome projection over DL-54 was new |
 | **OD-06** | Closed — **DL-56**. Consent is required for person association, never environmental observation alone; Person Setup is the capture/review experience; self/proxy consent, withdrawal/deletion, and the DL-43/DL-47 reconciliation are accepted. Residual proxy-authority qualification separated to **OD-76**; exceptional legal/incident correlation separated to **OD-89** |
+| **OD-76** | Closed — **DL-57**. Delegated Stewardship authority is an explicit, scoped **Delegated Access Grant**, never inferred from a relationship, Role, or administrator status; self/proxy/capacity model accepted; identity evidence never transfers with a grant; non-resident authorized participants may hold a minimal Person record; revocation is immediate and prospective; OD-22 escalation applies only to a configured accountability change, not ordinary incomplete-obligation notification. Scope boundary against **OD-77** honoured, not absorbed |
 
 ---
 

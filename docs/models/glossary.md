@@ -707,7 +707,16 @@ A named position a person holds in the Home or in a Room, used by Operational Tr
 authority. Examples: resident, owner, child, guest, caretaker, service provider.
 
 **Caretaker**
-A person accountable for a specific Stewardship obligation or asset.
+A person accountable for a specific Stewardship obligation or asset. **Accountability is not access**:
+what a Caretaker or any other person may view, receive, declare, update, or close requires an explicit
+**Delegated Access Grant** (**DL-57**), never inferred from the relationship or a Role alone.
+
+**Delegated Access Grant**
+A Foundation-typed, Stewardship-operated record of explicit, scoped authority one Person holds over
+another Person's, Asset's, or Pet's Stewardship content — subject, grantee, the specific operations
+granted (view / receive / declare / update / schedule / complete / manage), scope, grant basis
+(self or proxy), and effective/revocation time. Never conveys identity evidence, never implies access
+beyond its stated scope, and is revocable at any time by the subject or an authorized proxy (**DL-57**).
 
 **Owner**
 The person or household entity with primary accountability for an asset.

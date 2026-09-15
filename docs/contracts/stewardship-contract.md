@@ -63,7 +63,9 @@ reminder, advisory, maintenance task, corrective action, or escalation is a late
 - Significance judgements with provenance
 - Accountability — who is responsible
 - **Caretaker assignment**, recorded through the Foundation caretaker-of relationship type. Foundation
-  defines the relationship; Stewardship owns the assignment.
+  defines the relationship; Stewardship owns the assignment. **The relationship records
+  accountability; it is never itself access authority** — access to a Person, Asset, or Pet's
+  Stewardship content requires an explicit **Delegated Access Grant** (**DL-57**)
 - Caretaker-calendar projections
 - Maintenance and service history
 
@@ -186,8 +188,9 @@ obligation whose governing fact is unknown is `unknown`, never `met`.
 | A required fact is unknown | Obligation state is `unknown`, not `met` |
 | A schedule source is unavailable | Report the source as unavailable; never silently mark obligations met |
 | A caretaker is unassigned | Report an accountability gap; escalate to household authority per policy |
+| A Delegated Access Grant is revoked and no other grant covers the obligation | Report the resulting access/assignment gap exactly as an unassigned caretaker; the household may reassign (**DL-57**) |
 | Conflicting obligations | Surface the conflict; never silently prefer one |
-| An obligation is repeatedly unmet | Escalation intent increases per policy; the pattern itself becomes reportable |
+| An obligation is repeatedly unmet with accountability unchanged | Continuing notification, **not automatic escalation** — escalation requires a configured change of accountable party (**OD-22**, **DL-57**) |
 
 ---
 
@@ -215,7 +218,7 @@ and who is accountable.
 | OD-22 | Escalation ladder semantics and defaults |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted completion evidence; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
-| OD-76 | Person Stewardship authority — care declared for one Person by another, and the consent, delegation, disclosure, and withdrawal model it requires |
+| OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — one person may hold Stewardship access delegated by another, self/proxy/capacity model, the Delegated Access Grant construct, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
 
 ## Related documents
 

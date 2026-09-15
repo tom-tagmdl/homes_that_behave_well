@@ -287,6 +287,137 @@ and is never called escalation. **There is one escalation architecture.**
 
 ---
 
+## Delegated Stewardship Authority (DL-57)
+
+Resolves **OD-76**. Full acceptance record is **DL-57** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+### One person may hold Stewardship authority delegated by another
+
+**A care, asset, or pet obligation may be declared, viewed, received, or closed by a person other than
+its subject or default accountable party, but only through an explicit, scoped grant — never through
+role inference, relationship alone, or administrator status.** This applies uniformly across
+Stewardship's existing scope: a Person's care (Eleanor/David), an Asset's conservation (a sculpture
+conservator), a Pet's care (a dogsitter), or a household resource (a housekeeper's music ability,
+governed by Continuity/Operational Trust rather than Stewardship but following the same grant shape).
+
+> **A relationship or Role is not permission.** `caretaker-of` (Foundation) records **accountability**
+> for an obligation or an Asset; it has never granted access over a **Person**, and it still does not.
+> A Role such as *caretaker* or *service provider* (see `glossary.md`) names a **position**, consulted
+> by Operational Trust; it is never itself the authority that permits an action. **Runtime always
+> checks the configured grant, never the descriptive relationship or Role.**
+
+### The Delegated Access Grant
+
+One reusable, explicit construct — not a new responsibility — represents delegated Stewardship
+authority:
+
+| Field | Meaning |
+|---|---|
+| Subject | The Person, Asset, Pet, or obligation the grant concerns |
+| Grantee | The Person receiving the authority |
+| Operations | The explicit, separately-enumerable actions granted — at minimum: **view**, **receive** (notifications), **declare** (create an obligation), **update**, **schedule**, **complete/close**, **manage** (broader configuration). Reuses **DL-48**'s existing Care Evidence Record kinds (`observed`/`attested`/`performed`/`waived`) for how a grantee's completion is evidenced; invents no new evidence kind |
+| Scope | The specific obligation, Asset, Asset group, Pet, or resource the operations apply to — never "everything belonging to this subject" by default |
+| Grant basis | Self-declared by the subject, or established by an authorized proxy under the capacity model below |
+| Effective and revocation time | When granted, and when (if) it ended |
+| Disclosure constraints | Applicable audience/content-sensitivity rules the grant does not override (**DL-34**, **OD-52**, **OD-71**) |
+
+**Operations are never collapsed.** A grantee permitted to *view* an obligation is not thereby
+permitted to *close* it; permitted to *receive* a reminder is not thereby permitted to *edit* the
+obligation; permitted to *complete* a maintenance obligation is not thereby permitted to change its
+recurring schedule. This restates **DL-36**'s prohibition on collapsing distinct operations for the
+Stewardship-authority case.
+
+**Access to one grant never implies access to another.** A grant scoped to David's medication
+obligations does not extend to David's mailbox, other obligations, or identity evidence. A grant
+scoped to a named set of sculptures does not extend to paintings, antiques, or other collections.
+
+**Ownership**: Foundation defines the Delegated Access Grant construct and, where the subject is an
+Asset or Pet, continues to own `caretaker-of`/`owner-of` unchanged; **Stewardship owns the grant's
+record, its lifecycle, and its application to obligations** (the same pattern **DL-49** already
+established for Custody Periods — a time-bounded accountability record Foundation types and
+Stewardship operates); **Operational Trust** decides whether a request under a grant may proceed and
+governs disclosure; **Concierge** performs delivery and composes the Decision Trace. **No Care,
+Caregiver, Guardianship, Delegation, or Authorized Abilities responsibility is created.**
+
+### Non-resident authorized participants
+
+A housekeeper, dogsitter, sculpture conservator, or collections administrator may hold a **minimal
+Person record** (never a second Person directory — the same native-extension Person model
+[person-and-identity.md](person-and-identity.md) already defines) carrying **only the Delegated Access
+Grants explicitly configured for them**. Their own identity evidence (if any is configured — a phone,
+a BLE tag) remains attached only to them, never to the resident who arranged their access. No
+occupational description (*housekeeper*, *dogsitter*, *conservator*, *collections administrator*)
+grants anything by itself; each grant is explicit, scoped, and independently revocable. A conservator
+authorized for named sculptures gains no access to paintings, antiques, or unrelated collections
+without a separate grant; a dogsitter gains only the explicitly configured pet-care resources, never
+resident medical information, personal mailboxes, or unrelated Asset records; a housekeeper granted a
+music ability gains no calendar, mailbox, or administrative access.
+
+### Capacity
+
+- **A competent adult ordinarily holds self-authority** over their own Stewardship-authored grants.
+- **A competent adult may explicitly delegate** a scoped grant to another person (Eleanor to David).
+- **A minor, or a person unable to reasonably act independently, may be represented by an authenticated
+  administrator acting as proxy** — see `person-and-identity.md`'s Consent (DL-56) section for the
+  general self/proxy framework this extends.
+- **Administrator status is never itself caregiver, care, or stewardship authority**, and never
+  automatically grants disclosure of every person's or resource's Stewardship content. A proxy grant
+  is recorded exactly as any other grant — subject, grantee (recorded as acting-as-proxy), scope, and
+  basis — and is visible and auditable like any other.
+- **Formal legal qualification (guardianship, power of attorney, conservatorship, or equivalent) is
+  explicitly outside HTBW's scope.** HTBW records that a proxy grant was established and by whom; it
+  makes no claim of legal authority, capacity determination, or legal sufficiency, consistent with the
+  existing legal and regulatory non-claim. Where a household's use of proxy authority requires legal
+  qualification, that determination is the household's and any applicable legal authority's, never
+  HTBW's to verify or assert.
+
+### Identity evidence never transfers with a grant
+
+**A Delegated Access Grant conveys access and action authority; it never conveys identity.** Eleanor's
+phone, watch, BLE device, and voiceprint remain identity evidence **only for Eleanor**, regardless of
+any grant David holds. A caretaker's own device is never treated as evidence for the cared-for person,
+and the cared-for person's evidence is never treated as evidence for the caretaker. Where the subject
+cannot provide usable evidence for a class (a non-speaking adult and Voice Identity), that class is
+**unavailable**, named under **DL-41** — never manufactured, never substituted from another person's
+evidence, and never treated as a reason Stewardship is unavailable for that Person. **Voice Identity is
+not required for Stewardship participation.**
+
+### Incomplete obligations are notification, not automatic escalation
+
+An obligation that remains unmet after being scheduled, attempted, or assigned to a grantee **stays
+open and reportable** under Stewardship's existing condition/lifecycle model — this is **ordinary
+continuing stewardship**, not escalation. **Escalation specifically means changing who is
+accountable** (above); a household person being told that a scheduled obligation remains incomplete,
+with accountability unchanged, is not escalation and requires no new construct. **OD-22 applies only
+where the household has configured an actual change of accountable party**; where no such
+configuration exists, the existing obligation-state, reminder, and notification architecture is
+sufficient on its own.
+
+### Revocation
+
+A subject with self-authority may revoke a grant at any time; an authorized proxy may revoke where the
+capacity model above permits. Revocation is **immediate and prospective**: future access, future
+notifications, and future actions requiring the grant end at once; the runtime never infers a
+replacement authority. **Existing obligations do not disappear.** They remain Stewardship-owned
+governed records; the revoked person can no longer view, manage, receive, or close them absent another
+grant; Stewardship reports the resulting accountability or assignment gap exactly as it already reports
+an unassigned caretaker (see *Failure behavior*, below); the household may reassign. **Historical
+actions remain attributed to the actor and grant valid at the time** — revocation never rewrites that
+history, and a Care Evidence Record produced under a since-revoked grant is unaffected.
+
+### Explainability
+
+A Decision Trace produced under this section states, in addition to its existing required fields:
+whether the acting person was the **subject**, an **authorized proxy**, or a **grantee**; the specific
+grant or authority applied, including its scope and operations; whether the current identity assertion
+met the applicable requirement; the audience present and what was disclosed or withheld; and, where
+relevant, that a grant was later revoked and what happened to the obligations it covered. The trace
+makes *"Eleanor agreed to this"* provably distinct from *"David configured this for Eleanor as proxy"*
+and from *"a grant existed but did not cover this operation."*
+
+---
+
 ## Significance
 
 Significance is what makes Stewardship more than a task list. It expresses **why something matters**
@@ -713,7 +844,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 | OD-22 | Escalation ladder semantics and defaults |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted evidence that care occurred; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
-| OD-76 | **Person Stewardship authority** — whether a care obligation may be declared for one Person by another, and how consent, delegated care authority, disclosure, and withdrawal are represented |
+| OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — the Delegated Access Grant, self/proxy/capacity model, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is **OD-01** |
 

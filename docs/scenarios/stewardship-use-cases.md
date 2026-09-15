@@ -412,8 +412,8 @@ speak for herself.
 | Preferred notification paths | **Continuity** owns the preference; **Operational Trust** decides when it may be applied | HTBW | Continuity | Required | **A** |
 | Escalation contacts | **Stewardship** ladder; **Operational Trust** authority | HTBW | Stewardship | Required | **A** — **OD-22** |
 | Disclosure and retention rules for care information | **Operational Trust** policy; retention per **DL-47** | HTBW | Operational Trust | Required | **A** |
-| **Delegated care authority** — David acting for Eleanor | **No accepted model exists** | — | — | — | **REMEDIATION REQUIRED — OD-76** |
-| Caregiver relationship as a relationship *type* | **No accepted relationship type exists.** `caretaker-of` is defined for obligations and assets, not for authority over another Person | — | — | — | **REMEDIATION REQUIRED — OD-76** |
+| **Delegated care authority** — David acting for Eleanor | **Resolved as DL-57.** An explicit **Delegated Access Grant** (subject, grantee, operations, scope) | HTBW | Stewardship (grant), Operational Trust (proceed/disclosure) | Required | **A** |
+| Caregiver relationship as a relationship *type* | **Resolved as DL-57.** No new relationship type is created; `caretaker-of` continues to record accountability for an obligation or Asset only. Access over a Person's Stewardship content is the **Delegated Access Grant**, never the relationship itself | HTBW | Foundation (grant type), Stewardship (grant record) | Required | **A** |
 
 ## Ownership map
 
@@ -488,7 +488,7 @@ crossed — never what it might mean clinically.
 | 3.3 | A medication reminder with guests present | Private delivery or content-free indication | Announce health content to a shared surface because the action was permitted (**P32**) |
 | 3.4 | A wearable observation | Evaluated only against an explicitly agreed rule | Produce a diagnosis, a clinical interpretation, or a wellness score |
 | 3.5 | An escalation to David | Performed by Concierge under Operational Trust authority, with a Decision Trace | Stewardship escalating directly |
-| 3.6 | David wants to manage Eleanor's care | **The request is refused as unsupported until OD-76 is decided** | Invent delegated care authority to make the use case work |
+| 3.6 | David wants to manage Eleanor's care | **Supported through an explicit Delegated Access Grant** (**DL-57**) that Eleanor establishes, or an authorized proxy establishes under the capacity model, scoped to specific obligations and operations | Infer delegated authority from the `caretaker-of` relationship, a Role, or administrator status alone |
 | 3.7 | Any care record | Retained under **DL-47** with consent-lifecycle floors | Retain health content beyond the consented lifecycle |
 | 3.8 | Any emergency-shaped condition | Reported honestly within the accepted limits | Represent HTBW as a life-safety system |
 

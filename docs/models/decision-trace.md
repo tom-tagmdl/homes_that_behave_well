@@ -66,6 +66,16 @@ A trace is produced for **actions, non-actions, and suppressions alike**.
 
 Concierge composes the trace. **Concierge does not author fields it does not own.**
 
+### Delegated Stewardship authority (DL-57)
+
+Where an obligation-related decision involved self-authority, an authorized proxy, or a Delegated
+Access Grant, field 9 (obligations, Stewardship-owned) and fields 3–4 (identity determination,
+Identity-owned) together carry: whether the acting person was the subject, an authorized proxy, or a
+grantee; the specific grant applied, its scope, and its operations; and, where a grant was later
+revoked, that fact and its effect on the obligations it covered. **No new numbered field is
+introduced** — this is carried within the existing obligation and identity-determination fields, kept
+distinguishable so *"the subject agreed"* is never confused with *"a proxy configured this."*
+
 ### Room Context and how it was resolved
 
 Field 5 is **not satisfied by naming a Room**. Foundation already guarantees to supply *"Room Context

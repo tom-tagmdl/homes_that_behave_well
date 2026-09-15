@@ -236,14 +236,19 @@ never silently assumed; that the acting person must be authenticated or otherwis
 recorded; that an audit trail is required; the consent scope granted; the consent lifecycle
 consequences; and that a proxy action never masquerades as self-consent.
 
-**OD-76 owns, and is not duplicated here**: who qualifies as an authorized proxy (administrator
-eligibility is **not** automatic — a native Home Assistant administrator flag is binary and is never
-treated as a household care-authority role); parent, guardian, caregiver, or steward authority; a
-person's limited capacity; scope and limits of proxy authority; delegation; revocation of proxy
-authority; conflicts between the person and a proxy or between competing proxies; and whether any
-consent type may never be proxy-granted. **Until OD-76 accepts an answer, a proxy-consent action
-records the proxy fact and the actor, and Operational Trust treats the authority basis as
-unestablished** — it is never assumed permissive.
+**OD-76 owned, now resolved as DL-57** (`stewardship.md`, *Delegated Stewardship Authority*): who
+qualifies as an authorized proxy — a competent adult retains self-authority and may explicitly
+delegate; a minor or a person unable to act independently may be represented by an authenticated
+administrator acting as proxy; **a native Home Assistant administrator flag is never itself care,
+guardianship, or proxy authority**; formal legal qualification (guardianship, power of attorney, or
+equivalent) is explicitly outside HTBW's scope — HTBW records that a proxy grant was established and
+by whom, and asserts no legal sufficiency. **Proxy-established identity participation never
+manufactures evidence that does not exist**: an administrator may facilitate voice enrollment for a
+subject, but if the subject cannot provide usable samples, no voiceprint is created and Voice Identity
+remains unavailable for that person (**DL-41**) — other consented evidence remains usable, and Voice
+Identity is never required for participation. A device (phone, watch, BLE tag) an administrator
+associates with a proxy subject remains identity evidence **only for that subject**, never for the
+administrator.
 
 ### Person Setup: the primary consent experience
 
