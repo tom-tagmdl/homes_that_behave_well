@@ -197,7 +197,7 @@ is accountable.
 | Step | Responsibility | Statement |
 |---|---|---|
 | 1 | **Foundation asset model** | The watercolour requires 40–55% relative humidity — a declared property of the thing |
-| 2 | **Truth** | The Den is at 68% relative humidity, Truth Confidence Band: High, 2 of 2 contributors |
+| 2 | **Truth** | The Den is at 68% relative humidity, Truth Confidence Band: High |
 | 3 | **Stewardship** | The preservation obligation is `unmet`; significance is high — irreplaceable, household-declared |
 | 4 | **Operational Trust** | Running the dehumidifier is permitted autonomously; the caretaker Communication is permitted on a personal surface |
 | 5 | **Concierge** | Start dehumidification, convey to the caretaker, and explain |
@@ -972,7 +972,7 @@ condition and its use.
 
 | # | Question | Owner | Statement |
 |---|---|---|---|
-| 1 | Authoritative Truth inputs | **Truth** | Music Room humidity and temperature, with confidence, provenance, freshness, and contributor coverage |
+| 1 | Authoritative Truth inputs | **Truth** | Music Room humidity and temperature, with confidence, provenance, and freshness |
 | 2 | Identity requirements | **Identity** | None for the assessment |
 | 3 | Consent or authority | Household | Significance is declared, never derived from the instrument's appraised value |
 | 4 | Operational Trust evaluation | **Operational Trust** | Whether humidification may run autonomously; whether the caretaker Communication is permitted |
@@ -1008,7 +1008,7 @@ canonical worked example.
 | Step | Responsibility | Statement |
 |---|---|---|
 | 1 | **Foundation asset model** | The declared `located-in` relationship changes to the Den |
-| 2 | **Room Configuration** | The Den's environmental contributor set becomes the relevant one |
+| 2 | **Room Configuration** | The Den's configured Primary Authority for humidity becomes the relevant source |
 | 3 | **Truth** | Den humidity Facts now govern |
 | 4 | **Stewardship** | Re-evaluates the preservation obligation against Den Facts. **Music Room Facts no longer satisfy it** |
 | 5 | **Stewardship** | The caretaker assignment is re-examined where it was room-derived |

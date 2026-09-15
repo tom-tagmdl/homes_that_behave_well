@@ -237,14 +237,31 @@ confidence, and validity.
 Model: [truth.md](truth.md)
 
 **Composite Fact**
-A single Fact that Truth derives from more than one eligible contributing sensor — for example one
-Living Space temperature derived from three sensors. A Composite Fact carries **coverage** in addition
-to the normal fact elements. Room Configuration declares which sensors are eligible contributors;
-Truth performs the aggregation.
+A Fact that Truth derives by combining **more than one different Environmental Purpose's** current
+Fact through a named, versioned formula — for example Dew Point, derived from Temperature and
+Humidity. Also called a **Formula-Derived Fact**. It is never a same-purpose combination of equivalent
+sensors: for an ordinary directly measured Environmental Purpose, Truth reads one selected **Primary
+Authority**'s current state as an **Authority-Derived Fact** instead (**DL-62**, resolving OD-17).
 
 > **Composite Fact is not related to the superseded term "Composite Room".** A Composite Fact is about
-> combining *evidence*. A Merged Room is about combining *Physical Rooms*. A Composite Fact may be
-> scoped to a Room or to a Merged Room.
+> combining *different-purpose evidence*. A Merged Room is about combining *Physical Rooms*. A
+> Composite Fact may be scoped to a Room or to a Merged Room.
+
+**Authority-Derived Fact**
+The ordinary product of Room Configuration's Primary Authority selection: a Truth Fact read from one
+selected source's current state, carrying Truth Confidence, provenance, freshness, and validity, but
+**no contributor coverage** — it states that the household selected this source to represent the Room
+purpose, never that every possible sensor agrees (**DL-62**).
+Model: [truth.md](truth.md)
+
+**Formula-Derived Fact**
+A Composite Fact that combines more than one **different** Environmental Purpose's current Fact
+through a named, versioned deterministic formula. Preserves its input Fact references, input validity
+and confidence, derivation identity and version, formula or provider provenance, produced value, unit,
+Truth Confidence, validity, and a named failure reason where not produced. A missing or invalid
+mandatory input publishes it as `unknown` — never a partial calculation, never a retained last value
+(**DL-62**).
+Model: [truth.md](truth.md)
 
 **Environmental Purpose**
 One of Room Configuration's extensible, household-oriented environmental meanings a source may be
@@ -254,10 +271,10 @@ household has every sensor (**DL-60**).
 Model: [room-configuration.md](room-configuration.md)
 
 **Primary Authority**
-For an Environmental Purpose in a Room, the at-most-one selected source a direct Room-level question
-resolves to, absent an accepted composite policy. Distinct from **Secondary/Corroborating**
-participation and **Composite Contributor** participation, and never runtime-arbitrated among
-equivalent sources (**DL-60**).
+For an Environmental Purpose in a Room, the single **required** source a direct Room-level question
+resolves to — at most one per purpose, deterministic, and identical for a Physical Room and a Merged
+Room. Distinct from **Secondary/Corroborating** participation, and never runtime-arbitrated among
+equivalent sources (**DL-60**, **DL-62**).
 Model: [room-configuration.md](room-configuration.md)
 
 **Person Environmental Requirement**
@@ -402,7 +419,8 @@ and policies available when a decision is evaluated.
 | Rejected term | Canonical mapping |
 |---|---|
 | **Current Engager** | **Not an HTBW architectural term, and it must not be introduced.** Who is engaging is answered by the applicable **Assertion Purpose**, produced by **Identity**: **Speaker Attribution** (who most likely spoke), **Room Presence** (who is likely physically present in this Room), **Household Presence** (who is likely home), **Interaction Initiator** (who initiated this digital action), **Authenticated Session Identity** (which authenticated account initiated the request), or **Endpoint Context** (through which managed endpoint this arrived). **Use the existing purpose-specific assertions.** A single fused "engager" result would recreate the general-purpose identity score prohibited by **DL-32** and **DL-38**, break the **F1** purpose ceilings, break **DL-36**'s four independent consumers, and break **DL-34**'s separation of Requestor, Speaker, Present Person, Potential Listener, Authorized Recipient, and Delivery Target. **That one Person may be High for Household Presence, High for Room Presence, Moderate as the current speaker, confirmed as an authenticated account, and `unknown` as the physical holder of the device is the point — the architecture preserves those differences rather than averaging them away.** The Truth-side counterpart is the **Engagement Fact**, which states that an interaction is occurring and **never who is engaging** |
-| **Room Health**, **Room Confidence**, **People Health** | **Not HTBW architectural terms; no synthetic authoritative state exists under any of these names** (`stewardship.md`, *"Room health" is not an HTBW term*; **OD-69**). A household-facing environmental summary must decompose into individual Truth Facts (each with its own Truth Confidence Band — **DL-58** — validity, provenance, and coverage — **DL-60**) and separately owned Stewardship obligation states; it may summarize, but may never create a new determination or present one aggregate verdict as authoritative. **A conflict was found, not resolved**: current Concierge implementation evidence offers "People Health" and "Room Confidence" as selectable household-facing output labels, inconsistent with this prohibition — tracked as implementation-remediation evidence on **OD-69** |
+| **Room Health**, **Room Confidence**, **People Health** | **Not HTBW architectural terms; no synthetic authoritative state exists under any of these names** (`stewardship.md`, *"Room health" is not an HTBW term*; **OD-69**). A household-facing environmental summary must decompose into individual Truth Facts (each with its own Truth Confidence Band — **DL-58** — validity, and provenance) and separately owned Stewardship obligation states; it may summarize, but may never create a new determination or present one aggregate verdict as authoritative. **A conflict was found, not resolved**: current Concierge implementation evidence offers "People Health" and "Room Confidence" as selectable household-facing output labels, inconsistent with this prohibition — tracked as implementation-remediation evidence on **OD-69** |
+| **Composite Contributor** (same-purpose sensor aggregation) | **Not an ordinary-path HTBW mechanism.** Room Configuration's earlier four-state disambiguation model (**DL-60**) included a same-purpose aggregation role; **no accepted household use case ever required combining multiple equivalent measurements of one Environmental Purpose into a single Room Fact**, and the role was removed from the ordinary path, narrowing Room Configuration to **Primary Authority** (required), **Secondary/Corroborating**, and **Explicit Exclusion** (**DL-62**, resolving OD-17). Use **Primary Authority** for the ordinary Room-level question, and a **Formula-Derived Fact** for a genuinely different-purpose derivation (for example Dew Point) |
 
 > A **rejected** term differs from a **superseded** one. A superseded term named something real that has
 > since been renamed. **A rejected term names a construct the architecture does not have, and adopting it

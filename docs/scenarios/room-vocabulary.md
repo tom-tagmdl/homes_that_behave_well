@@ -158,35 +158,38 @@ and the voice surface all present **the same exposed set** — one configuration
 
 ---
 
-## Scenario 6 — A Composite Fact for room environment
+## Scenario 6 — An Authority-Derived Fact for room environment
 
 ### What the household experiences
 
-Tom asks, "How warm is it in here?" The home says 72 degrees. It does not read out three sensors.
+Tom asks, "How warm is it in here?" The home says 72 degrees. It does not read out three sensors, and
+it does not average them.
 
 ### What each responsibility does
 
 | Step | Responsibility | Action |
 |---|---|---|
-| 1 | Room Configuration | Declares which sensors are **eligible contributors** to Living Space temperature |
-| 2 | Truth | Calculates the composite fact, with confidence, provenance, freshness, and coverage |
+| 1 | Room Configuration | Declares the **Primary Authority** for Living Space Temperature — one selected sensor (**DL-62**) |
+| 2 | Truth | Reads that source's current state as an Authority-Derived Fact, with confidence, provenance, and freshness |
 | 3 | Concierge | Reports the authoritative fact |
 
 ```
 Truth: Living Space temperature = 72 degrees
        truth_confidence_band: High
-       coverage:   2 of 2 eligible contributors reporting
-       provenance: Sensor A (71.6), Sensor C (72.4)
+       provenance: Sensor C
 ```
 
 **Room Configuration does not calculate Truth. Truth does not own the sensor inventory. Concierge does
-not choose sensors at runtime.**
+not choose sensors at runtime. No accepted household use case requires averaging the Living Space's
+other capable sensors into this answer (DL-62).**
 
-### If a sensor fails
+### If the Primary Authority fails
 
-> "It's about 72 degrees, though one of the sensors in the Living Space isn't reporting right now."
+> "I can't tell how warm it is in here right now — the configured sensor for the Living Space isn't
+> reporting."
 
-Coverage drops, confidence drops, and the resident hears about it. Uncertainty survives the pipeline.
+Truth publishes `unknown`; it never silently switches to another capable sensor, and it never retains
+the last reading as current.
 
 ---
 
@@ -335,7 +338,7 @@ instead.
 | Foundation | Asset identity, Room and Merged Room object definitions |
 | Room Configuration | Merged Room composition, participation, exclusion, exposure, eligible contributors, Room Help |
 | Contextual Vocabulary | Term → target resolution in every scenario |
-| Truth | Composite temperature, availability, current state |
+| Truth | Authority-Derived temperature, availability, current state |
 | Stewardship | Piano service history and obligations |
 | Operational Trust | Room Help filtering, permission to act |
 | Concierge | Interpretation, execution, explanation |

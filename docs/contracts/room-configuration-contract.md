@@ -31,8 +31,9 @@ For each Room, an explicit and persisted definition of:
 - Which sensors are **eligible contributors** to Room-scoped Composite Facts
 - Which Environmental Purpose (temperature, humidity, dew point, illuminance, UV, VOC, particulates,
   CO2, mold index, leak, pressure, vibration, noise, and other extensible purposes) each environmental
-  source represents, and its disambiguation state — **Primary Authority**, **Secondary/Corroborating**,
-  **Composite Contributor**, or **Explicit Exclusion** (**DL-60**)
+  source represents, and its disambiguation state — **Primary Authority** (required for the ordinary
+  path), **Secondary/Corroborating**, or **Explicit Exclusion** (**DL-60**, narrowed to three states by
+  **DL-62**)
 - Which experience endpoints exist (music, video, announcement, conversation) — **this category set
   is extensible household vocabulary, never a closed enumeration** (**DL-55**)
 - Which voice assistants are assigned to the Room
@@ -169,12 +170,14 @@ Two voice assistants assigned to the same Room resolve **identically**.
 
 | Step | Owner |
 |---|---|
-| Declare which sensors are eligible contributors | **Room Configuration** |
-| Calculate the Composite Fact | **Truth** |
+| Declare each Environmental Purpose's **Primary Authority** (**DL-62**) | **Room Configuration** |
+| Calculate the Authority-Derived Fact, or a Formula-Derived Fact where the purpose is derived | **Truth** |
 | Choose sensors at runtime | **Nobody — this is prohibited** |
 
 Concierge must not select sensors at runtime. Truth must not invent the inventory. Room Configuration
-must not calculate the fact.
+must not calculate the fact. **Same-purpose sensor aggregation is not the ordinary path** — see
+[../models/room-configuration.md](../models/room-configuration.md), *Primary Authority is required for
+the ordinary path (DL-62)*.
 
 ---
 
@@ -213,8 +216,8 @@ Trust authority, never by obscurity.
 ## Explainability contributions
 
 Room Configuration supplies: the resolved Room Context and how it was resolved; the vocabulary
-resolution and its mapping source; whether a target was excluded deliberately; the eligible-contributor
-set behind any composite fact used.
+resolution and its mapping source; whether a target was excluded deliberately; the configured Primary
+Authority (or Formula-Derived Fact inputs) behind any Truth Fact used.
 
 A resident asking why something did not respond must be able to hear "the Beam is deliberately not
 part of *Speakers* in this room."
@@ -252,7 +255,8 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-73 | **Interaction-Surface Room Context Resolution** — Room Context for a surface not bound to a Room, and the `room_context.resolved_from` enumeration |
-| OD-61 | **Closed — DL-60.** Room Environment Standard, native Area environmental slot proposal behaviour (mirroring OD-14), Primary Authority/Secondary/Composite/Excluded disambiguation, Merged Room environmental candidates, and derived purposes accepted. Composite derivation remains **OD-17**; conflict resolution remains **OD-19** |
+| OD-61 | **Closed — DL-60.** Room Environment Standard, native Area environmental slot proposal behaviour (mirroring OD-14), Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes accepted |
+| OD-17 | **Closed — DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance is accepted. Conflict resolution remains **OD-19** |
 
 ## Related documents
 

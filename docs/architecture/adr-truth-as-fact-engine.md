@@ -48,12 +48,14 @@ authority, hide uncertainty, or automatically convert weak evidence into a defin
 
 | Step | Owner |
 |---|---|
-| Declare which sensors are eligible contributors | **Room Configuration** (Foundation) |
-| Calculate the composite fact | **Truth** |
+| Select the **Primary Authority** for each Environmental Purpose (**DL-62**) | **Room Configuration** (Foundation) |
+| Calculate the Authority-Derived Fact, or a Formula-Derived Fact where the purpose is derived | **Truth** |
 | Select sensors at runtime | **Prohibited** |
 
 Room Configuration does not calculate Truth. Truth does not own the sensor inventory. Concierge does
-not choose sensors at runtime.
+not choose sensors at runtime. **Same-purpose sensor aggregation is not the ordinary path** — no
+accepted household use case requires combining multiple equivalent measurements of one Environmental
+Purpose into a single Room Fact (**DL-62**, resolving OD-17).
 
 ### Conflicting evidence
 
@@ -89,7 +91,7 @@ prevented Truth from existing.
 ### Costs accepted
 
 - More states to represent, and more explanation surface
-- Composite aggregation left deliberately open (**OD-17**) rather than fixed prematurely
+- Composite aggregation resolved as **DL-62**: Primary Authority is the required ordinary path; Formula-Derived Fact governance is accepted; same-purpose aggregation is removed
 
 ---
 
@@ -105,7 +107,7 @@ prevented Truth from existing.
 
 ## Open decisions
 
-**OD-17** aggregation algorithm and coverage thresholds; **DL-59** (resolved OD-18) validity defaults per fact class;
+**OD-17** resolved as **DL-62** — Primary Authority is required and deterministic for every directly measured Environmental Purpose; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance is accepted. **DL-59** (resolved OD-18) validity defaults per fact class;
 **OD-19** governed conflict-resolution rules.
 
 ---

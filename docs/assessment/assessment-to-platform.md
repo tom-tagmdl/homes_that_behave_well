@@ -72,7 +72,7 @@ Risk or significance:   High — irreplaceable, degraded by sustained low humidi
 Recommendation:         Add a humidity sensor; record 40-60% RH as a preservation limit
 Proposed policy:        Autonomous humidifier control permitted; caretaker notified when out of range
 Implementation status:  Configured
-Operational validation: Truth publishes Music Room RH with 1 of 1 contributor;
+Operational validation: Truth publishes Music Room RH as an Authority-Derived Fact (**DL-62**);
                         Stewardship reports the preservation obligation as met
 Ongoing maturity:       Reviewed quarterly; obligation state history shows no sustained breach
 ```
@@ -82,7 +82,7 @@ Traced through the framework:
 | Step | Responsibility |
 |---|---|
 | The piano exists, is in the Music Room, and requires 40–60% RH | Foundation |
-| The humidity sensor participates and is an eligible contributor | Room Configuration |
+| The humidity sensor is the configured Primary Authority for humidity (**DL-62**) | Room Configuration |
 | The Music Room is at 31% RH | Truth |
 | The preservation obligation is unmet | Stewardship |
 | Humidifier control is permitted autonomously | Operational Trust |

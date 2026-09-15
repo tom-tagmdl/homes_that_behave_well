@@ -349,16 +349,16 @@ Concierge.
 | Step | Owner |
 |---|---|
 | Retain all sensors and their authoritative records | Asset model (Foundation) |
-| Identify which sensors are **eligible** to participate in configured Composite Facts | Room Configuration |
-| Establish the Composite Fact from governed evidence | **Truth** |
-| Consume the Composite Fact | Concierge and residents |
+| Select the **Primary Authority** for each Environmental Purpose (**DL-62**) | Room Configuration |
+| Establish the Authority-Derived Fact, or a Formula-Derived Fact where the purpose is derived | **Truth** |
+| Consume the Fact | Concierge and residents |
 
 Example:
 
 ```
 Asset model knows:        Temperature Sensor A, B, C
-Room Configuration says:  A and C are eligible contributors for Living Space temperature
-Truth establishes:        Living Space temperature is 72 degrees (confidence, coverage, provenance)
+Room Configuration says:  Sensor C is the Living Space Temperature Primary Authority
+Truth establishes:        Living Space temperature is 72 degrees (Truth Confidence Band, provenance)
 Resident hears:           "It's 72 degrees in the Living Space."
 ```
 
@@ -396,25 +396,57 @@ separate environmental mapping exists per consumer.
 More than one eligible source may exist for one Environmental Purpose in a Room — for example an
 air-quality sensor's temperature reading, a presence sensor's temperature reading, and a thermostat's
 temperature reading, all in the same Room. **Existence does not make all of them participants, and
-participation does not make all of them equally authoritative.** Room Configuration represents four
-distinct, non-collapsible states per purpose:
+participation does not make all of them equally authoritative.** Room Configuration represents three
+distinct, non-collapsible states per purpose (**DL-62** narrows this from the four states originally
+accepted under **DL-60**; see *Primary Authority is required for the ordinary path*, below):
 
 | State | Meaning | At most one per purpose? |
 |---|---|---|
-| **Primary Authority** | The source a direct Room-level question resolves to, absent an accepted composite policy | Yes |
-| **Secondary / Corroborating** | Contributes supporting or contradicting context; never itself the direct answer | No |
-| **Composite Contributor** | Participates in an **OD-17** Composite Fact | No |
+| **Primary Authority** | The source every direct Room-level question resolves to — **required** for every directly measured Environmental Purpose the Room has configured | Yes |
+| **Secondary / Corroborating** | Contributes supporting or contradicting context; never itself the direct answer; may inform **OD-19** diagnostics | No |
 | **Explicit Exclusion** | Deliberately kept out, exactly as the existing three-state participation model already requires | No |
 
 **Runtime never arbitrates among equivalent same-purpose sources** — never by query order, entity
 order, alphabetical order, integration load order, most recent value, vendor preference, or "whichever
-responds first." Only the household's Room Configuration selection determines which source is primary,
-secondary, or composite for a given purpose.
+responds first." Only the household's Room Configuration selection determines which source is primary
+or secondary for a given purpose.
 
 *"What is the current temperature in the Den?"* resolves to the Truth Fact produced from the Den's
-configured **Primary Authority** for Temperature — or, where the household has instead configured only
-a composite policy for that purpose with no distinct primary, to the Room-level Composite Fact. Either
-way, the answer comes from the same configuration a resident set up once.
+configured **Primary Authority** for Temperature. **Where no Primary Authority is configured for a
+directly measured purpose, the purpose is unconfigured or unavailable** — never invented, and never
+silently satisfied by an implicit combination of whatever sources happen to exist.
+
+#### Primary Authority is required for the ordinary path (DL-62)
+
+Resolves **OD-17**. Full acceptance record is **DL-62** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+**No accepted household use case requires averaging, median-combining, weighting, or otherwise
+aggregating multiple equivalent same-purpose sensors into one ordinary Room Environment Fact.** A
+Room's having several capable sensors, a Merged Room spanning several constituent Rooms, a dashboard
+displaying more than one source, or a historical implementation having averaged readings are none of
+them evidence of such a requirement. Accordingly:
+
+- **Composite Contributor is removed from the ordinary Room Environment path.** The state Room
+  Configuration previously represented under this name (**DL-60**) had no accepted consumer, no tested
+  household outcome, and no reason Primary Authority could not satisfy it; **DL-30**'s burden of proof
+  was never discharged for inventing a bespoke aggregation algorithm.
+- **If a genuinely narrow future need for same-purpose aggregation is ever accepted**, Home Assistant's
+  native **Min/Max helper** already computes `mean`, `median`, `min`, `max`, `range`, or `sum` across
+  configured entities and discharges **DL-30** directly — no new HTBW aggregation engine is invented in
+  advance of that need.
+- **An Authority-Derived Fact** — the ordinary product of this path — carries no contributor coverage.
+  It does not claim that every possible Room sensor agrees; it states that the household selected this
+  one source to represent the Room purpose. The source remains authoritative for its own native state;
+  Room Configuration remains authoritative for the Room purpose; Truth remains authoritative for the
+  published Fact.
+- **A source-specific question is distinct from a Room-purpose question.** *"What temperature does the
+  Den presence sensor report?"* may read that sensor's own current native value where authorized; it
+  never redefines the Den's Temperature Fact, and a difference between the two does not trigger runtime
+  arbitration — **OD-19** owns any conflict-detection use this evidence.
+
+This applies **identically to a Physical Room and a Merged Room** (**DL-13**); see *Merged Room
+environmental candidates*, below.
 
 #### Native Area environmental slots seed a proposal, never automatic participation
 
@@ -440,21 +472,30 @@ told Home Assistant which sensor represents a Room's temperature is never asked 
 
 For a Merged Room, eligible environmental sources are surfaced from **every constituent Room**, with
 the source Room visible for each candidate — never hidden, never presented as though it belonged to
-the Merged Room itself. **No constituent entity is copied.** Room Configuration selects which
-constituent-Room sources participate in the Merged Room's own Primary Authority, Secondary, Composite
-Contributor, and Excluded states, per Environmental Purpose. **OD-17** computes the resulting Composite
-Fact from the selected contributors; **OD-19** governs disagreement among them. Direct questions about
-a constituent Room continue to use that Room's own definition, unaffected by the Merged Room's.
+the Merged Room itself. **No constituent entity is copied.** Room Configuration selects, per
+Environmental Purpose, **one constituent-Room source as the Merged Room's own Primary Authority** —
+identically to a Physical Room (**DL-13**, **DL-62**) — plus any Secondary/Corroborating sources and
+Explicit Exclusions. Truth reads the current state of that one selected Primary Authority; **no
+constituent Room composite is averaged, and no same-purpose aggregation occurs merely because the
+Merged Room spans several constituent Rooms.** **OD-19** governs disagreement among constituent-Room
+sources. Direct questions about a constituent Room continue to use that Room's own definition,
+unaffected by the Merged Room's.
 
 #### Derived Environmental Purposes
 
 A purpose may be **derived** from other established Facts rather than directly measured — for example
 dew point, derived from a Room's configured Temperature and Humidity purposes. Room Configuration
-declares that a purpose is derived and from which inputs; **Truth computes the derived Fact as an
-application of its existing Composite Fact concept** — combining more than one input through a
-documented deterministic formula, rather than a same-dimension aggregation choice. The specific formula
-is implementation mapping and is not decided here. **A missing required input Fact makes the derived
-Fact `unknown`, never invented.**
+declares that a purpose is derived and from which inputs; **Truth computes the derived Fact as a
+Formula-Derived Fact (DL-62)** — combining more than one **different** Environmental Purpose's Fact
+through a named, versioned deterministic formula, never a same-purpose aggregation choice. A
+Formula-Derived Fact preserves its input Fact references, input validity and confidence, derivation
+identity and version, formula or provider provenance, produced value, unit, Truth Confidence, validity,
+and a named failure reason where not produced. **A missing or invalid mandatory input Fact makes the
+derived Fact `unknown`, never invented, never a partial calculation, and never a retained last value**
+— the missing input is named. **The formula class and versioning discipline are canonical; the specific
+formula remains implementation mapping, verified per DL-30.** Dew point's formula class and versioning
+are accepted on this basis; **mold index and condensation risk remain unresolved** — no HTBW-endorsed
+formula exists for either, and HTBW invents no clinical, medical, or safety-threshold formula.
 
 #### Room Health, Room Confidence, and People Health remain uninvented
 
@@ -583,7 +624,8 @@ configuration today must never silently rewrite the explanation of a decision ma
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-70 | Whether a Merged Room warrants a native Home Assistant projection |
 | OD-73 | **Interaction-Surface Room Context Resolution** — how Room Context is resolved for a phone, wearable, Companion App, browser session, or other surface not bound to a Room, without Foundation consuming Truth and without introducing a cycle |
-| OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation, Merged Room environmental candidates, and derived purposes are accepted. **OD-17** and **OD-19** remain the aggregation and conflict owners |
+| OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes are accepted |
+| OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved. **OD-19** remains the conflict owner |
 
 ## Related documents
 

@@ -80,8 +80,8 @@ Nothing depends on Concierge.
 
 1. **Concierge must not resolve competing Truths by inventing a fact.** If facts conflict, Truth
    preserves or resolves the conflict. Concierge decides what to do *given* the uncertainty.
-2. **Concierge must not select sensors at runtime.** Eligible contributors are declared by Room
-   Configuration.
+2. **Concierge must not select sensors at runtime.** The Primary Authority (or Formula-Derived Fact
+   inputs) is declared by Room Configuration (**DL-62**).
 3. **Concierge must not runtime-search devices to satisfy a vocabulary term.** Resolution is explicit
    and configured.
 4. **Concierge must not grant itself authority.** If Operational Trust returns `prohibited` or

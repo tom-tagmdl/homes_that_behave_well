@@ -60,8 +60,8 @@ The Music Room humidity drops to 31%. The humidifier turns on, and the caretaker
 | Step | Responsibility | Statement |
 |---|---|---|
 | 1 | **Foundation asset model** | The piano requires 40–60% relative humidity — a declared property of the thing |
-| 2 | **Room Configuration** | The Music Room humidity sensor is an eligible contributor |
-| 3 | **Truth** | The Music Room is at 31% relative humidity, Truth Confidence Band: High, 1 of 1 contributor |
+| 2 | **Room Configuration** | The Music Room humidity sensor is the configured **Primary Authority** for humidity (**DL-62**) |
+| 3 | **Truth** | The Music Room is at 31% relative humidity, Truth Confidence Band: High |
 | 4 | **Stewardship** | The piano's preservation obligation is unmet; significance is high — irreplaceable |
 | 5 | **Operational Trust** | Humidifier control is permitted autonomously; caretaker notification requires no confirmation |
 | 6 | **Concierge** | Raise humidity, notify the caretaker, and explain |

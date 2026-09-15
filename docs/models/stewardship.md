@@ -464,7 +464,7 @@ A Room's condition decomposes into two owned things and nothing else:
 
 | Statement | Owner |
 |---|---|
-| The Music Room is at 31% relative humidity, Truth Confidence Band: High, 1 of 1 contributor | **Truth** |
+| The Music Room is at 31% relative humidity, Truth Confidence Band: High | **Truth** |
 | The piano's preservation obligation is unmet | **Stewardship** |
 
 **HTBW defines no "room health" state model and no "asset health" state model**, and neither may be

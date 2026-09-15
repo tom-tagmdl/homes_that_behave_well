@@ -46,6 +46,24 @@ refresh support must be individually verified before Truth relies on it; push-on
 advertisement-based integrations (BLE proximity, PIR motion, doorbell events) are not assumed to support
 one. See `truth.md`, *Fact Validity and Current-State Evaluation (DL-59)*.
 
+### Same-purpose environmental aggregation (DL-62)
+
+Verified against official Home Assistant integration documentation, evaluated for **OD-17**:
+
+| Helper | What it computes | Combines multiple entities? | Preserves per-source provenance? | Satisfies the Truth Fact contract? |
+|---|---|---|---|---|
+| **Statistics** | A statistical characteristic (`mean`, `median`, `change`, `count`, and others) of **one source sensor's own history** over a sampling window | **No** — one entity only | Not applicable — single source | An executor/provider for a single-source time-window derivation, never a same-purpose multi-sensor combination |
+| **Filter** | A signal-processing algorithm (`lowpass`, `outlier`, `range`, moving average) smoothing **one source sensor's own** noisy readings | **No** — one entity only | Not applicable — single source | An executor/provider for single-source noise reduction, never same-purpose aggregation |
+| **Min/Max** | `min`, `max`, `last`, `mean`, `median`, `range`, or `sum` **across at least two configured entities of the same unit** | **Yes** | No — reports only the computed value, not which entity produced it | **Discharges DL-30 directly if a genuinely narrow same-purpose aggregation use case is ever accepted** — HTBW invents no bespoke aggregation engine in advance of one |
+
+**Finding**: no native helper combines multiple equivalent sensors *and* preserves the per-source
+provenance, coverage, and Truth Confidence a Composite Fact would require — but **DL-62** establishes
+that the ordinary Room Environment path never needs one, since Room Configuration selects a single
+**Primary Authority** per purpose. Min/Max remains available, unused today, as the burden-of-proof
+discharge for any narrow future same-purpose aggregation need, without inventing an HTBW aggregation
+algorithm speculatively. See `room-configuration.md`, *Primary Authority is required for the ordinary
+path (DL-62)*.
+
 ---
 
 ## What Home Assistant may provide

@@ -27,7 +27,7 @@ Every published fact carries:
 | Provenance | Contributing evidence and its sources |
 | Freshness | When the underlying evidence was observed |
 | Validity | When the fact expires or must be re-established |
-| Coverage | For composite facts, how many eligible contributors reported |
+| Coverage | For a **Formula-Derived Fact** (**DL-62**), which required inputs are currently available and valid; an **Authority-Derived Fact** carries no coverage |
 
 **A statement whose confidence, provenance, or freshness cannot be given is not published as a fact.**
 
@@ -55,7 +55,7 @@ Truth Fact confidence.**
 | Representation | One uniform ordinal band — **Low < Moderate < High < Very High** — applied identically across every Fact Subject and Fact class. Per-class derivation may differ; the vocabulary does not |
 | Structural separation | A **Truth Confidence Band** and a **DL-39 Identity Confidence Band** are separately owned, separately typed (`truth_confidence_band` vs `identity_confidence_band`), and never converted, averaged, or compared as though they measured the same thing |
 | Non-Person Subjects | A Pet, Asset, or Device Fact is **structurally unable to carry an Identity Confidence Band** |
-| Independence | Confidence is independent of freshness (**DL-59**), provenance, and contributor coverage (**OD-17**) — four separate mandatory Fact dimensions |
+| Independence | Confidence is independent of freshness (**DL-59**), provenance, and contributor coverage (**DL-62**) — four separate mandatory Fact dimensions |
 | Comparability | Ordinal and semantic across Fact classes; **never arithmetic** — bands are never added, averaged, multiplied, or subtracted |
 | Optional numeric | May accompany the band as a non-authoritative deterministic ordering value only; never resident-facing probability, likelihood, calibration, or accuracy; none is mandated |
 | Historical Facts | Every Historical Fact retains its Truth Confidence Band and the policy version that produced it; a later policy change never rewrites a prior Fact |
@@ -203,23 +203,28 @@ architecture.**
 
 ---
 
-## Composite facts
+## Composite facts (DL-62)
 
 | Step | Owner |
 |---|---|
-| Declare eligible contributors | **Room Configuration** |
-| Calculate the composite fact | **Truth** |
+| Declare each Environmental Purpose's Primary Authority | **Room Configuration** |
+| Calculate the Authority-Derived Fact, or a Formula-Derived Fact where the purpose is derived | **Truth** |
 | Select sensors at runtime | **Prohibited** |
 
 ```
-Room Configuration:  eligible contributors for Living Space temperature = Sensor A, Sensor C
-Truth:               Living Space temperature = 72 degrees
+Room Configuration:  Living Space Temperature Primary Authority = Sensor C
+Truth:               Living Space temperature = 72.4 degrees
                      truth_confidence_band: High
-                     coverage:   2 of 2 eligible contributors reporting
-                     provenance: Sensor A (71.6), Sensor C (72.4)
+                     provenance: Sensor C
 ```
 
-The aggregation algorithm is not decided by this contract — open decision **OD-17**.
+**Primary Authority is the required, deterministic ordinary path for every directly measured
+Environmental Purpose — never an average, median, or weighted combination of equivalent sensors —
+identically for a Physical Room and a Merged Room. Same-purpose sensor aggregation ("Composite
+Contributor") is removed from that ordinary path** (resolved **OD-17** as **DL-62**). A
+**Formula-Derived Fact** combines **different** Environmental Purposes' Facts through a named,
+versioned formula (for example Dew Point) and is not same-purpose aggregation; a missing mandatory
+input publishes it as `unknown`, never a partial result.
 
 ---
 
@@ -253,8 +258,8 @@ recording that a conflict existed.
 
 | Condition | Behavior |
 |---|---|
-| A contributor is unavailable | Recompute from the remainder; reduce confidence; record reduced coverage |
-| All contributors unavailable | Publish `unknown`; never retain the last value as current |
+| A Formula-Derived Fact's mandatory input is unavailable | Publish `unknown`; never retain the last value as current; name the missing input |
+| A Primary Authority is unavailable | The Authority-Derived Fact becomes `unknown` or unavailable (**DL-59**); never silently switched to another candidate sensor |
 | A point-in-time observation's validity window elapses | Operationally expire the Fact (**DL-59**); withdraw it from what is true now; retain it as a Historical Fact |
 | A current-state source becomes unavailable or unknown | The current-state Fact ceases immediately; never treated as the last known value continuing |
 | Sources disagree | Preserve the disagreement |
@@ -292,9 +297,9 @@ an explanation, not a gap.
 
 | ID | Question |
 |---|---|
-| OD-17 | Composite-fact aggregation algorithm and coverage thresholds |
+| OD-17 | **Closed — DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
 | OD-18 | **Closed — DL-59.** Truth distinguishes Current-State Sources from Point-in-Time Observation Sources; current-state Facts read the most current authoritative Home Assistant state at evaluation time; operational expiration is a DL-25 lifecycle transition; on-demand refresh is bounded by per-integration DL-30 verification |
-| OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases** |
+| OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases**; receives only the current, valid Primary Authority (or Formula-Derived Fact inputs) Room Configuration designates, and never reintroduces runtime arbitration among equivalent same-purpose sources (**DL-62**) |
 | OD-73 | **Interaction-Surface Room Context Resolution.** Room Context for a phone, wearable, Companion App, browser session, or other non-room-bound surface |
 | OD-74 | **Closed — DL-58.** Truth Fact Confidence is a uniform ordinal band (Low < Moderate < High < Very High), structurally separate from DL-39 Identity Confidence, independent of freshness/provenance/coverage. Consumed without redefinition by OD-17, OD-18, and OD-19 |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Historical Facts follow External History Retention with their own Retention Classification |
