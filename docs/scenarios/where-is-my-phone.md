@@ -49,7 +49,7 @@ Truth establishes  : Tom's phone is in the Den
                      Confidence  : Truth Fact confidence — OD-74
                      Provenance  : native device_tracker state, and Room-grounded proximity where present
                      Freshness   : as observed
-                     Validity    : per OD-18
+                     Validity    : per DL-59
 ```
 
 > **Identity performs no fusion about the phone.** A Device is not a Person, and there is no *which

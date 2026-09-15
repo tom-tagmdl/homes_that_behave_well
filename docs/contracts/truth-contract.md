@@ -55,10 +55,24 @@ Truth Fact confidence.**
 | Representation | One uniform ordinal band — **Low < Moderate < High < Very High** — applied identically across every Fact Subject and Fact class. Per-class derivation may differ; the vocabulary does not |
 | Structural separation | A **Truth Confidence Band** and a **DL-39 Identity Confidence Band** are separately owned, separately typed (`truth_confidence_band` vs `identity_confidence_band`), and never converted, averaged, or compared as though they measured the same thing |
 | Non-Person Subjects | A Pet, Asset, or Device Fact is **structurally unable to carry an Identity Confidence Band** |
-| Independence | Confidence is independent of freshness (**OD-18**), provenance, and contributor coverage (**OD-17**) — four separate mandatory Fact dimensions |
+| Independence | Confidence is independent of freshness (**DL-59**), provenance, and contributor coverage (**OD-17**) — four separate mandatory Fact dimensions |
 | Comparability | Ordinal and semantic across Fact classes; **never arithmetic** — bands are never added, averaged, multiplied, or subtracted |
 | Optional numeric | May accompany the band as a non-authoritative deterministic ordering value only; never resident-facing probability, likelihood, calibration, or accuracy; none is mandated |
 | Historical Facts | Every Historical Fact retains its Truth Confidence Band and the policy version that produced it; a later policy change never rewrites a prior Fact |
+
+### Fact Validity and Current-State guarantee (DL-59)
+
+| Guarantee | Statement |
+|---|---|
+| Two source shapes | **Current-State Source** (its integration intends the state to represent Home Assistant's current state) and **Point-in-Time Observation Source** (its value names a prior event), classified by documented integration semantics, never by domain or device class alone |
+| The dashboard principle | For a current-state determination, Truth evaluates the most current authoritative Home Assistant state available at evaluation time, and never prefers an older cached HTBW interpretation over healthier newer native state. No HTBW-imposed generic delay is applied to a healthy current-state source |
+| Current-state validity | Remains current while the source is available and its documented semantics support a current claim; ceases immediately — never through elapsed HTBW time — on unavailability, `unknown`, or unsupported documented semantics |
+| Point-in-time validity | Carries an operational validity window; on elapse the Fact **operationally expires**. `expired`, `unavailable`, and `never observed` remain three distinct, always-named outcomes |
+| On-demand refresh | Bounded by per-integration **DL-30** verification of a documented refresh mechanism (for example `homeassistant.update_entity`); a refresh request never manufactures a physical observation and never proves one occurred; push-only and event-driven sources may not support one at all |
+| Confidence/validity separation | Truth Confidence (**DL-58**) and Fact Validity are separate dimensions; confidence is never decayed by elapsed time alone |
+| Expiration mechanism | Operational expiration is one of **DL-25**'s eight Truth lifecycle transitions, materialized through the existing Domain Event / Change Record mechanism; no second event model exists; there is exactly one authoritative validity result |
+| Presence honesty | Expired or unavailable presence never decays into absence or solitude (**DL-34**) |
+| Configuration boundary | Freshness/validity windows are household configuration values, not architecture, mirroring **DL-47**; never converting last-known into current, never bypassing consent, never silently learned (**P26**, **DL-21**) |
 
 ---
 
@@ -241,7 +255,8 @@ recording that a conflict existed.
 |---|---|
 | A contributor is unavailable | Recompute from the remainder; reduce confidence; record reduced coverage |
 | All contributors unavailable | Publish `unknown`; never retain the last value as current |
-| Evidence stale | Mark stale, reduce confidence, or withdraw |
+| A point-in-time observation's validity window elapses | Operationally expire the Fact (**DL-59**); withdraw it from what is true now; retain it as a Historical Fact |
+| A current-state source becomes unavailable or unknown | The current-state Fact ceases immediately; never treated as the last known value continuing |
 | Sources disagree | Preserve the disagreement |
 | A room transition is missed | Do not invent a retroactive transition; treat the newly observed Room as current and record the gap |
 | Truth itself is unavailable | Consumers fail closed; they do not substitute their own derivation |
@@ -278,7 +293,7 @@ an explanation, not a gap.
 | ID | Question |
 |---|---|
 | OD-17 | Composite-fact aggregation algorithm and coverage thresholds |
-| OD-18 | Fact validity and expiration defaults per fact class — **operational** validity only, not Historical Fact retention |
+| OD-18 | **Closed — DL-59.** Truth distinguishes Current-State Sources from Point-in-Time Observation Sources; current-state Facts read the most current authoritative Home Assistant state at evaluation time; operational expiration is a DL-25 lifecycle transition; on-demand refresh is bounded by per-integration DL-30 verification |
 | OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases** |
 | OD-73 | **Interaction-Surface Room Context Resolution.** Room Context for a phone, wearable, Companion App, browser session, or other non-room-bound surface |
 | OD-74 | **Closed — DL-58.** Truth Fact Confidence is a uniform ordinal band (Low < Moderate < High < Very High), structurally separate from DL-39 Identity Confidence, independent of freshness/provenance/coverage. Consumed without redefinition by OD-17, OD-18, and OD-19 |

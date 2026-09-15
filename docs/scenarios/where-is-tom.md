@@ -72,7 +72,7 @@ Truth establishes  : Tom is present in the Den
                      Confidence  : Truth Fact confidence — OD-74
                      Provenance  : the Identity Assertion, by exact version, plus the Den occupancy Fact
                      Freshness   : as observed
-                     Validity    : per OD-18
+                     Validity    : per DL-59
 ```
 
 > **Truth does not re-run the fusion.** It consumes the assertion, and only the assertion. **Truth

@@ -30,6 +30,22 @@ An HTBW extension is justified **only** when Home Assistant cannot practically r
 information. The justification belongs in an ADR or in
 [../governance/decision-ledger.md](../governance/decision-ledger.md).
 
+### Current-state acquisition and refresh (DL-59)
+
+Verified against official Home Assistant developer documentation:
+
+| Claim | Finding | Proves | Does not prove |
+|---|---|---|---|
+| Entity update model | An entity either **polls** (`should_poll` true; Home Assistant asks for a value on an interval) or **pushes** (`should_poll` false; the integration calls `schedule_update_ha_state()` when its own event occurs) | Two distinct, integration-declared update mechanisms exist | That any given entity supports a forced new physical reading |
+| `available` property | `bool`, default `True`, "indicate if Home Assistant is able to read the state or control the underlying device" | `available`/`unavailable` is an authoritative platform signal | That an *available* entity's value is freshly measured |
+| `homeassistant.update_entity` action | "Forces one or more entities to refresh their data right away" | A native, documented refresh request mechanism exists | That the request produces a new physical observation, or that every integration honours it identically |
+| `last_changed` / `last_updated` | Standard state-object timestamps (last value change; last time the state was written, even unchanged) | HA already timestamps state transitions | A universal "current vs. historical" field — no such generic distinction exists platform-wide |
+
+**Burden of proof discharged**: no universal forced-refresh capability is claimed. Per-integration
+refresh support must be individually verified before Truth relies on it; push-only, event-driven, and
+advertisement-based integrations (BLE proximity, PIR motion, doorbell events) are not assumed to support
+one. See `truth.md`, *Fact Validity and Current-State Evaluation (DL-59)*.
+
 ---
 
 ## What Home Assistant may provide
@@ -104,7 +120,7 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Person | `person` entity | HTBW Person carries roles, identity evidence associations, preferences, and authority that the entity does not. |
 | Pet | None | No native primitive exists. |
 | Service (provider) | None | No native primitive exists. |
-| Fact | State | A state is evidence. A Fact is governed, provenance-bearing, and confidence-bearing. **No native Fact-confidence construct exists**; the Truth Confidence Band representation is an HTBW judgement about the state, never a replacement for it (**DL-58**). |
+| Fact | State | A state is evidence. A Fact is governed, provenance-bearing, and confidence-bearing. **No native Fact-confidence construct exists**; the Truth Confidence Band representation is an HTBW judgement about the state, never a replacement for it (**DL-58**). **No native current-vs-historical validity construct exists either**; Fact Validity is a separate HTBW judgement layered over native state, availability, and timestamps (**DL-59**). |
 | Obligation | Calendar event or `todo` item (partially) | An obligation has accountability, lifecycle, and escalation semantics beyond a calendar entry. |
 | Session | None | Media player state is evidence about a session, not the session. |
 | Policy | None | Automations encode behavior; they do not express governed authority. |

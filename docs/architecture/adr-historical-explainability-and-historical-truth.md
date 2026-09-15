@@ -263,7 +263,7 @@ None is closed by this ADR.
 | **OD-35** | Historical query surface and access |
 | **OD-36** | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | **OD-05** *(amended)* | Decision Trace retention **floor and ceiling** |
-| **OD-18** *(clarified)* | Governs **operational** Fact validity, not Historical Fact retention |
+| **OD-18** *(resolved as DL-59)* | Governs **operational** Fact validity, not Historical Fact retention |
 | **OD-26** | Whether experience history is retained per person, per room, or both, and for how long |
 
 ---

@@ -105,7 +105,7 @@ prevented Truth from existing.
 
 ## Open decisions
 
-**OD-17** aggregation algorithm and coverage thresholds; **OD-18** validity defaults per fact class;
+**OD-17** aggregation algorithm and coverage thresholds; **DL-59** (resolved OD-18) validity defaults per fact class;
 **OD-19** governed conflict-resolution rules.
 
 ---

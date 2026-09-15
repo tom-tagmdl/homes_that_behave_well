@@ -170,6 +170,127 @@ produced it.** A later policy or band-map change never rewrites a prior Fact; a 
 
 ---
 
+## Fact Validity and Current-State Evaluation (DL-59)
+
+Resolves **OD-18**. Full acceptance record is **DL-59** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+### Two Fact source shapes
+
+Every Fact traces to one of two source shapes, **classified by documented integration semantics, never
+by domain or device class alone**:
+
+| Shape | Definition | Examples |
+|---|---|---|
+| **Current-State Source** | An entity whose state is intended by its integration to represent the current state Home Assistant exposes | Room presence/occupancy sensor, door state, valve state, an environmental sensor value, device availability, a current BLE nearest-proxy or room-assignment state |
+| **Point-in-Time Observation Source** | An entity or attribute whose value names a prior event or observation | Last motion detected, last doorbell ring, last camera detection, last-seen timestamp, a schedule-derived value |
+
+A **current-state source may still require a validity policy** where it becomes unavailable, becomes
+unknown, stops updating abnormally, is documented as retained-rather-than-current, or whose update
+mechanism cannot support a current claim. **A point-in-time observation never becomes a current-state
+claim merely because its timestamp exists.**
+
+| Statement | Kind |
+|---|---|
+| *"The Room is occupied."* | Current state |
+| *"Motion was last detected at 2:14 PM."* | Historical observation |
+| *"The tag was last observed in the Den at 2:14 PM."* | Last known |
+| *"I cannot determine whether the Room is occupied now."* | Unknown current state |
+
+### The dashboard principle
+
+**For a current-state determination, Truth evaluates the most current authoritative Home Assistant
+state available at evaluation time** — as though the household were looking at the current Home
+Assistant dashboard — **and never prefers an older cached HTBW interpretation over healthier newer
+native state.** No HTBW-imposed generic delay is applied to a healthy current-state source.
+
+This does not mean every entity state is guaranteed physically current, and it does not mean every
+device can be forcibly polled. It means: Home Assistant remains authoritative for the native state it
+exposes; Truth evaluates that current exposed state, together with availability, documented integration
+semantics, and applicable validity policy; and **HTBW does not create a second copy of native state
+merely to claim freshness.**
+
+A current-state Fact remains current **while its source is available and its documented semantics
+support a current claim**, and ceases immediately — **never through elapsed HTBW time** — when the
+source becomes unavailable, becomes unknown, or its documented semantics no longer support the claim.
+
+### On-demand refresh is bounded, not universal
+
+Home Assistant exposes `homeassistant.update_entity` — *"forces one or more entities to refresh their
+data right away."* Per Home Assistant's own developer documentation, an entity either **polls** (Home
+Assistant asks it for a value on an interval) or **pushes** (the integration calls
+`schedule_update_ha_state()` when its own event occurs); `should_poll` determines which. A refresh
+request therefore **asks the integration to refresh — it never manufactures a physical observation, and
+request acceptance never proves a new device reading occurred.**
+
+Before a current Fact is declared expired or unknown, Truth may request the freshest available
+authoritative state **only where the selected integration's documented update mechanism has been
+verified under DL-30's burden of proof** — the requirement is per-integration, never a universal
+capability. Push-only, event-driven, and advertisement-based sources (BLE proximity, PIR motion) may
+not support a meaningful forced refresh at all, and Truth must not block indefinitely waiting for one.
+
+### Operational validity and expiration
+
+A **current-state** Fact's validity is governed by availability and documented semantics, as above — no
+separate elapsing window is imposed while the source remains healthy.
+
+A **point-in-time observation**'s Fact carries an **operational validity window**. When it elapses, the
+Fact **operationally expires** and is withdrawn from *what is true now*; the observation, its original
+Truth Confidence Band, and its lifecycle remain available as a Historical Fact under **DL-25** and
+**DL-47** — expiry is never deletion.
+
+A Fact ceases being current when any of the following occurs — this is the **generic invalidation
+interface** OD-18 defines; *which* triggers apply to a given Fact or derivation remains with whichever
+responsibility owns that derivation (for example **DL-38** for the Identity Assertion feeding a
+Room-Presence-purpose fusion, or Truth for the resulting Fact):
+
+1. An operational validity window elapses.
+2. The supporting source becomes unavailable or unknown.
+3. A supporting condition changes (for example a Room's occupancy transitions to `unoccupied`).
+4. The primary evidence moves to another context.
+5. Contradictory current evidence emerges — resolution is **OD-19**'s own.
+6. The source's documented integration semantics no longer support the current claim.
+
+**`expired`, `unavailable`, and `never observed` remain three distinct, always-named outcomes** — never
+collapsed into one generic `unknown`.
+
+### Confidence and validity are separate dimensions
+
+**Truth Confidence (DL-58) and Fact Validity are never merged.** The confidence originally established
+for a Fact is **never decayed by elapsed time alone** — validity states whether the Fact remains
+current; confidence states how strongly it was supported when established. A Fact may remain
+historically strongly supported while no longer being current: Truth withdraws it and, where nothing
+current can be asserted, publishes `unknown`. Historical confidence is never rewritten by a later
+validity determination.
+
+### Expiration is a Truth lifecycle transition
+
+**Operational expiration is one of DL-25's eight Truth lifecycle transitions** — *operationally
+expired* or *became unknown* — materialized through the existing Domain Event / Change Record mechanism
+([temporal-record.md](temporal-record.md)). **No second event model is created.** Consumers reevaluate
+on the resulting event or, where it has not yet materialized, at query time; **there is exactly one
+authoritative validity result**, never independently computed per consumer.
+
+### Presence, occupancy, and honest absence
+
+**Expired or unavailable presence never decays into absence or solitude** (**DL-34**). Room Occupancy
+(a Room-subject current-state Fact) and Contextual Person-Presence (a Person-subject Fact Truth derives
+by consuming an Identity Assertion as one input, per the existing accepted fusion and consumption rules
+below) remain the Facts already defined by this document — this section redefines neither, and does not
+decide the multi-evidence combination behind a Contextual Person-Presence Fact, which is already
+accepted under **DL-38** and *Identity assertions become presence facts*, below.
+
+### Household configuration, not architecture
+
+Freshness and validity windows are **household configuration values, not architecture**, mirroring
+**DL-47**'s own established pattern: per-Fact-class and per-Subject differentiation is available where
+a household chooses to declare it; **no universal duration is prescribed here**. Configuration must
+never convert last-known into current, never treat unavailable as current, never bypass consent, and
+never be silently learned — a learned duration proposal follows **P26** and **DL-21** exactly as any
+other learned suggestion, and explicit configuration always outranks an unaccepted one.
+
+---
+
 ## Location facts
 
 A **Location Fact** is a Fact whose Statement places its Subject somewhere in the Home **now**.
@@ -570,11 +691,10 @@ remains accurate after the Fact has since changed, expired, or been withdrawn.
 | ID | Question |
 |---|---|
 | OD-17 | Composite-fact aggregation algorithm and coverage thresholds |
-| OD-18 | Fact validity and expiration defaults per fact class — this governs **operational** validity, not Historical Fact retention, which is settled by **DL-47** |
+| OD-18 | **Resolved as DL-59.** Truth distinguishes Current-State Sources from Point-in-Time Observation Sources; current-state Facts read the most current authoritative Home Assistant state at evaluation time; operational expiration is a DL-25 lifecycle transition; Truth Confidence (DL-58) is never decayed by elapsed time alone |
 | OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases above** |
 | OD-73 | **Interaction-Surface Room Context Resolution.** How Room Context is resolved for a phone, wearable, Companion App, browser session, or other non-room-bound surface. An Engagement Fact records Room Context as `unresolved` until this closes |
 | OD-74 | **Resolved as DL-58.** Truth Fact Confidence is a uniform ordinal band (Low < Moderate < High < Very High), structurally separate from DL-39 Identity Confidence, independent of freshness/provenance/coverage, and consumed without redefinition by OD-17, OD-18, and OD-19 |
-| OD-74 | **Truth Fact Confidence Representation.** How Fact confidence is represented across every Fact class and Subject. **The DL-39 Identity bands are not available for this and must not be borrowed** |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Historical Facts follow External History Retention with their own Retention Classification; per-Fact-class differentiation is Operational Trust policy |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is **OD-01** |
 

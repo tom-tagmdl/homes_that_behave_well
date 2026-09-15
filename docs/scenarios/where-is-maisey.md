@@ -50,7 +50,7 @@ Truth establishes  : Maisey is in the Living Room
                      Confidence  : Truth Fact confidence — OD-74
                      Provenance  : the tag observation, by reference
                      Freshness   : as observed
-                     Validity    : per OD-18
+                     Validity    : per DL-59
                      Coverage    : where more than one eligible contributor reports
 ```
 

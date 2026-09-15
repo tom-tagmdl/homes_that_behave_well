@@ -111,7 +111,7 @@ accepted decision prevails.
 |---|---|---|---|
 | **C1** | Conversation-aware interruption management | **D — North Star** | Passive monitoring unauthorised; **OD-84** |
 | **C2** | Known and unidentified conversation participants | **E — Blocked** | **OD-84** (#169) |
-| **C3** | Transient knowledge and purpose-limited forgetting | **B — Architecturally supported** | Values in **OD-18** |
+| **C3** | Transient knowledge and purpose-limited forgetting | **B — Architecturally supported** | Values are household configuration under **DL-59** |
 | **C4** | Local-first decision making with connected cloud sources | **B — Architecturally supported** | **OD-07**, **OD-67** for the edges |
 | **C5** | Home Assistant remote access education | **F — Research required** | Platform verification (**#146**) |
 | **C6** | Shopping-list opportunity recognition | **E — Blocked** | **OD-77** (#148) |
@@ -246,7 +246,7 @@ deliver something. Then it stopped knowing, because there was no longer any reas
 | **Failure and degradation** | If the trace cannot be written, that is a defect and is reported (concierge-contract §11) |
 | **Privacy** | Presence history derived from identity evidence is among the most sensitive household data |
 | **Maturity** | **B — Architecturally supported** |
-| **Open decisions** | **OD-18** (freshness values), **OD-05** (trace retention values) |
+| **Open decisions** | **DL-59** (freshness values are household configuration), **OD-05** (trace retention values) |
 
 ### Doctrine confirmed, not created
 
@@ -765,7 +765,7 @@ judgement the home never made.
 |---|---|---|---|---|---|---|
 | 1 | Conversation active, send privately, acknowledge later | Timing and channel selection | Truth, Identity, Operational Trust | **D** | Passive monitoring; **OD-84** | The home is considerate without being nosy |
 | 2 | An unidentified participant changes disclosure | Audience-aware delivery | Identity, Operational Trust | **E** | **OD-84** | Not knowing someone is itself useful information |
-| 3 | Transient conversation state expires | Context assembly | Truth, Continuity | **B** | **OD-18** values | Forgetting on purpose is a feature |
+| 3 | Transient conversation state expires | Context assembly | Truth, Continuity | **B** | **DL-59** values (household configuration) | Forgetting on purpose is a feature |
 | 4 | The shopping list becomes useful at the store | Opportunity recognition | Identity, Truth, Continuity | **E** | **OD-77** | Help arrives at the moment it is useful |
 | 5 | EV readiness considers charging and future need | Preventive guidance | Truth, Stewardship | **E** | **OD-77**; no travel governance | The home looks one day ahead |
 | 6 | Battery backup prompts resource preservation | Recommendation and confirmation | Truth, Stewardship | **E** | **OD-21**, **OD-51** | The home advises; the household decides |

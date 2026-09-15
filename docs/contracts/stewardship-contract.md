@@ -186,6 +186,7 @@ obligation whose governing fact is unknown is `unknown`, never `met`.
 | Condition | Behavior |
 |---|---|
 | A required fact is unknown | Obligation state is `unknown`, not `met` |
+| A supporting fact operationally expires or its source becomes unavailable (**DL-59**) | Stewardship reevaluates the dependent obligation to `unknown`; it never remains `met` by inertia |
 | A schedule source is unavailable | Report the source as unavailable; never silently mark obligations met |
 | A caretaker is unassigned | Report an accountability gap; escalate to household authority per policy |
 | A Delegated Access Grant is revoked and no other grant covers the obligation | Report the resulting access/assignment gap exactly as an unassigned caretaker; the household may reassign (**DL-57**) |

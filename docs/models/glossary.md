@@ -330,6 +330,28 @@ Model: [truth.md](truth.md)
 **Freshness**
 How recently the underlying evidence was observed, and whether it remains valid.
 
+**Current-State Source**
+A Fact source whose integration intends its state to represent Home Assistant's **current** state
+(e.g. a presence sensor, a door, a valve, an environmental sensor, device availability, a current BLE
+nearest-proxy state). Classified by documented integration semantics, never by domain or device class
+alone. Remains a valid current Fact while available and while its documented semantics support a
+current claim; never aged by an HTBW-imposed generic delay (**DL-59**).
+Model: [truth.md](truth.md)
+
+**Point-in-Time Observation Source**
+A Fact source whose value names a **prior event or observation** (e.g. last motion detected, last
+doorbell ring, last-seen timestamp). Carries an operational validity window and **never becomes a
+current-state claim merely because its timestamp exists** (**DL-59**).
+Model: [truth.md](truth.md)
+
+**Fact Validity**
+Whether a Fact remains current — a dimension **separate from Truth Confidence** (**DL-58**),
+provenance, and coverage. Governed for a Current-State Source by availability and documented
+integration semantics; governed for a Point-in-Time Observation Source by an operational validity
+window. Operational expiration is a Truth lifecycle transition (**DL-25**) and never rewrites the
+Fact's Historical confidence (**DL-59**).
+Model: [truth.md](truth.md)
+
 **Context**
 The assembled set of resolved room context, identity assertions, facts, preferences, obligations,
 and policies available when a decision is evaluated.
