@@ -175,7 +175,7 @@ is accountable.
 | 12 | Retention | **Per record class** (**DL-47**) | Documents live while the Asset lives (**DL-43**); Change Records follow the Asset lifecycle; the Decision Trace follows External History Retention |
 | 13 | Closure criteria | **Stewardship** | The obligation returns to `met` **only when Truth reports the condition inside limits**, or when completed care is recorded. **A completed list item is not proof of care** |
 | 14 | Failure / uncertainty | **Stewardship** | A failed humidity sensor makes the obligation `unknown`, never `met`. Absence of evidence is never compliance |
-| 15 | HA native capabilities | Home Assistant | Area, Device, Entity, Sun, Recorder history, `todo`/Calendar as **projection** surfaces (**OD-23**), Repairs for configuration defects only (**OD-60**) |
+| 15 | HA native capabilities | Home Assistant | Area, Device, Entity, Sun, Recorder history, `todo`/Calendar as **projection** surfaces (**OD-23**), Repairs for configuration defects only (**DL-65**) |
 | 16 | What must never happen | — | Stewardship must not publish, cache, or re-derive the environmental readings. **Truth owns them** (**DL-25**) |
 | 17 | Household hierarchy | — | **No universal HTBW importance ranking exists.** Another household may declare the same object insignificant, and the framework is unchanged |
 | 18 | Sensitivity | — | **Sensitivity is never inferred.** Value, insurability, and irreplaceability are household declarations recorded with provenance |

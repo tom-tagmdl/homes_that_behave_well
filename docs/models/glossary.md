@@ -550,6 +550,22 @@ identity failure, or a permission failure.** Identity and requirement are not ev
 dependency is named, and the capability is never emulated, approximated, or silently reduced.
 Architecture: [../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md)
 
+**HTBW Defect State**
+The authoritative, owning-responsibility-held record that a configuration or dependency condition is
+wrong — a missing capability dependency, a broken governed reference, or a violated configuration
+invariant. **Always held by the responsibility that detected it** (Room Configuration, Foundation,
+Identity, Truth, or Operational Trust); never Repairs' own. A Repairs issue is a projection of this
+state, never the reverse (**DL-65**).
+Architecture: [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+
+**Repairs Issue**
+The Home Assistant issue-registry entry an owning responsibility creates to surface an **HTBW Defect
+State** to an administrator. **A projection, never a second authority**: the owning responsibility
+creates and deletes it as its own Defect State changes; Home Assistant performs no independent defect
+detection. Never an obligation store, a Communication, or an acknowledgement mechanism. Ignoring one
+neither deletes nor resolves it, and never changes the underlying Defect State (**DL-65**).
+Architecture: [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+
 **Artifact Declaration**
 The five properties every artifact stored outside Home Assistant must state before it is introduced:
 **Artifact Type, Owner, Storage Location, Retention Strategy, Deletion Strategy**. An artifact with

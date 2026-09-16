@@ -218,7 +218,7 @@ Required behaviour for the managed projection:
 - Residents maintain **the type only**. They must never be asked to maintain type and labels separately
 - HTBW maintains its **reserved** labels; resident-created labels are **never removed or overwritten**
 - **A failed or missing label projection never silently changes the Asset Type**
-- Reconciliation, where reported, uses the existing Repairs boundary (**OD-60**)
+- Reconciliation, where reported, uses the existing Repairs boundary (**DL-65**)
 
 The reserved taxonomy's naming, seeding, collision handling, versioning, retirement, and reconciliation
 mechanism are **OD-68**. No punctuation, casing, namespacing, or label identifiers are prescribed here.

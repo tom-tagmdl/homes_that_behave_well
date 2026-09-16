@@ -448,6 +448,15 @@ them evidence of such a requirement. Accordingly:
 This applies **identically to a Physical Room and a Merged Room** (**DL-13**); see *Merged Room
 environmental candidates*, below.
 
+**A missing Primary Authority is unavailability, not a Repairs defect.** Where a household has not
+configured one, the purpose is simply unconfigured (Scenario B). **A genuine Repairs candidate exists
+only where the configuration itself is invalid** — for example two configuration records
+simultaneously claiming exclusive Primary Authority for one Environmental Purpose (Scenario C) — a
+state ordinary runtime evaluation cannot resolve on its own, since Room Configuration guarantees at
+most one Primary Authority per purpose and this violates that invariant. See
+[home-assistant-boundary.md](../architecture/home-assistant-boundary.md), *Repairs adoption scope
+(DL-65)*.
+
 #### A Primary Authority may be a Direct Environmental Measurement or a Provider-Derived Environmental Indicator (DL-62 clarification)
 
 A source eligible for Primary Authority selection is one of two kinds, and Room Configuration records
@@ -497,8 +506,8 @@ told Home Assistant which sensor represents a Room's temperature is never asked 
   native (re)assignment. The later native change becomes a **new proposal** presented alongside the
   existing configuration, not a silent replacement of it.
 - **The resulting divergence is a Room Configuration condition** — explainable and reviewable through
-  this model's own lifecycle, not automatically a Repairs issue (**OD-60** is unaffected by this
-  clarification) and never a silently changed Fact.
+  this model's own lifecycle, not automatically a Repairs issue (**DL-65**) and never a silently
+  changed Fact.
 - **HTBW never writes the selection back to the native Area assignment.**
 - Accepting a proposal creates a governed configuration Change Record, exactly as any other
   participation change does.

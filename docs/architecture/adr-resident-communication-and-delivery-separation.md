@@ -413,7 +413,7 @@ is adopted for HTBW configuration defects and rejected as a communication mechan
 **Neither Repairs nor broadcast replaces the Communication Model.** Repairs is adopted as the
 preferred surface for HTBW integration configuration defects and administrator-correctable platform
 problems only; the boundary is recorded in
-[home-assistant-boundary.md](home-assistant-boundary.md) and its adoption scope is **OD-60**.
+[home-assistant-boundary.md](home-assistant-boundary.md) and its adoption scope is resolved as **DL-65**.
 
 ### Gaps
 

@@ -242,7 +242,96 @@ vocabulary term whose target no longer exists, an unreachable connected-storage 
 | Ignoring is not acknowledgement | **Ignoring a Repair identifies nobody.** It is not a person-attributed acknowledgement of a Communication |
 | Severity is not Urgency | `IssueSeverity` is a developer-facing platform ladder, not resident-facing Urgency |
 
-Adoption scope is **OD-60**.
+Adoption scope is resolved as **DL-65**, below.
+
+### Repairs adoption scope (DL-65)
+
+Resolves **OD-60**. Full acceptance record is **DL-65** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+#### Defect State versus Repairs Projection
+
+**HTBW Defect State is authoritative; the Repairs issue is a projection of it, never the reverse.**
+Verified directly against official Home Assistant developer documentation for the Repairs platform:
+
+| Verified platform behavior | Finding |
+|---|---|
+| An integration calls `async_create_issue` / `async_delete_issue` itself | Home Assistant performs **no independent defect detection** — the integration is the sole authority on whether its own defect state exists |
+| `is_persistent` only controls dashboard visibility across a restart | It does not cause Home Assistant to re-detect anything; a non-persistent issue simply stops showing until the integration recreates it |
+| **Ignoring an issue does not delete or resolve it** | An ignored issue remains in the registry, suppressed from the dashboard, **until the integration deletes it or the resident completes its repair flow** |
+| A fixed issue is removed by walking its `RepairsFlow` | Only a successful repair flow, or the integration's own deletion call, ends an issue's existence |
+
+**This discharges DL-30's burden of proof for the projection model**: Home Assistant's own registry has
+no way to learn a defect resolved except being told so by the integration that detected it, which is
+precisely the `HTBW Defect State → Repairs Projection` model this decision adopts. HTBW does not
+maintain a second, parallel defect store — the owning responsibility's own existing state (a DL-41
+capability outcome, a broken governed reference, a detected configuration invariant) **is** the Defect
+State, and Repairs is the surface it drives.
+
+#### The Repairs eligibility test
+
+A condition is Repairs-eligible only where **all** of the following hold:
+
+1. It is a **configuration or dependency defect** an administrator can correct through Home Assistant's
+   own administrative surfaces (config entries, options, entity/area/label registries) — never through
+   ordinary Room Setup, Stewardship's care flow, or a resident's ordinary request.
+2. It is **not** a difference Truth, Identity, or Stewardship already resolves through their own
+   accepted current/`unknown`/reduced-confidence/obligation vocabulary.
+3. It **names or implies no household obligation, care, health, or performance**.
+4. It is a **standing configuration or dependency state**, not a transient runtime outcome that
+   resolves itself as evidence or availability changes.
+
+| Category | Genuine Repairs candidate? | Owner | Governing decision |
+|---|---|---|---|
+| Missing or invalid capability dependency (Connected Storage unavailable, a missing integration or provider) | **Yes** | The responsibility that declared the dependency | **DL-41** |
+| A broken governed reference (a Room's selected Primary Authority, an Asset relationship, a caretaker reference, a vocabulary target pointing to a deleted native object) | **Yes** | Room Configuration / Foundation | DL-31, DL-45 |
+| Two configuration records simultaneously claiming exclusive Primary Authority for one Environmental Purpose | **Yes** — a configuration invariant ordinary runtime evaluation cannot resolve on its own | Room Configuration | **DL-62**, **DL-65** |
+| A native Area proposal diverging from an explicit HTBW selection | **No** — a configuration condition, visible through Room Configuration's own lifecycle | Room Configuration | **DL-60** |
+| A native Assist exposure setting diverging from HTBW Exposure | **No**, by the same general rule — the specific reporting mechanism remains **OD-59**'s own | Room Configuration | **DL-65**, OD-59 |
+| A native Label diverging from the authoritative Asset Type | **Only the reconciliation failure**, never the Asset Type itself, which is never at risk | Foundation | **DL-65**, OD-68 |
+| A persistent Truth conflict, by itself | **No** — Truth records it via Domain Event; only becomes Repairs-eligible where the owning configuration responsibility independently identifies a genuine defect behind it | Truth records; Room Configuration (or the relevant owner) raises | **DL-63**, **DL-65** |
+| An Identity Assertion outcome (`unknown`, `unavailable`, `ambiguous`) or an assertion's validity/applicability state | **No** — self-resolving, re-evaluated fresh per interaction | Identity | **DL-64** |
+| A Provider-Derived Environmental Indicator's reported value | **No** — the provider's own data, not an HTBW defect | Truth | **DL-62** |
+| A Stewardship obligation (tuning, humidity, filter replacement) | **Never** | Stewardship | Confirmed unchanged |
+| A dashboard projection differing from another projection | **No** — projections are never authoritative and never each other's defect | The owning projection's responsibility | DL-61 |
+
+#### Fixable versus informational
+
+A Repairs issue is **fixable through a `RepairsFlow`** only where HTBW can deterministically correct
+the underlying configuration itself, non-judgmentally — for example removing a stale reference to a
+deleted object. It is **informational-only** where correction requires a household judgment HTBW must
+not make on its own — for example choosing which of two claimed Primary Authorities to keep. **Repairs
+never becomes configuration authority**: every fixable flow performs exactly the change a resident
+could otherwise make through Room Setup or the native registries.
+
+#### Severity
+
+`IssueSeverity` has exactly three values, per Home Assistant's own developer documentation:
+
+| Severity | Home Assistant's definition | HTBW mapping |
+|---|---|---|
+| `CRITICAL` | "Considered reserved, only used for true panic" | **Essentially never claimed by HTBW** |
+| `ERROR` | "Something is currently broken and needs immediate attention" | A capability currently unavailable (**DL-41**), or a reference currently broken |
+| `WARNING` | "Something breaks in the future... and needs attention" | A configuration condition that has not yet blocked anything but warrants review |
+
+**Severity is derived only from the owning responsibility's own already-accepted state** — never from
+Stewardship significance, Operational Trust Urgency, or resident-facing consequence (**DL-46**,
+OD-46) — preserving the existing boundary rather than creating a new one.
+
+#### Ignore lifecycle and re-raise
+
+**Ignoring an issue never changes HTBW's own Defect State.** Per the verified platform behavior above,
+an ignored issue is merely suppressed from the dashboard; the owning responsibility continues to treat
+its underlying condition exactly as before, and **ignoring is not evidence that the defect was
+addressed** — consistent with **OD-45**'s existing rule that ignoring is not a person-attributed
+acknowledgement.
+
+**Re-raising invents no timer or second lifecycle.** Because Home Assistant persists an issue until
+HTBW itself deletes it, "re-raise" is simply the owning responsibility's own **existing**
+state-evaluation trigger — a Room Configuration change, a DL-41 capability re-check, a startup
+reconciliation — recreating the issue if the underlying condition still or again holds. No new
+schedule, timer, or event model is created; this mirrors the discipline already applied to DL-63's
+persistent-conflict recording and DL-64's rejection of fixed validity windows.
 
 ---
 
@@ -653,7 +742,7 @@ review. It records what was evaluated, what remains, and which decision each fin
 | Assist entity exposure | Exposing entities to Assist | HTBW Exposure, which is a different concept | Native exposure governs assistant targeting, not resident perception | **OD-59** |
 | Built-in intents, including `name` / `area` / `floor` / `domain` / `device_class` slot combinations, and `HassRespond`, `HassNevermind`, `HassGetState`, `HassBroadcast` | Built-in intents | Room-scoped vocabulary, groups, exclusions, Merged Room semantics | No Room-scoped vocabulary; broadcast targets satellites, never an audience | **OD-13**, **OD-14**, **OD-52** |
 | Conversation, custom sentences, `intent_script`, custom intents | Conversation integration | Governed retrieval scopes and authority filtering | Conversation owns no records and no authority | **OD-62** |
-| Repairs issue registry, `severity`, `is_fixable`, `is_persistent`, `learn_more_url`, ignore semantics, `RepairsFlow` | Repairs platform documentation | Defect definition only | Ignoring identifies nobody; severity is developer-facing | **OD-60** |
+| Repairs issue registry, `severity`, `is_fixable`, `is_persistent`, `learn_more_url`, ignore semantics, `RepairsFlow` | Repairs platform documentation | Defect definition only | Ignoring identifies nobody; severity is developer-facing | **DL-65** |
 | To-do entities, with `item_added`, `item_completed`, `item_removed` triggers and completion conditions | To-do list integration | Obligation, significance, accountability, escalation | Completion is a list state, not proof that care occurred | **OD-23** |
 | Recorder, `purge_keep_days`, `recorder.purge_entities`, include and exclude filters | Recorder integration | Governed retention, holds, tombstones | Purge is global or entity-scoped; there is no per-record exemption | **DL-47**, **OD-01**, **OD-39** |
 | Activity, and `logbook.log` custom entries | Activity integration | Decision Trace | Activity records what changed, never why | **OD-29** |

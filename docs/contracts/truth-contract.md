@@ -273,9 +273,10 @@ provenance-class precedence order; a range-valued Fact for any class that does n
 one.
 
 A conflict's appearance, continuation, and resolution are recorded through the existing Domain Event /
-Change Record mechanism — no second conflict-history store is created. **Persistent conflict** is
-evaluated against **OD-60**'s Repairs criteria separately from the runtime Fact outcome; ordinary
-transient disagreement is not automatically Repairs-eligible.
+Change Record mechanism — no second conflict-history store is created. **A persistent conflict does not
+by itself become a Repairs issue** (**DL-65**): Truth only records it; a Repairs issue is raised only
+where the owning configuration responsibility independently identifies a genuine defect behind the
+persistence. Ordinary transient disagreement is not automatically Repairs-eligible.
 
 ---
 
@@ -295,7 +296,7 @@ transient disagreement is not automatically Repairs-eligible.
 | A point-in-time observation's validity window elapses | Operationally expire the Fact (**DL-59**); withdraw it from what is true now; retain it as a Historical Fact |
 | A current-state source becomes unavailable or unknown | The current-state Fact ceases immediately; never treated as the last known value continuing |
 | Sources disagree | Qualify per **DL-63** before treating it as conflict; if genuine, publish reduced confidence, `unresolved`, or `unknown` under the applicable Conflict Policy — never average, never silently choose |
-| A conflict persists | Record via the existing Domain Event mechanism; evaluate against **OD-60**'s Repairs criteria separately from the runtime outcome |
+| A conflict persists | Record via the existing Domain Event mechanism; evaluate against **DL-65**'s Repairs criteria separately from the runtime outcome |
 | A room transition is missed | Do not invent a retroactive transition; treat the newly observed Room as current and record the gap |
 | Truth itself is unavailable | Consumers fail closed; they do not substitute their own derivation |
 

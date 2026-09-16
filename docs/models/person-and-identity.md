@@ -1327,6 +1327,12 @@ See *Current-interaction applicability*, above, and **DL-64** in
 | Evidence is stale | Reduce confidence or withdraw the assertion. |
 | A dependency fails | Report `unavailable` and **fail closed**. Do not degrade to a guess. |
 
+**None of the above is ever a Repairs issue by itself** (**DL-65**) — each is a self-resolving runtime
+outcome, re-evaluated fresh on the next interaction. Only a **broken governed reference** an Identity
+Evidence Association depends on (for example, an association pointing to a deleted device) is a
+genuine Repairs candidate, under the same general broken-reference rule every responsibility follows —
+never a special Identity-specific Repairs category.
+
 See [../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md).
 
 ---

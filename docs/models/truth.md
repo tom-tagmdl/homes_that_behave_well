@@ -696,7 +696,7 @@ contradiction. Every exclusion and qualification decision is explainable in the 
 - **A native Area environmental slot's proposal diverging from an explicit Room Configuration selection
   is a configuration condition, not a runtime conflict** (**DL-60**). HTBW never writes back, never
   silently switches, and the divergence remains visible and explainable — escalating to Repairs only
-  where **OD-60**'s own administrator-correctable-defect criteria are independently met (for example
+  where **DL-65**'s own administrator-correctable-defect criteria are independently met (for example
   two configuration records both claiming exclusive Primary Authority for one purpose).
 - **A Provider-Derived Environmental Indicator does not conflict with a direct measurement or a
   Stewardship evaluation merely because the values differ in shape, scale, or outcome** — the
@@ -759,9 +759,16 @@ current evidence now supports one, a new Fact are published; the prior `unknown`
 outcome is never rewritten, and Stewardship reevaluates dependent obligations.
 
 Persistent conflict may indicate a misconfigured authority, a sensor-placement concern, a failing
-source, or another likely administrator-correctable defect, and is evaluated against **OD-60**'s
-Repairs criteria **separately from the runtime Fact outcome**. Ordinary transient disagreement, a
-briefly unavailable source, or a native-proposal/HTBW divergence are not automatically Repairs-eligible.
+source, or another likely administrator-correctable defect. **A persistent Truth conflict does not, by
+itself, become a Repairs issue** (**DL-65**, resolving OD-60): Truth's role ends at recording the
+conflict's appearance, continuation, and resolution as Domain Events. A Repairs issue is raised only
+where the responsibility owning the relevant configuration — typically Room Configuration — separately
+and independently identifies that the persistence pattern reveals a genuine configuration defect (for
+example, duplicate Primary Authority), never merely because two legitimately configured sources
+disagree. Ordinary transient disagreement, a briefly unavailable source, or a native-proposal/HTBW
+divergence are not automatically Repairs-eligible. See
+[home-assistant-boundary.md](../architecture/home-assistant-boundary.md), *Repairs adoption scope
+(DL-65)*.
 
 ### Location conflict cases
 
