@@ -33,6 +33,8 @@ separate orchestration logic exists for merged rooms.
 **A Physical Room participates in at most one Merged Room at a time (DL-67)**: a Merged Room is a
 curated conversational interaction context, not a general grouping mechanism, and Home Assistant's own
 Floor/Area targeting meets the household's need for a broader or different grouping.
+**A Merged Room has no native Home Assistant representation (DL-68)**: no proven consumer requires
+one, and Assist/Conversation must never receive one.
 This is the canonical public term. Do not rename it.
 
 **Constituent Room**

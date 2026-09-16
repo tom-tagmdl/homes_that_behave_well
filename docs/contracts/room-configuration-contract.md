@@ -250,13 +250,14 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 | OD-01 | Home Assistant representation strategy for Room Configuration, including the persistence shape of Change Records, Snapshots, and Current Projections |
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Participation and vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
 | OD-10 | Whether Floors are a first-class scope |
-| OD-11 | Whether a Physical Room may participate in more than one Room |
+| OD-11 | **Closed — DL-67.** A Merged Room is a curated conversational interaction context; a Physical Room participates in at most one Merged Room at a time |
 | OD-12 | Whether exclusion reasons are structured or free text |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-73 | **Interaction-Surface Room Context Resolution** — Room Context for a surface not bound to a Room, and the `room_context.resolved_from` enumeration |
 | OD-61 | **Closed — DL-60.** Room Environment Standard, native Area environmental slot proposal behaviour (mirroring OD-14), Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes accepted |
 | OD-17 | **Closed — DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance is accepted. Conflict resolution remains **OD-19** |
+| OD-70 | **Closed — DL-68.** Merged Room native representation: **accepted, no native representation.** No proven consumer requires a projection; Area/Floor/Group/Scene are rejected as representations; Label is not adopted; Assist/Conversation must never receive one |
 
 ## Related documents
 

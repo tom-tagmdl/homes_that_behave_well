@@ -129,8 +129,10 @@ resident who has named and organised an Area in Home Assistant must **never be a
 in HTBW.
 
 A **Merged Room** likewise **references** its constituent Areas or Rooms. Constituent definitions are
-never copied into the Merged Room; only the merged interaction semantics are HTBW-owned. Whether a
-Merged Room additionally warrants a native projection is **OD-70**.
+never copied into the Merged Room; only the merged interaction semantics are HTBW-owned. **A Merged
+Room has no native Home Assistant representation, and none is invented (DL-68, resolved OD-70)**: no
+canonical consumer requires one, and Assist/Conversation must never receive one, since it would let
+native intent matching bypass HTBW's own curated participation, exclusions, and exposure narrowing.
 
 > **A Physical Room (Area) participates in at most one Merged Room at a time (DL-67).** A Merged Room
 > is a curated conversational interaction context, not a general-purpose grouping mechanism; allowing

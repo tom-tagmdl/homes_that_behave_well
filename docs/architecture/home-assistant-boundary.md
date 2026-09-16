@@ -254,6 +254,46 @@ Four states are involved, and **they must never be collapsed into one**:
 documents exposure as the control that prevents sensitive devices, such as locks and garage doors,
 being controlled inadvertently by voice; HTBW narrows that boundary and never routes around it.
 
+### Merged Room native representation (DL-68)
+
+Resolves **OD-70**. Full acceptance record is **DL-68** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+> **A Merged Room has no native Home Assistant representation, and none is invented.**
+
+A consumer inventory was reviewed against dashboards, native automations, Assist/Conversation, native
+targeting, scripts, scenes, labels, groups, administrative views, and external integrations. **None
+had a canonical, implemented requirement for a native projection.**
+
+| Native construct | Disposition |
+|---|---|
+| **Area** | Rejected. No native "Area composed of Areas" concept is documented (`https://developers.home-assistant.io/docs/area_registry_index/`); inventing one risks a second physical-topology authority competing with the constituent Areas, which **DL-31** forbids |
+| **Floor** | Rejected for this purpose. Floor already exists for native physical hierarchy ("Downstairs", "Upstairs"), independently satisfying the household's broader-grouping need per **DL-67** — reusing it for a curated conversational context would blur that distinction |
+| **Group** | Rejected as a representation. An entity group carries targets, never vocabulary, participation, or interaction context; Concierge's own execution may still use a native group internally as a target-set optimization (**DL-31**, **DL-55**), which represents nothing about the Merged Room itself |
+| **Scene** | Rejected. A Merged Room's configured outcome may resolve to a Scene or script as its execution target (**DL-55**), but a Merged Room is never itself a Scene |
+| **Label** | Not adopted. No proven consumer requires it, and the integration-facing label-management API remains unverified, matching **OD-68**'s own unresolved finding — this does not decide or preempt **OD-68** |
+
+**Assist and Conversation must never receive a native Merged Room projection** — not only because none
+is needed, but because one would be unsafe: [contextual-vocabulary.md](../models/contextual-vocabulary.md)'s
+"resolution compiles down to native targets" rule means HTBW's vocabulary layer already resolves a
+term to a concrete, governed entity/device target set **before** any native targeting occurs. A native
+Area or Label standing in for a Merged Room would let Home Assistant's own **built-in** conversation
+agent resolve it directly through native area-slot matching (`https://developers.home-assistant.io/docs/voice/overview/`,
+`https://www.home-assistant.io/voice_control/aliases/`), bypassing HTBW's curated participation,
+exclusions, and the **DL-66** Exposure ceiling for exactly the interaction context **DL-67** exists to
+curate.
+
+**Constituent removal uses the existing model, with no new rule.** A deleted constituent Area produces
+a broken reference under the existing deletion-is-directional model above (**DL-31**); an affected
+vocabulary term becomes `broken_mapping` exactly as [contextual-vocabulary.md](../models/contextual-vocabulary.md)
+already defines; historical configuration is preserved and no stale membership is implied; a Repairs
+projection is created only where **DL-65**'s configuration-invariant eligibility test is independently
+satisfied — never merely because a target became unavailable.
+
+**Command-routing, no-match, and native-fallback behaviour are explicitly not decided here.** They
+belong to **OD-62**, which owns the retrieval/command surface and custom sentence and intent
+definition, and are recorded there as evidence.
+
 ### Repairs is a surface, not an owner
 
 **Repairs is the preferred Home Assistant surface for HTBW integration configuration defects and
@@ -396,7 +436,7 @@ natively represented; and HTBW references the native object by its stable identi
 |---|---|---|
 | **1 — Referenced and extended** | The native object exists independently of HTBW | Area, Floor, Device, Entity, Label, Person, Config Entry |
 | **2 — Represented natively** | The concept originates in an HTBW requirement but benefits from a native representation the integration creates and manages | Asset Device, Asset-derived Entity, managed classification Label |
-| **3 — Governed HTBW records** | No sufficient native representation exists | Merged Room, Decision Trace, Communication, Temporal Record, Preservation Hold, Evidence Package, Stewardship Obligation, Continuity Preference |
+| **3 — Governed HTBW records** | No sufficient native representation exists | Merged Room (confirmed, **DL-68**), Decision Trace, Communication, Temporal Record, Preservation Hold, Evidence Package, Stewardship Obligation, Continuity Preference |
 
 Category 3 still **references** native objects where a relationship exists, still avoids copying
 native definitions, and may still project into native surfaces. **A projection never becomes the
@@ -486,7 +526,7 @@ thing**; this one says **how each is referenced, extended, and projected**.
 | Area | Area | Name, picture, `floor_id`, `aliases`, `labels`, assigned temperature and humidity entities | Reference by area ID | Foundation | None beyond the reference | Not applicable | Area name, picture, floor, aliases, labels | — |
 | Floor | Floor | Native floor object | Reference | Foundation | None beyond the reference | Not applicable | Floor definitions | **OD-10** — whether Floor is a first-class HTBW scope. Developer documentation unverifiable |
 | Room Configuration | Area (constituents) | The Areas themselves | Extends one or more Areas | Foundation (Room Configuration) | Participation, exposure, vocabulary, exclusions, Room Help, capability exposure, composite-fact inputs, experience endpoints | Not applicable | Anything the Area natively owns | **OD-11** |
-| Merged Room | None | Not applicable | References constituent Areas or Rooms | Foundation (Room Configuration) | Merged interaction, participation, vocabulary, and experience semantics | Undecided | Constituent Area definitions | **OD-70** |
+| Merged Room | None | Not applicable | References constituent Areas or Rooms | Foundation (Room Configuration) | Merged interaction, participation, vocabulary, and experience semantics | **None (DL-68)** | Constituent Area definitions | Resolved — **DL-68** |
 | Existing Device | Device | Identifiers, manufacturer, model, `model_id`, serial number, versions, `via_device`, `area_id`, config entries | Reference by device ID | The responsibility using it | Participation and governed references only | Not applicable | A competing device registry; native device metadata | — |
 | Existing Entity | Entity | `unique_id`, entity ID, state, attributes, device and area assignment | Reference by entity ID; read state as evidence | The responsibility using it | Participation, evidence role, governed references | Not applicable | A competing entity registry; native state as a second current-state authority | — |
 | Asset | Zero, one, or many Devices | Whatever native objects exist | Semantic definition is HTBW's | Foundation (asset model) | Identity, descriptive knowledge, documentation references, limits, relationships | See Asset Device | Native device metadata | — |

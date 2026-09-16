@@ -149,6 +149,28 @@ diagnostics, environmental attribution, and precision — but the Room Context i
 A Room normally maps to one or more Areas. Home Assistant has no native equivalent of a Room as an
 interaction context, and no native equivalent of a Merged Room.
 
+**A Merged Room has no native representation, and none is invented (DL-68).** A consumer inventory
+(dashboards, native automations, Assist/Conversation, native targeting, scripts, scenes, labels,
+groups, administrative views, external integrations) found no proven consumer that requires one.
+Assist and Conversation specifically must never receive a native Merged Room projection: HTBW's own
+vocabulary resolution already compiles a term down to a concrete, governed target set before any
+native targeting occurs (see [contextual-vocabulary.md](contextual-vocabulary.md)), so a native Area
+or Label standing in for a Merged Room would let Home Assistant's own built-in conversation agent
+resolve it directly — bypassing the curated participation, exclusions, and exposure narrowing that
+make it a Merged Room rather than an ordinary native grouping. Native Floors and Areas remain the
+correct native constructs for a broader or capability-specific grouping ("Downstairs", "Upstairs");
+see *A Physical Room participates in at most one Merged Room*, above.
+
+> **A configured Room or Merged Room vocabulary term is the voice-command equivalent of a configured
+> scene-controller button.** Pressing a named button on a preconfigured controller does not search
+> every device or rediscover the intended targets — it invokes a previously configured meaning.
+> Likewise, a recognized vocabulary term within a resolved Room context invokes its previously
+> configured meaning rather than triggering runtime discovery. This is an explanatory illustration of
+> the configuration-time semantic definition, deterministic lookup, and bounded target selection
+> already required above and in [room-configuration.md](room-configuration.md); it does not mean every
+> phrase becomes a native Scene, that a Merged Room is a Scene, or that Identity, Operational Trust,
+> Assist Exposure, or current native state are ever bypassed.
+
 Per the Home Assistant First principle, HTBW uses Areas as the constituent primitive and adds only
 the Room construct that Home Assistant cannot practically represent. See
 [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md).

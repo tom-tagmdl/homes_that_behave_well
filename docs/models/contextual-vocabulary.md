@@ -228,7 +228,11 @@ Merged Room's configuration rather than accumulated from its constituents. Where
 the same term for different targets and the merged configuration does not declare the outcome, the
 result is `ambiguous` and is surfaced, not guessed. Explicit exclusions survive merging, constituent
 membership is retained so unmerging restores constituent behaviour, and **no native alias changes at
-any point**. Whether a Merged Room warrants any native projection is **OD-70** and is untouched here.
+any point**. **A Merged Room has no native projection: DL-68 (resolved OD-70) found no proven consumer
+requiring one, and Assist/Conversation must never receive one**, because this model's own resolution
+rule above means HTBW already compiles a term to a concrete governed target set before any native
+targeting occurs — a native stand-in would let Home Assistant's built-in conversation agent bypass
+that curation entirely.
 
 ---
 
