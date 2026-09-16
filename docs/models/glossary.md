@@ -242,6 +242,26 @@ A specific, intentionally configured Person who is not a resident — and who ma
 native Person reference, consent, permissions, and governed extensions. **Known**, and therefore never
 an Unknown Person.
 
+**Person Extension**
+A household-facing, collective name for the totality of HTBW's governed configuration for a Person —
+permissions, Vocabulary, preferences, relationships, and consent (**DL-71**). **Not a new store or a
+new responsibility**: each piece remains owned by the responsibility that already owns it (**DL-31**
+— "distributed, each extension keeps its own owner"). Person Setup is the shared configuration
+experience across that distributed ownership.
+
+**Guest fallback Person Extension**
+Exactly one existing, deliberately configured Person a household may designate as the default
+consulted when Identity yields **Unknown Person** (**DL-71**). Consulting its settings as interaction
+defaults creates **no Identity Assertion** binding Unknown Person to it; Unknown Person remains
+exactly what it already is (**DL-33**). May hold resources, Vocabulary, permissions, and relationships
+if deliberately configured — none of that is prohibited by default.
+
+**Copy Settings From Person**
+A setup-time convenience that copies permissions/allowed interactions, Person Vocabulary, and
+preferences/presentation defaults from one Person Extension into another, persisted independently at
+the destination (**DL-71**). **Never copies** resources, relationships, consent records, identity
+evidence, or other Person-bound state. Creates no runtime inheritance and no Role.
+
 **Unknown Evidence Source**
 An observed evidence source that is associated with no Person — an unassociated proximity source, an
 unassociated device tracker, an unmatched voice sample, an unauthenticated interaction, or occupancy
@@ -864,6 +884,14 @@ an attestation confirms it; or `waived` — a household decision closing the obl
 asserting that care occurred**. Declares its own Retention Classification (**DL-47**).
 Model: [stewardship.md](stewardship.md)
 
+**Completion Mode**
+Explanatory vocabulary describing which of two already-accepted obligation configurations applies —
+never a new stored state (**DL-71**). **One Completion Satisfies All**: one obligation names multiple
+current caretakers, any of whom may produce the Care Evidence Record that closes it once for everyone.
+**Each Recipient Must Complete**: multiple independent obligations exist, one per accountable Person,
+each closed by its own Care Evidence Record. Both are ordinary applications of **DL-48**/**DL-57**.
+Model: [stewardship.md](stewardship.md)
+
 **Custody Period**
 A **time-bounded accountability record** answering *who is accountable for this, for how long, and
 under what agreement* (**DL-49**). Foundation defines the object type; **Stewardship owns the record,
@@ -888,12 +916,18 @@ Model: [stewardship.md](stewardship.md)
 
 **Role**
 A named position a person holds in the Home or in a Room, used by Operational Trust to derive
-authority. Examples: resident, owner, child, guest, caretaker, service provider.
+authority. Examples: resident, owner, child, guest, caretaker, service provider. **A bare Role is
+unscoped to any subject** — distinct from a Relationship-based Audience Specification, below
+(**DL-71**).
 
 **Caretaker**
 A person accountable for a specific Stewardship obligation or asset. **Accountability is not access**:
 what a Caretaker or any other person may view, receive, declare, update, or close requires an explicit
-**Delegated Access Grant** (**DL-57**), never inferred from the relationship or a Role alone.
+**Delegated Access Grant** (**DL-57**), never inferred from the relationship or a Role alone. **The
+`caretaker-of` relationship is many-to-many**: one Person may be caretaker-of multiple subjects, and
+one subject may have multiple current caretakers (**DL-71**). Stewardship owns the current assignment
+records; the Person view and the subject view are both projections over the same records, never
+independently editable copies.
 
 **Delegated Access Grant**
 A Foundation-typed, Stewardship-operated record of explicit, scoped authority one Person holds over
@@ -1014,6 +1048,19 @@ acknowledged, or interacted with a delivery. A capability declaration only — i
 assurance level, a confirmation, or an Identity Assertion; evidence it supplies is consumed through
 the existing **Required Confirmation Strength** (**DL-40**) and Identity confidence machinery
 (**DL-38**, **DL-39**), never through a second scale (**DL-53**).
+
+**Intended Audience**
+The specification of who a Communication or Stewardship obligation is *for* — one of five accepted
+forms: **Named Person**, **Role / Authority Class**, **Relationship-based**, **Anyone Present With
+Authority**, or **Household** (**DL-71**). Distinct from **Audience Composition** (who may perceive
+it) and from **Delivery Target** (which surface was selected). Never a device or surface list.
+Model: [communication.md](communication.md)
+
+**Relationship-based Audience Specification**
+An Intended Audience form scoped to a specific Subject — a Person, Pet, or Asset — resolved through a
+governed relationship record (for example `caretaker-of`), never through presence or identity
+evidence (**DL-71**). Distinct from a bare **Role**, which is unscoped to any subject.
+Model: [communication.md](communication.md)
 
 **Audience Composition**
 Who may be able to **perceive** content through a proposed Delivery Surface. A governed input to

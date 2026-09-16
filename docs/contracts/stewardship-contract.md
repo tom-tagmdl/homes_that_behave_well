@@ -66,6 +66,13 @@ reminder, advisory, maintenance task, corrective action, or escalation is a late
   defines the relationship; Stewardship owns the assignment. **The relationship records
   accountability; it is never itself access authority** — access to a Person, Asset, or Pet's
   Stewardship content requires an explicit **Delegated Access Grant** (**DL-57**)
+- **`caretaker-of` is many-to-many** (**DL-71**): one Person may be caretaker of many subjects, and
+  one subject may have many current caretakers. The Person view and the subject view are both
+  **projections** over Stewardship's single assignment record set, never independently editable
+  copies
+- **Completion Mode** — One Completion Satisfies All (one obligation, multiple caretakers, any may
+  close it) or Each Recipient Must Complete (multiple independent obligations, one per Person) — is
+  explanatory vocabulary for an existing configuration, never a new stored state (**DL-71**)
 - Caretaker-calendar projections
 - Maintenance and service history
 

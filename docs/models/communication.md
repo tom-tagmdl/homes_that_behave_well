@@ -142,22 +142,60 @@ advisory carries the **stewardship** category.
 
 An audience is expressed as a **specification**, resolved to surfaces only at delivery.
 
-| Audience kind | Meaning |
-|---|---|
-| Specific Person | One identified person |
-| Role | Caretaker, adult, child — resolved by Operational Trust |
-| Authority Class | Anyone holding a stated authority |
-| Anyone Present With Authority | The first suitably authorised person contextually present |
-| Household | All residents |
+**Five specification forms are accepted (DL-71, resolved OD-52).** Each carries a canonical name, an
+owner, a resolution source, an Assertion Purpose where the form is evidence-based, a resolution time,
+an uncertainty outcome, a no-recipient outcome, a too-broad outcome, mandatory Operational Trust
+evaluation, and Decision Trace evidence.
+
+| Form | Meaning | Resolution source | Assertion Purpose |
+|---|---|---|---|
+| **Named Person** | One identified Person | Direct reference to the Person object | None — identifying the object is not evidence-based |
+| **Role / Authority Class** | A named position or stated authority, unscoped to any subject — resident, owner, child, guest, service provider | Operational Trust, against currently eligible Persons holding it | None (a configuration/authority lookup) |
+| **Relationship-based** | A predicate scoped to a specific Subject — a Person, Pet, or Asset — for example "Caretaker of Maisey" | Stewardship's current relationship assignment records (`caretaker-of`), never presence or identity evidence | None — a governed configuration lookup, cross-checked against a **DL-57** Delegated Access Grant for actual authorization |
+| **Anyone Present With Authority** | The first suitably authorised Person contextually present — including the plain "whoever is home" case | Truth (Room or Household Presence) crossed with Operational Trust's current authority evaluation | Household or Room Presence |
+| **Household** | All residents | Foundation's Person roster | None |
 
 > **"Household" never means "everyone in earshot."** Audience is a specification of who the
 > Communication is *for*. Who can *perceive* a surface is a separate question, answered by Truth and
 > governed by **P32**.
 
+**"Role" and "Relationship-based" are not the same mechanism, even where they share a word.** "Adult"
+or "child" is a bare Role — a household-wide authority classification, unscoped to any subject.
+"Caretaker of Maisey" is Relationship-based — scoped to a specific Subject, resolved through a
+governed relationship record, never through generic authority classification. The existing glossary
+**Caretaker** entry already carries both meanings; this table makes the distinction explicit rather
+than leaving it ambiguous.
+
 **Guests are never an audience by default**, and guest presence constrains delivery to every
 audience. See [../architecture/privacy.md](../architecture/privacy.md).
 
-The audience specification model is open decision **OD-52**.
+### Resolution timing (DL-71)
+
+**The original specification is fixed at origination and is never rewritten.** The *resolved
+recipient set* is re-evaluated at each Delivery Attempt for a dynamic form (Relationship-based,
+Anyone Present With Authority) — extending the existing principle that visibility is never stored
+resolved (see *Multi-person communication*, below) from audience composition to specification
+resolution. A Named Person or Household specification needs no re-resolution of *who* it names, but
+Operational Trust's authorization is still evaluated fresh at every attempt, unchanged. **A prior
+Delivery Attempt record is never rewritten by a later relationship change.** Escalation (**OD-22**)
+creates or records a new specification; it never silently mutates the original.
+
+### Resolved to nobody, or too broadly (DL-71)
+
+Where a specification resolves to **no current Person**, the Communication is never silently
+discarded, never redirected to a convenient Person, and is never sent broadly by default. Stewardship
+records the missing accountable relationship as an accountability gap exactly as already accepted
+(see [stewardship.md](stewardship.md)); a Repairs projection follows only where **DL-65**'s own
+configuration-invariant test is independently satisfied.
+
+Where a specification resolves to **more Persons than expected** — several current caretakers, several
+Persons "present with authority" — this is **not itself an error**. Operational Trust evaluates content
+sensitivity, current identity confidence, audience composition, Authorized Recipient status, and
+Delivery Surface capability exactly as already accepted (**DL-34**, **DL-53**); where the audience
+cannot be safely determined, delivery degrades, the Communication is preserved, and disclosure is
+never broadened.
+
+The audience specification model is resolved — **DL-71**, closing **OD-52**.
 
 ---
 
@@ -779,7 +817,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-49 | Communication retention floor and ceiling |
 | OD-50 | Escalation ladder semantics for communications, resolved into OD-22 |
 | OD-51 | Interruption action-risk class enumeration and defaults |
-| OD-52 | Audience specification model |
+| OD-52 | **Closed — DL-71.** Five audience specification forms accepted; relationship-based resolution, re-resolution timing, resolved-to-nobody/too-broadly behaviour, and Notice/completion boundary are stated |
 | OD-53 | Communication category enumeration |
 | OD-54 | Delivery retry policy |
 | OD-55 | **Closed — DL-54.** Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable); per-surface enumeration evidence recorded in the ADR |

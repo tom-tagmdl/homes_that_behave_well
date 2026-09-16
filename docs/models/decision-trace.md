@@ -225,6 +225,27 @@ retrieval or command-resolution interaction. A trace must be able to carry:
 A trace for this class of interaction must never record content that was withheld from the resident
 alongside content that was spoken, in a form that could itself leak the withheld content.
 
+### Intended Audience Specification (DL-71)
+
+For a Communication or Stewardship obligation, a trace must be able to carry:
+
+| Detail | Note |
+|---|---|
+| Originating responsibility | Which responsibility declared the Intended Audience |
+| Original specification, and its form | Named Person, Role/Authority Class, Relationship-based, Anyone Present With Authority, or Household — verbatim, never rewritten |
+| Resolution time | Origination, or each Delivery Attempt, per the form's re-resolution rule |
+| Assertion Purpose used, where evidence-based | Household/Room Presence for Anyone Present With Authority; none for a configuration lookup |
+| Relationship records consulted, where Relationship-based | Which `caretaker-of` assignment records were read |
+| Resolved Persons, and Persons excluded | Never silently omitted |
+| Unknown or uncertain candidates | Retained, never resolved away |
+| Operational Trust result | Including any **DL-57** Delegated Access Grant checked |
+| Audience Composition, separately | Never collapsed with the specification (**DL-34**) |
+| Authorized Recipients, and Delivery Targets | Distinguished from each other and from the specification |
+| No-recipient outcome, where applicable | The accountability gap or equivalent, never a silent discard |
+| Too-broad outcome, where applicable | The degradation applied, never a broadened disclosure |
+| Completion Mode, where applicable | One Completion Satisfies All or Each Recipient Must Complete, and by whom completed |
+| Escalation change, where applicable | That a new specification was recorded, not a mutation of the original |
+
 ### Five separately recorded outcomes
 
 A trace must keep these apart. Collapsing any two of them makes the home's account of itself wrong,

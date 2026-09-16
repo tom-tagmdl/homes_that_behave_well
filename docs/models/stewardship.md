@@ -134,9 +134,40 @@ Stewardship covers:
 | Schedule or condition | When it becomes due, or the condition that makes it unmet |
 | **Condition state** | `met`, `due`, `unmet`, `overdue`, `waived`, `unknown` — *what is true of the world relative to the care expectation* |
 | **Lifecycle state** | `raised`, `active`, `deferred`, `closed`, `reopened` — *what has happened to the obligation record itself* |
-| Accountability | The caretaker or role accountable |
+| Accountability | The caretaker(s) or role accountable — **many-to-many** (**DL-71**; see below) |
 | Escalation intent | What should happen if it remains unmet — as *intent*, not as an action |
 | Provenance | Where the obligation came from: manufacturer guidance, household decision, regulation, learned suggestion |
+
+### Accountability is many-to-many, and both views are projections (DL-71)
+
+**One Person may be caretaker-of many subjects, and one subject may have many current caretakers.**
+This clarifies, rather than adds to, the already-accepted Foundation `caretaker-of` relationship type
+(**DL-49**): nothing previously stated a cardinality limit, and household examples such as a pet with
+two caretakers or a Person who is caretaker of both a pet and an instrument require it.
+
+**Stewardship owns the current assignment records; there is exactly one governed record set.** A
+Person's own view ("Relationships: Caretaker of Maisey, Caretaker of Piano") and a subject's view
+("Caretakers: Tom, David") are both **projections** over that same record set — never independently
+editable copies. Editing one always means editing the single governed record; the other view reflects
+it automatically.
+
+### Completion Mode is explanatory vocabulary, not a new state (DL-71)
+
+Two household patterns are both already expressible through the existing obligation model and
+**DL-57**'s Delegated Access Grant, with no new Stewardship architecture:
+
+| Completion Mode | Configuration | Example |
+|---|---|---|
+| **One Completion Satisfies All** | One obligation names multiple current caretakers, any of whom may hold the **complete** operation of a Delegated Access Grant over the same record | Maisey's monthly medication — Tom completes it; it is Complete for David too |
+| **Each Recipient Must Complete** | Multiple independent obligations exist, one per accountable Person, each closed by its own Care Evidence Record | Each Person's flight check-in |
+
+**"Completion Mode" is a label for which of these two shapes was configured — it is never a new stored
+state**, and it must never be confused with **Acknowledgement** (**OD-45**, an identified person's
+responsive act) or a Communication's own delivery lifecycle (**OD-44**). The existing
+**Caretaker-calendar projection** already keeps every caretaker's open list clean under either mode:
+it is a live, read-time projection over the governed obligation record(s), so a shared item's closure
+is reflected for every caretaker without ever creating a stored per-recipient duplicate that would
+need to be cleaned up.
 
 ### Condition and lifecycle are orthogonal
 

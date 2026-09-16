@@ -774,6 +774,17 @@ Three rules bind every row:
 **Requestor, Speaker, Present Person, Potential Listener, Authorized Recipient, and Delivery Target
 answer different questions and are never collapsed.**
 
+### Authorized Recipient resolution from a relationship (DL-71)
+
+Where an Intended Audience Specification is **Relationship-based** (for example "Caretaker of
+Maisey"), Stewardship's current relationship record supplies **candidates**, never authorization.
+**Holding the relationship is not, by itself, sufficient**: a candidate becomes an Authorized
+Recipient only where Operational Trust also confirms a currently valid **Delegated Access Grant**
+(**DL-57**) covering at least the `receive` operation for that subject's Stewardship content — and
+at least `complete` where the candidate is also expected to be able to close a shared obligation.
+This is the existing **DL-57** rule ("accountability is not access") applied to audience resolution,
+not a new authority model.
+
 ### Prefer explicit metadata over inferred sensitivity
 
 > **Where content carries an explicit classification, Operational Trust uses it. It does not attempt
@@ -1245,7 +1256,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-46 | Urgency classification as an Operational Trust entitlement, and mapping to non-portable platform ladders |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-51 | Interruption action-risk class enumeration and defaults |
-| OD-52 | Audience specification model, including resolution of *anyone present with authority* |
+| OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |
 | OD-53 | Communication category enumeration, and confirmation of the Category × Urgency separation |
 | OD-56 | Safety-category scope, and whether HTBW may originate safety Communications at all |
 | OD-57 | Indication versus content separation |

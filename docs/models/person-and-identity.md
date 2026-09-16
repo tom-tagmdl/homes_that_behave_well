@@ -62,6 +62,61 @@ HTBW retains only what the native object does not hold, and **each extension kee
 **No extension list is a single record**, and this rule decides nothing about how identity evidence is
 weighted or how confidence thresholds are set — those are **DL-38** and **DL-39**.
 
+### "Person Extension" is a collective name, not a new object (DL-71)
+
+**Person Extension** is the household-facing, collective name for the totality of the distributed
+extensions above — it changes no ownership and creates no unified store. Person Setup is the shared
+configuration **experience** that lets a household configure roles/relationships/consent,
+identity-evidence associations, preferences, authority, obligations, and Vocabulary in one place,
+while each piece remains owned and persisted exactly as the table above states.
+
+### Guest fallback Person Extension
+
+**A household may designate exactly one existing, deliberately configured Person as the default
+consulted when Identity yields Unknown Person.** This is ordinarily a **Known Non-Resident Person**
+(a household-created placeholder such as "Guest"), but may be any configured Person the household
+designates. When Identity's own state is `unknown`, Concierge and Operational Trust may read the
+designated Person's own distributed extensions — permissions, Vocabulary, preferences — as
+interaction defaults.
+
+> **This never creates an Identity Assertion binding Unknown Person to the designated fallback.**
+> Unknown Person remains exactly what **DL-33** already states — momentary, expiring with the
+> assertion, carrying no Person reference — in every record, including the Decision Trace. Reading a
+> configured default is not identifying anyone.
+
+The designated fallback's Person Extension **may hold resources, Vocabulary, permissions, and
+relationships if the household deliberately configures them** — none of that is prohibited merely
+because it serves as the fallback. Where no fallback is designated, existing **DL-33**
+household-neutral treatment applies unchanged.
+
+**Recognition does not imply authority.** A Person who is fully identified and remembered (a
+consented voiceprint, a known Identity Assertion) may still be configured with guest-level
+permissions and interactions. This requires no new mechanism: **DL-36**/**DL-39** already hold access
+and presentation independent of identity confidence — being recognized authorizes nothing beyond what
+that Person's own Operational-Trust-owned authority is configured to permit.
+
+### Copy Settings From Person is setup-only (DL-71)
+
+A setup-time convenience **may** copy, from one Person's configuration into another's:
+
+- Permissions and allowed interactions (Operational Trust)
+- Person Vocabulary (Room Configuration/Person Setup, **DL-69**, **DL-70**)
+- Preferences and presentation defaults (Continuity)
+
+It **must never** copy: mail accounts, calendars, shopping lists, voiceprints, phones, presence
+devices, email addresses, delivery devices, Person-specific services, relationships, caretaker
+assignments, Asset ownership, consent records, historical activity, identity evidence, or any other
+Person-bound resource.
+
+The copied values are persisted **directly and independently** into the destination Person's own
+distributed extensions. **No synchronization and no runtime inheritance exist**: runtime reads only
+the destination Person's own configured values, never the source Person's. A later "Reset copied
+settings from Person" performs a new explicit copy — it is not a resumed link.
+
+**This creates no Role.** The existing **Role** concept (glossary.md) — a named position such as
+resident, owner, child, guest, or service provider, used by Operational Trust to derive authority — is
+unchanged and unextended by this convenience. Any informal household label for a copy-settings
+pattern ("like David's settings") is setup metadata only, never a runtime authorization construct.
 
 Identity may consume:
 

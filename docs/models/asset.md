@@ -84,7 +84,10 @@ unregistered thing may matter enormously, and a registered one may matter not at
 - Rooms served
 - Person, pet, room, or home relationships
 - Caretaker-of and owner-of relationships, as relationship *types*; the caretaker assignment itself is
-  owned by [stewardship.md](stewardship.md)
+  owned by [stewardship.md](stewardship.md). **`caretaker-of` is many-to-many** — one Asset may have
+  multiple current caretakers, and one Person may be caretaker of multiple Assets; the Asset's own
+  "Caretakers" view is a projection over Stewardship's single assignment record set, never an
+  independently editable copy (**DL-71**)
 
 ---
 
