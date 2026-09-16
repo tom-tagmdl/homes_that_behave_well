@@ -67,6 +67,33 @@ The underlying Physical Rooms remain available for:
 
 ---
 
+## A Physical Room participates in at most one Merged Room (DL-67)
+
+**A Merged Room is a curated conversational interaction context, not a general-purpose grouping
+mechanism.** A Physical Room may be a constituent of at most one Merged Room at a time.
+
+This is a necessary consequence of the behavioral identity rule above, not an independent limitation.
+Overlapping membership would mean a single Physical Room belongs to two different Room Contexts at
+once, which would force every consumer of Room Context — Truth's composite-fact input selection,
+Continuity's sessions and transfers, Operational Trust's policy scoping, and Room Configuration's own
+vocabulary resolution — to invent its own rule for which Merged Room currently applies. That is exactly
+the special-case orchestration this document's behavioral identity rule forbids.
+
+A household's desire for a broader or different grouping than its configured Merged Rooms (for example
+"Downstairs lights") is met by Home Assistant's own native Floor, Area, and group/scene targeting —
+never by an overlapping HTBW Merged Room. An Area already belongs to at most one Floor natively; there
+is no accepted gap requiring HTBW to duplicate that hierarchy. If a household wants "Downstairs" as its
+own curated interaction context, it configures a Merged Room for it in place of the narrower one its
+constituent Physical Rooms previously belonged to — an ordinary reconfiguration, never a technical
+limitation.
+
+Because membership is exclusive, a shared sensor, device, or asset never contributes to two Merged
+Rooms' composite Facts or vocabulary sets at once, and movement between two Merged Rooms that do not
+share a constituent Physical Room is an ordinary Room transfer, exactly like movement between any two
+distinct Rooms.
+
+---
+
 ## Participation is explicit
 
 A Merged Room may contain multiple participating voice assistants, speakers, lights, lamps, shades,

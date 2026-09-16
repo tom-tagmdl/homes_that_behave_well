@@ -132,6 +132,14 @@ A **Merged Room** likewise **references** its constituent Areas or Rooms. Consti
 never copied into the Merged Room; only the merged interaction semantics are HTBW-owned. Whether a
 Merged Room additionally warrants a native projection is **OD-70**.
 
+> **A Physical Room (Area) participates in at most one Merged Room at a time (DL-67).** A Merged Room
+> is a curated conversational interaction context, not a general-purpose grouping mechanism; allowing
+> overlapping membership would force Fact selection, session and transfer detection, policy scoping,
+> and vocabulary resolution each to invent their own rule for which Merged Room currently applies,
+> reintroducing the special-case orchestration **DL-13** rejects. A broader or capability-specific
+> grouping ("Downstairs") is met by Home Assistant's own native Floor and Area targeting, never by an
+> overlapping Merged Room.
+
 ### Selecting participating objects
 
 The configuration experience distinguishes **available** native objects from **participating** ones.

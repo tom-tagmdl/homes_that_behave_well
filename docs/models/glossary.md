@@ -30,6 +30,9 @@ A Room configuration composed of more than one underlying Physical Room or Home 
 Example: *Living Space* = Kitchen + Dining Room + Living Room.
 **A Room and a Merged Room behave identically from the resident and runtime perspective.** No
 separate orchestration logic exists for merged rooms.
+**A Physical Room participates in at most one Merged Room at a time (DL-67)**: a Merged Room is a
+curated conversational interaction context, not a general grouping mechanism, and Home Assistant's own
+Floor/Area targeting meets the household's need for a broader or different grouping.
 This is the canonical public term. Do not rename it.
 
 **Constituent Room**
