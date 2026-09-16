@@ -236,6 +236,173 @@ that curation entirely.
 
 ---
 
+## Vocabulary is a first-class HTBW concept (DL-69)
+
+Resolves **OD-62**. Full acceptance record is **DL-69** in
+[../governance/decision-ledger.md](../governance/decision-ledger.md); this section is the canonical
+model.
+
+**Vocabulary is the governed household-language layer that maps a natural word or phrase to a
+referenced Room, Merged Room, device, target set, Asset, service, information source, capability, or
+another accepted HTBW meaning within an applicable context.** It answers *"what does this household
+call this?"* Everything already stated in this document about Room-scoped Contextual Vocabulary is
+Vocabulary — this section names the concept explicitly and extends it beyond Room scope. **This does
+not create a new responsibility.** Vocabulary remains owned by Foundation, as part of Room
+Configuration (**DL-09**, **DL-10**), for Room- and Merged-Room-scoped terms; **Person Setup
+coordinates Person-scoped Vocabulary under the same concept**, exactly as it already coordinates other
+Person-owned associations.
+
+Vocabulary is **not**: a native Home Assistant identifier; a native Device or Entity name; a
+replacement for a formal Asset name; a copied provider name; a globally unique registry name; a
+permission; an exposure decision; an execution authorization; current proof of identity; a universally
+visible alias; or an uncontrolled prompt synonym. Native Assist aliases remain a distinct, separately
+governed concept (**OD-14**) that may only ever *seed* a Vocabulary term.
+
+### Vocabulary context types
+
+Vocabulary is **contextual, not globally unique**. The same word may mean different things, or nothing
+at all, depending on which context is currently applicable. The accepted context types are:
+
+| Context | Example |
+|---|---|
+| Physical Room | "Sofa Lamp" in the Den |
+| Merged Room | "Art Lights" in Living Space |
+| Person | "Mail" for Tom, "Inbox" for another Person, for the same underlying mailbox capability |
+| Household | A term with no narrower configured scope (see the boundary with **OD-13**, below) |
+| Capability | A term scoped to what it names rather than where — a service or information source |
+| Interaction (active clarification) | The bounded candidate set offered during an in-progress clarification |
+
+### Context precedence
+
+Where more than one context could apply, the **narrowest context that deterministically resolves the
+meaning** is used, in this tested order:
+
+1. **Active clarification context** — a candidate already offered in this interaction.
+2. **Current Person context**, for a Person-owned capability (a mailbox, calendar, or news source
+   configured per Person).
+3. **The current exclusive Merged Room** (**DL-67**).
+4. **The current Physical Room.**
+5. **Native handling**, only under the governed no-match and fallback rule below.
+
+**A Household-wide inherited tier is deliberately not accepted here.** Whether a term may be defined
+at Home scope and inherited by Rooms — and, if so, how override, shadowing, collision, and
+transitivity through a Merged Room behave — remains **OD-13**'s own open question, unaffected by this
+precedence order. This order does not assume inheritance exists; it states only how already-scoped
+Vocabulary competes when more than one scope is populated.
+
+### Vocabulary target shapes
+
+A term may resolve to any of the following, each an existing configuration mapping to stable native
+references — never a copy of entity state, and never a parallel registry:
+
+| Shape | Example |
+|---|---|
+| Single target | "Sofa Lamp" → one entity |
+| Named target set | "Art Lights" → Living Room Art Lights + Dining Room Art Lights |
+| Category set | "Lamps" → Sofa Lamp + Corner Lamp + Reading Lamp |
+| Asset | "Piano" → the formally named Asset |
+| Service or information capability | "News" → a configured news capability |
+| Person-scoped service | "Mail" → the current Person's configured mailbox capability |
+| Governed execution outcome | "Music" → the Room's accepted Music entry point |
+| Retrieval class | "Why did this happen?" → the resident-safe Decision Trace explanation capability |
+
+### Vocabulary cardinality is configuration, never grammar (DL-69)
+
+**A collection term's target-set size, and whether member-level terms are separately configured, are
+configuration properties. Language-specific singular/plural morphology is implementation mapping and
+is never hard-coded into this architecture.**
+
+A household may configure a collection term ("Lamps") whose target set has more than one member, and
+may separately configure a member-level term for one or more of those members ("Sofa Lamp", "Corner
+Lamp", "Reading Lamp"). **This reconciles, rather than overrides, the existing recognition-form rule
+above** ("a derived recognition form resolves to exactly its authoritative term's target set", and "a
+plural form never creates or expands a group"):
+
+- Where a household has **not** configured member-level terms, a singular derived form of a configured
+  collection term continues to resolve to that term's whole target set, exactly as already accepted.
+  "Turn on the lamp" behaves as a recognition form of "Lamps" and activates the full configured set.
+- Where a household **has** configured distinct member-level terms for members of a collection, a
+  singular utterance that could equally match more than one already-configured member term is the
+  existing `ambiguous` state ("more than one configured mapping matches") — **no new state is
+  introduced.** The existing failure-behaviour rule applies: ask which was meant, offering only
+  exposed, contextual, member-level terms ("Sofa Lamp, Corner Lamp, or Reading Lamp"), **never full
+  native device names, never unconfigured devices, and never targets outside the resolved Room or
+  Merged Room context.**
+
+Member-level terms, where configured, are ordinary Contextual Vocabulary entries scoped identically to
+any other term. **Setup should support configuring member-level terms alongside a collection term**,
+so a later singular reference has genuine bounded candidates rather than none.
+
+### Command resolution and safe native fallback (DL-69)
+
+**Home Assistant's documented Assist Pipeline, Conversation, and Intent facilities are retained in
+full and are not duplicated** (see
+[../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md), *Governed
+conversational retrieval and command resolution*). HTBW supplies household-specific meaning at the
+Conversation extension point; Home Assistant supplies the pipeline and execution facilities.
+
+The accepted resolution sequence:
+
+1. Home Assistant's documented pipeline stages run (wake word, Speech-to-Text, Conversation/Intent,
+   Text-to-Speech).
+2. The receiving voice-assistant endpoint supplies its Room assignment as the default Room Context.
+3. **DL-67** resolves the exclusive Merged Room, if the Physical Room participates in one.
+4. HTBW evaluates the utterance against configured Vocabulary in the resolved context (Physical Room,
+   Merged Room, or current Person, per the precedence order above), compiling to a concrete, governed
+   target set **before** any native targeting occurs.
+5. A governed match resolves to its configured target or execution entry point; Identity, Operational
+   Trust, Assist Exposure (**DL-66**), HTBW Exposure, consent, audience, and confirmation requirements
+   still apply.
+6. Execution uses the closest accepted native Intent, service, script, scene, or HTBW entry point.
+7. **Native fallback is considered only afterward, and only where safe.**
+
+**A failed HTBW vocabulary match must never silently authorize an unrelated or materially broader
+native action.** Six outcomes are distinguished:
+
+| Outcome | Behaviour |
+|---|---|
+| Deterministic HTBW match | Execute after governance checks |
+| Ambiguous HTBW match | Clarify from bounded, contextual, exposed candidates only |
+| No HTBW match, exact/permitted/exposed/safe native candidate | Native handoff may proceed |
+| No HTBW match, plausible but non-equivalent native interpretation | **Never execute silently.** Clarify, replay what was heard, or safely refuse |
+| No HTBW match, no safe native match | Return an honest no-match response |
+| Recognized text with residual uncertainty | Replay what was heard, or offer a bounded "did you mean" suggestion — never execute before confirmation |
+
+A "did you mean" suggestion is drawn only from already-configured Vocabulary or a verified-safe native
+target, is never an open-model invention, never converts semantic similarity into authorization, never
+discloses unauthorized candidates, and always preserves the original recognized text for explanation.
+**No recognition-confidence claim is made, because none is documented as available** to a custom
+conversation agent (see the home-assistant-boundary.md verified-sources table).
+
+This is the accepted resolution of the architecture-owner's "Bedtime" scenario: a resident says
+"Bedtime"; no configured Vocabulary matches; the correct outcome is a safe refusal, a replay, a bounded
+suggestion requiring confirmation, or an exact/permitted/safe native handoff — **never** a materially
+broader native action (such as turning on every Room light) executed without confirmation merely
+because some native interpretation existed.
+
+### Generic activation preserves existing state (DL-69)
+
+A generic activation command ("turn on the lamps") **preserves the household's existing accepted state
+rather than forcing a changed one.** [continuity.md](continuity.md) already accepts "last lamp levels"
+as governed Person- and Room-scoped state; a generic command consults that existing record where one
+exists. Home Assistant's own light documentation states only that `light.turn_on`'s brightness, color,
+and other parameters are **optional** — it does not document a universal "restore previous brightness"
+behaviour, and none is claimed here. The exact device- or integration-level outcome where no
+Continuity record exists remains implementation mapping, verified individually under **DL-30**.
+**An explicit request for a specific level, color, or scene is unaffected** and always takes the state
+the resident asked for.
+
+### Person-scoped Vocabulary
+
+A Person may configure their own term for a Person-owned capability — a mailbox called "Mail" by one
+Person and "Inbox" by another, or a calendar called "Schedule" by one Person and "Calendar" by another
+— exactly as [person-and-identity.md](person-and-identity.md) already references such capabilities
+"through the responsibility that governs their use." **No Person-specific Vocabulary, or the existence
+of the underlying capability, is disclosed to another Person without authorization**, and an Unknown
+Person receives no Person-scoped mapping (**DL-33**).
+
+---
+
 ## Changing or withdrawing a term — the household consequence is open
 
 This model governs how a term **comes into existence**: it is created by the household, may be seeded

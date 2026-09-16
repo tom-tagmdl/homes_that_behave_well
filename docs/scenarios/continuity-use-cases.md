@@ -545,7 +545,7 @@ defect rather than invented here.**
 ## Implementation status and unresolved decisions
 
 **U / F**. **OD-77** is the governing decision. Dependent: **OD-06** consent experience, **OD-09**
-portability and erasure, **OD-62** governed conversational retrieval.
+portability and erasure, **DL-69** (resolved **OD-62**) governed conversational retrieval.
 
 ---
 
@@ -959,7 +959,7 @@ here.
 | A Decision Trace references the **exact version** of the preference or session it used | **P30**, **DL-27** |
 | **The unknown answer is a correct answer** | [why-did-this-happen.md](why-did-this-happen.md) Scenario 21 |
 | *Converting temporal proximity into asserted causation* is prohibited | [why-did-this-happen.md](why-did-this-happen.md) Scenario 21 |
-| Whether this listener may receive this answer is **Operational Trust's** | **DL-34**; visibility is **OD-30**; retrieval is **OD-62** |
+| Whether this listener may receive this answer is **Operational Trust's** | **DL-34**; visibility is **OD-30**; retrieval is **DL-69** (resolved **OD-62**) |
 
 ---
 

@@ -489,7 +489,8 @@ The home answers with **whichever cause the evidence actually supports**:
 | Assembly | Concierge assembles the answer from governed records held by their owners |
 | Prohibited | **Converting temporal proximity into asserted causation.** "The automation ran shortly before" is not "the automation caused it" |
 
-**The unknown answer is a correct answer.** Governed retrieval through Conversation is **OD-62**.
+**The unknown answer is a correct answer.** Governed retrieval through Conversation is **DL-69**
+(resolved **OD-62**).
 
 ---
 

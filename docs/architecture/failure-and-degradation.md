@@ -37,6 +37,31 @@ Every fallback is a **decision** and produces a Decision Trace.
 
 ---
 
+## Honest response vocabulary for conversational retrieval and command resolution (DL-69)
+
+Resolves part of **OD-62**. This extends, and never replaces, the governed fallback vocabulary above
+for a spoken or conversational interaction.
+
+| Term | Meaning |
+|---|---|
+| Unknown | The question was evaluated but the answer cannot be determined from eligible evidence |
+| Unavailable | A required capability or source could not be used |
+| Not understood | No deterministic HTBW Vocabulary interpretation is available |
+| Clarification required | More than one authorized, contextual interpretation remains |
+| Not authorized | The requester lacks authority — stating this explicitly may itself be a disclosure, so the spoken wording must remain audience-safe |
+| Cannot answer here | The answer may require a private or authenticated surface |
+| Unsupported | The requested capability is not available through the current conversational surface |
+
+**The spoken wording must be audience-safe.** A shared-space response may need to say *"I can't answer
+that here"* rather than name what is being withheld or from whom. **A failed HTBW Vocabulary match
+must never silently authorize an unrelated or materially broader native action** — none of the entries
+above, and none of the governed fallback types in the table above, is "silently hand off to a system
+that may interpret the request differently." See
+[../models/contextual-vocabulary.md](../models/contextual-vocabulary.md), *Command resolution and safe
+native fallback*.
+
+---
+
 ## Capability dependency
 
 > **A capability that cannot exist is not a capability that was denied.**

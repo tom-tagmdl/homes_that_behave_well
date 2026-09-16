@@ -292,7 +292,36 @@ satisfied — never merely because a target became unavailable.
 
 **Command-routing, no-match, and native-fallback behaviour are explicitly not decided here.** They
 belong to **OD-62**, which owns the retrieval/command surface and custom sentence and intent
-definition, and are recorded there as evidence.
+definition, and are recorded there as evidence — resolved as **DL-69**, immediately below.
+
+### Governed conversational retrieval and command resolution (DL-69)
+
+Resolves **OD-62**. Full acceptance record is **DL-69** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+**Home Assistant retains its documented Voice pipeline and execution facilities in full. HTBW supplies
+governed household meaning at the Conversation extension point and pre-resolves it before any native
+targeting occurs.**
+
+| Claim | Documentation | Proves | Does not prove |
+|---|---|---|---|
+| The Assist Pipeline runs wake word, Speech-to-Text, Conversation/Intent, Text-to-Speech in order | `https://developers.home-assistant.io/docs/voice/overview/`, `https://developers.home-assistant.io/docs/voice/pipelines/` | The documented stage sequence and WebSocket run API | Nothing about HTBW-specific vocabulary or command semantics |
+| A Conversation entity implements `async_handle_message(user_input: ConversationInput, chat_log)` and receives `text`, `context`, `conversation_id`, `language` | `https://developers.home-assistant.io/docs/core/entity/conversation` | The documented custom-agent extension point and its documented input fields | That any additional metadata (confidence, Area, device beyond an optional pipeline-level `device_id`) is available |
+| An Intent carries `hass`, `platform`, `intent_type`, `slots`, `text_input`, `language` | `https://developers.home-assistant.io/docs/intent_index/` | The documented Intent object shape | A confidence score or alternative transcript |
+| The Conversation API returns `continue_conversation`, a `conversation_id`, and a `response` of type `action_done`, `query_answer`, or `error` (`no_intent_match`, `no_valid_targets`, `failed_to_handle`, `unknown`) | `https://developers.home-assistant.io/docs/intent_conversation_api` | Home Assistant's own documented no-match/error taxonomy and multi-turn tracking | That a custom agent may see recognition confidence or a ranked alternative-candidate list |
+| Custom sentences may extend or create an intent, with slots and a templated conversation response, via a sentence trigger | `https://www.home-assistant.io/voice_control/custom_sentences/` | A native, documented mechanism for household-declared phrases and responses | That native sentence matching can be intercepted, re-ranked, or confirmed by an external agent |
+| `light.turn_on` accepts brightness, color, color temperature, effect, and transition as **optional** parameters | `https://www.home-assistant.io/integrations/light/` | That omitting these parameters is supported | That omission universally restores a previously set brightness — actual behaviour is device/integration-specific |
+
+**DL-30 result**: the native Voice, Conversation, and Intent facilities fully satisfy the pipeline,
+recognition, and execution requirements; **HTBW's residual, proven gap is household-specific
+Vocabulary, context resolution, cardinality, and a no-match/fallback safety boundary** — see
+[contextual-vocabulary.md](../models/contextual-vocabulary.md). No parallel Speech-to-Text, Assist
+Pipeline, Conversation, Intent, or execution engine is built.
+
+**The unified command-resolution sequence, the cardinality rule, the no-match/native-fallback
+invariant, conversational retrieval classes, pre-answer filtering, and the honest response vocabulary
+are all recorded in** [contextual-vocabulary.md](../models/contextual-vocabulary.md) **and**
+[failure-and-degradation.md](failure-and-degradation.md) **rather than restated here.**
 
 ### Repairs is a surface, not an owner
 

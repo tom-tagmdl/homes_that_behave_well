@@ -21,6 +21,16 @@ Do not define vocabulary as owned by Concierge. Any document doing so is superse
 - Persistence across restart, reconfiguration, and platform upgrade
 - Room scoping: the same word may resolve differently in different Rooms
 - Mapping provenance sufficient for explanation
+- **Vocabulary is first-class (DL-69)**: it is contextual (Physical Room, Merged Room, Person,
+  Household, Capability, Interaction), never globally unique, and resolved by the narrowest context
+  that deterministically applies. A Household-wide inherited tier is not guaranteed here and remains
+  **OD-13**'s own question
+- **Cardinality is configuration, never grammar (DL-69)**: a collection term's target-set size and
+  any separately configured member-level terms are household configuration; language-specific
+  singular/plural morphology is never hard-coded as architecture
+- **A failed match never silently authorizes a broader native action (DL-69)**: command resolution
+  compiles to a governed target set before any native targeting, and native fallback is considered
+  only afterward, only where safe, and only for an exact, permitted, exposed target
 
 ---
 
@@ -106,7 +116,7 @@ Resolution:                Room Context -> term "Piano" -> that asset -> asset k
 | `resolved` | The term maps to a valid target set |
 | `not_configured_here` | The term has no mapping in this Room |
 | `broken_mapping` | The mapping exists but a target no longer resolves |
-| `ambiguous` | More than one configured mapping matches |
+| `ambiguous` | More than one configured mapping matches — **including a singular utterance matching more than one configured member-level term of a collection (DL-69)** |
 | `partially_available` | Some members of the target group are unavailable |
 
 ---
@@ -183,6 +193,7 @@ Explanation records the form heard and the authoritative term it resolved to. Ro
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
 | OD-13 | Whether terms may be inherited from Home scope and overridden per Room |
 | OD-14 | **Resolved.** Native aliases are an input — a seed — and never an authority |
+| OD-62 | **Closed — DL-69.** Vocabulary is first-class; command resolution, cardinality, and safe native fallback are accepted; historical reconstruction remains **OD-35**'s |
 | OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. **Consumers must not assume any transitional alias, deprecation window, or grace period**, because none is guaranteed and none has been decided. See [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md) |
 
 ## Related documents

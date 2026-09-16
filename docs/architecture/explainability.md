@@ -137,7 +137,7 @@ happened?"*, *"What changed?"*, *"What caused this?"*, *"Which automation or scr
 
 A reasoning provider may improve wording, summarisation, or presentation. **It must not fabricate
 missing facts, causation, attribution, or authority.** Provider strategy is **OD-67**, and
-governed conversational retrieval is **OD-62**. Neither is resolved here.
+governed conversational retrieval and command resolution is **DL-69** (resolved **OD-62**).
 
 HTBW does **not** state that every explanation is AI-generated, and HTBW does **not** introduce a new
 query language. The retrieval scopes above remain the model; Conversation is one surface onto them.

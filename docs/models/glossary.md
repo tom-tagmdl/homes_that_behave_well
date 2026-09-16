@@ -47,6 +47,15 @@ exposed, what residents call them, what Room Help says, and which sensors feed c
 Owned by Foundation. **It is not an inventory screen and not merely a location model.**
 Model: [room-configuration.md](room-configuration.md)
 
+**Vocabulary**
+The governed household-language layer mapping a natural word or phrase to a referenced Room, Merged
+Room, device, target set, Asset, service, information source, capability, or another accepted HTBW
+meaning within an applicable context (**DL-69**). Contextual, never globally unique. Owned by
+Foundation as part of Room Configuration; Person-scoped Vocabulary is coordinated through Person
+Setup under the same concept — **no new responsibility is created**. Not a native identifier, a
+formal Asset name, a permission, an exposure decision, or an execution authorization.
+Model: [contextual-vocabulary.md](contextual-vocabulary.md)
+
 **Room Context**
 The Room that a request is evaluated against. Normally established by the participating voice
 assistant that received the request, or by an explicit resident statement, or by a UI surface.

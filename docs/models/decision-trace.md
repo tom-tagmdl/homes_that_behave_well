@@ -201,6 +201,27 @@ retention policy.
 A policy change never rewrites an earlier trace. A trace must remain explainable under **the
 threshold and policy version that applied when the decision was made** (**P27**).
 
+### Vocabulary and command resolution (DL-69)
+
+No new field group is introduced; this extends fields 3, 4, 5, 12, 13, and 20 for a conversational
+retrieval or command-resolution interaction. A trace must be able to carry:
+
+| Detail | Note |
+|---|---|
+| Receiving endpoint | The voice assistant or surface that received the utterance |
+| Recognized text | Exactly what the native pipeline returned — never a claimed confidence score, since none is documented as available |
+| Vocabulary context and precedence applied | Which context (active clarification, Person, Merged Room, Physical Room) supplied the resolved term, per **DL-69**'s precedence order |
+| Matched canonical Vocabulary term, and its mapping source | `native_seed`, `accepted_native_seed`, or `household_defined` |
+| Singular or plural interpretation | Whether the utterance resolved as a collection term, a recognition form of one, or a distinct member-level term |
+| Candidate and clarification sets | Bounded to authorized, exposed, contextual Vocabulary only |
+| Suggested alternative, where offered | A "did you mean" suggestion, and that it required confirmation before any execution |
+| Native-fallback candidate, where considered | Whether it was exact, permitted, exposed, and safe |
+| Match classification | Deterministic, ambiguous, no-match-with-safe-native-candidate, no-match-unsafe-interpretation-rejected, or no-match-no-safe-candidate |
+| No-match reason, where applicable | Never silently omitted |
+
+A trace for this class of interaction must never record content that was withheld from the resident
+alongside content that was spoken, in a form that could itself leak the withheld content.
+
 ### Five separately recorded outcomes
 
 A trace must keep these apart. Collapsing any two of them makes the home's account of itself wrong,

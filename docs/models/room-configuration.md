@@ -245,10 +245,14 @@ Resolution order for a spoken request:
 
 1. Voice assistant identity
 2. Assigned HTBW Room Context
-3. Persisted Room vocabulary mapping
-4. Explicit target set
-5. Applicable Identity, Truth, Continuity, Stewardship, and Operational Trust context
-6. Concierge evaluation and orchestration
+3. The exclusive Merged Room (**DL-67**), if the Physical Room participates in one
+4. Persisted Vocabulary mapping, resolved by context precedence — active clarification, current
+   Person (for a Person-owned capability), current Merged Room, current Physical Room (**DL-69**; see
+   [contextual-vocabulary.md](contextual-vocabulary.md))
+5. Explicit target set
+6. Applicable Identity, Truth, Continuity, Stewardship, and Operational Trust context
+7. Concierge evaluation and orchestration; native fallback considered only where no governed match
+   exists and only where safe (**DL-69**)
 
 Two voice assistants participating in the same Room produce the **same** target resolution.
 

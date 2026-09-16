@@ -331,6 +331,68 @@ instead.
 
 ---
 
+## Scenario 16 — Lamps: collection versus member-level Vocabulary (DL-69)
+
+Living Space configures the collection term **Lamps** → Sofa Lamp + Corner Lamp + Reading Lamp, and
+separately configures member-level terms **Sofa Lamp**, **Corner Lamp**, and **Reading Lamp** for
+those same three members.
+
+| Utterance | Outcome |
+|---|---|
+| "Turn on the lamps" | Executes the full configured Lamps set |
+| "Turn on the lamp" | `ambiguous` — more than one configured member-level term matches. The home asks: *"Which lamp: Sofa Lamp, Corner Lamp, or Reading Lamp?"* — never full native names, never unconfigured devices, never targets outside Living Space |
+
+Had the household configured **only** the collection term "Lamps" with no member-level terms, "turn on
+the lamp" would remain a recognition form of "Lamps" and would activate the full set, exactly as
+Scenario 15 shows for a single-target case — **no new state is introduced; the existing `ambiguous`
+outcome now also covers this case once member-level terms exist.**
+
+---
+
+## Scenario 17 — Person-scoped Vocabulary (DL-69)
+
+Tom's configured mailbox is called **Mail** by Tom. The same mailbox capability, if configured for
+another Person, could be called **Inbox** by them instead.
+
+Tom says, in the Kitchen: *"Do I have any mail?"*
+
+| Step | Responsibility | Action |
+|---|---|---|
+| 1 | Identity | Evaluates current eligible evidence for Tom |
+| 2 | Room Configuration | Resolves Room Context (Kitchen); no Room-scoped "Mail" term exists |
+| 3 | Vocabulary (Person context, DL-69) | Resolves "Mail" against Tom's current Person-scoped Vocabulary |
+| 4 | Operational Trust | Confirms Tom's authority to hear this content in this audience |
+| 5 | Concierge | Answers using Tom's configured mailbox capability |
+
+**No Person-scoped Vocabulary, or the existence of the underlying capability, is disclosed to another
+Person present without authorization**, and an Unknown Person receives no Person-scoped mapping.
+
+---
+
+## Scenario 18 — "Bedtime": no HTBW match, safe native boundary (DL-69)
+
+No Room or Merged Room has configured a "Bedtime" Vocabulary term.
+
+Tom says, in the Primary Bedroom: *"Bedtime."*
+
+**Forbidden outcome:** the request silently falls through to a native interpretation that turns on
+every light in the Room, because no configured HTBW match exists.
+
+**Accepted outcomes**, in order of preference given available evidence:
+
+| Condition | Outcome |
+|---|---|
+| An exact, permitted, exposed, and safe native automation or intent matches "Bedtime" | Native handoff may proceed |
+| Recognized text is uncertain and a bounded candidate exists (for example, the household has a Vocabulary term or safe native automation named similarly) | Replay what was heard, or offer a bounded "did you mean" suggestion — **execute only after confirmation** |
+| No safe candidate exists at all | *"I didn't understand that."* — a safe, honest no-match response |
+
+**Never accepted**: executing a materially broader native action (turning on every Room light) merely
+because some native interpretation of the misheard or unmatched text happened to be executable. The
+event is traceable under [decision-trace.md](../models/decision-trace.md)'s Vocabulary and
+command-resolution fields.
+
+---
+
 ## Responsibilities exercised
 
 | Responsibility | Exercised by |
