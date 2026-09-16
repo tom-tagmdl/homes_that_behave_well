@@ -210,7 +210,10 @@ retrieval or command-resolution interaction. A trace must be able to carry:
 |---|---|
 | Receiving endpoint | The voice assistant or surface that received the utterance |
 | Recognized text | Exactly what the native pipeline returned — never a claimed confidence score, since none is documented as available |
-| Vocabulary context and precedence applied | Which context (active clarification, Person, Merged Room, Physical Room) supplied the resolved term, per **DL-69**'s precedence order |
+| Vocabulary context and precedence applied | Which context (active clarification, Person, Merged Room, Physical Room, Home/Global) supplied the resolved term, per **DL-69**/**DL-70**'s precedence order |
+| Winning scope and any shadowed (losing) scope | Whether a Room- or Merged-Room-scoped term shadowed a Home-scoped one, and what was shadowed (**DL-70**) |
+| Inherited, explicit, or shadowed | Whether the resolved term was a Home-scoped inheritance, an explicit Room/Merged-Room/Person definition, or a shadow of a broader scope (**DL-70**) |
+| Fulfillment source actually used | The provider, target, or source that satisfied the resolved word in this Room, Merged Room, or for this Person, distinguished from the word itself (**DL-70**) |
 | Matched canonical Vocabulary term, and its mapping source | `native_seed`, `accepted_native_seed`, or `household_defined` |
 | Singular or plural interpretation | Whether the utterance resolved as a collection term, a recognition form of one, or a distinct member-level term |
 | Candidate and clarification sets | Bounded to authorized, exposed, contextual Vocabulary only |

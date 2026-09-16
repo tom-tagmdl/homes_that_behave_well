@@ -146,6 +146,12 @@ native intent matching bypass HTBW's own curated participation, exclusions, and 
 
 The configuration experience distinguishes **available** native objects from **participating** ones.
 
+**A Physical Room's available candidates are objects associated with its own native Area. A Merged
+Room's available candidates are the union of objects associated with every constituent Physical
+Room's Area (DL-70).** This is the *only* difference between configuring a Physical Room and a Merged
+Room — once participation, exposure, and Vocabulary are configured, both behave identically in every
+other respect (**DL-13**, **DL-67**).
+
 *Available* objects are the Devices and Entities associated with, or otherwise eligible for, the
 native Area the Room represents. Eligibility uses supported Home Assistant relationships and remains
 subject to participation and exposure governance; it is never an unrestricted inventory.
@@ -247,8 +253,8 @@ Resolution order for a spoken request:
 2. Assigned HTBW Room Context
 3. The exclusive Merged Room (**DL-67**), if the Physical Room participates in one
 4. Persisted Vocabulary mapping, resolved by context precedence — active clarification, current
-   Person (for a Person-owned capability), current Merged Room, current Physical Room (**DL-69**; see
-   [contextual-vocabulary.md](contextual-vocabulary.md))
+   Person (for a Person-owned capability), current Merged Room, current Physical Room, Home (Global)
+   scope (**DL-69**, **DL-70**; see [contextual-vocabulary.md](contextual-vocabulary.md))
 5. Explicit target set
 6. Applicable Identity, Truth, Continuity, Stewardship, and Operational Trust context
 7. Concierge evaluation and orchestration; native fallback considered only where no governed match

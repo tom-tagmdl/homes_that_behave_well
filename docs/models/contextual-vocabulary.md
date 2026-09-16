@@ -268,7 +268,7 @@ at all, depending on which context is currently applicable. The accepted context
 | Physical Room | "Sofa Lamp" in the Den |
 | Merged Room | "Art Lights" in Living Space |
 | Person | "Mail" for Tom, "Inbox" for another Person, for the same underlying mailbox capability |
-| Household | A term with no narrower configured scope (see the boundary with **OD-13**, below) |
+| **Home (Global)** | "Piano", "Front Door" — a term with no narrower configured scope, inherited everywhere (**DL-70**, resolved **OD-13**) |
 | Capability | A term scoped to what it names rather than where — a service or information source |
 | Interaction (active clarification) | The bounded candidate set offered during an in-progress clarification |
 
@@ -278,17 +278,27 @@ Where more than one context could apply, the **narrowest context that determinis
 meaning** is used, in this tested order:
 
 1. **Active clarification context** — a candidate already offered in this interaction.
-2. **Current Person context**, for a Person-owned capability (a mailbox, calendar, or news source
-   configured per Person).
+2. **Current Person context**, for a Person-owned capability (a mailbox, calendar, shopping list, or
+   news source configured per Person). **Never for a Room- or Merged-Room-owned device term** — a
+   Person may never redefine what a Room calls its own devices (**DL-70**).
 3. **The current exclusive Merged Room** (**DL-67**).
 4. **The current Physical Room.**
-5. **Native handling**, only under the governed no-match and fallback rule below.
+5. **Home (Global) scope** — a term defined once and inherited everywhere no narrower term exists
+   (**DL-70**, resolved **OD-13**).
+6. **Native handling**, only under the governed no-match and fallback rule below.
 
-**A Household-wide inherited tier is deliberately not accepted here.** Whether a term may be defined
-at Home scope and inherited by Rooms — and, if so, how override, shadowing, collision, and
-transitivity through a Merged Room behave — remains **OD-13**'s own open question, unaffected by this
-precedence order. This order does not assume inheritance exists; it states only how already-scoped
-Vocabulary competes when more than one scope is populated.
+**A Room or Merged Room may shadow a Home-scoped term with its own definition.** Shadowing applies
+only within that Room or Merged Room; the Home-scoped term is unaffected everywhere else. This is
+never replacement, and never a second copy of the same word.
+
+### Vocabulary versus Fulfillment (DL-70)
+
+**Vocabulary is the household word. Fulfillment is which provider, target, script, Asset, capability,
+or source currently satisfies it.** A Vocabulary term may remain Home-scoped and stable while its
+Fulfillment varies by Room, Merged Room, or Person — for example the word "News" stays the same
+everywhere, while the Office's configured news sources differ from the Den's. This is not a new
+mechanism: Room, Merged Room, and Person configuration already carry Fulfillment fields (source and
+target selections) independently of the word chosen for them.
 
 ### Vocabulary target shapes
 
@@ -395,11 +405,28 @@ the resident asked for.
 ### Person-scoped Vocabulary
 
 A Person may configure their own term for a Person-owned capability — a mailbox called "Mail" by one
-Person and "Inbox" by another, or a calendar called "Schedule" by one Person and "Calendar" by another
-— exactly as [person-and-identity.md](person-and-identity.md) already references such capabilities
-"through the responsibility that governs their use." **No Person-specific Vocabulary, or the existence
-of the underlying capability, is disclosed to another Person without authorization**, and an Unknown
-Person receives no Person-scoped mapping (**DL-33**).
+Person and "Inbox" by another, a calendar called "Schedule" by one and "Calendar" by another, or a
+shopping list called "Groceries" or "Liquor Run" — exactly as
+[person-and-identity.md](person-and-identity.md) already references such capabilities "through the
+responsibility that governs their use." **No Person-specific Vocabulary, or the existence of the
+underlying capability, is disclosed to another Person without authorization**, and an Unknown Person
+receives no Person-scoped mapping (**DL-33**).
+
+**Person Vocabulary is restricted to Person-owned capabilities and resources, and never redefines a
+Room- or Merged-Room-owned device term (DL-70).** A Person is never permitted to give their own
+private meaning to a Room's devices — device and Asset Vocabulary remains Room Configuration's sole
+authority. Allowing otherwise would mean the same utterance, in the same Room, resolving differently
+depending on who spoke it, which breaks the existing "two voice assistants in the same Room produce
+the same target resolution" guarantee.
+
+### Vocabulary collision behaviour (DL-70)
+
+| Case | Behaviour |
+|---|---|
+| The same word in two different Rooms (or Merged Rooms) | **Not a collision.** Ordinary Room scoping — each resolves within its own context |
+| Two simultaneous definitions of the same word in the *same* scope | A **configuration-invariant violation**, never silently arbitrated at runtime. Setup must prevent it; where it nonetheless occurs, it is a **DL-65** Repairs candidate (a configuration invariant ordinary runtime evaluation cannot resolve), exactly as a duplicate Primary Authority already is |
+| Home scope versus Room or Merged Room | **Shadowing** — the Room's definition applies only within that Room; the Home-scoped term is unaffected everywhere else |
+| Person versus Room | **Valid** only where the Person-scoped term genuinely names a Person-owned capability, resolved through the context-precedence order above. **Never valid** as a Person redefining a Room- or Merged-Room-owned device term |
 
 ---
 

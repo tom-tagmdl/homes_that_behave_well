@@ -50,10 +50,20 @@ Model: [room-configuration.md](room-configuration.md)
 **Vocabulary**
 The governed household-language layer mapping a natural word or phrase to a referenced Room, Merged
 Room, device, target set, Asset, service, information source, capability, or another accepted HTBW
-meaning within an applicable context (**DL-69**). Contextual, never globally unique. Owned by
-Foundation as part of Room Configuration; Person-scoped Vocabulary is coordinated through Person
-Setup under the same concept — **no new responsibility is created**. Not a native identifier, a
-formal Asset name, a permission, an exposure decision, or an execution authorization.
+meaning within an applicable context (**DL-69**). Contextual, never globally unique. Scoped to Home
+(Global), Room, Merged Room, or Person; a Home-scoped term is inherited everywhere no narrower term
+exists, and a Room or Merged Room may shadow it (**DL-70**). Owned by Foundation as part of Room
+Configuration; Person-scoped Vocabulary is coordinated through Person Setup under the same concept —
+**no new responsibility is created**. Not a native identifier, a formal Asset name, a permission, an
+exposure decision, or an execution authorization.
+Model: [contextual-vocabulary.md](contextual-vocabulary.md)
+
+**Fulfillment**
+Which provider, target, script, Asset, capability, or source currently satisfies a Vocabulary term —
+distinct from the word itself (**DL-70**). A term may stay Home-scoped and stable while its
+Fulfillment varies by Room, Merged Room, or Person (for example "News" everywhere, with different
+configured sources per Room). Not a new store or a new responsibility — Fulfillment is the existing
+Room/Merged-Room/Person configuration fields Vocabulary resolves to.
 Model: [contextual-vocabulary.md](contextual-vocabulary.md)
 
 **Room Context**

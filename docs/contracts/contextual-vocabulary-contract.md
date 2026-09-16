@@ -31,6 +31,12 @@ Do not define vocabulary as owned by Concierge. Any document doing so is superse
 - **A failed match never silently authorizes a broader native action (DL-69)**: command resolution
   compiles to a governed target set before any native targeting, and native fallback is considered
   only afterward, only where safe, and only for an exact, permitted, exposed target
+- **Home-scoped inheritance and shadowing (DL-70)**: a term may be defined once at Home scope and is
+  inherited everywhere no narrower term exists; a Room or Merged Room may shadow it, never replace it
+- **Vocabulary and Fulfillment are distinguished (DL-70)**: a word may stay Home-scoped and stable
+  while its Fulfillment (provider, target, source) varies by Room, Merged Room, or Person
+- **Person Vocabulary never redefines a Room- or Merged-Room-owned device term (DL-70)**: it is
+  restricted to Person-owned capabilities and resources
 
 ---
 
@@ -191,7 +197,7 @@ Explanation records the form heard and the authoritative term it resolved to. Ro
 | ID | Question |
 |---|---|
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
-| OD-13 | Whether terms may be inherited from Home scope and overridden per Room |
+| OD-13 | **Closed — DL-70.** Home-scope inheritance and Room/Merged-Room shadowing are accepted; Vocabulary and Fulfillment are distinguished; Person Vocabulary stays restricted to Person-owned capabilities; collision behaviour is stated; Floor participation stays deferred to **OD-10** |
 | OD-14 | **Resolved.** Native aliases are an input — a seed — and never an authority |
 | OD-62 | **Closed — DL-69.** Vocabulary is first-class; command resolution, cardinality, and safe native fallback are accepted; historical reconstruction remains **OD-35**'s |
 | OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. **Consumers must not assume any transitional alias, deprecation window, or grace period**, because none is guaranteed and none has been decided. See [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md) |
