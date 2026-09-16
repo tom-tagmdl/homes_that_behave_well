@@ -198,18 +198,44 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Native automation, script, scene, blueprint | Automation, script, scene, blueprint | These are **native participants** the household owns through Home Assistant. HTBW references and observes them. HTBW does not own, absorb, rewrite, or replace them. |
 | Behaviour source | Context ID, Parent Context ID, User Context ID, and the originating integration where identifiable | Context supplies correlation and, where the platform supplies it, an attributable user. It does not supply the household meaning of *what caused this*, which HTBW records as behaviour attribution on the **Domain Event**. See [../models/temporal-record.md](../models/temporal-record.md). |
 
-### Exposure precedence
+### Exposure precedence (DL-66)
 
-> **Home Assistant Assist exposure is a platform boundary. HTBW may narrow it. HTBW must never bypass
-> it.**
+Resolves **OD-59**. Full acceptance record is **DL-66** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
 
-- Assist exposure determines whether an assistant **may target or interact with** an entity.
+> **Home Assistant Assist exposure is a platform safety boundary. HTBW may narrow it. HTBW must never
+> widen past it, and must never bypass it.**
+
+- Assist exposure determines whether an assistant **may target or interact with** an entity, and
+  Home Assistant documents its purpose as safety-driven: preventing sensitive devices, such as locks
+  and garage doors, from being controlled inadvertently by voice.
 - HTBW Exposure determines whether, and how, **the existence of or information about** something may
-  be perceptible to a resident.
-- **HTBW must not use voice to convey information about, or act upon, an entity that Home Assistant
-  has not exposed to the applicable assistant.**
-- Where HTBW would expose something that Home Assistant has not, the correct outcome is a reported
-  configuration condition — never a silent bypass. The residual question is **OD-59**.
+  be perceptible to a resident — through vocabulary, Room Help, UI, conversation, or another
+  interaction surface (**DL-11**).
+- **These are not the same concept, and neither is a proposal for the other.** Unlike a native name
+  (**OD-14**, an informational seed a household may freely override) or a native environmental slot
+  (**DL-60**, a proposal Room Configuration may accept, decline, or supersede), native Assist exposure
+  is never treated as a default HTBW's own governed state may end up overriding upward — because the
+  native setting is a deliberate safety precondition, not a suggestion. **HTBW may only ever narrow
+  it, never widen past it.**
+- **This rule is scoped to voice- and conversation-mediated interaction**: vocabulary resolution, Room
+  Help spoken answers, and conversational discussion, retrieval, targeting, or suggestion (**OD-62**
+  consumes this boundary without redefining it). **HTBW must not use voice to convey information
+  about, or act upon, an entity that Home Assistant has not exposed to the applicable assistant.**
+- **A non-voice surface (a UI panel, a dashboard) is independently governed by Room Configuration and
+  is not bounded by native Assist exposure** — Assist exposure's own documented purpose is scoped to
+  assistant targeting, not general visibility.
+- **HTBW never writes back to native Assist exposure**, under any configuration (**DL-31**, **DL-65**'s
+  projection model).
+- **Divergence between the two is never, by itself, a defect or a Repairs issue** (**DL-65**): an
+  entity Assist-exposed but HTBW-excluded is an ordinary deliberate exclusion; an entity HTBW-included
+  but Assist-hidden is a **configuration condition** — reported so the household understands that
+  voice cannot currently reach an otherwise-configured capability — resolved entirely by the
+  precedence rule above, without administrator intervention.
+- **The specific native mechanism for reading current Assist exposure state and observing changes to
+  it remains a per-implementation DL-30 verification** — mirroring DL-60's own per-slot precedent —
+  and does not block this architectural rule, which holds regardless of the reading mechanism
+  ultimately used.
 
 HTBW Exposure is defined in [../models/room-configuration.md](../models/room-configuration.md). **This
 is the canonical explanation of the distinction; other documents cross-reference it rather than

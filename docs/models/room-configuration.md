@@ -63,11 +63,11 @@ Principles P5–P7:
 
 > **Exposure here is the HTBW constitutional state. It is not Home Assistant Assist entity
 > exposure.** Assist exposure decides whether an assistant may target an entity; HTBW Exposure
-> decides whether something may be perceptible to a resident. **Assist exposure is a platform
-> boundary that HTBW may narrow and must never bypass.** The canonical explanation and the precedence
-> rule are in
-> [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md);
-> the residual question is **OD-59**.
+> decides whether something may be perceptible to a resident. **Assist exposure is a platform safety
+> boundary that HTBW may narrow and must never widen past or bypass** (**DL-66**), scoped to voice-
+> and conversation-mediated interaction; a non-voice surface is independently governed. The canonical
+> explanation and the precedence rule are in
+> [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md).
 
 Worked examples:
 
@@ -187,7 +187,7 @@ household-defined term survives a later native rename. The full rule is
 
 **These are four distinct states, never one checkbox and never one semantic concept.** Where the
 configuration displays exposure, it must say which of the four it is showing. HTBW may narrow native
-Assist exposure and must never bypass it; the canonical explanation is in
+Assist exposure and must never widen past or bypass it (**DL-66**); the canonical explanation is in
 [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md).
 
 ### When the native object changes

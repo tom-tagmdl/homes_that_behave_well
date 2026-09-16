@@ -683,9 +683,11 @@ Help, UI, conversation, or another interaction surface.
 **Home Assistant Assist Exposure**
 A **Home Assistant platform setting**, not an HTBW concept, controlling whether an assistant may
 target or interact with an entity. It is configured per entity and per assistant, and exists so that
-sensitive devices cannot be controlled inadvertently by voice. **It is not HTBW Exposure**, which
-governs whether something may be perceptible to a resident at all. Assist exposure is a platform
-boundary HTBW may narrow and must never bypass.
+sensitive devices cannot be controlled inadvertently by voice — a **safety precondition**, not an
+informational seed. **It is not HTBW Exposure**, which governs whether something may be perceptible to
+a resident at all. For voice- and conversation-mediated interaction, HTBW Exposure may **narrow** this
+platform boundary but must **never widen past it or bypass it**; a non-voice surface (a UI panel, a
+dashboard) is independently governed and not bounded by it (**DL-66**).
 See [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md).
 
 **Authority**
