@@ -262,11 +262,59 @@ delivery is still wanted.
 
 Operational Trust evaluates target association, authenticated user, governed device binding, delivery
 capability, audience restriction, content classification, and applicable policy before any surface is
-treated as private. Surface capability and perceptibility are **OD-43**; the audience specification
-model is **OD-52**; the policy applied when composition is uncertain is **OD-71**.
+treated as private. **Extended, not replaced (DL-72):** the surface must also have sufficient
+Potential Perceptibility evidence for the attempted delivery (**DL-53**), be currently available, be
+**not known to be shared**, be **not merely nearby** to the intended Person, carry a currently
+governed device-Person association, and support the required Presentation Outcome (**DL-54**); the
+selection must be explainable. **No platform capability to detect lock-screen state, current physical
+possession, or shared-device status is claimed** — where the platform cannot establish privacy, the
+uncertainty is retained and the next degradation step applies (**DL-29**); this remains an **OD-43**
+implementation-time verification item. A Person-associated mobile application, wearable, or
+authenticated personal dashboard is only *potentially* private and must pass the full test; a shared
+household tablet, shared phone, television, Room display, kitchen dashboard, or Room speaker is
+**never** automatically private. Surface capability and perceptibility are **OD-43**; the audience
+specification model is **DL-71** (resolved **OD-52**); the policy applied when composition is
+uncertain is **DL-72** (resolved **OD-71**), immediately below.
 
 Communication remains the object. Delivery remains separate. **Concierge orchestrates the outcome and
 owns none of the authority.** See [operational-trust.md](operational-trust.md).
+
+### System-Initiated Communication versus Person-Requested Response (DL-72)
+
+**A System-Initiated Communication** is one HTBW originates without a current explicit request — a
+medication reminder, new private Mail, a Calendar reminder, a Stewardship warning, a financial or
+security notice. **A Person-Requested Response** answers a Person's current explicit request — *"What
+is on my Calendar?"*, *"Read my Mail,"* *"Tell me about the Piano,"* *"Send that to my phone."* The
+two are not treated identically.
+
+**An explicit request is evidence of willingness to receive an authorized response through the
+current interaction context. It is never unrestricted consent.** The presumption of willingness is
+void where: the Person requests private delivery instead; a higher content, privacy, or Operational
+Trust rule requires private delivery; the response would disclose another Person's information; the
+response would reach a prohibited reconstruction (**DL-35**); requester authority or applicability
+cannot be sufficiently established; or the current Delivery Surface cannot safely present the
+response.
+
+*"Read that here"* is evidence of willingness for the current interaction only — it is never
+permission to disclose another Person's private content. *"Send that to my phone"* resolves the
+**requestor's own** authorized private destination, never a convenient or nearby device.
+
+### Default degradation order under audience uncertainty (DL-72, resolved OD-71)
+
+For a **System-Initiated** Communication where audience composition cannot be safely established, the
+accepted order — evaluated in sequence, not as a mandatory checklist of every step — is:
+
+1. **Authorized private delivery** to each intended recipient's own configured destination, where
+   available and qualified as private (above).
+2. **Content-free Indication**, where its own audience evaluation and **OD-57**'s eventual
+   mandatory-threshold rule permit it.
+3. **A neutral confirmation or clarification challenge** that names no candidate, subject,
+   relationship, or sensitive content, where a genuinely neutral form exists (**DL-37**).
+4. **Deferral or refusal** of audible delivery, preserving the Communication for retry (**OD-54**) or
+   escalation (**OD-22**).
+
+**This is the privacy-preserving floor and applies even where no household configuration exists.** A
+missing configuration must never result in audible private disclosure.
 
 ### A confirmation challenge is a Communication
 
@@ -284,7 +332,25 @@ Trust's.
 **No wording is prescribed here.** The requirement is that the challenge is governed, not that it is
 phrased in a particular way. Confirmation requirements, strength, scope, and outcomes belong to
 [operational-trust.md](operational-trust.md); the policy applied when audience composition is
-uncertain is **OD-71**.
+uncertain is **DL-72** (resolved **OD-71**).
+
+**A neutral challenge is bounded by information class, not by prescribed wording (DL-72).** Under
+audience uncertainty, it must never name a candidate Person, a private subject or resource, a
+caretaker or other relationship, the sensitive action or content, or protected history. *"Would you
+like that sent privately?"* and *"where would you like the response?"* illustrate a permitted form;
+*"Tom, is that you?"*, *"should I send your medication reminder to your phone?"*, and *"are you
+Maisey's caretaker?"* each illustrate a prohibited one.
+
+### Content-free Indication discloses nothing about content (DL-72)
+
+An Indication must never reveal the intended recipient's identity, the subject, the content, a
+private relationship, a sensitive content class (medical, financial, security, Mail, Calendar), or
+that a concealed Asset or Person-specific resource exists. *"There is a private notification
+available"* illustrates a safe form; *"Tom, you have a medication reminder,"* *"someone has a medical
+notice,"* and *"the caretaker of Maisey has a reminder"* each illustrate an unsafe one — each discloses
+more than existence alone. The Indication itself remains a Communication and is audience-evaluated
+before it is delivered. **Whether Indication is mandatory rather than merely available at a given
+threshold remains OD-57's own question.**
 
 ### Named and neutral presentation
 

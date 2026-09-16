@@ -855,7 +855,44 @@ Communication does not — it is the governed object. **A reasoning provider is 
 classifier.** See [communication.md](communication.md) and
 [../architecture/principles.md](../architecture/principles.md).
 
-The policy applied when audience composition is uncertain or undetectable is **OD-71**.
+The policy applied when audience composition is uncertain or undetectable is **DL-72** (resolved
+**OD-71**), below.
+
+### Audience-uncertainty disclosure policy (DL-72)
+
+**System-Initiated Communication and Person-Requested Response receive different treatment.** A
+System-Initiated Communication (a medication reminder, new private Mail, a Calendar reminder, a
+Stewardship warning) carries no current explicit request; a Person-Requested Response answers a
+Person's current explicit request (*"What is on my Calendar?"*). **An explicit request is evidence of
+willingness to receive an authorized response through the current interaction context — never
+unrestricted consent** — and remains bounded by every other rule in this document: it does not
+authorize disclosure of another Person's information, does not reach a prohibited reconstruction
+(**DL-35**), and is void wherever requester authority, applicability, or safe surface presentation
+cannot be established.
+
+**For a System-Initiated Communication where audience composition cannot be safely established, the
+accepted default order is**: (1) authorized private delivery to each intended recipient's own
+configured destination; (2) content-free Indication, where permitted; (3) a neutral confirmation or
+clarification challenge naming no candidate, subject, relationship, or sensitive content; (4)
+deferral or refusal, preserving the Communication for retry or escalation. **This is the
+privacy-preserving floor and applies even absent household configuration.** See
+[communication.md](communication.md) for the full statement and illustrative examples.
+
+**Two Continuity-owned Person Setup preferences are distinct and must not be conflated**: the
+existing **Ordinary Delivery Preference** (where Communications normally go) and the new
+**Audience-Uncertainty Routing Preference** (where to route when audience composition cannot be
+safely established). Operational Trust evaluates both identically — the preference supplies a desired
+path; **this model determines whether that path is currently permitted and safe**; Concierge selects
+the Delivery Target. A Person preference may select only among already-allowed degradation
+behaviours; **it can never weaken the privacy floor or authorize a prohibited disclosure**. Where no
+Person-specific preference exists, the household's Global default applies (accepted as "prefer
+authorized private delivery").
+
+**Unresolved plurality, Audience unknown, and Audience detection unavailable remain three distinct
+composition states (DL-34), and contradictory evidence (evaluated under DL-63) is a fourth** — all
+four receive the same default disposition, but the Decision Trace preserves which one actually
+applied. A Merged Room's wider Potential Listener and Delivery Surface pool changes the composition
+**inputs** evaluated here, never the policy itself.
 
 ### Location disclosure
 

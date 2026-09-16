@@ -246,6 +246,27 @@ For a Communication or Stewardship obligation, a trace must be able to carry:
 | Completion Mode, where applicable | One Completion Satisfies All or Each Recipient Must Complete, and by whom completed |
 | Escalation change, where applicable | That a new specification was recorded, not a mutation of the original |
 
+### Audience-uncertainty disposition (DL-72)
+
+Extends the group above for a Communication delivered, or attempted, under audience uncertainty. A
+trace must be able to carry:
+
+| Detail | Note |
+|---|---|
+| System-Initiated or Person-Requested | Which origin classification applied |
+| Requestor, where Person-Requested | The identified Person, or that requester authority could not be established |
+| Audience Composition uncertainty state | Unresolved plurality, Audience unknown, Audience detection unavailable, or contradictory evidence (**DL-34**, **DL-63**) — never collapsed into one generic "uncertain" flag |
+| Content classification | As declared by the originating responsibility (enumeration is **OD-51**'s) |
+| Room or Merged Room, and Mode | Current values considered |
+| Global uncertainty policy version, and Person-specific preference, if applied | Distinguished from the ordinary delivery preference |
+| Ordinary delivery preference, for contrast | Recorded even where the uncertainty preference overrode it |
+| Explicit delivery instruction, where given | For example "send that to my phone" |
+| Private-surface qualification result, per candidate surface | Which criteria were met or failed, and why |
+| Degradation path taken | Private redirect, content-free Indication, neutral challenge, or defer/refuse |
+| Redirected Delivery Targets, per recipient | Independent per recipient (**DL-71**) |
+| Content withheld | Never silently omitted |
+| Retry or escalation references, where applicable | Owned by **OD-54**/**OD-22**, referenced not restated |
+
 ### Five separately recorded outcomes
 
 A trace must keep these apart. Collapsing any two of them makes the home's account of itself wrong,

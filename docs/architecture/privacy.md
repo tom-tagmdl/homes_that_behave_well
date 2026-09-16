@@ -190,7 +190,7 @@ than against who asked.
 - A device-location Fact **never establishes that the bound Person is with the device**, and an answer
   must not imply that it does.
 - Where audience composition is uncertain, **the delivery degrades, not the governance** — content-free
-  indication, a private surface, confirmation, or refusal (**OD-71**).
+  indication, a private surface, confirmation, or refusal (**DL-72**, resolved **OD-71**).
 
 #### Pet location may disclose human movement
 
@@ -529,7 +529,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
-| OD-52 | Audience specification model, including resolution of *anyone present with authority* |
+| OD-52 | **Closed — DL-71.** Audience specification model, including resolution of *anyone present with authority* |
 | OD-57 | Indication versus content separation, and when content-free indication becomes mandatory |
 
 See [../governance/decision-ledger.md](../governance/decision-ledger.md).

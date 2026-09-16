@@ -1008,6 +1008,23 @@ exists independently of the mechanism used to convey it, and is **never** define
 push message, announcement, or indicator. Governed by **P31**.
 Model: [communication.md](communication.md)
 
+**System-Initiated Communication**
+A Communication HTBW originates without a current explicit request — a medication reminder, new
+private Mail, a Calendar reminder, a Stewardship warning (**DL-72**). Under audience uncertainty, the
+accepted default prefers authorized private delivery. Distinct from a **Person-Requested Response**.
+
+**Person-Requested Response**
+A response to a Person's current explicit request — *"What is on my Calendar?"*, *"Read my Mail"*
+(**DL-72**). The request is evidence of willingness to receive an authorized response through the
+current interaction context — **never unrestricted consent**, and never authorization for another
+Person's information.
+
+**Audience-Uncertainty Routing Preference**
+A Continuity-owned Person Setup preference, distinct from the ordinary delivery preference, answering
+where a Communication should route when audience composition cannot be safely established for that
+Person (**DL-72**). Supplies a desired degradation path only; Operational Trust determines whether it
+is currently permitted and safe.
+
 **Delivery**
 The act of conveying a Communication through a surface. Distinct from the Communication itself.
 

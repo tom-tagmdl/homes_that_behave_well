@@ -69,6 +69,15 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
   superseded**, and neither is authority. Whether a person-scoped preference may name or steer a
   reasoning provider is **OD-67**, and **the scope at which a presentation preference may exist, and
   what takes precedence when a Room persona and a person preference disagree, is OD-79**
+- **Audience-Uncertainty Routing Preference (DL-72)** — distinct from the ordinary delivery
+  preference above: where a Communication should route **when audience composition cannot be safely
+  established** for that Person as intended recipient. Answers *"when HTBW cannot determine who else
+  may hear or see a private message intended for you, where should it send it?"* **Not** an Audience
+  Composition claim, not a statement that the selected destination is always private, not a bypass of
+  Operational Trust, not a substitute for Delivery Surface capability evaluation, and not a request to
+  identify everyone in the Room. Continuity holds the preference; Operational Trust determines whether
+  it is currently permitted and safe; Concierge selects the Delivery Target. See
+  [communication.md](communication.md) and [operational-trust.md](operational-trust.md)
 - Ask-before-transfer preference
 - Never-transfer preference
 - Active personal media sessions
