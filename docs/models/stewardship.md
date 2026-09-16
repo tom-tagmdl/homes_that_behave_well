@@ -543,7 +543,10 @@ requirements — Stewardship evaluates every subject independently.** One subjec
 has no bearing on another's; requirements are never averaged, never ranked, and a Room is never assigned
 one universal verdict. Where two subjects' requirements conflict (one wants higher humidity than
 another tolerates), **the conflict is surfaced, never silently resolved** — corrective-action choice
-remains Operational Trust's and the household's, exactly as any other Stewardship conflict.
+remains Operational Trust's and the household's, exactly as any other Stewardship conflict. **This is a
+Stewardship conflict, never a Truth conflict** (`truth.md`, *Genuine Truth Conflict*, **DL-63**): Truth
+publishes exactly one current Room Fact; Stewardship maintains the independent per-subject evaluations
+against it.
 
 ### Environmental Coverage, Configuration Completeness, and Truth Confidence stay separate (DL-61)
 

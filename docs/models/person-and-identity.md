@@ -818,6 +818,12 @@ measured probability**.
 | **F8** | **Separation** | `known` requires the leading candidate to reach the purpose's minimum level **and** to exceed the next candidate by a governed **separation requirement**. Otherwise the outcome is `ambiguous` |
 | **F9** | **Determinism and monotonicity** | The same inputs, at the same evaluation time, under the same Fusion Policy version, produce the same result. An eligible supporting observation never lowers a result; a contradicting one never raises it |
 
+> **F6's contradiction handling is DL-38's alone, inside the fusion function, before Truth ever receives
+> the resulting purpose-specific Assertion.** Truth's own genuine-conflict rules (**DL-63**) never reuse,
+> duplicate, or reach past that Assertion to the evidence families behind it; DL-63 governs only how
+> Truth resolves conflict among its own eligible current claims — which may include a consumed Identity
+> Assertion as one input, never the fusion process itself.
+
 ### Why the result is stepped rather than calculated
 
 | Rejected approach | Why it fails here |

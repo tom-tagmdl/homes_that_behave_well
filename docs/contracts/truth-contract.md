@@ -238,22 +238,43 @@ after Home Assistant First finds no acceptable direct or provider-derived entity
 
 ---
 
-## Conflicting evidence
+## Genuine Truth Conflict (DL-63)
 
 **No consumer may resolve competing Truths by inventing a preferred fact.** Concierge in particular
 must not do this.
+
+**A genuine Truth conflict exists only when two or more currently eligible, semantically comparable
+claims address the same Subject, predicate/Fact purpose, context, and evaluation time, remain
+independently eligible after Truth's qualification order runs, and are mutually incompatible, with no
+accepted authority-selection, validity, availability, configuration, Identity, or Stewardship rule
+already explaining the difference.** See `truth.md`, *Genuine Truth Conflict (DL-63)*, for the full
+qualification order and Conflict Policy model.
+
+**Confirmed as not Truth conflicts**: same-purpose environmental sensor disagreement (**DL-62** —
+Primary Authority removed this default), a native Area proposal diverging from an explicit Room
+Configuration selection (**DL-60**), a Provider-Derived Environmental Indicator differing from a direct
+measurement or a Stewardship evaluation (post-**DL-62** clarification), and conflicting Person/Pet/Asset
+Environmental Requirements against one current Room Fact (**DL-61**, Stewardship-owned). Identity
+contradiction remains **DL-38**'s; assertion lifetime and cross-purpose eligibility remain **OD-15**'s.
 
 Permitted Truth outcomes:
 
 | Outcome | When |
 |---|---|
-| Single fact with reduced confidence | A governed resolution rule applies and is recorded |
-| Unresolved fact | No resolution rule applies; candidate statements are reported |
-| `unknown` | Nothing can be asserted |
+| Single fact with reduced confidence | A governed resolution rule or an accepted authority applies and is recorded with the Conflict Policy version; contradiction never raises confidence and never produces Very High |
+| Unresolved fact | No resolution rule applies; every competing claim, source, and value is reported |
+| `unknown` | Nothing can be honestly asserted — never conflated with `unavailable` (**DL-41**) or with absence of evidence |
 | Withdrawn fact | Prior evidence is stale or contradicted |
 
 Prohibited: silently choosing the most recent, highest-confidence, or most convenient evidence without
-recording that a conflict existed.
+recording that a conflict existed; averaging contradictory evidence; majority voting; a universal
+provenance-class precedence order; a range-valued Fact for any class that does not canonically require
+one.
+
+A conflict's appearance, continuation, and resolution are recorded through the existing Domain Event /
+Change Record mechanism — no second conflict-history store is created. **Persistent conflict** is
+evaluated against **OD-60**'s Repairs criteria separately from the runtime Fact outcome; ordinary
+transient disagreement is not automatically Repairs-eligible.
 
 ---
 
@@ -272,7 +293,8 @@ recording that a conflict existed.
 | A Primary Authority is unavailable | The Authority-Derived Fact becomes `unknown` or unavailable (**DL-59**); never silently switched to another candidate sensor |
 | A point-in-time observation's validity window elapses | Operationally expire the Fact (**DL-59**); withdraw it from what is true now; retain it as a Historical Fact |
 | A current-state source becomes unavailable or unknown | The current-state Fact ceases immediately; never treated as the last known value continuing |
-| Sources disagree | Preserve the disagreement |
+| Sources disagree | Qualify per **DL-63** before treating it as conflict; if genuine, publish reduced confidence, `unresolved`, or `unknown` under the applicable Conflict Policy — never average, never silently choose |
+| A conflict persists | Record via the existing Domain Event mechanism; evaluate against **OD-60**'s Repairs criteria separately from the runtime outcome |
 | A room transition is missed | Do not invent a retroactive transition; treat the newly observed Room as current and record the gap |
 | Truth itself is unavailable | Consumers fail closed; they do not substitute their own derivation |
 
@@ -309,7 +331,7 @@ an explanation, not a gap.
 |---|---|
 | OD-17 | **Closed — DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
 | OD-18 | **Closed — DL-59.** Truth distinguishes Current-State Sources from Point-in-Time Observation Sources; current-state Facts read the most current authoritative Home Assistant state at evaluation time; operational expiration is a DL-25 lifecycle transition; on-demand refresh is bounded by per-integration DL-30 verification |
-| OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases**; receives only the current, valid Primary Authority (or Formula-Derived Fact inputs) Room Configuration designates, and never reintroduces runtime arbitration among equivalent same-purpose sources (**DL-62**) |
+| OD-19 | **Closed — DL-63.** A genuine Truth conflict requires the same Subject, predicate, context, and evaluation time, independent eligibility after Truth's qualification order, and mutual incompatibility with no accepted authority/validity/availability/configuration/Identity/Stewardship rule already explaining the difference; same-purpose environmental sensor disagreement, native Area proposal divergence, provider-derived indicators, and Stewardship requirement conflicts are confirmed not to be Truth conflicts |
 | OD-73 | **Interaction-Surface Room Context Resolution.** Room Context for a phone, wearable, Companion App, browser session, or other non-room-bound surface |
 | OD-74 | **Closed — DL-58.** Truth Fact Confidence is a uniform ordinal band (Low < Moderate < High < Very High), structurally separate from DL-39 Identity Confidence, independent of freshness/provenance/coverage. Consumed without redefinition by OD-17, OD-18, and OD-19 |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Historical Facts follow External History Retention with their own Retention Classification |

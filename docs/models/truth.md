@@ -643,27 +643,130 @@ evidence; **HTBW builds no second Recorder and no second device tracker** (**DL-
 
 ---
 
-## Conflicting evidence
+## Genuine Truth Conflict (DL-63)
 
-**Concierge does not resolve "competing Truths" by inventing a preferred fact.** If evidence or facts
-conflict, Truth preserves or resolves the uncertainty according to this contract.
+Resolves **OD-19**. Full acceptance record is **DL-63** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
 
-Permitted outcomes when evidence conflicts:
+### Definition
+
+A **genuine Truth conflict** exists only when two or more currently eligible, semantically comparable
+claims address the **same Subject, predicate/Fact purpose, context, and evaluation time**, remain
+independently eligible after the qualification order below runs, and are **mutually incompatible** —
+with **no accepted authority-selection, validity, availability, configuration, Identity, or Stewardship
+rule already explaining the difference**.
+
+**Different Subjects, different predicates, different time periods, current versus Historical, a
+Truth Fact versus a Stewardship evaluation, and a native proposal versus an explicit selection are
+never, by themselves, a Truth conflict** — they are different statements, not competing answers to one
+question.
+
+### Qualification order
+
+Before any contradiction determination, Truth qualifies evidence in this fixed order:
+
+1. Same Subject
+2. Same predicate or Fact purpose
+3. Same context
+4. Same evaluation time or overlapping validity
+5. Current availability (**DL-41**)
+6. **DL-59** validity
+7. Configuration eligibility (Room Configuration's designated Primary Authority / Secondary /
+   Excluded participation)
+8. Consent and policy eligibility, where applicable
+9. Authority selection
+10. Semantic comparability
+11. Contradiction determination
+12. Conflict outcome application
+
+**Evidence excluded before step 11 is not conflicting evidence.** An expired value is invalid, not
+contradictory. An unavailable source is unavailable, not contradictory. An unselected candidate is not
+an authority and does not conflict with the selected Primary Authority. A Provider-Derived
+Environmental Indicator has different semantics from a direct measurement or a Stewardship evaluation
+and is never compared as competing evidence for the same purpose. Missing evidence is absence, not
+contradiction. Every exclusion and qualification decision is explainable in the Decision Trace.
+
+### What is no longer, or was never, a Truth conflict
+
+- **Same-purpose environmental sensor disagreement is not an ordinary Truth conflict** (**DL-62**). Two
+  thermostats ten degrees apart, or two disagreeing humidity sensors, are the pre-**DL-60** scenarios
+  this decision originally used to illustrate the problem — they no longer apply. An unselected
+  sensor's differing value is a source-specific diagnostic value, never a competing Room authority, and
+  never reduces the selected Primary Authority's confidence.
+- **A native Area environmental slot's proposal diverging from an explicit Room Configuration selection
+  is a configuration condition, not a runtime conflict** (**DL-60**). HTBW never writes back, never
+  silently switches, and the divergence remains visible and explainable — escalating to Repairs only
+  where **OD-60**'s own administrator-correctable-defect criteria are independently met (for example
+  two configuration records both claiming exclusive Primary Authority for one purpose).
+- **A Provider-Derived Environmental Indicator does not conflict with a direct measurement or a
+  Stewardship evaluation merely because the values differ in shape, scale, or outcome** — the
+  statements have different predicates and owners (post-**DL-62** clarification). *"air-Q Health Index:
+  99.9%"* and *"Abigail's humidity requirement: unmet"* may both be true.
+- **Conflicting Person, Pet, or Asset Environmental Requirements against one current Room Fact remain
+  Stewardship's own** (**DL-61**). Truth publishes one current Fact; Stewardship maintains independent
+  per-subject evaluations; no average requirement, majority rule, or subject ranking is created.
+- **Identity contradiction among evidence families remains DL-38's own**, resolved inside the Identity
+  Fusion Function before Truth ever receives the resulting purpose-specific Assertion. This decision
+  does not reuse, duplicate, or reach past that Assertion to its underlying evidence.
+- **Assertion lifetime and cross-purpose assertion eligibility remain OD-15's own** and are not decided
+  here. Whether a prior purpose-specific Assertion (for example Speaker Attribution) remains eligible
+  evidence for a later, different-purpose determination (for example Room Presence) is OD-15's
+  question; its own recorded boundary — the contribution ends when the supporting Room's occupancy
+  transitions to `unoccupied`, or the Person's configured primary evidence source no longer supports
+  that Room — is consumed without redefinition where OD-15 accepts it.
+
+### Published outcome
+
+Where a genuine Truth conflict remains after qualification, Truth publishes exactly one of:
 
 | Outcome | When |
 |---|---|
-| Resolve to a single fact with reduced confidence | A governed resolution rule applies and is recorded |
-| Publish an unresolved fact | No resolution rule applies; both candidate statements are reported |
-| Publish `unknown` | Nothing can be asserted |
+| A single Fact at a reduced Truth Confidence Band | A governed resolution rule or an accepted authority applies; recorded with the applicable reason and Conflict Policy version. Contradiction may **hold or reduce** confidence; it **never raises** confidence, and never produces Very High |
+| An **unresolved** Fact | No resolution rule applies; every competing claim, its source, and its value are reported |
+| `unknown` | Nothing can be honestly asserted. A successful, honest outcome — never conflated with `unavailable` (an evaluation that could not occur, **DL-41**) or with absence of evidence |
 | Withdraw a fact | Prior evidence is stale or contradicted |
 
-Prohibited: silently selecting the most recent, the highest-confidence, or the most convenient
-evidence without recording that a conflict existed.
+**Truth never averages contradictory evidence, never applies majority voting, and never adopts a
+universal provenance-class precedence** — a native entity, an HTBW Fact, an external provider, and a
+derived Fact are never ranked by class alone; only an accepted authority-selection rule (Room
+Configuration's Primary Authority, Person Setup, or an Identity Evidence Association) establishes
+precedence. The original observations remain unchanged; every competing claim remains visible in
+provenance.
+
+**A range-valued Fact is not adopted for any current Fact class.** No accepted Fact class canonically
+requires one, and one is not invented merely to escape an unresolved contradiction — this is deferred,
+not decided.
+
+### Conflict Policy
+
+Disagreement thresholds, where meaningful, are **Fact-class-scoped Conflict Policy configuration** —
+named, versioned, unit-stated, and explainable — never a single universal numeric. Some Fact classes
+(categorical location, occupancy, online/offline) have none. Every Truth conflict outcome references
+the Conflict Policy version used; a later policy change never rewrites a Historical Fact. A Conflict
+Policy may contain Fact-class qualification and comparability rules, disagreement thresholds,
+publication minimums, confidence-reduction rules, range eligibility, persistence conditions, and a
+reason-code set. It never contains Identity Fusion rules, person-ranking rules, universal provenance
+precedence, automatic majority voting, arithmetic averaging, authorization, Stewardship significance,
+or Communication delivery rules.
+
+### Persistent conflict and Repairs
+
+A conflict becomes **persistent** when the applicable Conflict Policy's configured recurrence or
+continuity condition is satisfied. A conflict's appearance, continuation, and resolution are recorded
+through the existing Domain Event / Change Record mechanism ([temporal-record.md](temporal-record.md))
+— **no second conflict-history store is created**. When a conflict resolves, a new event and, where
+current evidence now supports one, a new Fact are published; the prior `unknown` or reduced-confidence
+outcome is never rewritten, and Stewardship reevaluates dependent obligations.
+
+Persistent conflict may indicate a misconfigured authority, a sensor-placement concern, a failing
+source, or another likely administrator-correctable defect, and is evaluated against **OD-60**'s
+Repairs criteria **separately from the runtime Fact outcome**. Ordinary transient disagreement, a
+briefly unavailable source, or a native-proposal/HTBW divergence are not automatically Repairs-eligible.
 
 ### Location conflict cases
 
 Location Facts generate a recurring family of conflicts. **All of them are preserved and explainable,
-never hidden**, and the governed resolution rules for them are **OD-19**.
+never hidden.**
 
 | Case | Required treatment |
 |---|---|
@@ -741,7 +844,7 @@ remains accurate after the Fact has since changed, expired, or been withdrawn.
 |---|---|
 | OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
 | OD-18 | **Resolved as DL-59.** Truth distinguishes Current-State Sources from Point-in-Time Observation Sources; current-state Facts read the most current authoritative Home Assistant state at evaluation time; operational expiration is a DL-25 lifecycle transition; Truth Confidence (DL-58) is never decayed by elapsed time alone |
-| OD-19 | Governed conflict-resolution rules for disagreeing evidence, **including the location conflict cases above**; receives only the current, valid Primary Authority (or Formula-Derived Fact inputs) Room Configuration designates, and never reintroduces runtime arbitration among equivalent same-purpose sources (**DL-62**) |
+| OD-19 | **Resolved as DL-63.** A genuine Truth conflict requires the same Subject, predicate, context, and evaluation time, independent eligibility after Truth's qualification order, and mutual incompatibility with no accepted authority/validity/availability/configuration/Identity/Stewardship rule already explaining the difference; Truth publishes a reduced-confidence Fact, an unresolved Fact, or `unknown` under a versioned Conflict Policy |
 | OD-73 | **Interaction-Surface Room Context Resolution.** How Room Context is resolved for a phone, wearable, Companion App, browser session, or other non-room-bound surface. An Engagement Fact records Room Context as `unresolved` until this closes |
 | OD-74 | **Resolved as DL-58.** Truth Fact Confidence is a uniform ordinal band (Low < Moderate < High < Very High), structurally separate from DL-39 Identity Confidence, independent of freshness/provenance/coverage, and consumed without redefinition by OD-17, OD-18, and OD-19 |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Historical Facts follow External History Retention with their own Retention Classification; per-Fact-class differentiation is Operational Trust policy |

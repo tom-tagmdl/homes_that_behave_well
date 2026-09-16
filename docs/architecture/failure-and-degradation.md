@@ -194,10 +194,11 @@ timing are implementation matters and are not settled by this document.
 |---|---|---|
 | Identity is unresolved | Identity | Apply the unidentified-person policy. Guest-safe behavior by default. Never assume the most likely resident for an authority-bearing action. |
 | Two identities are plausible | Identity | Report ambiguity with both candidates and confidences. Do not silently pick the higher score for authority-bearing actions. |
-| Evidence sources disagree | Truth | Preserve the disagreement. Either resolve it under the Truth contract or publish an unresolved fact with reduced confidence. |
+| Evidence sources disagree | Truth | Qualify the evidence per **DL-63** before treating it as conflict; if genuine, resolve to reduced confidence, publish an unresolved fact, or publish `unknown` under the applicable Conflict Policy. Never average, never silently choose. |
+| A conflict persists | Truth | Record via the existing Domain Event mechanism (**DL-63**); evaluate against **OD-60**'s Repairs criteria separately from the runtime outcome. Ordinary transient disagreement is not automatically Repairs-eligible. |
 | Evidence is stale | Truth | Mark the fact as stale and reduce confidence, or withdraw the fact. Never present a stale value as current. |
 | Truth cannot establish a fact | Truth | Publish "unknown" rather than a default. Downstream must treat unknown as unknown. |
-| A sensor is unavailable | Truth | Recompute composite facts from remaining contributors, reduce confidence, and record reduced coverage. |
+| A Primary Authority is unavailable | Truth | The Authority-Derived Fact becomes `unknown` or unavailable (**DL-59**); never silently switched to another candidate sensor, and never treated as an evidence conflict (**DL-62**). |
 | A voice assistant has no Room assignment | Room Configuration | Ask which Room, or refuse. Never guess a Room from device naming. Surface it as a configuration problem. |
 | A vocabulary term has no mapping | Room Configuration | Say the term is not configured here. Never fall back to a runtime device search. |
 | A vocabulary term maps ambiguously | Room Configuration | Ask which target was meant. Offer only exposed options. |

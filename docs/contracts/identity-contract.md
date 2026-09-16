@@ -130,7 +130,7 @@ topology that produces this evidence is accepted as **DL-50** and recorded in
 | Configured reliability is not measured accuracy | A configured weight is a **contribution weight**, stated as a band. It is never presented as measured accuracy |
 | Freshness applies | A source's contribution depends on how recently it was observed, for the claim being evaluated |
 | Correlated evidence counts once | Observations sharing an **evidence family** are not counted as independent confirmations. **Independence is never assumed from separate entities** |
-| Contradiction is retained | Contradicting, unavailable, and ambiguous evidence are recorded with the final reason, and are claim-specific |
+| Contradiction is retained | Contradicting, unavailable, and ambiguous evidence are recorded with the final reason, and are claim-specific. **This is DL-38's own contradiction handling inside fusion — Truth's genuine-conflict rules (DL-63) never reuse or duplicate it, and apply only to Truth's own consumption of the resulting Assertion** |
 | Absence is neutral | **Missing evidence is not contradicting evidence.** Not configured, unavailable, not observed, stale, disabled, and consent-withdrawn are distinct states |
 | Consent gates eligibility | Evidence lacking valid consent is **excluded before weighting**, not down-weighted |
 | Native associations are consumed | Where Home Assistant holds the Person-to-tracker relationship, **HTBW does not maintain a competing one** |

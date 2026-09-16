@@ -58,11 +58,11 @@ A trace is produced for **actions, non-actions, and suppressions alike**.
 | 3–4 identity determination and confidence | Identity — recorded as `identity_confidence_band` (**DL-39**), never conflated with field 8 |
 | 5 room context | Room Configuration (Foundation) |
 | 6 vocabulary resolution | Contextual Vocabulary (Foundation) |
-| 7–8 facts and fact confidence | Truth — recorded as `truth_confidence_band` (**DL-58**), plus the Fact's validity state (`current`, `operationally_expired`, `unavailable`, `never_observed` — **DL-59**), never conflated with field 4 or with confidence. Where the Fact is sourced from a **Provider-Derived Environmental Indicator**, field 7 additionally names the provider and the indicator's provider-qualified name, and distinguishes it from a Direct Environmental Measurement or an HTBW Formula-Derived Fact (**DL-62**) |
+| 7–8 facts and fact confidence | Truth — recorded as `truth_confidence_band` (**DL-58**), plus the Fact's validity state (`current`, `operationally_expired`, `unavailable`, `never_observed` — **DL-59**), never conflated with field 4 or with confidence. Where the Fact is sourced from a **Provider-Derived Environmental Indicator**, field 7 additionally names the provider and the indicator's provider-qualified name, and distinguishes it from a Direct Environmental Measurement or an HTBW Formula-Derived Fact (**DL-62**). **Where a genuine Truth conflict (DL-63) was qualified and resolved to produce this Fact**, field 7 additionally names the competing claims and their sources, the qualification outcome, the applicable Conflict Policy version, and the published outcome (reduced confidence, unresolved, or `unknown`) |
 | 9 obligations | Stewardship |
 | 10–11 preferences and continuity intent | Continuity |
 | 12–14 policies, restrictions, autonomy level | Operational Trust |
-| 15–20 conflicts, resolution, action, suppression, reason, alternative | Concierge |
+| 15–20 conflicts, resolution, action, suppression, reason, alternative | Concierge — **a household-facing decision conflict** (for example two sessions meeting in one Room), distinct from and never conflated with a Truth-level evidence conflict (**DL-63**), which is recorded in fields 7–8 as part of the Fact itself |
 
 Concierge composes the trace. **Concierge does not author fields it does not own.**
 

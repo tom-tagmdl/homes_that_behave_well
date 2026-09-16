@@ -87,6 +87,17 @@ provider's algorithm, and it does not treat the provider's internal inputs as se
 contributors. See `truth.md`, *Direct measurements and provider-derived indicators are both
 Authority-Derived (DL-62 clarification)*.
 
+### Governed conflict resolution (DL-63)
+
+**No native Home Assistant capability performs governed cross-source conflict resolution.** Each
+entity publishes its own state independently; Home Assistant does not reconcile disagreeing entities
+into one arbitrated value. This burden of proof is straightforward: the absence of a native
+reconciliation capability is the residual HTBW owns as **DL-63**. **Native state remains independently
+authoritative for each entity** — HTBW never rewrites a native entity's state to reflect a conflict
+outcome, and a genuine Truth conflict's published outcome (reduced confidence, unresolved, or
+`unknown`) exists only as a Truth Fact, never as a second copy of, or edit to, native state. See
+`truth.md`, *Genuine Truth Conflict (DL-63)*.
+
 ---
 
 ## What Home Assistant may provide

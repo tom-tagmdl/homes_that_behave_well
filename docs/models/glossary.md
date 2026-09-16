@@ -263,6 +263,23 @@ mandatory input publishes it as `unknown` — never a partial calculation, never
 (**DL-62**).
 Model: [truth.md](truth.md)
 
+**Genuine Truth Conflict**
+Two or more currently eligible, semantically comparable claims addressing the same Subject,
+predicate/Fact purpose, context, and evaluation time, remaining independently eligible after Truth's
+qualification order runs, and mutually incompatible, with no accepted authority-selection, validity,
+availability, configuration, Identity, or Stewardship rule already explaining the difference. Truth
+publishes a reduced-confidence Fact, an `unresolved` Fact, or `unknown` — never an average, a majority
+vote, or a universal provenance-class precedence (**DL-63**).
+Model: [truth.md](truth.md)
+
+**Truth Conflict Policy**
+The versioned, Fact-class-scoped configuration governing disagreement thresholds, semantic
+comparability, publication minimums, confidence-reduction rules, range eligibility, and persistence
+conditions for a **Genuine Truth Conflict**. Never contains Identity Fusion rules, person-ranking
+rules, universal provenance precedence, or Stewardship significance. Every conflict outcome references
+the policy version used; a later policy change never rewrites a Historical Fact (**DL-63**).
+Model: [truth.md](truth.md)
+
 **Environmental Purpose**
 One of Room Configuration's extensible, household-oriented environmental meanings a source may be
 mapped to in a Room — for example temperature, humidity, dew point, illuminance, UV, VOC, particulates,

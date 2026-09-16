@@ -403,7 +403,7 @@ accepted under **DL-60**; see *Primary Authority is required for the ordinary pa
 | State | Meaning | At most one per purpose? |
 |---|---|---|
 | **Primary Authority** | The source every direct Room-level question resolves to — **required** for every directly measured Environmental Purpose the Room has configured | Yes |
-| **Secondary / Corroborating** | Contributes supporting or contradicting context; never itself the direct answer; may inform **OD-19** diagnostics | No |
+| **Secondary / Corroborating** | Contributes supporting or contradicting context; never itself the direct answer; may inform **DL-63** conflict diagnostics | No |
 | **Explicit Exclusion** | Deliberately kept out, exactly as the existing three-state participation model already requires | No |
 
 **Runtime never arbitrates among equivalent same-purpose sources** — never by query order, entity
@@ -443,7 +443,7 @@ them evidence of such a requirement. Accordingly:
 - **A source-specific question is distinct from a Room-purpose question.** *"What temperature does the
   Den presence sensor report?"* may read that sensor's own current native value where authorized; it
   never redefines the Den's Temperature Fact, and a difference between the two does not trigger runtime
-  arbitration — **OD-19** owns any conflict-detection use this evidence.
+  arbitration — **DL-63** owns any conflict-detection use this evidence.
 
 This applies **identically to a Physical Room and a Merged Room** (**DL-13**); see *Merged Room
 environmental candidates*, below.
@@ -512,7 +512,7 @@ Environmental Purpose, **one constituent-Room source as the Merged Room's own Pr
 identically to a Physical Room (**DL-13**, **DL-62**) — plus any Secondary/Corroborating sources and
 Explicit Exclusions. Truth reads the current state of that one selected Primary Authority; **no
 constituent Room composite is averaged, and no same-purpose aggregation occurs merely because the
-Merged Room spans several constituent Rooms.** **OD-19** governs disagreement among constituent-Room
+Merged Room spans several constituent Rooms.** **DL-63** governs disagreement among constituent-Room
 sources. Direct questions about a constituent Room continue to use that Room's own definition,
 unaffected by the Merged Room's.
 
@@ -675,7 +675,8 @@ configuration today must never silently rewrite the explanation of a decision ma
 | OD-70 | Whether a Merged Room warrants a native Home Assistant projection |
 | OD-73 | **Interaction-Surface Room Context Resolution** — how Room Context is resolved for a phone, wearable, Companion App, browser session, or other surface not bound to a Room, without Foundation consuming Truth and without introducing a cycle |
 | OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes are accepted |
-| OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved. **OD-19** remains the conflict owner |
+| OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
+| OD-19 | **Resolved as DL-63.** Same-purpose environmental sensor disagreement, native Area proposal divergence, and Provider-Derived Environmental Indicator differences are confirmed as not Truth conflicts; a genuine Truth conflict is qualified and resolved per DL-63's fixed procedure |
 
 ## Related documents
 
