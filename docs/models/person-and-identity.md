@@ -456,6 +456,21 @@ person assertion on its own.
 > The Truth-side counterpart is the **Engagement Fact**, which states that an interaction is occurring
 > and **never who is engaging**. See [glossary.md](glossary.md) and [truth.md](truth.md).
 
+### None of the six purposes requires a fixed validity window (DL-64)
+
+Each purpose is re-evaluated identically — fresh, on demand, from current eligible evidence — and
+carries no purpose-specific duration. Purpose-specific behavior lives entirely in **DL-38**'s existing
+ceilings and freshness rules, never in a separate timer.
+
+| Purpose | Historical relevance | Applicability requirement |
+|---|---|---|
+| Speaker Attribution | Permanently correct record of who most likely spoke for that one utterance | Re-evaluated per utterance; never reused for a later utterance, even by the same apparent speaker |
+| Room Presence | Permanently correct record of who was likely present at that moment | Re-evaluated whenever a current Room-Presence determination is needed; bounded by the Room's own occupancy (**DL-64** cross-purpose eligibility, above) |
+| Household Presence | Permanently correct record of who was likely home at that moment | Re-evaluated from current native Person/device-tracker state; no separate window |
+| Interaction Initiator | Permanently correct record of who initiated that digital action | Bound to the specific action; never carried into a later, separate action |
+| Authenticated Session Identity | Permanently correct record of which account initiated that request | Bound to the platform's own authenticated-session semantics, not an Identity-invented duration |
+| Endpoint Context | Permanently correct record of which endpoint the request arrived through | Re-evaluated per interaction; identifies a thing, never a person, so applicability is not a person-eligibility question at all |
+
 ---
 
 ## Unknown Person
@@ -871,7 +886,9 @@ one is sufficient:
 **Current absence and stale presence are different states**, and a stale observation is never
 presented as a current one. **No duration is prescribed**; durations are Fusion Policy configuration
 and implementation mapping. Freshness governs **each source observation**; how long the resulting
-assertion stays valid is **OD-15**, and the two are never conflated.
+assertion remains a valid historical record, and whether it remains applicable to a new interaction,
+are **Assertion Validity** and **Current-Interaction Applicability** (**DL-64**), and the three are
+never conflated.
 
 ### Outcome selection is ordered
 
@@ -1101,21 +1118,27 @@ An Identity Assertion is purpose-specific, evidence-based, and produced at a poi
 |---|---|
 | Produced for one assertion purpose | A general statement of who the household is dealing with |
 | Produced from the eligible evidence available at that moment | Maintained because Room occupancy has not ended |
-| Bounded by a governed validity window (**OD-15**) | Automatically applicable to the next interaction |
+| A permanently correct historical record of what was supported (**DL-64**) | Automatically applicable to the next interaction merely because it has not "expired" |
 | A durable historical record of what was supported then | Automatically applicable to a different speaker |
 
 ### Validity and applicability are two questions
 
-**Assertion validity** asks whether an assertion is still inside its governed window (**OD-15**).
-**Current-interaction applicability** asks whether that assertion is evidence-appropriate for *this*
-interaction, *this* assertion purpose, and *this* participant.
+**Assertion Validity** asks whether an assertion remains a correct historical record of what evidence
+supported, for its stated purpose, at the moment it was produced. **This never changes.** An Identity
+Assertion is never revoked, decayed, or invalidated by elapsed time alone; it is simply what the
+evidence supported then (**DL-64**). **Current-Interaction Applicability** asks whether that assertion
+— or a freshly produced one — is evidence-appropriate for *this* interaction, *this* assertion
+purpose, and *this* participant.
 
 > **An assertion may remain perfectly valid as a record while being inapplicable to a new
 > interaction.**
 
 A valid prior assertion is therefore **not** automatically the current-speaker assertion. Where a
-consumer needs a current-speaker result, one is evaluated from current eligible evidence — validity
-alone never supplies it.
+consumer needs a current-speaker result, one is evaluated **fresh** from current eligible evidence —
+validity alone never supplies it, and **no separate "assertion validity window" mechanism exists**:
+applicability is answered by re-running **DL-38**'s Fusion Function against current eligible evidence,
+which already carries its own per-source freshness windows, graduated reduction, and hard cutoff as
+Fusion Policy configuration. **No Assertion Purpose requires a fixed validity duration** (**DL-64**).
 
 ### Presence does not preserve identity
 
@@ -1133,6 +1156,31 @@ speaking, and it can remain continuously true while the people in the Room chang
 **A prior Person assertion, band, or confirmation is never reused merely because presence remains
 active.** This is a trust boundary, not a tuning preference, and it holds for presentation exactly as
 it holds for access.
+
+### Cross-purpose assertion eligibility (DL-64)
+
+Resolves the one genuine residual question OD-15 originally left open: does a prior assertion for
+**one** purpose ever bound the eligibility of an assertion for a **different** purpose — for example,
+does a Speaker Attribution assertion remain eligible **evidence** for a later Room Presence fusion?
+
+**Accepted answer**: a prior purpose-specific Assertion may contribute as eligible evidence to a
+later, different-purpose fusion, but its contribution **ends** when either condition occurs — only one
+break is required:
+
+| Condition | Effect |
+|---|---|
+| The supporting Room's occupancy transitions to `unoccupied` | The prior Assertion no longer supports a current determination for that Room |
+| The Person's configured primary evidence source no longer supports that Room | The prior Assertion no longer supports a current determination for that Room |
+
+A **new** Speaker Attribution assertion is required where a **different** Person speaks in the same
+occupied Room; the prior Assertion is never reused as the current-speaker Assertion for someone else —
+this restates the existing *presence does not preserve identity* rule (**DL-39**), not a new one.
+
+**This is evaluated entirely inside DL-38's fusion, before Truth ever receives an Assertion.** An
+Assertion that fails this eligibility check is excluded as ineligible evidence within fusion (**F1**,
+eligibility gating before weighting); it is never surfaced to Truth as a candidate claim requiring
+**DL-63** conflict resolution. **Current-Interaction Applicability is therefore always evaluated before
+any Truth-side conflict qualification runs.**
 
 ### Each interaction evaluates current evidence
 
@@ -1241,15 +1289,29 @@ Operational Trust, and satisfying one never satisfies another. See
 
 ## Identity assertions are short-lived
 
-An identity assertion describes a moment, not a session.
+## Identity assertions are permanent records, never sessions (DL-64)
 
-- Assertions carry freshness and expire.
-- A stale assertion must not be reused as if current.
-- Higher confidence may justify a longer validity window; low confidence and ambiguity must expire
-  quickly; unknown and unavailable must never be reused.
+An identity assertion describes a moment, not a session, and it does not need to "expire" for the
+architecture to behave correctly.
+
+- **Assertion Validity is permanent.** An assertion remains a correct historical record of what
+  evidence supported, for its stated purpose, at the moment it was produced — forever. It is never
+  revoked or decayed by elapsed time alone.
+- **Current-Interaction Applicability is re-evaluated fresh, on demand**, by re-running the **DL-38**
+  Fusion Function against current eligible evidence — never by consulting a stored expiry timestamp.
+  DL-38's own per-source freshness windows, graduated reduction, and hard cutoff already bound what
+  counts as current eligible evidence; **no second, assertion-level validity-window mechanism is
+  created**.
+- **No Assertion Purpose requires a fixed validity duration.** `unknown` and `unavailable` carry no
+  band and are never reused as though current.
 - **A runtime attribution context must not become a long-lived identity session.**
+- An implementation may **cache** a recently produced assertion as a performance optimisation —
+  equivalent to asserting "fresh fusion would produce the same result" — keyed to a versioned,
+  Fusion-Policy-configured duration. This is **implementation mapping** (the same status as OD-16's
+  fusion coefficients), never a second governed architecture.
 
-The exact validity windows are policy, not architecture. Open decision **OD-15**.
+See *Current-interaction applicability*, above, and **DL-64** in
+[../governance/decision-ledger.md](../governance/decision-ledger.md).
 
 ---
 
@@ -1349,7 +1411,7 @@ implying the assertion never existed.
 |---|---|
 | OD-07 | Local versus cloud voice implementation |
 | OD-08 | **Resolved as DL-39 and DL-40.** Four bands — Low, Moderate, High, Very High; `None` is an Operational Trust requirement, not an Identity output; Operational Trust owns every threshold |
-| OD-15 | Identity assertion validity windows by confidence band. **Not observation freshness**, which is Fusion Policy, and **not current-interaction applicability**, which is DL-39 |
+| OD-15 | **Resolved as DL-64.** "Assertion lifetime" was a conflation of Assertion Validity (a permanent historical record), Current-Interaction Applicability (re-evaluated per interaction via fresh DL-38 fusion, no fixed window), and Retention (DL-47's, unaffected). Cross-purpose assertion eligibility is accepted, bounded by Room occupancy and the Person's configured primary evidence source |
 | OD-16 | **Resolved.** The evidence architecture is **DL-32**; the Identity Fusion Function is **DL-38**. Remaining coefficients are Fusion Policy configuration, not architecture |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** A persisted Identity Assertion is retained with the Decision Trace or governed history it supports, never on a separate universal clock |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |

@@ -728,11 +728,19 @@ name is a disclosure; applied by Concierge. Below the threshold, or when disable
 **neutrally** — which never denies the requested action.
 Model: [operational-trust.md](operational-trust.md)
 
+**Assertion Validity**
+Whether an Identity Assertion remains a correct historical record of what evidence supported, for its
+stated purpose, at the moment it was produced. **Permanent** — never revoked, decayed, or invalidated
+by elapsed time alone. Retention of the persisted record is a separate matter (**DL-47**), and neither
+is a fixed duration by confidence band or Assertion Purpose (**DL-64**).
+Model: [person-and-identity.md](person-and-identity.md)
+
 **Current-Interaction Applicability**
 Whether an Identity Assertion is evidence-appropriate for **this** interaction, participant, and
-assertion purpose. **Distinct from assertion validity (OD-15):** an assertion may remain valid as a
-historical record while being inapplicable to a new interaction. A prior assertion is never revived
-because Room occupancy continued.
+assertion purpose. **Distinct from Assertion Validity:** an assertion may remain valid as a historical
+record while being inapplicable to a new interaction. Answered by re-running the Identity Fusion
+Function against current eligible evidence — never by consulting a stored expiry timestamp — so a
+prior assertion is never revived because Room occupancy continued (**DL-64**).
 Model: [person-and-identity.md](person-and-identity.md)
 
 **Required Confirmation Strength**

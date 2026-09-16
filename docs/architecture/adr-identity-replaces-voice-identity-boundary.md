@@ -148,8 +148,8 @@ creates no compatibility requirement for it, and no runtime code was modified.
 ## Open decisions
 
 **OD-07** local versus cloud voice; the rest resolved as
-**DL-39**; **OD-15** assertion validity
-windows; **OD-16** evidence weighting and fusion.
+**DL-39**, **DL-64** assertion validity and applicability;
+**OD-16** evidence weighting and fusion.
 
 **OD-87** identity artifact invalidation as a governed household event — raised 2026-08-27 by the
 Episode 10 governance narrative validation. It concerns the **household event**, never the

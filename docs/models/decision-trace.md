@@ -238,7 +238,10 @@ The worked form of a complete trace reads:
 A trace must also be able to record that an **earlier** assertion, band, or confirmation was **not**
 carried into this interaction — that the current result was evaluated from current evidence. Silence
 on that point is not sufficient where a resident could reasonably believe the home was still talking
-to the previous person.
+to the previous person. **This is Current-Interaction Applicability (DL-64)**: the earlier assertion
+remains a permanently valid historical record, and its exclusion here is an applicability outcome, not
+a revocation — and where it was excluded as ineligible evidence inside Identity's own fusion, it never
+reached Truth as a candidate claim requiring DL-63 conflict resolution at all.
 
 ---
 

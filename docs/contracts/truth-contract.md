@@ -255,7 +255,8 @@ Primary Authority removed this default), a native Area proposal diverging from a
 Configuration selection (**DL-60**), a Provider-Derived Environmental Indicator differing from a direct
 measurement or a Stewardship evaluation (post-**DL-62** clarification), and conflicting Person/Pet/Asset
 Environmental Requirements against one current Room Fact (**DL-61**, Stewardship-owned). Identity
-contradiction remains **DL-38**'s; assertion lifetime and cross-purpose eligibility remain **OD-15**'s.
+contradiction remains **DL-38**'s; assertion validity, current-interaction applicability, and
+cross-purpose eligibility remain **DL-64**'s, consumed without redefinition.
 
 Permitted Truth outcomes:
 

@@ -541,7 +541,7 @@ becomes inactive.**
 | b | Tom's prior assertion | **Not reused.** Continuous occupancy is not continuous identity, and the prior band is not carried forward |
 | c | Tom's prior naming eligibility | **Not reused.** The response must not address David as Tom |
 | d | An Unknown Person enters instead of David | The prior Tom assertion does not persist as current speaker. The current result may be `unknown`, and **named presentation is not used** |
-| e | Tom's prior assertion is still inside its **OD-15** validity window | Validity does not make Tom the new speaker. The prior assertion **remains a correct historical record** for its original purpose and moment; the new interaction receives a new evaluation |
+| e | Tom's prior assertion | It remains a **permanently valid historical record** (**DL-64**) — this does not make Tom the new speaker. The prior assertion **remains a correct historical record** for its original purpose and moment; the new interaction receives a new evaluation |
 
 > **Continuous presence is not continuous authentication.**
 

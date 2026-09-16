@@ -204,32 +204,37 @@ The fusion architecture is [../models/person-and-identity.md](../models/person-a
 - That a confidence value is a probability, a likelihood, or a measured accuracy
 - That two assertions produced under different Fusion Policy versions are directly comparable without stating so
 - **That `None` is an Identity band, or that an Unknown Person, `not required`, `unavailable`, or `ambiguous` result carries a band**
-- **That a prior assertion is the current-speaker assertion** — remaining inside its validity window never makes it applicable to a new interaction
+- **That a prior assertion is the current-speaker assertion** — being a permanently valid historical record never makes it applicable to a new interaction (**DL-64**)
 - **That continuous Room occupancy preserves the identity of a prior speaker**
 - That a prior presentation eligibility, band, or confirmation may be carried into the next interaction
 - That a successful confirmation established an authenticated session, or that it altered the band
 
 ---
 
-## Assertion lifetime
+## Assertion Validity and Applicability (DL-64)
 
 An identity assertion describes a moment, not a session.
 
-- Assertions carry freshness and expire
-- Higher confidence may justify a longer validity window
-- Low confidence and `ambiguous` expire quickly
-- `unknown` and `unavailable` are never reused
-- **A runtime attribution context must not become a long-lived identity session**
+- An assertion is a **permanently correct historical record** of what evidence supported, for its
+  stated purpose, at the moment it was produced (**DL-64**) — it never "expires" in the sense of
+  becoming false.
+- **Current-Interaction Applicability is re-evaluated fresh, on demand**, by re-running the Identity
+  Fusion Function against current eligible evidence — never by consulting a stored expiry timestamp.
+  `unknown` and `unavailable` are never reused as though current.
+- **No Assertion Purpose requires a fixed validity duration.** Fusion Policy's own per-source freshness
+  windows, graduated reduction, and hard cutoff already bound what counts as current eligible evidence.
+- **A runtime attribution context must not become a long-lived identity session.**
 
-Windows are policy — open decision **OD-15**.
+**Assertion Validity, Current-Interaction Applicability, and Retention are three distinct concepts**
+(**DL-64**), and no fixed validity window is architecture.
 
-**An assertion lifetime is not a confirmation lifetime.** How long an assertion stays valid is
-**OD-15** and belongs to Identity. How long a governed confirmation covers a request is **DL-37** and
-belongs to Operational Trust. The two must never be conflated, and **a confirmation never extends the
-life of the assertion it was raised against**.
+**An assertion lifetime is not a confirmation lifetime.** Assertion Validity is permanent and belongs
+to Identity (**DL-64**). How long a governed confirmation covers a request is **DL-37** and belongs to
+Operational Trust. The two must never be conflated, and **a confirmation never extends the life of the
+assertion it was raised against**.
 
-**Validity is not applicability.** An assertion inside its window remains a valid historical record
-for the purpose and moment it was produced. It does **not** thereby become the current-speaker
+**Validity is not applicability.** An assertion remains a valid historical record forever, for the
+purpose and moment it was produced. It does **not** thereby become the current-speaker
 assertion for a new interaction. Identity guarantees that a consumer needing a current result
 receives one evaluated from **current eligible evidence**, and never a prior assertion revived
 because presence continued (**DL-39**).
@@ -327,7 +332,7 @@ A resident must be able to hear *"I was not certain it was you"* as a valid expl
 |---|---|
 | OD-07 | Local versus cloud voice implementation |
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands — Low, Moderate, High, Very High; `None` is an Operational Trust requirement; Operational Trust owns every threshold and every Required Confirmation Strength |
-| OD-15 | Assertion validity windows by confidence band. **Validity is not current-interaction applicability** |
+| OD-15 | **Closed — DL-64.** "Assertion lifetime" was a conflation of Assertion Validity (permanent), Current-Interaction Applicability (re-evaluated per interaction via fresh fusion, no fixed window), and Retention (DL-47's). Cross-purpose assertion eligibility is accepted, bounded by Room occupancy and the Person's configured primary evidence source |
 | OD-16 | **Resolved** as **DL-32** and **DL-38**. Remaining coefficients are Fusion Policy configuration |
 | OD-80 | **Resolved** as **DL-50**. A capability may declare an execution host; Wyoming is the preferred voice-pipeline boundary; a provider reports candidates and Identity alone resolves |
 | OD-83 | Voiceprint gallery structure under channel diversity — person-global, per-channel, hybrid, or quality-only |

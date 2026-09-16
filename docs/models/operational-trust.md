@@ -622,7 +622,7 @@ moment ago, or because the same request was permitted last time.
 | A prior speaker attribution | The speaker may have changed |
 | A prior granted access | Permission was granted for that request, at that moment |
 | A prior successful confirmation | Confirmation is consumed by its operation |
-| An assertion still inside its **OD-15** validity window | Validity is not current-interaction applicability |
+| An assertion that remains a permanently valid historical record (**DL-64**) | Validity is not current-interaction applicability |
 
 **Continuous presence is not continuous authentication.** Any debouncing or stabilisation of a noisy
 sensor belongs inside evidence freshness and Fusion Policy under **DL-38** — it is an
@@ -1001,7 +1001,7 @@ nothing about who else can hear it, and **a confirmation given on an authenticat
 establish that the Room is empty.**
 
 Lifetimes are policy and **no duration is invented here**. Confirmation lifetime is a different
-question from identity assertion lifetime, which is **OD-15**.
+question from Identity Assertion Validity and Current-Interaction Applicability, which are **DL-64**.
 
 ### Confirmation is consumed by its operation
 
